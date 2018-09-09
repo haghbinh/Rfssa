@@ -1,0 +1,15 @@
+Package: Rfssa
+Type: Package
+Title: Functional Singular Spectrum Analyis
+Version: 2.1.0
+Author: Hossein Haghbin, Morteza Najibi
+Maintainer: Hossein Haghbin <haghbinh@gmail.com>
+Description: Develope functional singular spectrum analyis
+    tools and plots as described in Haghbin er.al(2018).
+License: What license is it under?
+Encoding: UTF-8
+LazyData: TRUE
+RoxygenNote: 6.1.0
+Imports: Rcpp 
+LinkingTo: Rcpp, RcppArmadillo
+Depends: fda,Rssa,lattice
