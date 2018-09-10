@@ -3,5 +3,7 @@
 S3method(plot,fssa)
 export(freconstruct)
 export(fssa)
-export(ftsplot)
+export(fwcor)
 importFrom(Rcpp,sourceCpp)
+importFrom(fda,fd)
+importFrom(fda,inprod)

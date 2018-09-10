@@ -6,6 +6,9 @@
 #' includes functional eigen vectors in the form of L-variate functional object.
 #' @param Y a functional time series.
 #' @param L Windows length
+#' @importFrom fda fd
+#' @importFrom fda inprod
+#' @export
 fssa <- function(Y, L = floor(dim(Y$coefs)[2L] / 2L)) {
     N <- dim(Y$coefs)[2]
     basis <- Y$basis
@@ -53,7 +56,7 @@ plot.fssa <- function(U, d = length(U$values),
         x0 <- c(sapply(U[1L:d], function(x) as.vector(t(x$coefs))))
         D0 <- data.frame(x = x0[1L:((d - 1) * n0)], y = x0[(n0 + 1):(d * n0)])
         D0$group <- as.ordered(rep(paste(main1[1:(d - 1)], "vs", main1[2:d]), each = n0))
-        p1 <- xyplot(x ~ y | group,
+        p1 <- lattice::xyplot(x ~ y | group,
             data = D0, xlab = "",
             ylab = "", main = "Pairs of eigenvectors",
             scales = list(x = list(at = NULL),
@@ -72,7 +75,7 @@ plot.fssa <- function(U, d = length(U$values),
             time = rep(1L:n0, d))
         D0$group <- as.ordered(rep(main1,
             each = n0))
-        p1 <- xyplot(x ~ time |
+        p1 <- lattice::xyplot(x ~ time |
             group, data = D0, xlab = "",
             ylab = "", main = "Eigenvectors",
             scales = list(x = list(at = NULL),
@@ -91,7 +94,7 @@ plot.fssa <- function(U, d = length(U$values),
             time = rep(1L:L, d))
         D0$group <- as.ordered(rep(main1,
             each = L))
-        p1 <- xyplot(x ~ time |
+        p1 <- lattice::xyplot(x ~ time |
             group, data = D0, xlab = "",
             ylab = "", main = "Meaned Eigenveactors",
             scales = list(x = list(at = NULL),
@@ -112,7 +115,7 @@ plot.fssa <- function(U, d = length(U$values),
         D0$group <- as.ordered(rep(paste(main1[1:(d -
             1L)], "vs", main1[2L:d]),
             each = L))
-        p1 <- xyplot(x ~ y | group,
+        p1 <- lattice::xyplot(x ~ y | group,
             data = D0, xlab = "",
             ylab = "", main = "Meaned pairs eigenvectors",
             scales = list(x = list(at = NULL),
@@ -133,7 +136,7 @@ plot.fssa <- function(U, d = length(U$values),
         D0$z <- z
         D0$group <- as.ordered(rep(main1,
             each = L * n))
-        p1 <- levelplot(z ~ x *
+        p1 <- lattice::levelplot(z ~ x *
             y | group, data = D0,
             colorkey = TRUE, cuts = 50L,
             xlab = "", ylab = "",
@@ -143,24 +146,6 @@ plot.fssa <- function(U, d = length(U$values),
             main = "Eigenfunctions",
             col.regions = heat.colors(100))
         plot(p1)
-    }
-    if (type == "functions") {
-        u <- basis$rangeval
-        xindx = seq(min(u), max(u),
-            length = 100)
-        y = 1L:L
-        d1 <- floor(sqrt(d))
-        d2 <- ifelse(d1^2 < d,
-            d1 + 1L, d1)
-        par(mfrow = c(d1, d2),
-            mar = c(2, 2, 3, 1))
-        for (i in 1L:d) {
-            ftsplot(xindx, 1:L,
-                U[[i]], type = 3,
-                xlab = "Time",
-                ylab = "", main = main1[i])
-        }
-        par(mfrow = c(1L, 1L))
     }
     if (type == "efunctions2") {
         col2 <- rainbow(L)
