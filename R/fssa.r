@@ -1,7 +1,7 @@
 #' Functional SSA
 #'
 #' fssa is a function for decomposition stage (including embeding
-#'  and  SVD step) of a functional time series.
+#'  and  SVD step) of a functional time series.  
 #' @return list The outputs of following function is a list which
 #' includes functional eigen vectors in the form of L-variate functional object.
 #' @param Y a functional time series.
