@@ -1,7 +1,7 @@
 #--------------------------------------------------------------
 #' Reconstruction of Functional TS
 #'
-#' is a function for reconstruction stage (including Grouping and
+#' This is a function for reconstruction stage (including Grouping and
 #' Hankelization steps) The output is a list of functional time series corresponds to each group.
 #' 'U' in the input is a fssa object. 'group' is a list.
 #' @param U funtional object
