@@ -1,5 +1,6 @@
 #' Wcorrelation
 #'
+#' This function evaluate the Wcorrolation plot for fssa
 #'  @param  U in the input is a fssa object.
 #'  @param d is the number of elementary components.
 #' @importFrom fda fd
