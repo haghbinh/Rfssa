@@ -1,6 +1,6 @@
 #include <Rcpp.h>
 using namespace Rcpp;
-//' Module  function
+// Module  function
 //' @importFrom Rcpp sourceCpp
 // [[Rcpp::export]]
 NumericVector mod(int K, int W) {
@@ -15,8 +15,7 @@ NumericVector mod(int K, int W) {
 }
 
 
-//' Sij value
-//'
+// Sij value
 //' @importFrom Rcpp sourceCpp
 // [[Rcpp::export]]
 
@@ -36,8 +35,7 @@ double Csij(int i, int j, int K, int L, NumericMatrix B){
   return out;
 }
 
-//' S values calculation
-//'
+// S values calculation
 //'@importFrom Rcpp sourceCpp
 // [[Rcpp::export]]
 NumericMatrix SS (int K,int L, NumericMatrix B, int d)
@@ -51,8 +49,8 @@ NumericMatrix SS (int K,int L, NumericMatrix B, int d)
 }
 
 
-//' Cofmath values calculation
-//' Transforming the vector c=(c_1,...,c_Ld) to a d*L matrix of coeficients.
+// Cofmath values calculation
+// Transforming the vector c=(c_1,...,c_Ld) to a d*L matrix of coeficients.
 //'@importFrom Rcpp sourceCpp
 // [[Rcpp::export]]
 NumericMatrix Cofmat (int d,int L, NumericVector cx)
@@ -65,8 +63,8 @@ NumericMatrix Cofmat (int d,int L, NumericVector cx)
   return S;
 }
 
-//' Gram matrix calculation
-//'
+// Gram matrix calculation
+//
 //'@importFrom Rcpp sourceCpp
 // [[Rcpp::export]]
 NumericMatrix Gram (int K,int L, NumericMatrix A, int d)
