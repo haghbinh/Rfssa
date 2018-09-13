@@ -1,13 +1,13 @@
 #' Functional SSA
 #'
 #' fssa is a function for decomposition stage (including embeding
-#'  and  SVD step) of a functional time series.  
+#'  and  SVD step) of a functional time series.
 #' @return list The outputs of following function is a list which
 #' includes functional eigen vectors in the form of L-variate functional object.
 #' @param Y a functional time series.
 #' @param L Windows length
 #' @importFrom fda fd
-#' @importFrom fda inprod
+#' @importFrom fda inprod eval.fd smooth.basis
 #' @export
 fssa <- function(Y, L = floor(dim(Y$coefs)[2L] / 2L)) {
     N <- dim(Y$coefs)[2]
@@ -32,12 +32,26 @@ fssa <- function(Y, L = floor(dim(Y$coefs)[2L] / 2L)) {
 }
 
 #--------------------------------------------------------------
-#' Plots of FSSA objects
+#' Plot Plot the results of FSSA Decomposition.
 #'
+#'  Method dispatch of an fssa objects
+#' @param U a funtional singular value decomposition object
+#' @param d an integer which is the number of elementary components in the plot.
+#' @param type what type of plot should be drawn. Possible types are
+#' \itemize{
+#' \item "values" for sqruare-root of singular values plot.
+#' \item "paired" for ...
+#' \item "wcor" for ...
+#' \item "vectors" for ...
+#' \item "meanvectors" for ...
+#' \item "meanpaired" for ...
+#' \item "efunctions" for ...
+#' \item "efunctions2" for ...
+#' }
+
 #' @export
 plot.fssa <- function(U, d = length(U$values),
-    type = "values", main = NULL,
-    col = "dodgerblue3") {
+    type = "values") {
     val <- sqrt(U$values)[1L:d]
     A <- val/sum(val)
     pr = round(A * 100L, 2L)
@@ -47,7 +61,7 @@ plot.fssa <- function(U, d = length(U$values),
     L <- U$L
     if (type == "values") {
         plot(val, type = "o", lwd = 2L,
-            col = col, pch = 19L,
+            col = "dodgerblue3", pch = 19L,
             cex = 0.8, main = "Singular Values",
             ylab = " ", xlab = "Components")
     }
@@ -66,7 +80,7 @@ plot.fssa <- function(U, d = length(U$values),
     }
     if (type == "wcor") {
         W = fwcor(U, d)
-        wplot(W, main = main)
+        wplot(W)
     }
     if (type == "vectors") {
         n0 <- nrow(U$Y$coefs) * L

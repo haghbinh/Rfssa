@@ -7,10 +7,9 @@
 freconstruct(U, group = as.list(1L:10L))
 }
 \arguments{
-\item{U}{funtional object}
-}
-\value{
-matrix contating Cx
+\item{U}{a funtional singular value decomposition object}
+
+\item{group}{list of numeric vectors, indices of elementary components used for reconstruction.}
 }
 \description{
 is a function for reconstruction stage (including Grouping and

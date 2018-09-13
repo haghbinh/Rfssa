@@ -2,11 +2,27 @@
 % Please edit documentation in R/fssa.r
 \name{plot.fssa}
 \alias{plot.fssa}
-\title{Plots of FSSA objects}
+\title{Plot Plot the results of FSSA Decomposition.}
 \usage{
-\method{plot}{fssa}(U, d = length(U$values), type = "values",
-  main = NULL, col = "dodgerblue3")
+\method{plot}{fssa}(U, d = length(U$values), type = "values")
+}
+\arguments{
+\item{U}{a funtional singular value decomposition object}
+
+\item{d}{an integer which is the number of elementary components in the plot.}
+
+\item{type}{what type of plot should be drawn. Possible types are
+\itemize{
+\item "values" for sqruare-root of singular values plot.
+\item "paired" for ...
+\item "wcor" for ...
+\item "vectors" for ...
+\item "meanvectors" for ...
+\item "meanpaired" for ...
+\item "efunctions" for ...
+\item "efunctions2" for ...
+}}
 }
 \description{
-Plots of FSSA objects
+Method dispatch of an fssa objects
 }
