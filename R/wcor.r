@@ -4,7 +4,7 @@
 #'  @param  U in the input is a fssa object.
 #'  @param d is the number of elementary components.
 #' @importFrom fda fd
-#' @importFrom fda inprod
+#' @importFrom fda inprod eval.fd smooth.basis
 #' @export
 fwcor <- function(U, d) {
   Q <- freconstruct(U, group = as.list(1:d))
@@ -21,7 +21,7 @@ fwcor <- function(U, d) {
   out <- matrix(1L, nr = d, nc = d)
   for (i in 1L:(d - 1)) {
     for (j in (i + 1L):d) {
-      out[i, j] <- Rfssa::winprod(Q[[i]], Q[[j]], w, G)/sqrt(winprod(Q[[i]],Q[[i]], w, G) * winprod(Q[[j]],Q[[j]], w, G))
+      out[i, j] <- winprod(Q[[i]], Q[[j]], w, G)/sqrt(winprod(Q[[i]],Q[[i]], w, G) * winprod(Q[[j]],Q[[j]], w, G))
     }
   }
   for (i in 2:d) for (j in 1:(i - 1)) out[i, j] <- out[j, i]

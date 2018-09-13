@@ -24,8 +24,8 @@ freconstruct <- function(U, group = as.list(1L:10L)) {
     g <- group[[i]]
     S <- 0L
     for (j in 1L:length(g)) S <- S +
-      Rfssa::fproj(U, g[j], d, K, L, Y)
-    S <- Rfssa::fH(S, d)
+      fproj(U, g[j], d, K, L, Y)
+    S <- fH(S, d)
     Cx[, 1L:L] <- S[, 1L, ]
     Cx[, L:N] <- S[, ,L]
     out[[i]] <- fd(Cx, basis)

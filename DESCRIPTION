@@ -18,3 +18,6 @@ Imports: Rcpp,
          lattice
 LinkingTo: Rcpp,
            RcppArmadillo
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr
