@@ -29,7 +29,7 @@ plot.fssa <- function(x, d = length(x$values),
   N <- x$N
   L <- x$L
   if (type == "values") {
-    plot(val, type = "o", lwd = 2L,
+    graphics::plot(val, type = "o", lwd = 2L,
          col = "dodgerblue3", pch = 19L,
          cex = 0.8, main = "Singular Values",
          ylab = " ", xlab = "Components")
@@ -44,7 +44,7 @@ plot.fssa <- function(x, d = length(x$values),
                           scales = list(x = list(at = NULL),
                                         y = list(at = NULL)),
                           as.table = TRUE, type = "l")
-    plot(p1)
+    graphics::plot(p1)
   } else if (type == "wcor") {
     W = fwcor(x, d)
     wplot(W)
@@ -61,7 +61,7 @@ plot.fssa <- function(x, d = length(x$values),
                           scales = list(x = list(at = NULL),
                                         y = list(at = NULL)),
                           as.table = TRUE, type = "l")
-    plot(p1)
+    graphics::plot(p1)
   } else if (type == "meanvectors") {
     u <- basis$rangeval
     xindx <- seq(min(u), max(u),
@@ -79,7 +79,7 @@ plot.fssa <- function(x, d = length(x$values),
                           scales = list(x = list(at = NULL),
                                         y = list(at = NULL)),
                           as.table = TRUE, type = "l")
-    plot(p1)
+    graphics::plot(p1)
   } else if (type == "meanpaired") {
     u <- basis$rangeval
     xindx <- seq(min(u), max(u),
@@ -99,7 +99,7 @@ plot.fssa <- function(x, d = length(x$values),
                           scales = list(x = list(at = NULL),
                                         y = list(at = NULL)),
                           as.table = TRUE, type = "l")
-    plot(p1)
+    graphics::plot(p1)
   } else if (type == "functions") {
     u <- basis$rangeval
     xindx = seq(min(u), max(u),
@@ -108,7 +108,7 @@ plot.fssa <- function(x, d = length(x$values),
     d1 <- floor(sqrt(d))
     d2 <- ifelse(d1^2 < d,
                  d1 + 1L, d1)
-    par(mfrow = c(d1, d2),
+    graphics::par(mfrow = c(d1, d2),
         mar = c(2, 2, 3, 1))
     for (i in 1L:d) {
       ftsplot(xindx, 1:L,
@@ -116,7 +116,7 @@ plot.fssa <- function(x, d = length(x$values),
               xlab = "Time",
               ylab = "", main = main1[i])
     }
-    par(mfrow = c(1L, 1L))
+    graphics::par(mfrow = c(1L, 1L))
   }
 
   else  if (type == "efunctions") {
@@ -124,7 +124,7 @@ plot.fssa <- function(x, d = length(x$values),
     xindx <- seq(min(u), max(u),
                  length = 100L)
     n <- length(xindx)
-    z0 <- lapply(U[1L:d], function(x) t(eval.fd(xindx,
+    z0 <- lapply(x[1L:d], function(x) t(eval.fd(xindx,
                                                 x)))
     z <- c(sapply(z0, function(x) as.vector(x)))
     D0 <- expand.grid(x = 1L:L,
@@ -140,20 +140,20 @@ plot.fssa <- function(x, d = length(x$values),
                                            y = list(at = NULL)),
                              aspect = "xy", as.table = TRUE,
                              main = "Eigenfunctions",
-                             col.regions = heat.colors(100))
-    plot(p1)
+                             col.regions = grDevices::heat.colors(100))
+    graphics::plot(p1)
   } else if (type == "efunctions2") {
-    col2 <- rainbow(L)
+    col2 <- grDevices::rainbow(L)
     d1 <- floor(sqrt(d))
     d2 <- ifelse(d1^2 < d,
                  d1 + 1L, d1)
-    par(mfrow = c(d1, d2),
+    graphics::par(mfrow = c(d1, d2),
         mar = c(2, 2, 3, 1))
-    for (i in 1:d) plot(x[[i]],
+    for (i in 1:d) graphics::plot(x[[i]],
                         lty = 1, xlab = "",
                         main = main1[i], ylab = "",
                         lwd = 2, col = col2)
-    par(mfrow = c(1, 1))
+    graphics::par(mfrow = c(1, 1))
   } else {
     stop("Unsupported type of FSSA plot!")
   }
