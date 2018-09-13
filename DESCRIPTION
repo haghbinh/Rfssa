@@ -7,14 +7,17 @@ Author: Authors@R: c(
     person("Morteza", "Najibi", email = "mor.najibi@gmail.com", role = "aut"))
 Maintainer: Hossein Haghbin <haghbinh@gmail.com>
 URL: https://github.com/haghbinh/Rfssa.git
-Description: Develope functional singular spectrum analyis
-    tools and plots as described in Haghbin er.al(2018).
+Description: Develop functional singular spectrum analysis
+    tools and plots.
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: TRUE
 RoxygenNote: 6.1.0
 Imports: Rcpp,
          fda,
-         lattice
+         lattice,
 LinkingTo: Rcpp,
            RcppArmadillo
+Suggests: knitr,
+VignetteBuilder: knitr
+Depends: R (>= 2.10)

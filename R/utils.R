@@ -8,8 +8,7 @@ winprod <- function(x, y, w, G) {
 }
 
 # Projection of all lag vector onto i-th functional eigen vector.
-fproj <- function(U, i, d, K, L,
-    Y) {
+fproj <- function(U, i, d, K, L, Y) {
     u <- U[[i]]$coefs
     CX <- array(NA, dim = c(d, K, L))
     for (k in 1:K) {

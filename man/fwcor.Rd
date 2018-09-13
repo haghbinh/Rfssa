@@ -2,11 +2,15 @@
 % Please edit documentation in R/wcor.r
 \name{fwcor}
 \alias{fwcor}
-\title{Wcorrelation}
+\title{Wcorrelation matrix}
 \usage{
 fwcor(U, d)
 }
+\arguments{
+\item{U}{in the input is a fssa object.}
+
+\item{d}{is the number of elementary components.}
+}
 \description{
-@param  U in the input is a fssa object.
- @param d is the number of elementary components.
+This function evaluate the Wcorrolation plot for fssa
 }
