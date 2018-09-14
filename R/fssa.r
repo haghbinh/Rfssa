@@ -8,6 +8,7 @@
 #' @param L Windows length
 #' @importFrom fda fd
 #' @importFrom fda inprod eval.fd smooth.basis
+#' @useDynLib Rfssa
 #' @export
 fssa <- function(Y, L = floor(dim(Y$coefs)[2L] / 2L)) {
     N <- dim(Y$coefs)[2]

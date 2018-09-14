@@ -4,10 +4,10 @@
 \alias{plot.fssa}
 \title{Plot Plot the results of FSSA Decomposition.}
 \usage{
-\method{plot}{fssa}(U, d = length(U$values), type = "values", ...)
+\method{plot}{fssa}(x, d = length(x$values), type = "values", ...)
 }
 \arguments{
-\item{U}{a funtional singular value decomposition object}
+\item{x}{a funtional singular value decomposition object}
 
 \item{d}{an integer which is the number of elementary components in the plot.}
 
@@ -19,6 +19,7 @@
 \item "vectors" for ...
 \item "meanvectors" for ...
 \item "meanpaired" for ...
+\item "functions" for ...
 \item "efunctions" for ...
 \item "efunctions2" for ...
 }}

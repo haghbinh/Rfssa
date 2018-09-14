@@ -16,8 +16,9 @@ RoxygenNote: 6.1.0
 Imports: Rcpp,
          fda,
          lattice,
+         plot3D,
 LinkingTo: Rcpp,
-           RcppArmadillo
+           RcppArmadillo,
 Suggests: knitr,
-VignetteBuilder: knitr
+VignetteBuilder: knitr,
 Depends: R (>= 2.10)
