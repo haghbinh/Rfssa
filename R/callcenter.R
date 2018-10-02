@@ -9,13 +9,10 @@
 #' prior studies; e.g. Brown et al. (2005), Huang et al. (2008), Shen and Huang
 #' (2008) and Maadooliat et al. (2015). Here, the data are aggregated  into time
 #' intervals 6 minutes, so a data matrix of dimension 240 by 365 is resulted.
-<<<<<<< HEAD
 #' @name Callcenter
 #' @format A data frame with 87600 rows and 5 variables:
-=======
 #' @name callcenter
 #' @format A data frame with 240 rows and 366 variables:
->>>>>>> 39e05e79cd864f01dc2024c37a0786534d97e25a
 #' \describe{
 #'   \item{calls}{The number of calls in 6 minutes aggregated interval.}
 #'   \item{u}{a numeric vector to show the aggregated interval}
