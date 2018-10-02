@@ -4,7 +4,11 @@
 \name{Callcenter}
 \alias{Callcenter}
 \title{Number of calls for a bank.}
+<<<<<<< HEAD
 \format{A data frame with 87600 rows and 5 variables:
+=======
+\format{A data frame with 240 rows and 366 variables:
+>>>>>>> 39e05e79cd864f01dc2024c37a0786534d97e25a
 \describe{
   \item{calls}{The number of calls in 6 minutes aggregated interval.}
   \item{u}{a numeric vector to show the aggregated interval}
