@@ -17,6 +17,6 @@ precisely, the i'th, row jth column of the data matrix contains the call volume
 during the jth time interval on day i. This data set has been analyzed in several
 prior studies; e.g. Brown et al. (2005), Huang et al. (2008), Shen and Huang
 (2008) and Maadooliat et al. (2015). Here, the data are aggregated  into time
-intervals 6 minutes, so a data matrix of dimension 240 by 365 is resulted.
+intervals 6 minutes.
 }
 \keyword{datasets}
