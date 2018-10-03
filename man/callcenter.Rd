@@ -4,7 +4,14 @@
 \name{Callcenter}
 \alias{Callcenter}
 \title{Number of calls for a bank.}
-\format{A data frame with 87600 rows and 5 variables:}
+\format{A data frame with 87600 rows and 5 variables:
+\describe{
+  \item{calls}{The number of calls in 6 minutes aggregated interval.}
+  \item{u}{a numeric vector to show the aggregated interval}
+  \item{Date}{Date time when the calls counts are recorded}
+  \item{Day}{Weekday associated with Date}
+  \item{Month}{Month associated with Date}
+}}
 \usage{
 Callcenter
 }
