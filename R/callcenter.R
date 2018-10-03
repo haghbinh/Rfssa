@@ -11,12 +11,6 @@
 #' intervals 6 minutes.
 #' @name Callcenter
 #' @format A data frame with 87600 rows and 5 variables:
-#' @name callcenter
-#' @format A data frame with 240 rows and 366 variables:
-#' @name Callcenter
-#' @format A data frame with 87600 rows and 5 variables:
-#' @name callcenter
-#' @format A data frame with 240 rows and 366 variables:
 #' \describe{
 #'   \item{calls}{The number of calls in 6 minutes aggregated interval.}
 #'   \item{u}{a numeric vector to show the aggregated interval}
