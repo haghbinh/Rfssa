@@ -20,5 +20,4 @@ Imports: Rcpp,
 LinkingTo: Rcpp,
            RcppArmadillo,
 Suggests: knitr,
-VignetteBuilder: knitr,
 Depends: R (>= 2.10)
