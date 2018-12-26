@@ -35,9 +35,14 @@ u <- seq(0,K,length.out =K)
 d <- 22 #Optimal Number of basises
 basis <- create.bspline.basis(c(min(u),max(u)),d)
 Ysmooth <- smooth.basis(u,D,basis)
+<<<<<<< HEAD
 Y <- Ysmooth$fd
 ## fssa decomposition
 L <- 28
+=======
+## fssa decomposition
+L <- 30
+>>>>>>> 6fb841ed4c67fc07967f1181d83281fc88fd5144
 U <- fssa(Y,L)
 plot(U,d=25)
 plot(U,d=13,type="functions")
