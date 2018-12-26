@@ -6,14 +6,10 @@ H <- function(A) {
 }
 
 #' @importFrom Rcpp sourceCpp
-mod <- function(K, W) {
-    .Call('_Rfssa_mod', PACKAGE = 'Rfssa', K, W)
-}
+NULL
 
 #' @importFrom Rcpp sourceCpp
-Csij <- function(i, j, K, L, B) {
-    .Call('_Rfssa_Csij', PACKAGE = 'Rfssa', i, j, K, L, B)
-}
+NULL
 
 #'@importFrom Rcpp sourceCpp
 SS <- function(K, L, B, d) {
