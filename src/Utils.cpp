@@ -2,7 +2,6 @@
 using namespace Rcpp;
 // Module  function
 //' @importFrom Rcpp sourceCpp
-// [[Rcpp::export]]
 NumericVector mod(int K, int W) {
   NumericVector out(2);
   if( K%W == 0L) {
@@ -17,7 +16,6 @@ NumericVector mod(int K, int W) {
 
 // Sij value
 //' @importFrom Rcpp sourceCpp
-// [[Rcpp::export]]
 double Csij(int i, int j, int K, int L, NumericMatrix B){
   NumericVector a1, a2 ;
   int i1,i2,j1,j2;
