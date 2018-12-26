@@ -8,10 +8,14 @@
 #' during the jth time interval on day i. This data set has been analyzed in several
 #' prior studies; e.g. Brown et al. (2005), Huang et al. (2008), Shen and Huang
 #' (2008) and Maadooliat et al. (2015). Here, the data are aggregated  into time
-#' intervals 6 minutes, so a data matrix of dimension 240 by 363 is resulted.
-#' @name callcenter
-#' @format A data frame with 240 rows and 364 variables:
+#' intervals 6 minutes.
+#' @name Callcenter
+#' @format A data frame with 87600 rows and 5 variables:
 #' \describe{
-#'   \item{callcenter}{A 240 by 363 matrix of the number of calls}
+#'   \item{calls}{The number of calls in 6 minutes aggregated interval.}
+#'   \item{u}{a numeric vector to show the aggregated interval}
+#'   \item{Date}{Date time when the calls counts are recorded}
+#'   \item{Day}{Weekday associated with Date}
+#'   \item{Month}{Month associated with Date}
 #' }
-"callcenter"
+"Callcenter"
