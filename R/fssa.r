@@ -4,7 +4,7 @@
 #'  and  SVD step) of a functional time series.
 #' @return list The outputs of following function is a list which
 #' includes functional eigen vectors in the form of L-variate functional object.
-#' @param Y a functional time series.
+#' @param Y A functional time series.
 #' @param L Windows length
 #' @importFrom fda fd
 #' @importFrom fda inprod eval.fd smooth.basis

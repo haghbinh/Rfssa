@@ -7,7 +7,7 @@
 fssa(Y, L = floor(dim(Y$coefs)[2L]/2L))
 }
 \arguments{
-\item{Y}{a functional time series.}
+\item{Y}{A functional time series.}
 
 \item{L}{Windows length}
 }

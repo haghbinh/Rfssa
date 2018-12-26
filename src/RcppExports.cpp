@@ -6,6 +6,17 @@
 
 using namespace Rcpp;
 
+// H
+arma::mat H(arma::mat A);
+RcppExport SEXP _Rfssa_H(SEXP ASEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type A(ASEXP);
+    rcpp_result_gen = Rcpp::wrap(H(A));
+    return rcpp_result_gen;
+END_RCPP
+}
 // mod
 NumericVector mod(int K, int W);
 RcppExport SEXP _Rfssa_mod(SEXP KSEXP, SEXP WSEXP) {
@@ -74,25 +85,14 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// H
-arma::mat H(arma::mat A);
-RcppExport SEXP _Rfssa_H(SEXP ASEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type A(ASEXP);
-    rcpp_result_gen = Rcpp::wrap(H(A));
-    return rcpp_result_gen;
-END_RCPP
-}
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_Rfssa_H", (DL_FUNC) &_Rfssa_H, 1},
     {"_Rfssa_mod", (DL_FUNC) &_Rfssa_mod, 2},
     {"_Rfssa_Csij", (DL_FUNC) &_Rfssa_Csij, 5},
     {"_Rfssa_SS", (DL_FUNC) &_Rfssa_SS, 4},
     {"_Rfssa_Cofmat", (DL_FUNC) &_Rfssa_Cofmat, 3},
     {"_Rfssa_Gram", (DL_FUNC) &_Rfssa_Gram, 4},
-    {"_Rfssa_H", (DL_FUNC) &_Rfssa_H, 1},
     {NULL, NULL, 0}
 };
 
