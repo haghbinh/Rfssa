@@ -2,30 +2,30 @@
 % Please edit documentation in R/fssaplot.R
 \name{plot.fssa}
 \alias{plot.fssa}
-\title{Plot Plot the results of FSSA Decomposition.}
+\title{Plotting fssa Objects}
 \usage{
 \method{plot}{fssa}(x, d = length(x$values), type = "values", ...)
 }
 \arguments{
-\item{x}{a funtional singular value decomposition object}
+\item{x}{a funtional singular value decomposition object, time series objects, usually inheriting from class "fssa".}
 
 \item{d}{an integer which is the number of elementary components in the plot.}
 
 \item{type}{what type of plot should be drawn. Possible types are
 \itemize{
-\item "values" for sqruare-root of singular values plot.
-\item "paired" for ...
-\item "wcor" for ...
-\item "vectors" for ...
-\item "meanvectors" for ...
-\item "meanpaired" for ...
-\item "functions" for ...
-\item "efunctions" for ...
-\item "efunctions2" for ...
+\item "values" for plot the sqruare-root of singular values.
+\item "paired" for plot the pairs of eigenfunction's coefficients. (useful for the detection of periodic components).
+\item "wcor" plot the W-correlation matrix for the reconstructed objects.
+\item "vectors" for plot the eigenfunction's coefficients.(useful for the detection of period length).
+\item "meanvectors" for plot the mean of eigenfunction's coefficients.(useful for the detection of period length).
+\item "meanpaired" for plot the pairs of mean of eigenfunction's coefficients. (useful for the detection of periodic components).
+\item "functions" for heatmap plot the of eigenfunctions.(useful for the detection of period length).
+\item "efunctions" for plot the of eigenfunctions.(useful for the detection of meaningful patterns).
+\item "efunctions2" for plot the of eigenfunctions.(useful for the detection of meaningful patterns).
 }}
 
 \item{...}{others.}
 }
 \description{
-Method dispatch of an fssa objects
+Plotting method for objects inheriting from class "fssa".
 }

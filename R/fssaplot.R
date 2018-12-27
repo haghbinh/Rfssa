@@ -1,20 +1,19 @@
 #--------------------------------------------------------------
-#' Plot Plot the results of FSSA Decomposition.
+#' Plotting fssa Objects
 #'
-#'  Method dispatch of an fssa objects
-#' @param x a funtional singular value decomposition object
+#'  Plotting method for objects inheriting from class "fssa".
+#' @param x a funtional singular value decomposition object, time series objects, usually inheriting from class "fssa".
 #' @param d an integer which is the number of elementary components in the plot.
-#' @param type what type of plot should be drawn. Possible types are
+#' @param type what type of plot should be drawn. Possible types are:
 #' \itemize{
-#' \item "values" for sqruare-root of singular values plot.
-#' \item "paired" for ...
-#' \item "wcor" for ...
-#' \item "vectors" for ...
-#' \item "meanvectors" for ...
-#' \item "meanpaired" for ...
-#' \item "functions" for ...
-#' \item "efunctions" for ...
-#' \item "efunctions2" for ...
+#' \item "values" for plot the sqruare-root of singular values.
+#' \item "paired" for plot the pairs of eigenfunction's coefficients. (useful for the detection of periodic components).
+#' \item "wcor" plot the W-correlation matrix for the reconstructed objects.
+#' \item "vectors" for plot the eigenfunction's coefficients.(useful for the detection of period length).
+#' \item "meanvectors" for plot the mean of eigenfunction's coefficients.(useful for the detection of period length).
+#' \item "meanpaired" for plot the pairs of mean of eigenfunction's coefficients. (useful for the detection of periodic components).
+#' \item "efunctions" for heatmap plot the of eigenfunctions.(useful for the detection of period length).
+#' \item "efunctions2" for plot the of eigenfunctions.(useful for the detection of meaningful patterns).
 #' }
 #' @param ... others.
 
@@ -100,26 +99,7 @@ plot.fssa <- function(x, d = length(x$values),
                                         y = list(at = NULL)),
                           as.table = TRUE, type = "l")
     graphics::plot(p1)
-  } else if (type == "functions") {
-    u <- basis$rangeval
-    xindx = seq(min(u), max(u),
-                length = 100)
-    y = 1L:L
-    d1 <- floor(sqrt(d))
-    d2 <- ifelse(d1^2 < d,
-                 d1 + 1L, d1)
-    graphics::par(mfrow = c(d1, d2),
-        mar = c(2, 2, 3, 1))
-    for (i in 1L:d) {
-      ftsplot(xindx, 1:L,
-              x[[i]], type = 3,
-              xlab = "Time",
-              ylab = "", main = main1[i])
-    }
-    graphics::par(mfrow = c(1L, 1L))
-  }
-
-  else  if (type == "efunctions") {
+  }  else  if (type == "efunctions") {
     u <- basis$rangeval
     xindx <- seq(min(u), max(u),
                  length = 100L)
