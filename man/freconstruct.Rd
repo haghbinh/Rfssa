@@ -7,12 +7,19 @@
 freconstruct(U, group = as.list(1L:10L))
 }
 \arguments{
-\item{U}{a funtional singular value decomposition object}
+\item{U}{an object of class 'fssa'}
 
-\item{group}{list of numeric vectors, indices of elementary components used for reconstruction.}
+\item{group}{a list of numeric vectors and indices of elementary components used for reconstruction.}
+}
+\value{
+a named list of reconstructed functional time series in each groups and
+a numeric vector of eigenvalues.
 }
 \description{
 This is a function for reconstruction stage (including Grouping and
 Hankelization steps). The output is a list of functional time series corresponds to each group.
 'U' in the input is a fssa object. 'group' is a list.
+}
+\seealso{
+\code{\link{fssa}}
 }

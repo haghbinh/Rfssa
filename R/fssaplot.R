@@ -16,7 +16,7 @@
 #' \item "efunctions2" for plot the of eigenfunctions.(useful for the detection of meaningful patterns).
 #' }
 #' @param ... others.
-
+#' @seealso \code{\link{fssa}}
 #' @export
 plot.fssa <- function(x, d = length(x$values),
                       type = "values",...) {
@@ -135,6 +135,6 @@ plot.fssa <- function(x, d = length(x$values),
                         lwd = 2, col = col2)
     graphics::par(mfrow = c(1, 1))
   } else {
-    stop("Unsupported type of FSSA plot!")
+    stop("Unsupported type of fssa plot!")
   }
 }

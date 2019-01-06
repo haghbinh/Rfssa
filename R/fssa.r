@@ -1,7 +1,7 @@
 #' Functional SSA
 #'
 #' fssa is a function for decomposition stage (including embeding
-#'  and  SVD step) of a functional time series.
+#'  and  functional SVD steps) of a functional time series.
 #' @return An object of class fssa, which is a named list of
 #' multivariate functional objects and the following components:
 #' \item{values}{A numeric vector of eigenvalues.}
@@ -26,10 +26,8 @@
 #' Y <- Ysmooth$fd
 #' ## fssa decomposition
 #' L <- 28
-#' ## fssa decomposition
-#' L <- 30
 #' U <- fssa(Y,L)
-#' plot(U,d=25)
+#' plot(U,d=13)
 #' plot(U,d=13,type="functions")
 #' plot(U,d=9,type="efunctions")
 #' plot(U,d=9,type="efunctions2")

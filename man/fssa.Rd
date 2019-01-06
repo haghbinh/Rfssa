@@ -21,7 +21,7 @@ multivariate functional objects and the following components:
 }
 \description{
 fssa is a function for decomposition stage (including embeding
- and  SVD step) of a functional time series.
+ and  functional SVD steps) of a functional time series.
 }
 \examples{
 ## Call Center Data
@@ -38,10 +38,8 @@ Ysmooth <- smooth.basis(u,D,basis)
 Y <- Ysmooth$fd
 ## fssa decomposition
 L <- 28
-## fssa decomposition
-L <- 30
 U <- fssa(Y,L)
-plot(U,d=25)
+plot(U,d=13)
 plot(U,d=13,type="functions")
 plot(U,d=9,type="efunctions")
 plot(U,d=9,type="efunctions2")

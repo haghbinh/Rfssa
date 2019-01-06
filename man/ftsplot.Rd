@@ -12,7 +12,7 @@ ftsplot(x, y, X, type = 2, zlab = NULL, xlab = NULL, ylab = NULL,
 
 \item{y}{a numeric vector of cordinate y.}
 
-\item{X}{a functional time series of class fd.}
+\item{X}{a functional time series object of class "fd".}
 
 \item{type}{what type of plot should be drawn. Possible types are
 "type=1" for ribbon3D plot with curtain, "type=2" for ribbon3D plot

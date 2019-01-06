@@ -11,7 +11,7 @@
 
 \item{d}{an integer which is the number of elementary components in the plot.}
 
-\item{type}{what type of plot should be drawn. Possible types are
+\item{type}{what type of plot should be drawn. Possible types are:
 \itemize{
 \item "values" for plot the sqruare-root of singular values.
 \item "paired" for plot the pairs of eigenfunction's coefficients. (useful for the detection of periodic components).
@@ -19,8 +19,7 @@
 \item "vectors" for plot the eigenfunction's coefficients.(useful for the detection of period length).
 \item "meanvectors" for plot the mean of eigenfunction's coefficients.(useful for the detection of period length).
 \item "meanpaired" for plot the pairs of mean of eigenfunction's coefficients. (useful for the detection of periodic components).
-\item "functions" for heatmap plot the of eigenfunctions.(useful for the detection of period length).
-\item "efunctions" for plot the of eigenfunctions.(useful for the detection of meaningful patterns).
+\item "efunctions" for heatmap plot the of eigenfunctions.(useful for the detection of period length).
 \item "efunctions2" for plot the of eigenfunctions.(useful for the detection of meaningful patterns).
 }}
 
@@ -28,4 +27,7 @@
 }
 \description{
 Plotting method for objects inheriting from class "fssa".
+}
+\seealso{
+\code{\link{fssa}}
 }

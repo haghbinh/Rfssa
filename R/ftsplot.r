@@ -4,7 +4,7 @@
 #' Define some new plots for functional time series data.
 #' @param x a numeric vector of cordinate x.
 #' @param y a numeric vector of cordinate y.
-#' @param X a functional time series of class fd.
+#' @param X a functional time series object of class "fd".
 #' @param type what type of plot should be drawn. Possible types are
 #'     "type=1" for ribbon3D plot with curtain, "type=2" for ribbon3D plot
 #'      without curtain, "type=3" for image2D plot.
