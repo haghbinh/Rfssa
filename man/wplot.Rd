@@ -2,13 +2,16 @@
 % Please edit documentation in R/wplot.R
 \name{wplot}
 \alias{wplot}
-\title{W-correlation matrix plot}
+\title{Plot of W-correlations}
 \usage{
 wplot(W)
 }
 \arguments{
-\item{W}{a matrix of W-correlation values.}
+\item{W}{a W-correlation matrix.}
 }
 \description{
-W-correlation matrix of the single components.
+Display W-correlation matrix of the single components.
+}
+\seealso{
+\code{\link{fssa}}
 }

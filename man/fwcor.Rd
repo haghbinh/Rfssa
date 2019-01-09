@@ -2,15 +2,22 @@
 % Please edit documentation in R/wcor.r
 \name{fwcor}
 \alias{fwcor}
-\title{Wcorrelation matrix}
+\title{W-correlation matrix}
 \usage{
 fwcor(U, d)
 }
 \arguments{
-\item{U}{in the input is a fssa object.}
+\item{U}{in the input is an object of class "fssa".}
 
-\item{d}{is the number of elementary components.}
+\item{d}{is the number of elementary components that
+pairwise W-correlations of them is supposed to be computed.}
+}
+\value{
+A squared matrix of W-correlation values.
 }
 \description{
 This function evaluate the Wcorrolation plot for fssa
+}
+\seealso{
+\code{\link{fssa}}
 }

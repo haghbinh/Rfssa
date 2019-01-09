@@ -7,7 +7,8 @@
 #' @return a named list of reconstructed functional time series in each groups and
 #' a numeric vector of eigenvalues.
 #' @param U an object of class 'fssa'
-#' @param group a list of numeric vectors and indices of elementary components used for reconstruction.
+#' @param group a list of numeric vectors, each vector includes indices of such elementary components
+#' of a group used for reconstruction.
 #' @seealso \code{\link{fssa}}
 
 #' @importFrom fda fd

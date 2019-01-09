@@ -9,7 +9,8 @@ freconstruct(U, group = as.list(1L:10L))
 \arguments{
 \item{U}{an object of class 'fssa'}
 
-\item{group}{a list of numeric vectors and indices of elementary components used for reconstruction.}
+\item{group}{a list of numeric vectors, each vector includes indices of such elementary components
+of a group used for reconstruction.}
 }
 \value{
 a named list of reconstructed functional time series in each groups and

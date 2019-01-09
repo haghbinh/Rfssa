@@ -2,7 +2,7 @@
 % Please edit documentation in R/ftsplot.r
 \name{ftsplot}
 \alias{ftsplot}
-\title{3D fts Plots with Plot3D}
+\title{Functional Time Series Plots}
 \usage{
 ftsplot(x, y, X, type = 2, zlab = NULL, xlab = NULL, ylab = NULL,
   space = 0.1, main = NULL)
@@ -29,5 +29,23 @@ ftsplot(x, y, X, type = 2, zlab = NULL, xlab = NULL, ylab = NULL,
 \item{main}{The main title.}
 }
 \description{
-Define some new plots for functional time series data.
+Plots to  organize and display temporal functional data objects of class "fd".
+}
+\examples{
+data("Callcenter")
+library(fda)
+D <- matrix(sqrt(Callcenter$calls),nrow = 240)
+N <- ncol(D)
+time <- 1:30
+K <- nrow(D)
+u <- seq(0,K,length.out =K)
+d <- 22 #Optimal Number of basises
+basis <- create.bspline.basis(c(min(u),max(u)),d)
+Ysmooth <- smooth.basis(u,D,basis)
+Y <- Ysmooth$fd
+
+par(mar=c(2,1,2,2),mfrow=c(1,3))
+ftsplot(u,time,Y[1:30],space = 0.4,type=1,ylab = "",xlab = "Day",main = "Typ1=1")
+ftsplot(u,time,Y[1:30],space = 0.4,type=2,ylab = "",xlab = "Day",main = "Typ1=2")
+ftsplot(u,time,Y[1:30],space = 0.4,type=3,ylab = "",xlab = "Day",main = "Typ1=3")
 }

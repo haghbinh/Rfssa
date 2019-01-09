@@ -5,7 +5,7 @@
 #'
 #' @section Rfssa functions:
 #' The Rfssa functions: fssa, freconstruct,
-#'  fwcor, wplot.
+#'  fwcor, wplot, ftsplot.
 #'
 #' @docType package
 #' @name Rfssa

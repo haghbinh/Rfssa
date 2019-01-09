@@ -12,6 +12,6 @@ of Functional time series.
 \section{Rfssa functions}{
 
 The Rfssa functions: fssa, freconstruct,
- fwcor, wplot.
+ fwcor, wplot, ftsplot.
 }
 

@@ -1,7 +1,9 @@
-#' W-correlation matrix plot
+#' Plot of W-correlations
 #'
-#' W-correlation matrix of the single components.
-#' @param W a matrix of W-correlation values.
+#' Display W-correlation matrix of the single components.
+#' @param W a W-correlation matrix.
+#' @seealso \code{\link{fssa}}
+
 #' @export
 wplot <- function(W) {
   d <- nrow(W)
