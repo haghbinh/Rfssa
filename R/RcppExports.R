@@ -2,10 +2,11 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 H <- function(A) {
-    .Call('_Rfssa_H', PACKAGE = 'Rfssa', A)
+    .Call(`_Rfssa_H`, A)
 }
 
 #' @importFrom Rcpp sourceCpp
+#' @useDynLib Rfssa, .registration = TRUE
 NULL
 
 #' @importFrom Rcpp sourceCpp
@@ -13,16 +14,16 @@ NULL
 
 #'@importFrom Rcpp sourceCpp
 SS <- function(K, L, B, d) {
-    .Call('_Rfssa_SS', PACKAGE = 'Rfssa', K, L, B, d)
+    .Call(`_Rfssa_SS`, K, L, B, d)
 }
 
 #'@importFrom Rcpp sourceCpp
 Cofmat <- function(d, L, cx) {
-    .Call('_Rfssa_Cofmat', PACKAGE = 'Rfssa', d, L, cx)
+    .Call(`_Rfssa_Cofmat`, d, L, cx)
 }
 
 #'@importFrom Rcpp sourceCpp
 Gram <- function(K, L, A, d) {
-    .Call('_Rfssa_Gram', PACKAGE = 'Rfssa', K, L, A, d)
+    .Call(`_Rfssa_Gram`, K, L, A, d)
 }
 

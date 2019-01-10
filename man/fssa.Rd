@@ -40,7 +40,6 @@ Y <- Ysmooth$fd
 L <- 28
 U <- fssa(Y,L)
 plot(U,d=13)
-plot(U,d=13,type="functions")
 plot(U,d=9,type="efunctions")
 plot(U,d=9,type="efunctions2")
 plot(U,d=9,type="vectors")
