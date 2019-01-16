@@ -101,35 +101,28 @@ layout(matrix(c(1,1,2,3,4,5,6,6),nr=2))
 par(mar=c(2,1,2,2))
 plot(Y,lty=1,xlab="",main="Call Numbers(Observed)"
     ,ylab="",col=cols3)
-#> [1] "done"
-    plot(Q[[1]],lty=1,xlab="",main="1st Component"
+plot(Q[[1]],lty=1,xlab="",main="1st Component"
     ,ylab="",lwd=1,col=cols3)
-#> [1] "done"
-    plot(Q[[2]],lty=1,xlab="",main="2nd Component"
+plot(Q[[2]],lty=1,xlab="",main="2nd Component"
     ,ylab="",lwd=1,col=cols3)
-#> [1] "done"
-    plot(Q[[3]],lty=1,xlab="",main="3rd Component"
+plot(Q[[3]],lty=1,xlab="",main="3rd Component"
     ,ylab="",lwd=1,col=cols3)
-#> [1] "done"
-    plot(Q[[4]],lty=1,xlab="",main="4th Component"
+plot(Q[[4]],lty=1,xlab="",main="4th Component"
     ,ylab="",lwd=1,col=cols3)
-#> [1] "done"
-    plot(Q[[5]],lty=1,xlab="",main="5th Component(Noise)"
+plot(Q[[5]],lty=1,xlab="",main="5th Component(Noise)"
     ,ylab="",lwd=1,col=cols3)
 ```
 
 ![](man/figures/README-example-9.png)
 
-    #> [1] "done"
 
-
-    layout(matrix(c(1,1,2,3,4,5,6,6),nr=2))
+layout(matrix(c(1,1,2,3,4,5,6,6),nr=2))
     par(mar=c(2,1,2,2))
-    ftsplot(u,time,Y,space = 0.2,type=3,ylab = "",xlab = "Day",main = "Call Numbers(Observed)")
-    ftsplot(u,time,Q[[1]],space = 0.2,type=3,ylab = "",xlab = "Day",main = "1st Component")
+ftsplot(u,time,Y,space = 0.2,type=3,ylab = "",xlab = "Day",main = "Call Numbers(Observed)")
+ftsplot(u,time,Q[[1]],space = 0.2,type=3,ylab = "",xlab = "Day",main = "1st Component")
     ftsplot(u,time,Q[[2]],space = 0.2,type=3,ylab = "",xlab = "Day",main = "2nd Component")
-    ftsplot(u,time,Q[[3]],space = 0.2,type=3,ylab = "",xlab = "Day",main = "3rd Component")
-    ftsplot(u,time,Q[[4]],space = 0.2,type=3,ylab = "",xlab = "Day",main = "4th Component")
-    ftsplot(u,time,Q[[5]],space = 0.2,type=3,ylab = "",xlab = "Day",main = "5th Component(Noise)")
+ftsplot(u,time,Q[[3]],space = 0.2,type=3,ylab = "",xlab = "Day",main = "3rd Component")
+ftsplot(u,time,Q[[4]],space = 0.2,type=3,ylab = "",xlab = "Day",main = "4th Component")
+ftsplot(u,time,Q[[5]],space = 0.2,type=3,ylab = "",xlab = "Day",main = "5th Component(Noise)")
 
 ![](man/figures/README-example-10.png)
