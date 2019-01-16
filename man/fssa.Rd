@@ -24,9 +24,11 @@ fssa is a function for decomposition stage (including embedding
  and  functional SVD steps) of a functional time series.
 }
 \examples{
+\dontrun{
 ## Call Center Data
 data("Callcenter")
 library(fda)
+library(Rfssa)
 D <- matrix(sqrt(Callcenter$calls),nrow = 240)
 N <- ncol(D)
 time <- 1:N
@@ -69,7 +71,6 @@ plot(Y,lty=1,xlab="",main="Call Numbers(Observed)"
     ,ylab="",lwd=1,col=cols3)
 
 
-#' \dontrun{
 layout(matrix(c(1,1,2,3,4,5,6,6),nr=2))
 par(mar=c(2,1,2,2))
 ftsplot(u,time,Y,space = 0.2,type=3,ylab = "",xlab = "Day",main = "Call Numbers(Observed)")
