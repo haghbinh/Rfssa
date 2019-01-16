@@ -5,10 +5,8 @@ Rfssa
 
 The Rfssa package provides the collections of necessary functions to implement Functional Singular Spectrum Analysis (FSSA) for analysing Functional Time Series (FTS). FSSA is a novel non-parametric method to perform decomposition and reconstruction of FTS.
 
-Intruction
-==========
-
-Typically the use of the package starts with the decomposition of the functional time series using fssa. Then, a suitable grouping of the elementary time series is required. This can be done heuristically, for example, via looking at the plots of the decomposition (plot). Alternatively, one can examine the so-called w-correlation matrix (fwcor). Next step includes the reconstruction of the time-series using the selected grouping (freconstruct).
+Introduction
+============
 
 Typically the use of the package starts with the decomposition of the functional time series using fssa. Then, a suitable grouping of the elementary time series is required. This can be done heuristically, for example, via looking at the plots of the decomposition (plot). Alternatively, one can examine the so-called w-correlation matrix (fwcor). Next step includes the reconstruction of the time-series using the selected grouping (freconstruct).
 
