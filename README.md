@@ -1,42 +1,33 @@
----
-output: github_document
----
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-```{r, echo = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "README-"
-)
-```
-
-# Rfssa
+Rfssa
+=====
 
 The Rfssa package provides the collections of necessary functions to implement Functional Singular Spectrum Analysis (FSSA) for analysing Functional Time Series (FTS). FSSA is a novel non-parametric method to perform decomposition and reconstruction of FTS.
 
-# Intruction
+Intruction
+==========
 
 Typically the use of the package starts with the decomposition of the functional time series using fssa. Then, a suitable grouping of the elementary time series is required. This can be done heuristically, for example, via looking at the plots of the decomposition (plot). Alternatively, one can examine the so-called w-correlation matrix (fwcor). Next step includes the reconstruction of the time-series using the selected grouping (freconstruct).
 
 Typically the use of the package starts with the decomposition of the functional time series using fssa. Then, a suitable grouping of the elementary time series is required. This can be done heuristically, for example, via looking at the plots of the decomposition (plot). Alternatively, one can examine the so-called w-correlation matrix (fwcor). Next step includes the reconstruction of the time-series using the selected grouping (freconstruct).
 
-
-## Installation
+Installation
+------------
 
 You can install Rfssa from github with:
 
-```{r gh-installation, eval = FALSE}
+``` r
 # install.packages("devtools")
 devtools::install_github("haghbinh/Rfssa/")
 ```
 
-## Example
+Example
+-------
 
 This is a basic example which shows you how to use fssa algorithm for functional time series:
 
-```{r example, eval = FALSE}
+``` r
 ## basic example code
 ## Call Center Data
 data("Callcenter")
@@ -92,5 +83,4 @@ ftsplot(u,time,Q[[2]],space = 0.2,type=3,ylab = "",xlab = "Day",main = "2nd Comp
 ftsplot(u,time,Q[[3]],space = 0.2,type=3,ylab = "",xlab = "Day",main = "3rd Component")
 ftsplot(u,time,Q[[4]],space = 0.2,type=3,ylab = "",xlab = "Day",main = "4th Component")
 ftsplot(u,time,Q[[5]],space = 0.2,type=3,ylab = "",xlab = "Day",main = "5th Component(Noise)")
-
 ```
