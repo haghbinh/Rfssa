@@ -10,7 +10,7 @@ output:
 ## Test environments
 * local OS X install, R 3.5.1
 * x86_64-redhat-linux (on travis-ci), R 3.5.1
-* win-builder (devel and release), R 3.5.1
+* win-builder (devel and release), R 3.5.2
 
 ## R CMD check results
 There were no ERRORs, WARNINGs or NOTE.
