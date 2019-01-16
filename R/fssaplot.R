@@ -1,22 +1,22 @@
 #--------------------------------------------------------------
 #' Plotting fssa Objects
 #'
-#'  Plotting method for objects inheriting from class "fssa".
-#' @param x a funtional singular value decomposition object, time series objects, usually inheriting from class "fssa".
+#'  Plotting method for objects inheriting from class \code{\link{fssa}}.
+#' @param x a functional singular value decomposition object, time series objects, usually inheriting from class "fssa".
 #' @param d an integer which is the number of elementary components in the plot.
 #' @param type what type of plot should be drawn. Possible types are:
 #' \itemize{
-#' \item "values" for plot the sqruare-root of singular values.
-#' \item "paired" for plot the pairs of eigenfunction's coefficients. (useful for the detection of periodic components).
-#' \item "wcor" plot the W-correlation matrix for the reconstructed objects.
-#' \item "vectors" for plot the eigenfunction's coefficients.(useful for the detection of period length).
-#' \item "meanvectors" for plot the mean of eigenfunction's coefficients.(useful for the detection of period length).
-#' \item "meanpaired" for plot the pairs of mean of eigenfunction's coefficients. (useful for the detection of periodic components).
-#' \item "efunctions" for heatmap plot the of eigenfunctions.(useful for the detection of period length).
-#' \item "efunctions2" for plot the of eigenfunctions.(useful for the detection of meaningful patterns).
+#' \item \code{"values"} plot the sqruare-root of singular values (default).
+#' \item \code{"paired"} plot the pairs of eigenfunction's coefficients. (useful for the detection of periodic components).
+#' \item \code{"wcor"} plot the W-correlation matrix for the reconstructed objects.
+#' \item \code{"vectors"}  plot the eigenfunction's coefficients.(useful for the detection of period length).
+#' \item \code{"meanvectors"}  plot the mean of eigenfunction's coefficients.(useful for the detection of period length).
+#' \item \code{"meanpaired"} plot the pairs of mean of eigenfunction's coefficients. (useful for the detection of periodic components).
+#' \item \code{"efunctions"} heatmap plot of eigenfunctions.(useful for the detection of period length).
+#' \item \code{"efunctions2"} for plot the of eigenfunctions.(useful for the detection of meaningful patterns).
 #' }
-#' @param ... others.
-#' @seealso \code{\link{fssa}}
+#' @param ... Arguments to be passed to methods, such as graphical parameters.
+#' @seealso \code{\link{fssa}}, \code{\link{ftsplot}}
 #' @export
 plot.fssa <- function(x, d = length(x$values),
                       type = "values",...) {

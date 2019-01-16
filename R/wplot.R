@@ -1,6 +1,6 @@
 #' Plot of W-correlations
 #'
-#' Display W-correlation matrix of the single components.
+#' Display W-correlation matrix of a single components.
 #' @param W a W-correlation matrix.
 #' @seealso \code{\link{fssa}}
 

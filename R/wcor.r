@@ -2,9 +2,9 @@
 #'
 #' This function evaluate the Wcorrolation plot for fssa
 #' @return A squared matrix of W-correlation values.
-#' @param U in the input is an object of class "fssa".
-#' @param d is the number of elementary components that
-#' pairwise W-correlations of them is supposed to be computed.
+#' @param U in the input is an object of class \code{fssa}.
+#' @param d is the number of elementary components
+#' in pairwise W-correlations matrix.
 #' @seealso \code{\link{fssa}}
 #' @export
 fwcor <- function(U, d) {

@@ -1,11 +1,11 @@
 #--------------------------------------------------------------
 #' Functional Time Series Plots
 #'
-#' Plots to  organize and display temporal functional data objects of class "fd".
+#' Novel different type of plots to visualize the functional time series data objects.
 #'
 #' @param x a numeric vector of cordinate x.
 #' @param y a numeric vector of cordinate y.
-#' @param X a functional time series object of class "fd".
+#' @param X a functional time series object of class \code{\link[fda]{fd}}.
 #' @param type what type of plot should be drawn. Possible types are
 #'     "type=1" for ribbon3D plot with curtain, "type=2" for ribbon3D plot
 #'      without curtain, "type=3" for image2D plot.
@@ -31,7 +31,6 @@
 #' ftsplot(u,time,Y[1:30],space = 0.4,type=1,ylab = "",xlab = "Day",main = "Typ1=1")
 #' ftsplot(u,time,Y[1:30],space = 0.4,type=2,ylab = "",xlab = "Day",main = "Typ1=2")
 #' ftsplot(u,time,Y[1:30],space = 0.4,type=3,ylab = "",xlab = "Day",main = "Typ1=3")
-
 #' @export
 ftsplot = function(x, y, X, type = 2,
                    zlab = NULL, xlab = NULL, ylab = NULL,

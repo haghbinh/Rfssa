@@ -7,10 +7,10 @@
 fwcor(U, d)
 }
 \arguments{
-\item{U}{in the input is an object of class "fssa".}
+\item{U}{in the input is an object of class \code{fssa}.}
 
-\item{d}{is the number of elementary components that
-pairwise W-correlations of them is supposed to be computed.}
+\item{d}{is the number of elementary components
+in pairwise W-correlations matrix.}
 }
 \value{
 A squared matrix of W-correlation values.

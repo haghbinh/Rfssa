@@ -10,7 +10,7 @@ wplot(W)
 \item{W}{a W-correlation matrix.}
 }
 \description{
-Display W-correlation matrix of the single components.
+Display W-correlation matrix of a single components.
 }
 \seealso{
 \code{\link{fssa}}

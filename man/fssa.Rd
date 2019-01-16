@@ -2,7 +2,7 @@
 % Please edit documentation in R/fssa.r
 \name{fssa}
 \alias{fssa}
-\title{Functional SSA}
+\title{Functional Singular Spectrum Analysis}
 \usage{
 fssa(Y, L = floor(dim(Y$coefs)[2L]/2L))
 }
@@ -12,7 +12,7 @@ fssa(Y, L = floor(dim(Y$coefs)[2L]/2L))
 \item{L}{Window length.}
 }
 \value{
-An object of class fssa, which is a named list of
+An object of class fssa, which is a list of
 multivariate functional objects and the following components:
 \item{values}{A numeric vector of eigenvalues.}
 \item{L}{Window length.}
