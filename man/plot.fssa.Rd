@@ -13,14 +13,14 @@
 
 \item{type}{what type of plot should be drawn. Possible types are:
 \itemize{
-\item \code{"values"} plot the sqruare-root of singular values (default).
+\item \code{"values"} plot the square-root of singular values (default).
 \item \code{"paired"} plot the pairs of eigenfunction's coefficients. (useful for the detection of periodic components).
 \item \code{"wcor"} plot the W-correlation matrix for the reconstructed objects.
 \item \code{"vectors"}  plot the eigenfunction's coefficients.(useful for the detection of period length).
 \item \code{"meanvectors"}  plot the mean of eigenfunction's coefficients.(useful for the detection of period length).
 \item \code{"meanpaired"} plot the pairs of mean of eigenfunction's coefficients. (useful for the detection of periodic components).
 \item \code{"efunctions"} heatmap plot of eigenfunctions.(useful for the detection of period length).
-\item \code{"efunctions2"} for plot the of eigenfunctions.(useful for the detection of meaningful patterns).
+\item \code{"efunctions2"} plot the eigenfunctions.(useful for the detection of meaningful patterns).
 }}
 
 \item{...}{Arguments to be passed to methods, such as graphical parameters.}

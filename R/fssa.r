@@ -1,6 +1,6 @@
 #' Functional Singular Spectrum Analysis
 #'
-#' fssa is a function for decomposition stage (including embeding
+#' fssa is a function for decomposition stage (including embedding
 #'  and  functional SVD steps) of a functional time series.
 #' @return An object of class fssa, which is a list of
 #' multivariate functional objects and the following components:
@@ -12,6 +12,7 @@
 #' @param L Window length.
 #' @importFrom fda fd inprod eval.fd smooth.basis
 #' @examples
+#' \dontrun{
 #' ## Call Center Data
 #' data("Callcenter")
 #' library(fda)
@@ -57,7 +58,6 @@
 #'     ,ylab="",lwd=1,col=cols3)
 #'
 #'
-#'
 #' layout(matrix(c(1,1,2,3,4,5,6,6),nr=2))
 #' par(mar=c(2,1,2,2))
 #' ftsplot(u,time,Y,space = 0.2,type=3,ylab = "",xlab = "Day",main = "Call Numbers(Observed)")
@@ -66,7 +66,7 @@
 #' ftsplot(u,time,Q[[3]],space = 0.2,type=3,ylab = "",xlab = "Day",main = "3rd Component")
 #' ftsplot(u,time,Q[[4]],space = 0.2,type=3,ylab = "",xlab = "Day",main = "4th Component")
 #' ftsplot(u,time,Q[[5]],space = 0.2,type=3,ylab = "",xlab = "Day",main = "5th Component(Noise)")
-#'
+#'}
 #' @useDynLib Rfssa
 #' @export
 fssa <- function(Y, L = floor(dim(Y$coefs)[2L] / 2L)) {

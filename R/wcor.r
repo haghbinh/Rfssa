@@ -1,6 +1,6 @@
 #' W-correlation matrix
 #'
-#' This function evaluate the Wcorrolation plot for fssa
+#' This function evaluate the Wcorrelation plot for fssa
 #' @return A squared matrix of W-correlation values.
 #' @param U in the input is an object of class \code{fssa}.
 #' @param d is the number of elementary components

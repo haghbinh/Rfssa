@@ -20,7 +20,7 @@ multivariate functional objects and the following components:
 \item{Y}{The original functional time series.}
 }
 \description{
-fssa is a function for decomposition stage (including embeding
+fssa is a function for decomposition stage (including embedding
  and  functional SVD steps) of a functional time series.
 }
 \examples{
@@ -69,7 +69,7 @@ plot(Y,lty=1,xlab="",main="Call Numbers(Observed)"
     ,ylab="",lwd=1,col=cols3)
 
 
-
+#' \dontrun{
 layout(matrix(c(1,1,2,3,4,5,6,6),nr=2))
 par(mar=c(2,1,2,2))
 ftsplot(u,time,Y,space = 0.2,type=3,ylab = "",xlab = "Day",main = "Call Numbers(Observed)")
@@ -78,5 +78,5 @@ ftsplot(u,time,Q[[2]],space = 0.2,type=3,ylab = "",xlab = "Day",main = "2nd Comp
 ftsplot(u,time,Q[[3]],space = 0.2,type=3,ylab = "",xlab = "Day",main = "3rd Component")
 ftsplot(u,time,Q[[4]],space = 0.2,type=3,ylab = "",xlab = "Day",main = "4th Component")
 ftsplot(u,time,Q[[5]],space = 0.2,type=3,ylab = "",xlab = "Day",main = "5th Component(Noise)")
-
+}
 }
