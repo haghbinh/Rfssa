@@ -26,7 +26,7 @@ You can install Rfssa from github with:
 
 ```{r gh-installation, eval = FALSE}
 # install.packages("devtools")
-devtools::install_github("haghbinh/Rfssa/")
+devtools::install_github("haghbinh/Rfssa")
 ```
 
 ## Example
