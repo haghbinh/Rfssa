@@ -1,6 +1,8 @@
 ---
 title: "Rfssa Package comments"
-author: "Hossein Haghbin" and "Seyed Morteza Najibi"
+author: 
+- Hossein Haghbin
+-  Seyed Morteza Najibi
 date: "January 16, 2019"
 output:
   pdf_document: default
