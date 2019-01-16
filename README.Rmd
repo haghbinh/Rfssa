@@ -8,7 +8,7 @@ output: github_document
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "README-"
+  fig.path = "man/figures/README-"
 )
 ```
 
@@ -33,7 +33,7 @@ devtools::install_github("haghbinh/Rfssa")
 
 This is a basic example which shows you how to use fssa algorithm for functional time series:
 
-```{r example, eval = FALSE}
+```{r example, eval = TRUE, message=FALSE, warning=FALSE}
 ## basic example code
 ## Call Center Data
 library(fda)
