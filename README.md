@@ -28,9 +28,9 @@ This is a basic example which shows you how to use fssa algorithm for functional
 ``` r
 ## basic example code
 ## Call Center Data
-data("Callcenter")
 library(fda)
 library(Rfssa)
+data("Callcenter")
 D <- matrix(sqrt(Callcenter$calls),nrow = 240)
 N <- ncol(D)
 time <- 1:N
