@@ -3,15 +3,15 @@
 #'
 #' Novel different type of plots to visualize the functional time series data objects.
 #'
-#' @param x a numeric vector of cordinate x.
-#' @param y a numeric vector of cordinate y.
+#' @param x a numeric vector of coordinate x.
+#' @param y a numeric vector of coordinate y.
 #' @param X a functional time series object of class \code{\link[fda]{fd}}.
 #' @param type what type of plot should be drawn. Possible types are
 #'     "type=1" for ribbon3D plot with curtain, "type=2" for ribbon3D plot
 #'      without curtain, "type=3" for image2D plot.
-#' @param zlab The lable of z axis.
-#' @param xlab The lable of x axis.
-#' @param ylab The lable of y axis.
+#' @param zlab The label of z axis.
+#' @param xlab The label of x axis.
+#' @param ylab The label of y axis.
 #' @param space The amount of space (as a fraction of the average ribbon width) left between ribbons.
 #' @param main The main title.
 #' @examples

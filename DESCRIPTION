@@ -1,7 +1,7 @@
 Package: Rfssa
 Type: Package
-Title: Functional Singular Spectrum Analyis
-Version: 0.0.0.9000
+Title: Functional Singular Spectrum Analysis
+Version: 0.0.1
 Author: Authors@R: c(
     person("Hossein", "Haghbin", email = "haghbinh@gmail.com", role = c("aut", "cre")),
     person("Seyed Morteza", "Najibi", email = "mnajibi@shirazu.ac.ir", role = "aut"))

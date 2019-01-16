@@ -18,7 +18,7 @@ a numeric vector of eigenvalues.
 }
 \description{
 This is a function for the reconstructing functional time series from
-functional singulare spectrum objects (including Grouping and
+functional singular spectrum objects (including Grouping and
 Hankelization steps). The output is a list of functional time series corresponds to each group.
 }
 \seealso{

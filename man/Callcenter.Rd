@@ -20,7 +20,7 @@ This dataset is a small call center for an anonymous bank (Brown et al.,
 2005). This dataset provides the exact time of the calls that were connected to
 the call center from January 1 to December 31 in the year 1999.
 The data are aggregated  into time intervals  to obtain a data matrix. More
-precisely, the \emph{(i,j)}'th elemant of the data matrix contains the call volume
+precisely, the \emph{(i,j)}'th element of the data matrix contains the call volume
 during the \emph{j}th time interval on day \emph{i}. This dataset has been analyzed in several
 prior studies; e.g. Brown et al. (2005),  Shen and Huang
 (2005), Huang et al. (2008), and Maadooliat et al. (2015). Here, the data are aggregated  into time
@@ -34,7 +34,7 @@ Brown, L., Gans, N., Mandelbaum, A., Sakov, A., Shen, H., Zeltyn, S., & Zhao, L.
  A queueing-science perspective. \emph{Journal of the American statistical association}, \strong{100}(469), 36-50.
   \item
   Shen, H., & Huang, J. Z. (2005).
-  Analysis of call centre arrival data using singular
+  Analysis of call center arrival data using singular
   value decomposition. Applied Stochastic Models in Business and Industry, 21(3), 251-263.
   \item
   Huang, J. Z., Shen, H., & Buja, A. (2008).

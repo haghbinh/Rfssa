@@ -8,9 +8,9 @@ ftsplot(x, y, X, type = 2, zlab = NULL, xlab = NULL, ylab = NULL,
   space = 0.1, main = NULL)
 }
 \arguments{
-\item{x}{a numeric vector of cordinate x.}
+\item{x}{a numeric vector of coordinate x.}
 
-\item{y}{a numeric vector of cordinate y.}
+\item{y}{a numeric vector of coordinate y.}
 
 \item{X}{a functional time series object of class \code{\link[fda]{fd}}.}
 
@@ -18,11 +18,11 @@ ftsplot(x, y, X, type = 2, zlab = NULL, xlab = NULL, ylab = NULL,
 "type=1" for ribbon3D plot with curtain, "type=2" for ribbon3D plot
  without curtain, "type=3" for image2D plot.}
 
-\item{zlab}{The lable of z axis.}
+\item{zlab}{The label of z axis.}
 
-\item{xlab}{The lable of x axis.}
+\item{xlab}{The label of x axis.}
 
-\item{ylab}{The lable of y axis.}
+\item{ylab}{The label of y axis.}
 
 \item{space}{The amount of space (as a fraction of the average ribbon width) left between ribbons.}
 

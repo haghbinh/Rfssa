@@ -20,7 +20,7 @@ multivariate functional objects and the following components:
 \item{Y}{The original functional time series.}
 }
 \description{
-fssa is a function for decomposition stage (including embeding
+fssa is a function for decomposition stage (including embedding
  and  functional SVD steps) of a functional time series.
 }
 \examples{

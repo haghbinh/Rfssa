@@ -1,6 +1,6 @@
 #' Functional Singular Spectrum Analysis
 #'
-#' fssa is a function for decomposition stage (including embeding
+#' fssa is a function for decomposition stage (including embedding
 #'  and  functional SVD steps) of a functional time series.
 #' @return An object of class fssa, which is a list of
 #' multivariate functional objects and the following components:

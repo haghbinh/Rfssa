@@ -16,7 +16,7 @@ in pairwise W-correlations matrix.}
 A squared matrix of W-correlation values.
 }
 \description{
-This function evaluate the Wcorrolation plot for fssa
+This function evaluate the Wcorrelation plot for fssa
 }
 \seealso{
 \code{\link{fssa}}
