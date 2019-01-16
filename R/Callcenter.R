@@ -18,4 +18,19 @@
 #'   \item{Day}{Weekday associated with Date}
 #'   \item{Month}{Month associated with Date}
 #' }
+#' @references
+#' \enumerate{
+#'   \item
+#'   Huang, J. Z., Shen, H., & Buja, A. (2008).
+#'   Functional principal components analysis via
+#'   penalized rank one approximation. \emph{Electronic Journal
+#'   of Statistics}, 2, 678-695.
+#'   \item
+#'   Maadooliat, M., Huang, J. Z., & Hu, J. (2015).
+#'   Integrating data transformation in principal
+#'   components analysis. \emph{Journal of Computational and
+#'   Graphical Statistics}, 24(1), 84-103.
+#' }
 "Callcenter"
+
+

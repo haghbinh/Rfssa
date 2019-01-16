@@ -26,4 +26,18 @@ prior studies; e.g. Brown et al. (2005), Huang et al. (2008), Shen and Huang
 (2008) and Maadooliat et al. (2015). Here, the data are aggregated  into time
 intervals 6 minutes.
 }
+\references{
+\enumerate{
+  \item
+  Huang, J. Z., Shen, H., & Buja, A. (2008).
+  Functional principal components analysis via
+  penalized rank one approximation. \emph{Electronic Journal
+  of Statistics}, 2, 678-695.
+  \item
+  Maadooliat, M., Huang, J. Z., & Hu, J. (2015).
+  Integrating data transformation in principal
+  components analysis. \emph{Journal of Computational and
+  Graphical Statistics}, 24(1), 84-103.
+}
+}
 \keyword{datasets}
