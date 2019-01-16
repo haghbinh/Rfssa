@@ -16,6 +16,7 @@
 #' ## Call Center Data
 #' data("Callcenter")
 #' library(fda)
+#' library(Rfssa)
 #' D <- matrix(sqrt(Callcenter$calls),nrow = 240)
 #' N <- ncol(D)
 #' time <- 1:N
