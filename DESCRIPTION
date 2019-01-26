@@ -2,13 +2,14 @@ Package: Rfssa
 Type: Package
 Title: Functional Singular Spectrum Analysis
 Version: 0.0.1
-Author: Authors@R: c(
+Authors@R: c(
     person("Hossein", "Haghbin", email = "haghbinh@gmail.com", role = c("aut", "cre")),
     person("Seyed Morteza", "Najibi", email = "mnajibi@shirazu.ac.ir", role = "aut"))
 Maintainer: Hossein Haghbin <haghbinh@gmail.com>
 URL: https://github.com/haghbinh/Rfssa.git
-Description: Develop functional singular spectrum analysis
-    tools and plots.
+Description: This package was developed to support functional singular spectrum analysis for functional time series
+    as described in Haghbin H., Najibi, S.M., Mahmoudvand R., Maadooliat M. (2019).
+    Functional singular spectrum Analysis. Manuscript submitted for publication. 
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: TRUE
