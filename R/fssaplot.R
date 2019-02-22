@@ -109,7 +109,7 @@ plot.fssa <- function(x, d = length(x$values),
                                each = L))
     p1 <- lattice::xyplot(x ~ time |
                             group, data = D0, xlab = "",
-                          ylab = "", main = "Meaned Eigenveactors",
+                          ylab = "", main = "Meaned Eigenvectors",
                           scales = list(x = list(at = NULL),
                                         y = list(at = NULL)),
                           as.table = TRUE, type = "l")
@@ -129,7 +129,7 @@ plot.fssa <- function(x, d = length(x$values),
                                each = L))
     p1 <- lattice::xyplot(x ~ y | group,
                           data = D0, xlab = "",
-                          ylab = "", main = "Meaned pairs eigenvectors",
+                          ylab = "", main = "Meaned Paired Eigenvectors",
                           scales = list(x = list(at = NULL),
                                         y = list(at = NULL)),
                           as.table = TRUE, type = "l")
