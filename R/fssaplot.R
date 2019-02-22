@@ -163,12 +163,12 @@ plot.fssa <- function(x, d = length(x$values),
     d2 <- ifelse(d1^2 < d,
                  d1 + 1L, d1)
     graphics::par(mfrow = c(d1, d2),
-        mar = c(2, 2, 3, 1),oma=c(2,2,6,1),cex.main=1.6)
+        mar = c(2, 2, 3, 1),oma=c(2,2,7,1),cex.main=1.6)
     for (i in 1:d) graphics::plot(x[[i]],
                         lty = 1, xlab = "",
                         main = main1[i], ylab = "",
                         lwd = 2, col = col2)
-    title("Pattern of Eigenfunctions",outer = TRUE)
+    graphics::title("Pattern of Eigenfunctions",outer = TRUE)
     graphics::par(mfrow = c(1, 1))
   } else {
     stop("Unsupported type of fssa plot!")
