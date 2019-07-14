@@ -172,8 +172,7 @@ plot.fssa <- function(x, d = length(x$values),
     graphics::title("Pattern of Eigenfunctions",outer = TRUE)
     graphics::par(mfrow = c(1, 1))
   } else if (type == "rightvectors"){
-    n0 <- nrow(x$Y$coefs) * K
-    x0 <- c(V(U, d, K, L, Y))
+    x0 <- c(V(x, d, K, L, x$Y))
     D0 <- data.frame(x = x0,
                      time = rep(1L:K, d))
     D0$group <- as.ordered(rep(main1,
@@ -186,7 +185,7 @@ plot.fssa <- function(x, d = length(x$values),
                           as.table = TRUE, type = "l")
     graphics::plot(p1)
   } else if (type == "rightpairs"){
-    x0 <- c(V(U, d, K, L, Y))
+    x0 <- c(V(x, d, K, L, x$Y))
     D0 <- data.frame(x = x0[1L:((d -
                                    1L) * K)], y = x0[(K +
                                                         1L):(d * K)])
@@ -200,7 +199,24 @@ plot.fssa <- function(x, d = length(x$values),
                                         y = list(at = NULL)),
                           as.table = TRUE, type = "l")
     graphics::plot(p1)
-  } else {
+  } else if (type == "periodogram"){
+    ff <- function(x) {
+      I <- abs(fft(x)/sqrt(K))^2
+      P = (4/K) * I
+      return(P[1:(floor(K/2) + 1)])
+    }
+    x0 <- c(apply(V(x, d, K, L, x$Y),2,ff))
+    D0 <- data.frame(x = x0,
+                     time = rep((0:floor(K/2))/K, d))
+    D0$group <- as.ordered(rep(main1,
+                               each = (floor(K/2) + 1)))
+    p1 <- lattice::xyplot(x ~ time |
+                            group, data = D0, xlab = "",
+                          ylab = "", main = "Eigenvectors Periodogram",
+                          scales = list(y = list(at = NULL)),
+                          as.table = TRUE, type = "l")
+    graphics::plot(p1)
+    }else {
     stop("Unsupported type of fssa plot!")
   }
 }
