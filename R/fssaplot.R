@@ -62,6 +62,7 @@ plot.fssa <- function(x, d = length(x$values),
   basis <- x[[1L]]$basis
   N <- x$N
   L <- x$L
+  K <- N-L+1L
   if (type == "values") {
     graphics::plot(val, type = "o", lwd = 2L,
          col = "dodgerblue3", pch = 19L,
