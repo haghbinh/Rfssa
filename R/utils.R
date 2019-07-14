@@ -18,6 +18,19 @@ fproj <- function(U, i, d, K, L, Y) {
     return(CX)
     }
 
+# Right eigenvectors (return a K*d matrix)
+V <- function(U, d, K, L, Y) {
+  CX <- matrix(NA, nrow = K, ncol = d)
+  for(i in 1L:d){
+    u <- U[[i]]$coefs
+    lambd <- sqrt(U$values[i])
+    for (k in 1:K) {
+      x <- lagvec_new(Y$coefs, L, k)
+      CX[k,i] <- HLinprod(x, u)/lambd
+    }
+  }
+  return(CX)
+}
 # This funcrtion Henkelize an d*K*L array.
 fH <- function(C, d) {
     for (j in 1:d) C[j, , ] <- H(C[j, , ])
