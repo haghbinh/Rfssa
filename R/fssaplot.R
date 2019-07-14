@@ -170,6 +170,35 @@ plot.fssa <- function(x, d = length(x$values),
                         lwd = 2, col = col2)
     graphics::title("Pattern of Eigenfunctions",outer = TRUE)
     graphics::par(mfrow = c(1, 1))
+  } else if (type == "rightvectors"){
+    n0 <- nrow(x$Y$coefs) * K
+    x0 <- c(V(U, d, K, L, Y))
+    D0 <- data.frame(x = x0,
+                     time = rep(1L:K, d))
+    D0$group <- as.ordered(rep(main1,
+                               each = K))
+    p1 <- lattice::xyplot(x ~ time |
+                            group, data = D0, xlab = "",
+                          ylab = "", main = "Right Eigenvectors",
+                          scales = list(x = list(at = NULL),
+                                        y = list(at = NULL)),
+                          as.table = TRUE, type = "l")
+    graphics::plot(p1)
+  } else if (type == "rightpairs"){
+    x0 <- c(V(U, d, K, L, Y))
+    D0 <- data.frame(x = x0[1L:((d -
+                                   1L) * K)], y = x0[(K +
+                                                        1L):(d * K)])
+    D0$group <- as.ordered(rep(paste(main1[1:(d -
+                                                1L)], "vs", main1[2L:d]),
+                               each = K))
+    p1 <- lattice::xyplot(x ~ y | group,
+                          data = D0, xlab = "",
+                          ylab = "", main = "Paired Eigenvectors (Rigth)",
+                          scales = list(x = list(at = NULL),
+                                        y = list(at = NULL)),
+                          as.table = TRUE, type = "l")
+    graphics::plot(p1)
   } else {
     stop("Unsupported type of fssa plot!")
   }
