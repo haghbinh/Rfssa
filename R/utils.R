@@ -1,10 +1,12 @@
 # Projection of all lag vector onto i-th functional eigen vector.
 fproj <- function(U, i, d, K, L, Y) {
     u <- U[[i]]$coefs
+    basis <- U$Y$basis
+    G <- inprod(basis,basis)
     CX <- array(NA, dim = c(d, K, L))
     for (k in 1L:K) {
         x <- lagvec_new(Y$coefs, L, k)
-        CX[, k, ] <- HLinprod(x, u) * u
+        CX[, k, ] <- HLinprod(x, u,G) * u
     }
     return(CX)
     }
@@ -32,11 +34,4 @@ fH <- function(C, d) {
 # Get an d*N matrix, return an d*L matrix
 lagvec_new <- function(coefs, L, i)  coefs[, i:(i + L - 1L)]
 
-# Inner product between two elements of H^L.
-HLinprod <- function(x,y){
-  L <- ncol(x)
-  s <- 0L
-  for(j in 1L:L) s <- s+as.numeric(t(x[,j])%*%y[,j])
-  return(s)
-}
 

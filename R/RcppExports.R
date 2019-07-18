@@ -5,6 +5,11 @@ H <- function(A) {
     .Call(`_Rfssa_H`, A)
 }
 
+#'@importFrom Rcpp sourceCpp
+HLinprod <- function(x, y, G) {
+    .Call(`_Rfssa_HLinprod`, x, y, G)
+}
+
 #' @importFrom Rcpp sourceCpp
 #' @useDynLib Rfssa, .registration = TRUE
 NULL

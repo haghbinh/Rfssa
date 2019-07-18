@@ -17,6 +17,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// HLinprod
+double HLinprod(arma::mat x, arma::mat y, arma::mat G);
+RcppExport SEXP _Rfssa_HLinprod(SEXP xSEXP, SEXP ySEXP, SEXP GSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type y(ySEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type G(GSEXP);
+    rcpp_result_gen = Rcpp::wrap(HLinprod(x, y, G));
+    return rcpp_result_gen;
+END_RCPP
+}
 // SS
 NumericMatrix SS(int K, int L, NumericMatrix B, int d);
 RcppExport SEXP _Rfssa_SS(SEXP KSEXP, SEXP LSEXP, SEXP BSEXP, SEXP dSEXP) {
@@ -75,6 +88,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_Rfssa_H", (DL_FUNC) &_Rfssa_H, 1},
+    {"_Rfssa_HLinprod", (DL_FUNC) &_Rfssa_HLinprod, 3},
     {"_Rfssa_SS", (DL_FUNC) &_Rfssa_SS, 4},
     {"_Rfssa_Cofmat", (DL_FUNC) &_Rfssa_Cofmat, 3},
     {"_Rfssa_Gram", (DL_FUNC) &_Rfssa_Gram, 4},
