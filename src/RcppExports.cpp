@@ -58,12 +58,27 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// winprod
+double winprod(arma::mat x, arma::mat y, arma::vec w, arma::mat G);
+RcppExport SEXP _Rfssa_winprod(SEXP xSEXP, SEXP ySEXP, SEXP wSEXP, SEXP GSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type y(ySEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type w(wSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type G(GSEXP);
+    rcpp_result_gen = Rcpp::wrap(winprod(x, y, w, G));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_Rfssa_H", (DL_FUNC) &_Rfssa_H, 1},
     {"_Rfssa_SS", (DL_FUNC) &_Rfssa_SS, 4},
     {"_Rfssa_Cofmat", (DL_FUNC) &_Rfssa_Cofmat, 3},
     {"_Rfssa_Gram", (DL_FUNC) &_Rfssa_Gram, 4},
+    {"_Rfssa_winprod", (DL_FUNC) &_Rfssa_winprod, 4},
     {NULL, NULL, 0}
 };
 

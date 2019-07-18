@@ -3,7 +3,6 @@
 // [[Rcpp::depends(RcppArmadillo)]]
 using namespace Rcpp;
 // [[Rcpp::export]]
-
 arma::mat H (arma::mat A){
   int m=A.n_rows;
   int n=A.n_cols;

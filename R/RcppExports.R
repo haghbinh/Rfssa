@@ -27,3 +27,8 @@ Gram <- function(K, L, A, d) {
     .Call(`_Rfssa_Gram`, K, L, A, d)
 }
 
+#'@importFrom Rcpp sourceCpp
+winprod <- function(x, y, w, G) {
+    .Call(`_Rfssa_winprod`, x, y, w, G)
+}
+

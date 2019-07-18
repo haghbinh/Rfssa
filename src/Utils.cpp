@@ -88,3 +88,5 @@ NumericMatrix Gram (int K,int L, NumericMatrix A, int d)
   }
   return G;
 }
+
+

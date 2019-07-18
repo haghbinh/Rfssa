@@ -22,7 +22,7 @@ fwcor <- function(U, d) {
   out <- matrix(1L, nrow = d, ncol = d)
   for (i in 1L:(d - 1)) {
     for (j in (i + 1L):d) {
-      out[i, j] <- winprod(Q[[i]], Q[[j]], w, G)/sqrt(winprod(Q[[i]],Q[[i]], w, G) * winprod(Q[[j]],Q[[j]], w, G))
+      out[i, j] <- winprod(Q[[i]]$coefs, Q[[j]]$coefs, w, G)/sqrt(winprod(Q[[i]]$coefs,Q[[i]]$coefs, w, G) * winprod(Q[[j]]$coefs,Q[[j]]$coefs, w, G))
     }
   }
   for (i in 2:d) for (j in 1:(i - 1)) out[i, j] <- out[j, i]
