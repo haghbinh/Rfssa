@@ -1,10 +1,10 @@
 #include <RcppArmadillo.h>
-// w-inner product
+// Inner product between two elements of H^L.
 // [[Rcpp::depends(RcppArmadillo)]]
 using namespace Rcpp;
 //'@importFrom Rcpp sourceCpp
 // [[Rcpp::export]]
-double winprod(arma::mat x, arma::mat y, arma::vec w,  arma::mat G)
+double HLinprod(arma::mat x, arma::mat y, arma::mat G)
 {
   int N = x.n_cols;
   double s;
@@ -13,7 +13,7 @@ double winprod(arma::mat x, arma::mat y, arma::vec w,  arma::mat G)
   {
     xi = x.col(i);
     yi = y.col(i);
-    s += arma::as_scalar(xi.t()*G*yi*w(i));
+    s += arma::as_scalar(xi.t()*G*yi);
   }
   return(s);
 }
