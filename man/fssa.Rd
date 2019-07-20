@@ -4,7 +4,7 @@
 \alias{fssa}
 \title{Functional Singular Spectrum Analysis}
 \usage{
-fssa(Y, L = floor(dim(Y$coefs)[2L]/2L))
+fssa(Y, L = floor(dim(Y$coefs)[2L]/2L, type = "fssa"))
 }
 \arguments{
 \item{Y}{A functional time series.}
