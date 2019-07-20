@@ -3,72 +3,86 @@
 #'
 #' Novel different type of plots to visualize the functional time series data objects.
 #'
-#' @param x a numeric vector of coordinate x.
-#' @param y a numeric vector of coordinate y.
-#' @param X a functional time series object of class \code{\link[fda]{fd}}.
-#' @param type what type of plot should be drawn. Possible types are
-#'     "type=1" for ribbon3D plot with curtain, "type=2" for ribbon3D plot
-#'      without curtain, "type=3" for image2D plot.
-#' @param zlab The label of z axis.
-#' @param xlab The label of x axis.
-#' @param ylab The label of y axis.
-#' @param space The amount of space (as a fraction of the average ribbon width) left between ribbons.
+#' @param Y ??
+#' @param type ??
+#' @param npts ??
+#' @param type ??
 #' @param main The main title.
+#' @param var an integer Specify the variable number.
 #' @examples
-#' data("Callcenter")
-#' library(fda)
-#' D <- matrix(sqrt(Callcenter$calls),nrow = 240)
-#' N <- ncol(D)
-#' time <- 1:30
-#' K <- nrow(D)
-#' u <- seq(0,K,length.out =K)
-#' d <- 22 #Optimal Number of basises
-#' basis <- create.bspline.basis(c(min(u),max(u)),d)
-#' Ysmooth <- smooth.basis(u,D,basis)
-#' Y <- Ysmooth$fd
-#'
-#' par(mar=c(2,1,2,2),mfrow=c(1,3))
-#' ftsplot(u,time,Y[1:30],space = 0.4,type=1,ylab = "",xlab = "Day",main = "Typ1=1")
-#' ftsplot(u,time,Y[1:30],space = 0.4,type=2,ylab = "",xlab = "Day",main = "Typ1=2")
-#' ftsplot(u,time,Y[1:30],space = 0.4,type=3,ylab = "",xlab = "Day",main = "Typ1=3")
+#' plot(Y,type = "heat")
+#' plot(Y,type = "3D",var = 1)
 #' @export
-ftsplot = function(x, y, X, type = 2,
-                   zlab = NULL, xlab = NULL, ylab = NULL,
-                   space = 0.1, main = NULL) {
-  u1 = as.numeric(x)
-  Z = eval.fd(X, u1)
-  m = nrow(Z)
-  n = ncol(Z)
-  zcol = matrix(rep(1:n, m),
-                nrow = m, byrow = T)
-  if (type == 1) {
-    plot3D::ribbon3D(u1, y = y,
-                     z = Z, scale = T, expand = 0.5,
-                     bty = "g", phi = 25,
-                     colvar = zcol, shade = 0,
-                     ltheta = 320, theta = 65,
-                     space = space, ticktype = "detailed",
-                     d = 3, curtain = T,
-                     xlab = ylab, ylab = xlab,
-                     zlab = zlab, colkey = F,
-                     main = main, lighting = F)
-  }
-  if (type == 2) {
-    plot3D::ribbon3D(u1, y = y,
-                     z = Z, scale = T, expand = 0.5,
-                     bty = "g", phi = 15,
-                     colvar = Z, shade = 0,
-                     ltheta = 320, theta = 65,
-                     space = space, ticktype = "detailed",
-                     d = 3, curtain = F,
-                     xlab = ylab, ylab = xlab,
-                     zlab = zlab, colkey = F,
-                     main = main, lighting = F)
-  }
-  if (type == 3)
-    plot3D::image2D(t(Z), x = y,
-                    y = x, lphi = 0, clab = zlab,
-                    main = main, colkey = F,
-                    xlab = xlab, ylab = ylab,
-                    col = rev(grDevices::heat.colors(50)))
+plot.fts <- function(Y,npts=100,type="line",main="",var=NA){
+  p <- Y$p
+  N <- Y$N
+  time <- Y$time
+  d <- Y$d
+  u <- seq(Y$rangeval[1],Y$rangeval[2],length.out = npts)
+  Pl <- list()
+  if(type=="line") {
+    if(is.na(var)){
+      for(i in 1:p) {
+        y <- as.tbl(data.frame(y=c(eval.fd(Y[[i]],u))))
+        y$time <- as.factor(rep(time,each=npts))
+        y$x <- rep(u,length = npts)
+        Pl[[i]] <- y %>%
+          group_by(time) %>%
+          plot_ly(x=~x,y=~y) %>%
+          add_lines(color = ~time,colors=c("lightsteelblue1","royalblue4"),
+                    showlegend=FALSE) %>%
+          layout(yaxis = list(title = paste("Variable",i)))
+      }
+      Pl2 <- subplot(Pl, nrows = ceiling(sqrt(p)), shareX = TRUE,
+                     titleY = TRUE) %>%
+        layout(title = "main")
+      print(Pl2)
+    } else {
+      y <- as.tbl(data.frame(y=c(eval.fd(Y[[var]],u))))
+      y$time <- as.factor(rep(time,each=npts))
+      y$x <- rep(u,length = npts)
+      Pl <- y %>%
+        group_by(time) %>%
+        plot_ly(x=~x,y=~y) %>%
+        add_lines(color = ~time,colors=c("lightsteelblue1","royalblue4"),
+                  showlegend=FALSE) %>%
+        layout(yaxis = list(title = paste("Variable",var)))
+      print(Pl)
+    }
+
+  } else if(type=="heat")  {
+    if(is.na(var)){
+      for(i in 1:p) {
+        z0 <- eval.fd(Y[[i]],u)
+        Pl[[i]] <- plot_ly(z = z0, x=time, y = u, type = "heatmap",
+                           showscale =FALSE) %>%
+          layout(yaxis = list(title = paste("Variable",i)))
+      }
+      Pl2 <- subplot(Pl, nrows = ceiling(sqrt(p)), shareX = TRUE,
+                     titleY = TRUE) %>%
+        layout(title = "main")
+      print(Pl2)
+    } else {
+      z0 <- eval.fd(Y[[var]],u)
+      Pl <- plot_ly(z = z0, x=time, y = u, type = "heatmap",
+                         showscale =FALSE) %>%
+        layout(yaxis = list(title = paste("Variable",var)))
+      print(Pl)
+    }
+  } else if(type=="3D"){
+    if(is.na(var)) var <- 1
+    z0 <- eval.fd(Y[[i]],u)
+    axx <-axy <-axz <- list(
+      gridcolor="rgb(255,255,255)",
+      zerolinecolor="rgb(255,255,255"
+    )
+    axx$title <- "Time"
+    axy$title <- "u"
+    axz$title <- paste("Variable",var)
+    Pl <- plot_ly(z = z0, x=time, y = u) %>%
+      layout(scene = list(xaxis = axx, yaxis = axy, zaxis = axz))%>%
+      add_surface(showscale=FALSE)
+    print(Pl)
+  } else stop("The type is not valid.")
 }
+
