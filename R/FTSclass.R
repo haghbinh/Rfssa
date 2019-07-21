@@ -7,7 +7,7 @@
 
 #' @export
 fts <- function(Y,time = NA){
-  if(is.list(Y)){
+  if(is.list(Y) & !is.fd(Y)){
     p <- length(Y)
     NN <- dd <- rmin <- rmax <- NA
     for(i in 1:p) {
