@@ -1,10 +1,10 @@
 # Univariate FSSA
 ufssa <- function(Y, L) {
-  N <- dim(Y$coefs)[2]
-  basis <- Y$basis
+  N <- Y$N
+  basis <- Y[[1]]$basis
   d <- basis$nbasis
   K <- N - L + 1L
-  B <- inprod(Y, basis)
+  B <- inprod(Y[[1]], basis)
   A <- inprod(basis, basis)
   S0 <- SS(K, L, B, d)
   H <- solve(Gram(K, L, A, d))

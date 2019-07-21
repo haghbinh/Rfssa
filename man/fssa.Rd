@@ -4,12 +4,14 @@
 \alias{fssa}
 \title{Functional Singular Spectrum Analysis}
 \usage{
-fssa(Y, L = floor(dim(Y$coefs)[2L]/2L, type = "fssa"))
+fssa(Y, L = NA, type = "fssa")
 }
 \arguments{
 \item{Y}{A functional time series.}
 
 \item{L}{Window length.}
+
+\item{type}{type of FSSA}
 }
 \value{
 An object of class fssa, which is a list of

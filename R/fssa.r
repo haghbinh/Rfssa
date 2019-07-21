@@ -10,6 +10,7 @@
 #' \item{Y}{The original functional time series.}
 #' @param Y A functional time series.
 #' @param L Window length.
+#' @param type type of FSSA
 #' @importFrom fda fd inprod eval.fd smooth.basis
 #' @examples
 #' \dontshow{
@@ -101,11 +102,10 @@
 #'}
 #' @useDynLib Rfssa
 #' @export
-fssa <- function(Y, L = floor(dim(Y$coefs)[2L] / 2L, type="fssa")) {
-
-  if(length(dim(Y$coefs))>2 & type == "fssa") stop("univariate fd FTS object
-                                                    is needed for the type fssa.")
-
+fssa <- function(Y, L = NA, type="fssa") {
+  if(is.fd(Y) & length(dim(Y$coefs)) == 2L )   Y <- fts(Y) else
+    if(class(Y) != "fts") stop("The class of Y is not acceptable")
+  if(is.na(L))  L <- floor(Y$N / 2L)
   if(type == "fssa"){
     out <- ufssa(Y,L)
   } else if (type == "mfssa") {
@@ -115,3 +115,5 @@ fssa <- function(Y, L = floor(dim(Y$coefs)[2L] / 2L, type="fssa")) {
   class(out) <- "fssa"
   return(out)
 }
+
+

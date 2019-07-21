@@ -71,7 +71,7 @@ plot.fts <- function(Y,npts=100,type="line",main="",var=NA){
     }
   } else if(type=="3D"){
     if(is.na(var)) var <- 1
-    z0 <- eval.fd(Y[[i]],u)
+    z0 <- eval.fd(Y[[var]],u)
     axx <-axy <-axz <- list(
       gridcolor="rgb(255,255,255)",
       zerolinecolor="rgb(255,255,255"
