@@ -11,7 +11,7 @@
 #' @param Y A functional time series.
 #' @param L Window length.
 #' @param type type of FSSA
-#' @importFrom fda fd inprod eval.fd smooth.basis
+#' @importFrom fda fd inprod eval.fd smooth.basis is.fd
 #' @examples
 #' \dontshow{
 #' require(Rfssa)

@@ -10,6 +10,11 @@ HLinprod <- function(x, y, G) {
     .Call(`_Rfssa_HLinprod`, x, y, G)
 }
 
+#'@importFrom Rcpp sourceCpp
+HpLinprod <- function(X, Y, G, p) {
+    .Call(`_Rfssa_HpLinprod`, X, Y, G, p)
+}
+
 #' @importFrom Rcpp sourceCpp
 #' @useDynLib Rfssa, .registration = TRUE
 NULL
@@ -17,10 +22,14 @@ NULL
 #' @importFrom Rcpp sourceCpp
 NULL
 
+#' @importFrom Rcpp sourceCpp
+NULL
+
 #'@importFrom Rcpp sourceCpp
-SS <- function(K, L, B, d) {
-    .Call(`_Rfssa_SS`, K, L, B, d)
-}
+NULL
+
+#'@importFrom Rcpp sourceCpp
+NULL
 
 #'@importFrom Rcpp sourceCpp
 Cofmat <- function(d, L, cx) {
@@ -28,8 +37,28 @@ Cofmat <- function(d, L, cx) {
 }
 
 #'@importFrom Rcpp sourceCpp
+SS <- function(K, L, B, d) {
+    .Call(`_Rfssa_SS`, K, L, B, d)
+}
+
+#'@importFrom Rcpp sourceCpp
 Gram <- function(K, L, A, d) {
     .Call(`_Rfssa_Gram`, K, L, A, d)
+}
+
+#'@importFrom Rcpp sourceCpp
+SSM <- function(K, L, d_tilde, p, B, shifter) {
+    .Call(`_Rfssa_SSM`, K, L, d_tilde, p, B, shifter)
+}
+
+#'@importFrom Rcpp sourceCpp
+Gramm <- function(K, L, p, d_tilde, A, shifter, d) {
+    .Call(`_Rfssa_Gramm`, K, L, p, d_tilde, A, shifter, d)
+}
+
+#'@importFrom Rcpp sourceCpp
+mwinprod <- function(X, Y, w, G, p) {
+    .Call(`_Rfssa_mwinprod`, X, Y, w, G, p)
 }
 
 #'@importFrom Rcpp sourceCpp
