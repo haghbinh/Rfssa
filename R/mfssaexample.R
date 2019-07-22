@@ -5,7 +5,7 @@
 
 library("fda") # Functional data analysis package
 
-source("MFSSA.R") # Contains the decomposition stage of MFSSA
+source("mfssa.R") # Contains the decomposition stage of MFSSA
 
 source("mfssaplot.R") # Plotting function
 

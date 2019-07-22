@@ -43,7 +43,7 @@ V <- function(U, d, K, L, Y) {
   return(CX)
 }
 # right singular vecjtors for the multivariate case
-mV<-function(U,values,K,Y,A,p){
+mV<-function(U,values,K,Y,A,p,L){
   sourceCpp("HpLinprod.cpp")
   V <- matrix(nrow=K,ncol=length(values),data=0)
   for(i in 1:length(values)){

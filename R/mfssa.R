@@ -52,7 +52,7 @@ mfssa <- function(Y, L = floor(dim(Y$coefs)[2L]/2L)){
   out <- list()
   values = Re(Q$values[which(Re(Q$values)>0.001)])
   U <- p_c
-  V <- mV(U,values,K,Y,A,p)
+  V <- mV(U,values,K,Y,A,p,L)
   out$values <- Re(Q$values[which(Re(Q$values)>0.001)])
   out$U <- p_c
   out$V <- V
