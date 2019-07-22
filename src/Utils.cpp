@@ -105,11 +105,8 @@ double Csmik(int k, int i, int d_j_k, int d_j_i, int K, int L, NumericMatrix B_j
   r_i=i_vec[0];
   q_i=i_vec[1];
 	for(int m = 0 ; m < (K); m++) {
-		
 		out += B_j_k(r_k+m-1,(q_k-1))*B_j_i(r_i+m-1,(q_i-1));
-		
 	}
-  
   return out;
 }
 
@@ -123,24 +120,24 @@ NumericMatrix findsubmat(int k, int p, std::vector<NumericMatrix> B, NumericMatr
   int low_range_t;
   int high_range_t;
   NumericMatrix sub_mat;
-  
+
   for(int t = 1; t <=p; t++){
-	  
+
 	  low_range_t = shifter(0,t);
 	  high_range_t = shifter(1,t);
-	  
+
 	  if(low_range_t <= (k+1) && (k+1) <= high_range_t ){
-		  
+
 		  sub_mat = B[(t-1)];
-		  
+
 	  }
-	  
-	  
+
+
   }
-  
-  
+
+
   return sub_mat;
-  
+
 }
 
 //  Basis shift Indexing calculation. Finds the unique shift, j_k, for a basis element k
@@ -151,21 +148,21 @@ int findshift(int k, int p, NumericMatrix shifter)
   int low_range_t;
   int high_range_t;
   int shift = 0;
-  
+
   for(int t = 1; t <=p; t++){
-	  
+
 	  low_range_t = shifter(0,t);
 	  high_range_t = shifter(1,t);
-	  
+
 	  if(low_range_t <= (k+1) && (k+1) <= high_range_t ){
-		  
+
 		  shift = shifter(1,(t-1));
-		  
-		  
-		  
+
+
+
 	  }
-	  
-	  
+
+
   }
   return shift;
 }
@@ -183,23 +180,23 @@ NumericMatrix SSM (int K, int L, int d_tilde, int p, std::vector<NumericMatrix> 
   NumericMatrix B_j_i;
   NumericMatrix S(L*d_tilde,L*d_tilde);
   for(int k=0; k<(L*d_tilde); k++){
-	  
+
 		B_j_k=findsubmat(k, p, B, shifter);
-				
+
 		d_j_k=findshift(k, p, shifter);
-	  
+
 	  for(int i=0; i<(L*d_tilde); i++){
-		  
-				
+
+
 				B_j_i=findsubmat(i, p, B, shifter);
-				
+
 				d_j_i=findshift(i, p, shifter);
-				
-				
+
+
 				S(k,i)=Csmik((k+1), (i+1), d_j_k, d_j_i, K, L, B_j_k, B_j_i);
-				
+
 		}
-		  
+
 	}
 	return S;
   }
@@ -213,21 +210,21 @@ NumericMatrix Gramm (int K,int L, int p, int d_tilde, std::vector<NumericMatrix>
   NumericMatrix G(L*d_tilde,L*d_tilde);
   NumericMatrix G_j;
  for(int j = 0; j < p; j++){
-	  
+
 	  G_j = Gram(K, L, A[j], (d[j+1]/L));
-	  
+
 	  for(int k = (shifter(0,(j+1))-1); k < (shifter(1,(j+1))); k++){
 		  for(int i = (shifter(0,(j+1))-1); i < (shifter(1,(j+1))); i++){
-			  
+
 			  G(k, i) = G_j((k-((shifter(0,(j+1)))-1)), i-((shifter(0,(j+1)))-1));
-			  
+
 		  }
 	  }
-	   
+
   }
-  
-  
+
+
   return G;
 }
-  
-  
+
+
