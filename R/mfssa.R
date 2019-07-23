@@ -38,7 +38,7 @@ mfssa <- function(Y, L = floor(dim(Y$coefs)[2L]/2L)){
     for(j in 1L: p){
       my_pcs[[j]] <- fd(Cofmat((d[j+1L]/L), L, coefs[(shifter[1L,(j+1L)]:shifter[2L,(j+1L)]),i]),Y[[j]]$basis)
     }
-    p_c[[i]]=my_pcs
+    p_c[[i]] <- my_pcs
   }
   out <- list()
   out$U <- p_c
