@@ -33,20 +33,18 @@ mfssa <- function(Y, L = floor(dim(Y$coefs)[2L]/2L)){
   p_c <- list()
   r <- sum(Re(Q$values) > 0.001)
   values <- Re(Q$values[1L:r])
+  out <- list()
   for(i in 1L:(r)){
     my_pcs <- list(NA)
     for(j in 1L: p){
       my_pcs[[j]] <- fd(Cofmat((d[j+1L]/L), L, coefs[(shifter[1L,(j+1L)]:shifter[2L,(j+1L)]),i]),Y[[j]]$basis)
     }
-    p_c[[i]] <- my_pcs
+    out[[i]] <- my_pcs
   }
-  out <- list()
-  out$U <- p_c
-  out$V <- mV(p_c,values,K,Y,A,p,L)
+
   out$values <- values
-  out$coefs<-coefs
-  out$N <- N
   out$L <- L
+  out$N <- N
   out$Y <- Y
   class(out)="mfssa"
   return(out)
