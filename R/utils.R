@@ -52,15 +52,10 @@ mV<-function(U,values,K,Y,A,p,L){
     for(k in 1:K){
       x <- list()
       for(j in 1:p){
-        
-        u[[j]]=element[[j]]$coefs
-        x[[j]]=lagvec_new(Y[[j]]$coefs,L,k)
-      
-      
+        u[[j]] <- element[[j]]$coefs
+        x[[j]] <- lagvec_new(Y[[j]]$coefs,L,k)
       }
-    
       V[k,i] <- HpLinprod(u,x,A,p)/sqrt(values[i])
-    
     }
   }
   return(V)
@@ -80,27 +75,27 @@ mfproj <- function(out, i, K, L, Y){
   C = list()
   A = list()
   for(j in 1:p){
-    
+
     d=nrow(pc_1[[j]]$coefs)
     C[[j]]=array(NA, dim = c(d, K, L))
     A[[j]] = inprod(Y[[j]]$basis,Y[[j]]$basis)
-    
+
   }
   # define HpL lag vector
   for(k in 1:K){
     x <- list()
     for(j in 1:p){
       x[[j]]=lagvec_new(Y[[j]]$coefs,L,k)
-      
+
     }
     #build operajtor
     for(j in 1:p){
       C_jx <- C[[j]]
       C_jx[, k, ] <- HpLinprod(x,u,A,p)*u[[j]]
       C[[j]] <- C_jx
-      
+
     }
-    
+
   }
   return(C)
 }

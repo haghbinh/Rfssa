@@ -102,15 +102,15 @@
 #'}
 #' @useDynLib Rfssa
 #' @export
-fssa <- function(Y, L = NA, type="fssa") {
+fssa <- function(Y, L = NA) {
   if(is.fd(Y) & length(dim(Y$coefs)) == 2L )   Y <- fts(Y) else
     if(class(Y) != "fts") stop("The class of Y is not acceptable")
   if(is.na(L))  L <- floor(Y$N / 2L)
-  if(type == "fssa"){
+  if(Y$p==1){
     out <- ufssa(Y,L)
-  } else if (type == "mfssa") {
+  } else if (Y$p > 1) {
     out <- mfssa(Y,L)
-  }
+  } else stop("Dimension Error")
   out$type <- type
   class(out) <- "fssa"
   return(out)

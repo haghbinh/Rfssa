@@ -41,7 +41,6 @@ mfssa <- function(Y, L = floor(dim(Y$coefs)[2L]/2L)){
     }
     out[[i]] <- my_pcs
   }
-
   out$values <- values
   out$L <- L
   out$N <- N

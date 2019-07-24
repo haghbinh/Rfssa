@@ -4,7 +4,7 @@
 \alias{fssa}
 \title{Functional Singular Spectrum Analysis}
 \usage{
-fssa(Y, L = NA, type = "fssa")
+fssa(Y, L = NA)
 }
 \arguments{
 \item{Y}{A functional time series.}
@@ -15,7 +15,7 @@ fssa(Y, L = NA, type = "fssa")
 }
 \value{
 An object of class fssa, which is a list of
-multivariate functional objects and the following components:
+multivariate futional objects and the following components:
 \item{values}{A numeric vector of eigenvalues.}
 \item{L}{Window length.}
 \item{N}{Length of time series.}
