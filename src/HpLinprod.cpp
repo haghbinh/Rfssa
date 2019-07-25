@@ -24,7 +24,7 @@ double HpLinprod(std::vector<arma::mat> X, std::vector<arma::mat> Y, std::vector
 	{
 		xi = x.col(i);
 		yi = y.col(i);
-		s += arma::as_scalar(xi.t()*yi);
+		s += arma::as_scalar(xi.t()*g*yi);
 	}
   }
   return(s);
