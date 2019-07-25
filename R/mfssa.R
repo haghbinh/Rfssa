@@ -3,7 +3,7 @@
 mfssa <- function(Y, L = floor(dim(Y$coefs)[2L]/2L)){
   # get c plus plus code
   p <- Y$p
-  d <- matrix(c(0,Y$d),nrow = 1L, ncol = (p+1L))
+  d <- L*matrix(c(0,Y$d),nrow = 1L, ncol = (p+1L))
   N <- Y$N
   B <- list()
   A <- list()
@@ -36,7 +36,7 @@ mfssa <- function(Y, L = floor(dim(Y$coefs)[2L]/2L)){
   out <- list()
   for(i in 1L:(r)){
     my_pcs <- list(NA)
-    for(j in 1L: p){
+    for(j in 1L:p){
       my_pcs[[j]] <- fd(Cofmat((d[j+1L]/L), L, coefs[(shifter[1L,(j+1L)]:shifter[2L,(j+1L)]),i]),Y[[j]]$basis)
     }
     out[[i]] <- my_pcs
