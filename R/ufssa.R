@@ -17,5 +17,6 @@ ufssa <- function(Y, L) {
   out$L <- L
   out$N <- N
   out$Y <- Y
+  return(out)
 }
 

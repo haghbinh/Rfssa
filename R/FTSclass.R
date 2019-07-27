@@ -27,16 +27,16 @@ fts <- function(Y,time = NA){
     N <- dim(Y$coefs)[2]
     dd <- dim(Y$coefs)[1]
     rangeval <- c(Y$basis$rangeval[1] , Y$basis$rangeval[2])
-    Y <- list(Y)
   } else stop("Y must be an object of class fd or a list of class fd")
+  Y0 <- list("fd"=Y)
    if(is.na(time)) time <- 1:N else if(length(time)!= N) stop("The time length is not equal to data length.")
-    Y$p <- p
-    Y$N <- N
-    Y$d <- dd
-    Y$rangeval <- rangeval
-    Y$time <- time
-    class(Y) <- "fts"
-    return(Y)
+    Y0$p <- p
+    Y0$N <- N
+    Y0$d <- dd
+    Y0$rangeval <- rangeval
+    Y0$time <- time
+    class(Y0) <- "fts"
+    return(Y0)
 }
 
 # is.fts <- function(Y) (class(Y) == "fts")

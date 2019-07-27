@@ -111,7 +111,6 @@ fssa <- function(Y, L = NA) {
   } else if (Y$p > 1) {
     out <- mfssa(Y,L)
   } else stop("Dimension Error")
-  out$type <- type
   class(out) <- "fssa"
   return(out)
 }

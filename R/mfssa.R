@@ -1,6 +1,6 @@
 # Code built by Jordan Trinka and Mehdi Maadooliat of Marquette University and Hossein Haghbin of Persian Gulf University
 # MFSSA Decomposition
-mfssa <- function(Y, L = floor(dim(Y$coefs)[2L]/2L)){
+mfssa <- function(Y, L = floor(Y$N/2L)){
   # get c plus plus code
   p <- Y$p
   d <- L*matrix(c(0,Y$d),nrow = 1L, ncol = (p+1L))
@@ -9,8 +9,8 @@ mfssa <- function(Y, L = floor(dim(Y$coefs)[2L]/2L)){
   A <- list()
   # get inner producjt matrices
   for(i in 1:p){
-    B[[i]] <- inprod(Y[[i]],Y[[i]]$basis)
-    A[[i]] <- inprod(Y[[i]]$basis,Y[[i]]$basis)
+    B[[i]] <- inprod(Y$fd[[i]],Y$fd[[i]]$basis)
+    A[[i]] <- inprod(Y$fd[[i]]$basis,Y$fd[[i]]$basis)
   }
   # Find the proper inner product matrices for j_k variables
   d_tilde <- sum(d)/L
@@ -29,7 +29,7 @@ mfssa <- function(Y, L = floor(dim(Y$coefs)[2L]/2L)){
   G <- Gramm(K,L,p,d_tilde,A,shifter,d)
   S <- solve(G)%*%S_0 # S matrix which parameterizes var/cov op.
   Q <- eigen(S)
-  coefs <- Re(Q$vectors)
+  coefs0 <- Re(Q$vectors)
   p_c <- list()
   r <- sum(Re(Q$values) > 0.001)
   values <- Re(Q$values[1L:r])
@@ -37,7 +37,7 @@ mfssa <- function(Y, L = floor(dim(Y$coefs)[2L]/2L)){
   for(i in 1L:(r)){
     my_pcs <- list(NA)
     for(j in 1L:p){
-      my_pcs[[j]] <- fd(Cofmat((d[j+1L]/L), L, coefs[(shifter[1L,(j+1L)]:shifter[2L,(j+1L)]),i]),Y[[j]]$basis)
+      my_pcs[[j]] <- fd(Cofmat((d[j+1L]/L), L, coefs0[(shifter[1L,(j+1L)]:shifter[2L,(j+1L)]),i]),Y$fd[[j]]$basis)
     }
     out[[i]] <- my_pcs
   }
