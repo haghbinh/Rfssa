@@ -5,7 +5,7 @@
 \title{Functional Time Series Plots}
 \usage{
 \method{plot}{fts}(Y, npts = 100, type = "line", main = "",
-  var = NA)
+  ylab = NA, xlab = NA, tlab = NA, var = NA)
 }
 \arguments{
 \item{Y}{??}
@@ -15,6 +15,12 @@
 \item{type}{??}
 
 \item{main}{The main title.}
+
+\item{ylab}{The character vector of name of variables}
+
+\item{xlab}{The label of the functions arguments.}
+
+\item{tlab}{The time label}
 
 \item{var}{an integer Specify the variable number.}
 

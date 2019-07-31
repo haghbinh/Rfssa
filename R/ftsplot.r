@@ -1,5 +1,5 @@
 #--------------------------------------------------------------
-#' Functional Time Series Plots
+#' Functional Time Series visualization tools using plotly
 #'
 #' Novel different type of plots to visualize the functional time series data objects.
 #'
@@ -8,12 +8,17 @@
 #' @param npts ??
 #' @param type ??
 #' @param main The main title.
+#' @param ylab The character vector of name of variables
+#' @param xlab The label of the functions arguments.
+#' @param tlab The time label
 #' @param var an integer Specify the variable number.
+#' @importFrom plotly plot_ly add_lines layout subplot add_surface
+#' @importFrom fda eval.fd
 #' @examples
 #' plot(Y,type = "heat")
 #' plot(Y,type = "3D",var = 1)
 #' @export
-plot.fts <- function(Y,npts=100,type="line",main="",var=NA){
+plot.fts <- function(Y,npts=100,type="line",main="",ylab=NA,xlab=NA,tlab=NA,var=NA){
   p <- Y$p
   N <- Y$N
   time <- Y$time
@@ -23,22 +28,23 @@ plot.fts <- function(Y,npts=100,type="line",main="",var=NA){
   if(type=="line") {
     if(is.na(var)){
       for(i in 1:p) {
-        y <- as.tbl(data.frame(y=c(eval.fd(Y[[i]],u))))
+        y <- as.tbl(data.frame(y=c(eval.fd(Y$fd[[i]],u))))
         y$time <- as.factor(rep(time,each=npts))
         y$x <- rep(u,length = npts)
+        if(is.na(ylab)) y_var <- paste("Variable",i) else y_var <- ylab[i]
         Pl[[i]] <- y %>%
           group_by(time) %>%
           plot_ly(x=~x,y=~y) %>%
           add_lines(color = ~time,colors=c("lightsteelblue1","royalblue4"),
                     showlegend=FALSE) %>%
-          layout(yaxis = list(title = paste("Variable",i)))
+          layout(yaxis = list(title = y_var),xaxis = list(title = xlab))
       }
       Pl2 <- subplot(Pl, nrows = ceiling(sqrt(p)), shareX = TRUE,
-                     titleY = TRUE) %>%
-        layout(title = "main")
+                     titleY = TRUE,titleX = TRUE) %>%
+        layout(title = main)
       print(Pl2)
     } else {
-      y <- as.tbl(data.frame(y=c(eval.fd(Y[[var]],u))))
+      y <- as.tbl(data.frame(y=c(eval.fd(Y$fd[[var]],u))))
       y$time <- as.factor(rep(time,each=npts))
       y$x <- rep(u,length = npts)
       Pl <- y %>%
@@ -50,39 +56,42 @@ plot.fts <- function(Y,npts=100,type="line",main="",var=NA){
       print(Pl)
     }
 
-  } else if(type=="heat")  {
+  } else if(type=="heatmap")  {
     if(is.na(var)){
       for(i in 1:p) {
-        z0 <- eval.fd(Y[[i]],u)
+        if(is.na(ylab)) y_var <- paste("Variable",i) else y_var <- ylab[i]
+        z0 <- eval.fd(Y$fd[[i]],u)
         Pl[[i]] <- plot_ly(z = z0, x=time, y = u, type = "heatmap",
                            showscale =FALSE) %>%
-          layout(yaxis = list(title = paste("Variable",i)))
+          layout(yaxis = list(title = y_var),xaxis = list(title = tlab))
       }
       Pl2 <- subplot(Pl, nrows = ceiling(sqrt(p)), shareX = TRUE,
-                     titleY = TRUE) %>%
-        layout(title = "main")
+                     titleY = TRUE,titleX = TRUE) %>%
+        layout(title = main)
       print(Pl2)
     } else {
-      z0 <- eval.fd(Y[[var]],u)
+      z0 <- eval.fd(Y$fd[[var]],u)
+      if(is.na(ylab)) y_var <- paste("Variable",var) else y_var <- ylab[var]
       Pl <- plot_ly(z = z0, x=time, y = u, type = "heatmap",
                          showscale =FALSE) %>%
-        layout(yaxis = list(title = paste("Variable",var)))
+        layout(yaxis = list(title = y_var))
       print(Pl)
     }
   } else if(type=="3D"){
     if(is.na(var)) var <- 1
-    z0 <- eval.fd(Y[[var]],u)
+    z0 <- eval.fd(Y$fd[[var]],u)
     axx <-axy <-axz <- list(
       gridcolor="rgb(255,255,255)",
       zerolinecolor="rgb(255,255,255"
     )
-    axx$title <- "Time"
-    axy$title <- "u"
-    axz$title <- paste("Variable",var)
+    axx$title <- tlab
+    axy$title <- xlab
+    if(is.na(ylab)) y_var <- paste("Variable",var) else y_var <- ylab[var]
+    axz$title <- y_var
     Pl <- plot_ly(z = z0, x=time, y = u) %>%
       layout(scene = list(xaxis = axx, yaxis = axy, zaxis = axz))%>%
       add_surface(showscale=FALSE)
     print(Pl)
-  } else stop("The type is not valid.")
+  } else stop("The type for the plot is not valid.")
 }
 
