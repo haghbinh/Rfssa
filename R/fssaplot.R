@@ -54,7 +54,7 @@
 #' @seealso \code{\link{fssa}}, \code{\link{ftsplot}}
 #' @export
 plot.fssa <- function(x, d = length(x$values),
-                      type = "values",...) {
+                      type = "values",var=1L,ylab=NA) {
   val <- sqrt(x$values)[1L:d]
   p <- x$Y$p
   A <- val/sum(val)
@@ -69,21 +69,25 @@ plot.fssa <- function(x, d = length(x$values),
          cex = 0.8, main = "Singular Values",
          ylab = " ", xlab = "Components")
   } else if (type == "wcor") {
-    W = fwcor(x, d)
+    if(p==1) W <- ufwcor(x, d) else W <- mfwcor(x, d)
     wplot(W)
-  }  else  if (type == "efunctions") {
-    u <- basis$rangeval
-    xindx <- seq(min(u), max(u),
-                 length = 100L)
+  }  else  if (type == "lheats") {
+
+    u <- x$Y$rangeval
+    xindx <- seq(min(u), max(u),length = 100L)
     n <- length(xindx)
-    z0 <- lapply(x[1L:d], function(x) t(eval.fd(xindx,
-                                                x)))
+    z0 <- matrix(NA, nrow=L*n, ncol=d)
+    z0 <- list()
+    for (i in 1:d) z0[[i]] <- t(eval.fd(xindx,x[[i]][[var]]) )
     z <- c(sapply(z0, function(x) as.vector(x)))
     D0 <- expand.grid(x = 1L:L,
                       y = 1L:n, group = 1L:d)
     D0$z <- z
     D0$group <- as.ordered(rep(main1,
                                each = L * n))
+    title0 <- "(Left) Eigenfunctions"
+    if(p>1) title0 <- paste(title0,"of the variable",
+                            ifelse(is.na(ylab),var,ylab))
     p1 <- lattice::levelplot(z ~ x *
                                y | group, data = D0,
                              colorkey = TRUE, cuts = 50L,
@@ -91,21 +95,24 @@ plot.fssa <- function(x, d = length(x$values),
                              scales = list(x = list(at = NULL),
                                            y = list(at = NULL)),
                              aspect = "xy", as.table = TRUE,
-                             main = "Pattern of Eigenfunctions",
+                             main = title0,
                              col.regions = grDevices::heat.colors(100))
     graphics::plot(p1)
-  } else if (type == "efunctions2") {
+  } else if (type == "lcurves") {
     col2 <- grDevices::rainbow(L)
     d1 <- floor(sqrt(d))
     d2 <- ifelse(d1^2 < d,
                  d1 + 1L, d1)
     graphics::par(mfrow = c(d1, d2),
         mar = c(2, 2, 3, 1),oma=c(2,2,7,1),cex.main=1.6)
-    for (i in 1:d) graphics::plot(x[[i]],
+    title0 <- "(Left) Eigenfunctions"
+    if(p>1) title0 <- paste(title0,"of the variable",
+                            ifelse(is.na(ylab),var,ylab))
+    for (i in 1:d) graphics::plot(x[[i]][[var]],
                         lty = 1, xlab = "",
                         main = main1[i], ylab = "",
                         lwd = 2, col = col2)
-    graphics::title("Pattern of Eigenfunctions",outer = TRUE)
+    graphics::title(title0,outer = TRUE)
     graphics::par(mfrow = c(1, 1))
   } else if (type == "vectors"){
     if(p==1) x0 <- c(uV(x, d)) else x0 <- c(mV(x,d))

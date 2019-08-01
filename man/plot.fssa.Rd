@@ -4,7 +4,8 @@
 \alias{plot.fssa}
 \title{Plotting fssa Objects}
 \usage{
-\method{plot}{fssa}(x, d = length(x$values), type = "values", ...)
+\method{plot}{fssa}(x, d = length(x$values), type = "values",
+  var = 1L, ylab = NA)
 }
 \arguments{
 \item{x}{a functional singular value decomposition object, time series objects, usually inheriting from class "fssa".}
