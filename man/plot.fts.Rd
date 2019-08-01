@@ -2,7 +2,7 @@
 % Please edit documentation in R/ftsplot.r
 \name{plot.fts}
 \alias{plot.fts}
-\title{Functional Time Series Plots}
+\title{Functional Time Series visualization tools using plotly}
 \usage{
 \method{plot}{fts}(Y, npts = 100, type = "line", main = "",
   ylab = NA, xlab = NA, tlab = NA, var = NA)

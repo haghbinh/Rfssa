@@ -56,10 +56,10 @@
 plot.fssa <- function(x, d = length(x$values),
                       type = "values",...) {
   val <- sqrt(x$values)[1L:d]
+  p <- x$Y$p
   A <- val/sum(val)
   pr = round(A * 100L, 2L)
   main1 = paste0(1L:d, "(", pr,"%)")
-  basis <- x[[1L]]$basis
   N <- x$N
   L <- x$L
   K <- N-L+1L
@@ -68,73 +68,9 @@ plot.fssa <- function(x, d = length(x$values),
          col = "dodgerblue3", pch = 19L,
          cex = 0.8, main = "Singular Values",
          ylab = " ", xlab = "Components")
-  } else if (type == "paired") {
-    n0 <- nrow(x$Y$coefs) * L
-    x0 <- c(sapply(x[1L:d], function(x) as.vector(t(x$coefs))))
-    D0 <- data.frame(x = x0[1L:((d - 1) * n0)], y = x0[(n0 + 1):(d * n0)])
-    D0$group <- as.ordered(rep(paste(main1[1:(d - 1)], "vs", main1[2:d]), each = n0))
-    p1 <- lattice::xyplot(x ~ y | group,
-                          data = D0, xlab = "",
-                          ylab = "", main = "Pairs of eigenvectors",
-                          scales = list(x = list(at = NULL),
-                                        y = list(at = NULL)),
-                          as.table = TRUE, type = "l")
-    graphics::plot(p1)
   } else if (type == "wcor") {
     W = fwcor(x, d)
     wplot(W)
-  } else  if (type == "vectors") {
-    n0 <- nrow(x$Y$coefs) * L
-    x0 <- c(sapply(x[1L:d], function(x) as.vector(t(x$coefs))))
-    D0 <- data.frame(x = x0,
-                     time = rep(1L:n0, d))
-    D0$group <- as.ordered(rep(main1,
-                               each = n0))
-    p1 <- lattice::xyplot(x ~ time |
-                            group, data = D0, xlab = "",
-                          ylab = "", main = "Eigenvectors",
-                          scales = list(x = list(at = NULL),
-                                        y = list(at = NULL)),
-                          as.table = TRUE, type = "l")
-    graphics::plot(p1)
-  } else if (type == "meanvectors") {
-    u <- basis$rangeval
-    xindx <- seq(min(u), max(u),
-                 length = 100)
-    x0 <- c(sapply(x[1L:d],
-                   function(x) colMeans(eval.fd(xindx,
-                                                x))))
-    D0 <- data.frame(x = x0,
-                     time = rep(1L:L, d))
-    D0$group <- as.ordered(rep(main1,
-                               each = L))
-    p1 <- lattice::xyplot(x ~ time |
-                            group, data = D0, xlab = "",
-                          ylab = "", main = "Meaned Eigenvectors",
-                          scales = list(x = list(at = NULL),
-                                        y = list(at = NULL)),
-                          as.table = TRUE, type = "l")
-    graphics::plot(p1)
-  } else if (type == "meanpaired") {
-    u <- basis$rangeval
-    xindx <- seq(min(u), max(u),
-                 length = 100L)
-    x0 <- c(sapply(x[1L:d],
-                   function(x) colMeans(eval.fd(xindx,
-                                                x))))
-    D0 <- data.frame(x = x0[1L:((d -
-                                   1L) * L)], y = x0[(L +
-                                                        1L):(d * L)])
-    D0$group <- as.ordered(rep(paste(main1[1:(d -
-                                                1L)], "vs", main1[2L:d]),
-                               each = L))
-    p1 <- lattice::xyplot(x ~ y | group,
-                          data = D0, xlab = "",
-                          ylab = "", main = "Meaned Paired Eigenvectors",
-                          scales = list(x = list(at = NULL),
-                                        y = list(at = NULL)),
-                          as.table = TRUE, type = "l")
-    graphics::plot(p1)
   }  else  if (type == "efunctions") {
     u <- basis$rangeval
     xindx <- seq(min(u), max(u),
@@ -171,8 +107,8 @@ plot.fssa <- function(x, d = length(x$values),
                         lwd = 2, col = col2)
     graphics::title("Pattern of Eigenfunctions",outer = TRUE)
     graphics::par(mfrow = c(1, 1))
-  } else if (type == "rightvectors"){
-    x0 <- c(V(x, d, K, L, x$Y))
+  } else if (type == "vectors"){
+    if(p==1) x0 <- c(uV(x, d)) else x0 <- c(mV(x,d))
     D0 <- data.frame(x = x0,
                      time = rep(1L:K, d))
     D0$group <- as.ordered(rep(main1,
@@ -184,8 +120,8 @@ plot.fssa <- function(x, d = length(x$values),
                                         y = list(at = NULL)),
                           as.table = TRUE, type = "l")
     graphics::plot(p1)
-  } else if (type == "rightpairs"){
-    x0 <- c(V(x, d, K, L, x$Y))
+  } else if (type == "paired"){
+    if(p==1) x0 <- c(uV(x, d)) else x0 <- c(mV(x,d))
     D0 <- data.frame(x = x0[1L:((d -
                                    1L) * K)], y = x0[(K +
                                                         1L):(d * K)])

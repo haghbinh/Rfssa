@@ -26,42 +26,49 @@ fproj <- function(U, i, d, K, L, Y) {
 }
 
 # Right eigenvectors (return a K*d matrix)
-V <- function(U, d, K, L, Y) {
+# d is number of eigenfunctions
+uV <- function(U,d) {
+  L <- U$L
+  N <- U$N
+  K <- N-L+1
   CX <- matrix(NA, nrow = K, ncol = d)
-  basis <- U$Y$basis
+  basis <- U$Y$fd$basis
   G <- inprod(basis, basis)
   for (i in 1L:d) {
     u <- U[[i]]$coefs
     lambd <- sqrt(U$values[i])
     for (k in 1L:K) {
-      x <- lagvec_new(Y$coefs, L, k)
+      x <- lagvec_new(U$Y$fd$coefs, L, k)
       CX[k, i] <- HLinprod(x, u, G) / lambd
     }
   }
   return(CX)
 }
-# right singular vecjtors for the multivariate case
-mV <- function(U, values, K, Y, A, p, L) {
-  p <- length(U[[1]])
-  K <- N - L + 1
+# right singular vectors for the multivariate case
+mV <- function(U, d) {
+  Y <- U$Y
+  p <- Y$p
+  L <- U$L
+  K <- N - L + 1L
   V <- matrix(nrow = K,
-              ncol = length(values),
-              data = 0)
+              ncol = d,
+              data = NA)
   G <- list()
   # get inner producjt matrices
-  for (i in 1:p) {
-    G[[i]] <- inprod(Y[[i]]$basis, Y[[i]]$basis)
+  for (i in 1L:p) {
+    basis <- U$Y$fd[[i]]$basis
+    G[[i]] <- inprod(basis,basis)
   }
-  for (i in 1:length(values)) {
+  for (i in 1L:d) {
     element <- U[[i]]
     u <- list()
-    for (k in 1:K) {
+    for (k in 1L:K) {
       x <- list()
-      for (j in 1:p) {
+      for (j in 1L:p) {
         u[[j]]  <- element[[j]]$coefs
-        x[[j]] <- lagvec_new(Y[[j]]$coefs, L, k)
+        x[[j]] <- lagvec_new(Y$fd[[j]]$coefs, L, k)
       }
-      V[k, i] <- HpLinprod(u, x, G, p) / sqrt(values[i])
+      V[k, i] <- HpLinprod(u, x, G, p) / sqrt(U$values[i])
     }
   }
   return(V)

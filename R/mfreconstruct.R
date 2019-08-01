@@ -41,7 +41,6 @@ mfreconstruct <-function(U, group = as.list(1L:10L)){
       C_jx[,1L:L] <- S_jx[, 1L,]
       C_jx[,L:N] <- S_jx[,,L]
       recon_out_j[[j]] <- fd(C_jx, basis[[j]])
-
     }
     # output the reconsjtructions
     recon_out[[i]] <- recon_out_j
