@@ -60,13 +60,13 @@ mfwcor <- function(U, d) {
     Q_i=Q[[i]]
     Q_i_l <- list()
     for(k in 1:p){
-      Q_i_l[[k]]=Q_i[[k]]$coefs
+      Q_i_l[[k]]=Q_i$fd[[k]]$coefs
     }
     for (j in (i + 1L):d){
       Q_j=Q[[j]]
       Q_j_l <- list()
       for(k in 1:p){
-        Q_j_l[[k]]=Q_j[[k]]$coefs
+        Q_j_l[[k]]=Q_j$fd[[k]]$coefs
       }
       wcor[i, j] <- mwinprod(Q_i_l, Q_j_l, w, G, p)/sqrt(mwinprod(Q_i_l,Q_i_l, w, G, p) * mwinprod(Q_j_l,Q_j_l, w, G, p))
     }

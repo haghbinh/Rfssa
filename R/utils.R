@@ -47,6 +47,7 @@ uV <- function(U,d) {
 # right singular vectors for the multivariate case
 mV <- function(U, d) {
   Y <- U$Y
+  N <- U$N
   p <- Y$p
   L <- U$L
   K <- N - L + 1L

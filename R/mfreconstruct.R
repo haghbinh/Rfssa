@@ -27,7 +27,7 @@ mfreconstruct <-function(U, group = as.list(1L:10L)){
     g <- group[[i]]
     for(k in 1L:length(g)){
       # projtect onto the space spanned by each p.c.
-      projection <- Rfssa:::mfproj(U,g[k],K,L,Y)
+      projection <- mfproj(U,g[k],K,L,Y)
       for(j in 1:p){
         S[[j]] <- S[[j]]+projection[[j]]
       }
@@ -43,7 +43,7 @@ mfreconstruct <-function(U, group = as.list(1L:10L)){
       recon_out_j[[j]] <- fd(C_jx, basis[[j]])
     }
     # output the reconsjtructions
-    recon_out[[i]] <- recon_out_j
+    recon_out[[i]] <- fts(recon_out_j)
   }
   recon_out$values <- U$values
   return(recon_out)
