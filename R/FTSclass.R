@@ -39,7 +39,5 @@ fts <- function(Y,time = NA){
     return(Y0)
 }
 
-# is.fts <- function(Y) (class(Y) == "fts")
-# time.fts <- function(Y) Y$time
-# length.fts <- function(Y) Y$N
+
 
