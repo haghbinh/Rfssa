@@ -4,8 +4,8 @@
 \alias{plot.fts}
 \title{Functional Time Series visualization tools using plotly}
 \usage{
-\method{plot}{fts}(Y, npts = 100, type = "line", main = "",
-  ylab = NA, xlab = NA, tlab = NA, var = NA)
+\method{plot}{fts}(Y, npts = 100, type = "line", main = NULL,
+  ylab = NULL, xlab = NULL, tlab = NULL, var = NULL)
 }
 \arguments{
 \item{Y}{??}

@@ -18,7 +18,7 @@
 #' plot(Y,type = "heat")
 #' plot(Y,type = "3D",var = 1)
 #' @export
-plot.fts <- function(Y,npts=100,type="line",main="",ylab=NA,xlab=NA,tlab=NA,var=NA){
+plot.fts <- function(Y,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=NULL,var=NULL){
   p <- Y$p
   N <- Y$N
   time <- Y$time
@@ -26,12 +26,12 @@ plot.fts <- function(Y,npts=100,type="line",main="",ylab=NA,xlab=NA,tlab=NA,var=
   u <- seq(Y$rangeval[1],Y$rangeval[2],length.out = npts)
   Pl <- list()
   if(type=="line") {
-    if(is.na(var)){
+    if(is.null(var)){
       for(i in 1:p) {
         y <- as.tbl(data.frame(y=c(eval.fd(Y$fd[[i]],u))))
         y$time <- as.factor(rep(time,each=npts))
         y$x <- rep(u,length = npts)
-        if(is.na(ylab)) y_var <- paste("Variable",i) else y_var <- ylab[i]
+        if(is.null(ylab)) y_var <- paste("Variable",i) else y_var <- ylab[i]
         Pl[[i]] <- y %>%
           group_by(time) %>%
           plot_ly(x=~x,y=~y) %>%
@@ -57,9 +57,9 @@ plot.fts <- function(Y,npts=100,type="line",main="",ylab=NA,xlab=NA,tlab=NA,var=
     }
 
   } else if(type=="heatmap")  {
-    if(is.na(var)){
+    if(is.null(var)){
       for(i in 1:p) {
-        if(is.na(ylab)) y_var <- paste("Variable",i) else y_var <- ylab[i]
+        if(is.null(ylab)) y_var <- paste("Variable",i) else y_var <- ylab[i]
         z0 <- eval.fd(Y$fd[[i]],u)
         Pl[[i]] <- plot_ly(z = z0, x=time, y = u, type = "heatmap",
                            showscale =FALSE) %>%
@@ -71,14 +71,14 @@ plot.fts <- function(Y,npts=100,type="line",main="",ylab=NA,xlab=NA,tlab=NA,var=
       print(Pl2)
     } else {
       z0 <- eval.fd(Y$fd[[var]],u)
-      if(is.na(ylab)) y_var <- paste("Variable",var) else y_var <- ylab[var]
+      if(is.null(ylab)) y_var <- paste("Variable",var) else y_var <- ylab[var]
       Pl <- plot_ly(z = z0, x=time, y = u, type = "heatmap",
                          showscale =FALSE) %>%
         layout(yaxis = list(title = y_var))
       print(Pl)
     }
   } else if(type=="3D"){
-    if(is.na(var)) var <- 1
+    if(is.null(var)) var <- 1
     z0 <- eval.fd(Y$fd[[var]],u)
     axx <-axy <-axz <- list(
       gridcolor="rgb(255,255,255)",
@@ -86,7 +86,7 @@ plot.fts <- function(Y,npts=100,type="line",main="",ylab=NA,xlab=NA,tlab=NA,var=
     )
     axx$title <- tlab
     axy$title <- xlab
-    if(is.na(ylab)) y_var <- paste("Variable",var) else y_var <- ylab[var]
+    if(is.null(ylab)) y_var <- paste("Variable",var) else y_var <- ylab[var]
     axz$title <- y_var
     Pl <- plot_ly(z = z0, x=time, y = u) %>%
       layout(scene = list(xaxis = axx, yaxis = axy, zaxis = axz))%>%

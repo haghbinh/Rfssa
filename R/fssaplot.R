@@ -63,6 +63,15 @@ plot.fssa <- function(x, d = length(x$values),
   N <- x$N
   L <- x$L
   K <- N-L+1L
+  if (type %in% c("lheats","lcurves")) {
+    u <- x$Y$rangeval
+    xindx <- seq(min(u), max(u),length = 100L)
+    z0 <- list()
+    for (i in 1:d){
+      if(p==1)  x[[i]] <- list(x[[i]])
+      z0[[i]] <- t(eval.fd(xindx,x[[i]][[var]]) )
+    }
+  }
   if (type == "values") {
     graphics::plot(val, type = "o", lwd = 2L,
          col = "dodgerblue3", pch = 19L,
@@ -72,20 +81,14 @@ plot.fssa <- function(x, d = length(x$values),
     if(p==1) W <- ufwcor(x, d) else W <- mfwcor(x, d)
     wplot(W)
   }  else  if (type == "lheats") {
-
-    u <- x$Y$rangeval
-    xindx <- seq(min(u), max(u),length = 100L)
     n <- length(xindx)
-    z0 <- matrix(NA, nrow=L*n, ncol=d)
-    z0 <- list()
-    for (i in 1:d) z0[[i]] <- t(eval.fd(xindx,x[[i]][[var]]) )
     z <- c(sapply(z0, function(x) as.vector(x)))
     D0 <- expand.grid(x = 1L:L,
                       y = 1L:n, group = 1L:d)
     D0$z <- z
     D0$group <- as.ordered(rep(main1,
                                each = L * n))
-    title0 <- "(Left) Eigenfunctions"
+    title0 <- "Singular functions"
     if(p>1) title0 <- paste(title0,"of the variable",
                             ifelse(is.na(ylab),var,ylab))
     p1 <- lattice::levelplot(z ~ x *
@@ -101,18 +104,20 @@ plot.fssa <- function(x, d = length(x$values),
   } else if (type == "lcurves") {
     col2 <- grDevices::rainbow(L)
     d1 <- floor(sqrt(d))
-    d2 <- ifelse(d1^2 < d,
-                 d1 + 1L, d1)
+    d2 <- ceiling(d/d1)
     graphics::par(mfrow = c(d1, d2),
         mar = c(2, 2, 3, 1),oma=c(2,2,7,1),cex.main=1.6)
-    title0 <- "(Left) Eigenfunctions"
+    title0 <- "Singular functions"
     if(p>1) title0 <- paste(title0,"of the variable",
                             ifelse(is.na(ylab),var,ylab))
-    for (i in 1:d) graphics::plot(x[[i]][[var]],
-                        lty = 1, xlab = "",
+
+    for (i in 1:d){
+      graphics::plot(x[[i]][[var]],
+                        lty = 1, xlab = "",ylim=range(z0),
                         main = main1[i], ylab = "",
                         lwd = 2, col = col2)
     graphics::title(title0,outer = TRUE)
+    }
     graphics::par(mfrow = c(1, 1))
   } else if (type == "vectors"){
     if(p==1) x0 <- c(uV(x, d)) else x0 <- c(mV(x,d))
@@ -122,7 +127,7 @@ plot.fssa <- function(x, d = length(x$values),
                                each = K))
     p1 <- lattice::xyplot(x ~ time |
                             group, data = D0, xlab = "",
-                          ylab = "", main = "Right Eigenvectors",
+                          ylab = "", main = "Singular vectors",
                           scales = list(x = list(at = NULL),
                                         y = list(at = NULL)),
                           as.table = TRUE, type = "l")
@@ -137,7 +142,7 @@ plot.fssa <- function(x, d = length(x$values),
                                each = K))
     p1 <- lattice::xyplot(x ~ y | group,
                           data = D0, xlab = "",
-                          ylab = "", main = "Paired Eigenvectors (Rigth)",
+                          ylab = "", main = "Paired Singular vectors (Rigth)",
                           scales = list(x = list(at = NULL),
                                         y = list(at = NULL)),
                           as.table = TRUE, type = "l")
@@ -155,7 +160,7 @@ plot.fssa <- function(x, d = length(x$values),
                                each = (floor(K/2) + 1)))
     p1 <- lattice::xyplot(x ~ time |
                             group, data = D0, xlab = "",
-                          ylab = "", main = "Eigenvectors Periodogram",
+                          ylab = "", main = "Periodogram of Singular vectors",
                           scales = list(y = list(at = NULL)),
                           as.table = TRUE, type = "l")
     graphics::plot(p1)

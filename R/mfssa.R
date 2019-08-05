@@ -45,6 +45,5 @@ mfssa <- function(Y, L = floor(Y$N/2L)){
   out$L <- L
   out$N <- N
   out$Y <- Y
-  class(out)="mfssa"
   return(out)
 }
