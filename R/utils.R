@@ -13,7 +13,10 @@ lagvec_new <- function(coefs, L, i)
   coefs[, i:(i + L - 1)]
 
 # Projection of all lag vector onto i-th functional eigen vector.
-fproj <- function(U, i, d, K, L, Y) {
+fproj <- function(U, i, d) {
+  L <- U$L
+  K <- U$N - L +1L
+  Y <- U$Y$fd
   u <- U[[i]]$coefs
   basis <- Y$basis
   G <- inprod(basis, basis)
@@ -76,8 +79,11 @@ mV <- function(U, d) {
 }
 
 # Rank one approximajtion
-mfproj <- function(U, i, K, L, Y) {
+mfproj <- function(U, i) {
   # defining pieces of multivariate rank one approximation
+  L <- U$L
+  K <- U$N-L+1L
+  Y <- U$Y$fd
   u <- list()
   pc_1 <- U[[1]]
   p <- length(pc_1)
