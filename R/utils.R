@@ -13,16 +13,16 @@ lagvec_new <- function(coefs, L, i)
   coefs[, i:(i + L - 1)]
 
 # Projection of all lag vector onto i-th functional eigen vector.
-fproj <- function(U, i, d) {
+ufproj <- function(U, i, d) {
   L <- U$L
   K <- U$N - L +1L
   Y <- U$Y$fd
   u <- U[[i]]$coefs
-  basis <- Y$basis
+  basis <- Y[[1]]$basis
   G <- inprod(basis, basis)
   CX <- array(NA, dim = c(d, K, L))
   for (k in 1L:K) {
-    x <- lagvec_new(Y$coefs, L, k)
+    x <- lagvec_new(Y[[1]]$coefs, L, k)
     CX[, k,] <- HLinprod(x, u, G) * u
   }
   return(CX)

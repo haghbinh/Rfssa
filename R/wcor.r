@@ -13,7 +13,7 @@ ufwcor <- function(U, d) {
   L <- U$L
   K <- N - L + 1L
   w <- 1L:N
-  basis <- U$Y$fd$basis
+  basis <- U$Y$fd[[1]]$basis
   G <- inprod(basis, basis)
   L1 <- min(L, K)
   K1 <- max(K, L)
