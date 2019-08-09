@@ -16,6 +16,6 @@
 #' @export
 freconstruct <- function(U, group = as.list(1L:10L)) {
   p <- U$Y$p
-  if(p==1) out <- Rfssa:::ufreconstruct(U,group) else out <- mfreconstruct(U,group)
+  if(p==1) out <- ufreconstruct(U,group) else out <- mfreconstruct(U,group)
   return(out)
 }
