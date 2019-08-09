@@ -18,11 +18,11 @@ ufproj <- function(U, i, d) {
   K <- U$N - L +1L
   Y <- U$Y$fd
   u <- U[[i]]$coefs
-  basis <- Y[[1]]$basis
+  basis <- Y$basis
   G <- inprod(basis, basis)
   CX <- array(NA, dim = c(d, K, L))
   for (k in 1L:K) {
-    x <- lagvec_new(Y[[1]]$coefs, L, k)
+    x <- lagvec_new(Y$coefs, L, k)
     CX[, k,] <- HLinprod(x, u, G) * u
   }
   return(CX)

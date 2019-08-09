@@ -1,6 +1,5 @@
 # Code built by Jordan Trinka and Mehdi Maadooliat of Marquette University and Hossein Haghbin of Persian Gulf University
 
-# Reconstruction phase of MFSSA
 mfreconstruct <-function(U, group = as.list(1L:10L)){
   N <- U$N
   Y <- U$Y$fd
