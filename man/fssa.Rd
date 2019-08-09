@@ -23,7 +23,7 @@ multivariate futional objects and the following components:
 }
 \description{
 fssa is a function for decomposition stage (including embedding
- and  functional SVD steps) of a functional time series.
+ and  functional SVD steps) of a univariate or multivariate functional time series.
 }
 \examples{
 \dontshow{
