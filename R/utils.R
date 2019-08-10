@@ -16,13 +16,13 @@ lagvec_new <- function(coefs, L, i)
 ufproj <- function(U, i, d) {
   L <- U$L
   K <- U$N - L +1L
-  Y <- U$Y$fd
+  Y <- U$Y
   u <- U[[i]]$coefs
-  basis <- Y$basis
+  basis <- Y[[1]]$basis
   G <- inprod(basis, basis)
   CX <- array(NA, dim = c(d, K, L))
   for (k in 1L:K) {
-    x <- lagvec_new(Y$coefs, L, k)
+    x <- lagvec_new(Y[[1]]$coefs, L, k)
     CX[, k,] <- HLinprod(x, u, G) * u
   }
   return(CX)
@@ -35,13 +35,13 @@ uV <- function(U,d) {
   N <- U$N
   K <- N-L+1
   CX <- matrix(NA, nrow = K, ncol = d)
-  basis <- U$Y$fd[[1]]$basis
+  basis <- U$Y[[1]]$basis
   G <- inprod(basis, basis)
   for (i in 1L:d) {
     u <- U[[i]]$coefs
     lambd <- sqrt(U$values[i])
     for (k in 1L:K) {
-      x <- lagvec_new(U$Y$fd[[1]]$coefs, L, k)
+      x <- lagvec_new(U$Y[[1]]$coefs, L, k)
       CX[k, i] <- HLinprod(x, u, G) / lambd
     }
   }
@@ -60,7 +60,7 @@ mV <- function(U, d) {
   G <- list()
   # get inner producjt matrices
   for (i in 1L:p) {
-    basis <- U$Y$fd[[i]]$basis
+    basis <- U$Y[[i]]$basis
     G[[i]] <- inprod(basis,basis)
   }
   for (i in 1L:d) {
@@ -70,7 +70,7 @@ mV <- function(U, d) {
       x <- list()
       for (j in 1L:p) {
         u[[j]]  <- element[[j]]$coefs
-        x[[j]] <- lagvec_new(Y$fd[[j]]$coefs, L, k)
+        x[[j]] <- lagvec_new(Y[[j]]$coefs, L, k)
       }
       V[k, i] <- HpLinprod(u, x, G, p) / sqrt(U$values[i])
     }
@@ -83,7 +83,7 @@ mfproj <- function(U, i) {
   # defining pieces of multivariate rank one approximation
   L <- U$L
   K <- U$N-L+1L
-  Y <- U$Y$fd
+  Y <- U$Y
   u <- list()
   pc_1 <- U[[1]]
   p <- length(pc_1)

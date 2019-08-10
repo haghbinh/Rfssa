@@ -2,11 +2,11 @@
 
 ufreconstruct <- function(U, group = as.list(1L:10L)) {
   N <- U$N
-  Y <- U$Y$fd
-  d <- nrow(U[[1]]$coefs)
+  Y <- U$Y
+  d <- U$Y$d
   L <- U$L
   K <- N - L + 1L
-  basis <- U[[1]]$basis
+  basis <- Y[[1]]$basis
   m <- length(group)
   basis <- U[[1]]$basis
   out <- list()

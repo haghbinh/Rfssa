@@ -28,7 +28,7 @@ plot.fts <- function(Y,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=N
   if(type=="line") {
     if(is.null(var)){
       for(i in 1:p) {
-        y <- as.tbl(data.frame(y=c(eval.fd(Y$fd[[i]],u))))
+        y <- as.tbl(data.frame(y=c(eval.fd(Y[[i]],u))))
         y$time <- as.factor(rep(time,each=npts))
         y$x <- rep(u,length = npts)
         if(is.null(ylab)) y_var <- paste("Variable",i) else y_var <- ylab[i]
@@ -44,7 +44,8 @@ plot.fts <- function(Y,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=N
         layout(title = main)
       print(Pl2)
     } else {
-      y <- as.tbl(data.frame(y=c(eval.fd(Y$fd[[var]],u))))
+      if(var>p) var <- p
+      y <- as.tbl(data.frame(y=c(eval.fd(Y[[var]],u))))
       y$time <- as.factor(rep(time,each=npts))
       y$x <- rep(u,length = npts)
       Pl <- y %>%
@@ -60,7 +61,7 @@ plot.fts <- function(Y,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=N
     if(is.null(var)){
       for(i in 1:p) {
         if(is.null(ylab)) y_var <- paste("Variable",i) else y_var <- ylab[i]
-        z0 <- eval.fd(Y$fd[[i]],u)
+        z0 <- eval.fd(Y[[i]],u)
         Pl[[i]] <- plot_ly(z = z0, x=time, y = u, type = "heatmap",
                            showscale =FALSE) %>%
           layout(yaxis = list(title = y_var),xaxis = list(title = tlab))
@@ -70,7 +71,8 @@ plot.fts <- function(Y,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=N
         layout(title = main)
       print(Pl2)
     } else {
-      z0 <- eval.fd(Y$fd[[var]],u)
+      if(var > p ) var <- p
+      z0 <- eval.fd(Y[[var]],u)
       if(is.null(ylab)) y_var <- paste("Variable",var) else y_var <- ylab[var]
       Pl <- plot_ly(z = z0, x=time, y = u, type = "heatmap",
                          showscale =FALSE) %>%
@@ -78,8 +80,9 @@ plot.fts <- function(Y,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=N
       print(Pl)
     }
   } else if(type=="3D"){
-    if(is.null(var)) var <- 1
-    z0 <- eval.fd(Y$fd[[var]],u)
+    if(is.null(var) | p==1) var <- 1
+    if(var>p) var <- p
+    z0 <- eval.fd(Y[[var]],u)
     axx <-axy <-axz <- list(
       gridcolor="rgb(255,255,255)",
       zerolinecolor="rgb(255,255,255"

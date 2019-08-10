@@ -120,7 +120,7 @@ plot.fssa <- function(x, d = length(x$values),
     }
     graphics::par(mfrow = c(1, 1))
   } else if (type == "vectors"){
-    if(p==1) x0 <- c(uV(x, d)) else x0 <- c(mV(x,d))
+    x0 <- c(x$RVectrs[,1L:d])
     D0 <- data.frame(x = x0,
                      time = rep(1L:K, d))
     D0$group <- as.ordered(rep(main1,
@@ -133,7 +133,7 @@ plot.fssa <- function(x, d = length(x$values),
                           as.table = TRUE, type = "l")
     graphics::plot(p1)
   } else if (type == "paired"){
-    if(p==1) x0 <- c(uV(x, d)) else x0 <- c(mV(x,d))
+    x0 <- c(x$RVectrs[,1L:d])
     D0 <- data.frame(x = x0[1L:((d -
                                    1L) * K)], y = x0[(K +
                                                         1L):(d * K)])
@@ -153,7 +153,7 @@ plot.fssa <- function(x, d = length(x$values),
       P = (4/K) * I
       return(P[1:(floor(K/2) + 1)])
     }
-    if(p==1L) x0 <- c(apply(uV(x, d),2,ff)) else x0 <- c(apply(mV(x, d),2,ff))
+    x0 <- c(apply(x$RVectrs[,1L:d],2,ff))
     D0 <- data.frame(x = x0,
                      time = rep((0:floor(K/2))/K, d))
     D0$group <- as.ordered(rep(main1,

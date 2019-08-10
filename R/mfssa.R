@@ -9,8 +9,8 @@ mfssa <- function(Y, L = floor(Y$N/2L)){
   A <- list()
   # get inner producjt matrices
   for(i in 1:p){
-    B[[i]] <- inprod(Y$fd[[i]],Y$fd[[i]]$basis)
-    A[[i]] <- inprod(Y$fd[[i]]$basis,Y$fd[[i]]$basis)
+    B[[i]] <- inprod(Y[[i]],Y[[i]]$basis)
+    A[[i]] <- inprod(Y[[i]]$basis,Y[[i]]$basis)
   }
   # Find the proper inner product matrices for j_k variables
   d_tilde <- sum(d)/L
@@ -37,7 +37,7 @@ mfssa <- function(Y, L = floor(Y$N/2L)){
   for(i in 1L:(r)){
     my_pcs <- list(NA)
     for(j in 1L:p){
-      my_pcs[[j]] <- fd(Cofmat((d[j+1L]/L), L, coefs0[(shifter[1L,(j+1L)]:shifter[2L,(j+1L)]),i]),Y$fd[[j]]$basis)
+      my_pcs[[j]] <- fd(Cofmat((d[j+1L]/L), L, coefs0[(shifter[1L,(j+1L)]:shifter[2L,(j+1L)]),i]),Y[[j]]$basis)
     }
     out[[i]] <- my_pcs
   }
@@ -45,5 +45,6 @@ mfssa <- function(Y, L = floor(Y$N/2L)){
   out$L <- L
   out$N <- N
   out$Y <- Y
+  out$RVectrs <- mV(out,r)
   return(out)
 }

@@ -2,14 +2,14 @@
 
 mfreconstruct <-function(U, group = as.list(1L:10L)){
   N <- U$N
-  Y <- U$Y$fd
+  Y <- U$Y
   p <- U$Y$p
   L <- U$L
   K <- N-L+1
   basis <- list()
   m <- length(group)
   for(j in 1: p){
-    basis[[j]] <- U$Y$fd[[j]]$basis
+    basis[[j]] <- U$Y[[j]]$basis
   }
   recon_out <- list()
   # Loop over groups
