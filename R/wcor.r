@@ -13,7 +13,7 @@ ufwcor <- function(U, d) {
   L <- U$L
   K <- N - L + 1L
   w <- 1L:N
-  basis <- U$Y$fd[[1]]$basis
+  basis <- U$Y[[1]]$basis
   G <- inprod(basis, basis)
   L1 <- min(L, K)
   K1 <- max(K, L)
@@ -22,7 +22,7 @@ ufwcor <- function(U, d) {
   out <- matrix(1L, nrow = d, ncol = d)
   for (i in 1L:(d - 1)) {
     for (j in (i + 1L):d) {
-      out[i, j] <- winprod(Q[[i]]$fd[[1]]$coefs, Q[[j]]$fd[[1]]$coefs, w, G)/sqrt(winprod(Q[[i]]$fd[[1]]$coefs,Q[[i]]$fd[[1]]$coefs, w, G) * winprod(Q[[j]]$fd[[1]]$coefs,Q[[j]]$fd[[1]]$coefs, w, G))
+      out[i, j] <- winprod(Q[[i]][[1]]$coefs, Q[[j]][[1]]$coefs, w, G)/sqrt(winprod(Q[[i]][[1]]$coefs,Q[[i]][[1]]$coefs, w, G) * winprod(Q[[j]][[1]]$coefs,Q[[j]][[1]]$coefs, w, G))
     }
   }
   for (i in 2:d) for (j in 1:(i - 1)) out[i, j] <- out[j, i]
@@ -46,7 +46,7 @@ mfwcor <- function(U, d) {
   K <- N - L + 1L
   w <- 1L:N
   p = length(U[[1]])
-  Y = U$Y$fd
+  Y = U$Y
   G = list()
   for(j in 1:p){
     G[[j]] = inprod(Y[[j]]$basis,Y[[j]]$basis)
