@@ -14,8 +14,7 @@ ufreconstruct <- function(U, group = as.list(1L:10L)) {
     Cx <- matrix(NA, nrow = d, ncol = N)
     g <- group[[i]]
     S <- 0L
-    for (j in 1L:length(g)) S <- S +
-      ufproj(U, g[j], d)
+    for (j in 1L:length(g)) S <- S + ufproj(U, g[j], d)
     S <- fH(S, d)
     Cx[, 1L:L] <- S[, 1L, ]
     Cx[, L:N] <- S[, ,L]
