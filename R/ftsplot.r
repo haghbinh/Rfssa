@@ -45,16 +45,16 @@ plot.fts <- function(Y,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=N
       print(Pl2)
     } else {
       if(var>p) var <- p
+      if(is.null(ylab)) y_var <- paste("Variable",var) else y_var <- ylab[var]
       y <- as.tbl(data.frame(y=c(eval.fd(Y[[var]],u))))
       y$time <- as.factor(rep(time,each=npts))
       y$x <- rep(u,length = npts)
-      Pl <- y %>%
+      y %>%
         group_by(time) %>%
         plot_ly(x=~x,y=~y) %>%
         add_lines(color = ~time,colors=c("lightsteelblue1","royalblue4"),
                   showlegend=FALSE) %>%
-        layout(yaxis = list(title = paste("Variable",var)))
-      print(Pl)
+        layout(yaxis = list(title = y_var))
     }
 
   } else if(type=="heatmap")  {
@@ -74,12 +74,11 @@ plot.fts <- function(Y,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=N
       if(var > p ) var <- p
       z0 <- eval.fd(Y[[var]],u)
       if(is.null(ylab)) y_var <- paste("Variable",var) else y_var <- ylab[var]
-      Pl <- plot_ly(z = z0, x=time, y = u, type = "heatmap",
+      plot_ly(z = z0, x=time, y = u, type = "heatmap",
                          showscale =FALSE) %>%
         layout(yaxis = list(title = y_var))
-      print(Pl)
     }
-  } else if(type=="3D"){
+  } else if(type=="3Dsurface"){
     if(is.null(var) | p==1) var <- 1
     if(var>p) var <- p
     z0 <- eval.fd(Y[[var]],u)
@@ -91,10 +90,20 @@ plot.fts <- function(Y,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=N
     axy$title <- xlab
     if(is.null(ylab)) y_var <- paste("Variable",var) else y_var <- ylab[var]
     axz$title <- y_var
-    Pl <- plot_ly(z = z0, x=time, y = u) %>%
+    plot_ly(z = z0, x=time, y = u) %>%
       layout(scene = list(xaxis = axx, yaxis = axy, zaxis = axz))%>%
       add_surface(showscale=FALSE)
-    print(Pl)
-  } else stop("The type for the plot is not valid.")
+  } else if(type=="3Dline"){
+    if(is.null(var) | p==1) var <- 1
+    if(var>p) var <- p
+    D0 <- as.tbl(data.frame(z=c(eval.fd(Y[[var]],u))))
+    D0$time <- as.character(rep(time,each=npts))
+    D0$x <- rep(u,length = npts)
+    D0 %>%
+      group_by(time) %>%
+      plot_ly(x=~x,z=~z,y=~time, type = 'scatter3d', mode = 'lines',
+              line = list(width = 4, color = ~z, colorscale = list(c(0,'#BA52ED'), c(1,'#FCB040')))) %>%
+      layout(yaxis = list(title = paste("Variable",var)))
+    } else stop("The type for the plot is not valid.")
 }
 

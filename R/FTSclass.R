@@ -6,7 +6,7 @@
 #' @param time the vector of times at which a time series was sampled.
 
 #' @export
-fts <- function(Y,time = NA){
+fts <- function(Y,time = NULL){
   if(is.list(Y) & !is.fd(Y)){
     p <- length(Y)
     NN <- dd <- rmin <- rmax <- NA
@@ -29,7 +29,7 @@ fts <- function(Y,time = NA){
     rangeval <- c(Y$basis$rangeval[1] , Y$basis$rangeval[2])
     Y <- list(Y)
   } else stop("Y must be an object of class fd or a list of class fd")
-   if(is.na(time)) time <- 1:N else if(length(time)!= N) stop("The time length is not equal to data length.")
+   if(is.null(time)) time <- 1:N else if(length(time)!= N) stop("The time length is not equal to data length.")
     Y$p <- p
     Y$N <- N
     Y$d <- dd
