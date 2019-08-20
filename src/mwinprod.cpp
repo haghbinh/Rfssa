@@ -22,7 +22,7 @@ double mwinprod(std::vector<arma::mat> X, std::vector<arma::mat> Y,arma::vec w,s
 	{
 		xi = x.col(i);
 		yi = y.col(i);
-		s += arma::as_scalar(xi.t()*g*yi*w(i));
+		s += arma::as_scalar(xi.t()*yi*w(i));
 	}
   }
   return(s);
