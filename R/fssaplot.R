@@ -68,7 +68,7 @@ plot.fssa <- function(x, d = length(x$values),
     xindx <- seq(min(u), max(u),length = 100L)
     z0 <- list()
     for (i in 1:d){
-      if(p==1)  x[[i]] <- list(x[[i]])
+      if(is.fd(x[[i]]))  x[[i]] <- list(x[[i]])
       z0[[i]] <- t(eval.fd(xindx,x[[i]][[var]]) )
     }
   }
@@ -78,7 +78,7 @@ plot.fssa <- function(x, d = length(x$values),
          cex = 0.8, main = "Singular Values",
          ylab = " ", xlab = "Components")
   } else if (type == "wcor") {
-    if(p==1) W <- ufwcor(x, d) else W <- mfwcor(x, d)
+    if(is.fd(x[[i]])) W <- ufwcor(x, d) else W <- mfwcor(x, d)
     wplot(W)
   }  else  if (type == "lheats") {
     n <- length(xindx)
