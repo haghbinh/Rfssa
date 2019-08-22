@@ -4,7 +4,7 @@
 \alias{fts}
 \title{Functional time series class}
 \usage{
-fts(Y, time = NA)
+fts(Y, time = NULL)
 }
 \arguments{
 \item{Y}{an object of class fd or a list of objects of class fd.}
