@@ -1,6 +1,9 @@
-library(fda); library(freqdom); library(freqdom.fda); library(Rfssa); library(shiny); library(Rssa); library(plotly)
-#library("Rcpp"); source("MFSSA.R"); source("mfreconstruct.R"); source("mfssaplot.R"); source("separability.R");
+#' Shiny app server object
 
+#' @importFrom plotly renderPlotly  plotlyOutput plot_ly add_lines layout subplot add_surface
+#' @import shiny
+
+# create the shiny application user interface
 ui<-fluidPage(tags$head(tags$style(HTML("body { max-width: 1250px !important; }"))),
               titlePanel("MFSSA Illustration"),
               sidebarLayout(
@@ -31,6 +34,18 @@ ui<-fluidPage(tags$head(tags$style(HTML("body { max-width: 1250px !important; }"
                                       ))#tabPanel("Manual", includeMarkdown("report.Rmd"))))
               )
 )
+
+#' Shiny app server function
+#'
+#' @param input provided by shiny
+#' @param output provided by shiny
+#' @param clientData provided by shiny
+#' @param session provided by shiny
+#'
+
+#' @importFrom plotly  plotlyOutput plot_ly add_lines layout subplot add_surface
+
+# Define server logic required to draw a histogram
 
 server<-function(input, output, clientData, session) {
 

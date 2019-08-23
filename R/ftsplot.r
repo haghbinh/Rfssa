@@ -12,7 +12,7 @@
 #' @param xlab The label of the functions arguments.
 #' @param tlab The time label
 #' @param var an integer Specify the variable number.
-#' @importFrom plotly plot_ly add_lines layout subplot add_surface
+#' @importFrom plotly plotlyOutput plot_ly add_lines layout subplot add_surface
 #' @importFrom fda eval.fd
 #' @examples
 #' plot(Y,type = "heat")
