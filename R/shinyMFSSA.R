@@ -50,7 +50,7 @@ ui.mfssa <- fluidPage(tags$head(tags$style(HTML("body { max-width: 1250px !impor
 
 server.mfssa <- function(input, output, clientData, session) {
 
-  load("data/servshiny.Rda");
+  load(system.file("data", "servshiny.Rda", package = "Rfssa"));
   source("https://raw.githubusercontent.com/haghbinh/Rfssa/Rfssa-V.0.01/R/ftsplot.r")
   iTs <- reactiveVal(list()); iTrs <- reactiveVal(list()); itmp <- reactiveVal(0)
   df <- 100; vf <- 20; T <- 100;
