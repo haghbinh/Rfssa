@@ -68,7 +68,7 @@ plot.fssa <- function(x, d = length(x$values),
     xindx <- seq(min(u), max(u),length = 100L)
     z0 <- list()
     for (i in 1:d){
-      if(is.fd(x[[1]]))  x[[i]] <- list(x[[i]])
+      if(is.fd(x[[i]]))  x[[i]] <- list(x[[i]])
       z0[[i]] <- t(eval.fd(xindx,x[[i]][[var]]) )
     }
   }

@@ -1,6 +1,6 @@
 #' Shiny app server object
 
-#' @importFrom plotly renderPlotly  plotlyOutput plot_ly add_lines layout subplot add_surface
+#' @importFrom plotly plotlyOutput
 #' @import shiny
 
 # create the shiny application user interface
@@ -43,8 +43,9 @@ ui<-fluidPage(tags$head(tags$style(HTML("body { max-width: 1250px !important; }"
 #' @param session provided by shiny
 #'
 
-#' @importFrom plotly  plotlyOutput plot_ly add_lines layout subplot add_surface
-
+#' @importFrom plotly renderPlotly
+#' @importFrom fda pca.fd
+#' @import Rssa
 # Define server logic required to draw a histogram
 
 server<-function(input, output, clientData, session) {
@@ -197,9 +198,9 @@ server<-function(input, output, clientData, session) {
       tau <- seq(0, 1, length = nrow(iTs()[[1]])); Y <- list()
       for (i in 1:length(iTs())) Y[[i]] <- smooth.basis(tau, iTs()[[i]], bas.fssa)$fd
       input.g <- eval(parse(text=paste0("list(",input$g,")"))); uUf <- list()# uQf <-
-      if ("uf" %in% input$dmd.uf) for (i in 1:length(iTs())) {uUf[[i]] <- Rfssa:::ufssa(fts(Y[[i]]), input$fssaL)}#; uQf[[i]] <- Rfssa:::ufreconstruct(uUf[[i]], input.g)}
+      if ("uf" %in% input$dmd.uf) for (i in 1:length(iTs())) {uUf[[i]] <- ufssa(fts(Y[[i]]), input$fssaL)}#; uQf[[i]] <- ufreconstruct(uUf[[i]], input.g)}
       fts.Y <- fts(Y); if (fts.Y$p==1) fts.Y$fd <- list(fts.Y$fd)
-      mUf <- Rfssa:::mfssa(fts.Y, input$fssaL);# mQf <- Rfssa:::mfreconstruct(mUf, input.g);
+      mUf <- mfssa(fts.Y, input$fssaL);# mQf <- mfreconstruct(mUf, input.g);
       #mUf <- mfssa(Y, input$fssaL); mQf <- mfreconstruct(mUf, input.g);
       Ys <- NULL; for (i in 1:length(iTs())) { Ys <- cbind(Ys,t(iTs()[[i]])) }
       Us <- ssa(Ys, input$mssaL, kind = "mssa");# Qs <- reconstruct(Us, groups=input.g);
@@ -453,8 +454,8 @@ server<-function(input, output, clientData, session) {
       sr <- run_ssa(); input.g <- eval(parse(text=paste0("list(",input$g,")")));
       mQ <- uQ <- Qs <- matrix(0,nr=nrow(Ts),nc=ncol(Ts))
       isolate(sr$Qs <- reconstruct(sr$Us, groups=input.g))
-      if ("uf" %in% input$dmd.uf) { isolate(sr$uQf <- Rfssa:::ufreconstruct(sr$uUf[[var.which]], input.g)); uQf <- sr$uQf[[1]][[1]]; uQf$coefs[,] <- 0 }
-      isolate(sr$mQf <- Rfssa:::mfreconstruct(sr$mUf, input.g)); mQf <- sr$mQf[[1]][[var.which]]; mQf$coefs[,] <- 0
+      if ("uf" %in% input$dmd.uf) { isolate(sr$uQf <- ufreconstruct(sr$uUf[[var.which]], input.g)); uQf <- sr$uQf[[1]][[1]]; uQf$coefs[,] <- 0 }
+      isolate(sr$mQf <- mfreconstruct(sr$mUf, input.g)); mQf <- sr$mQf[[1]][[var.which]]; mQf$coefs[,] <- 0
         for (i in input$sg[1]:input$sg[2]) {
           Qs <- Qs + t(sr$Qs[[i]][,((var.which-1)*nrow(Ts)+1):(var.which*nrow(Ts))]);
           if ("uf" %in% input$dmd.uf) { uQf$coefs <- uQf$coefs + sr$uQf[[i]][[1]]$coefs }
@@ -465,12 +466,12 @@ server<-function(input, output, clientData, session) {
     }
     if ("fpca" %in% input$s.plot || "dfpca" %in% input$s.plot) {  f.pca <- run_fpca(); fpca <- f.pca$fpca; dfpca <- f.pca$dfpca;  }
     if (substr(input$desc,1,5)=="mfssa") {
-      if (input$desc=="mfssa.scree") Rfssa:::plot.fssa(sr$mUf,d=input$d[2],type="values")
-      else if (input$desc=="mfssa.wcor") Rfssa:::plot.fssa(sr$mUf, d=input$d[2], type="wcor")
-      else if (input$desc=="mfssa.pair") Rfssa:::plot.fssa(sr$mUf,d=input$d[2],type="paired")
-      else if (input$desc=="mfssa.singV") Rfssa:::plot.fssa(sr$mUf, d=input$d[2], type="vectors")
-      else if (input$desc=="mfssa.perGr") Rfssa:::plot.fssa(sr$mUf,d=input$d[2],type="periodogram")
-      else if (input$desc=="mfssa.singF") {Rfssa:::plot.fssa(sr$mUf, d=input$d[2], type=ifelse(is.null(input$rec.type),"lheats",input$rec.type), var=var.which)}
+      if (input$desc=="mfssa.scree") plot.fssa(sr$mUf,d=input$d[2],type="values")
+      else if (input$desc=="mfssa.wcor") plot.fssa(sr$mUf, d=input$d[2], type="wcor")
+      else if (input$desc=="mfssa.pair") plot.fssa(sr$mUf,d=input$d[2],type="paired")
+      else if (input$desc=="mfssa.singV") plot.fssa(sr$mUf, d=input$d[2], type="vectors")
+      else if (input$desc=="mfssa.perGr") plot.fssa(sr$mUf,d=input$d[2],type="periodogram")
+      else if (input$desc=="mfssa.singF") {plot.fssa(sr$mUf, d=input$d[2], type=ifelse(is.null(input$rec.type),"lheats",input$rec.type), var=var.which)}
       else if (input$desc=="mfssa.reconst" && input$rec.type%in%c("1","2","3")) ftsplot(seq(0, 1, length = nrow(Ts)), 1:ncol(Ts), mQf, space = 0.1, type=as.numeric(input$rec.type), ylab = "tau", xlab = "t", main = "mUf")
     } else if (substr(input$desc,1,3)=="ssa") {
       if (input$desc=="ssa.scree") plot.default(sr$Us$sigma,type="b",log="y")
@@ -531,10 +532,10 @@ server<-function(input, output, clientData, session) {
     if ((input$f.choice=="upload" && is.null(input$file)) || (input$f.choice=="sim" && !length(input$model))) return();
     if (input$desc=="mfssa.reconst") if (!input$rec.type%in%c("heatmap","line","3Dline","3Dsurface")) return()
     sr <- run_ssa(); input.g <- eval(parse(text=paste0("list(",input$g,")")));
-    isolate(sr$mQf <- Rfssa:::mfreconstruct(sr$mUf, input.g)); mQf <- 0;
+    isolate(sr$mQf <- mfreconstruct(sr$mUf, input.g)); mQf <- 0;
     if (input$var.which=="all" || is.null(input$var.which)) var.which <- NULL else var.which <- as.numeric(input$var.which)
     for (i in input$sg[1]:input$sg[2]) {  mQf <- mQf + sr$mQf[[i]]  }
-    Rfssa:::plot.fts(mQf, type=input$rec.type, var=var.which)
+    plot.fts(mQf, type=input$rec.type, var=var.which)
   })
 
 }
