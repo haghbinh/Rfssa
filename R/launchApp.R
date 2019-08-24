@@ -11,6 +11,9 @@
 
 
 # wrapper for shiny::shinyApp()
-launchApp <- function() {
-  shinyApp(ui = ui, server = server)
+launchApp <- function(type="FSSA") {
+  if (type=="FSSA")
+    shinyApp(ui = ui.fssa, server = server.fssa)
+  else
+    shinyApp(ui = ui.mfssa, server = server.mfssa)
 }

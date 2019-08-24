@@ -4,35 +4,35 @@
 #' @import shiny
 
 # create the shiny application user interface
-ui<-fluidPage(tags$head(tags$style(HTML("body { max-width: 1250px !important; }"))),
-              titlePanel("MFSSA Illustration"),
-              sidebarLayout(
-                sidebarPanel(width=3, tags$head(tags$style(type="text/css", ".well { max-width: 300px; }")),
-                             radioButtons("bs.fr","Choose Basis:", choices = c("B-spline", "Fourier"), selected = "B-spline", inline=TRUE),
-                             uiOutput("xdeg", width="250px"), uiOutput("xdf", width="250px"),
-                             tags$hr(style="border-color: red;", width="150px"),
-                             column(6,uiOutput("g")), column(6,uiOutput("sg")), column(6,uiOutput("d")), column(6,uiOutput("dmd.uf")),
-                             sliderInput("mssaL", HTML("Win.L. (MSSA):"), min = 1, max = 50, value = 50, step = 1, width="210px"),
-                             sliderInput("fssaL", HTML("Win.L. (MFSSA):"), min = 1, max = 50, value = 20, step = 1, width="210px"),
-                             column(6,uiOutput("run.fpca")), column(6,uiOutput("run.ssa"))),
-                mainPanel(width=9, tags$style(type="text/css", ".shiny-output-error { visibility: hidden; }",".shiny-output-error:before { visibility: hidden; },"),#".nav-tabs {font-size: 10px}"),
-                          tabsetPanel(id="Panel", type = "tabs",
-                                      tabPanel(title="Data", value="Data",
-                                               column(12,uiOutput("ts.selected", align = "center"), style="color:red;"),
-                                               fluidRow(column(4,radioButtons('f.choice', NULL, c("Server" = "server", "Upload" = "upload", "Simulate" = "sim"), selected= "sim", inline = TRUE, width="250px"), uiOutput("sim.which")),
-                                                        column(4,uiOutput("s.choice", width="250px"), column(6,uiOutput("a1.f")), column(6,uiOutput("a1.l"))), column(2,uiOutput('noise.t', width="125px")), column(2,uiOutput('noise.p', width="125px"))),
-                                               column(4,uiOutput("file")), column(8,uiOutput("sep"),uiOutput("header")),
-                                               column(4,uiOutput("model")), column(4,uiOutput("t.len")), column(2,uiOutput("a2.f")), column(2,uiOutput("n.sd")),
-                                               column(12,plotOutput("data.plot", height = 500, width = 900)), column(12,tableOutput('data'))),
-                                      tabPanel("Basis Functions",
-                                               column(8,plotOutput("basis.desc", height = 600, width = 600)), column(4,uiOutput("basis.n", width="300px"))),
-                                      tabPanel("Data Description (SSA Summary)",
-                                               column(4,uiOutput("desc", width="250px")), column(4,uiOutput("as.choice", width="400px"), uiOutput("run.fda.gcv", width="200px"), uiOutput("rec.type", width="300px")), column(2,uiOutput("freq")), column(2,uiOutput("sts.choice")),
-                                               fluidRow(column(8,conditionalPanel(condition="output.flag_plot", plotOutput("res.plot", height = 600, width = 600)),
-                                                                 conditionalPanel(condition="output.flag_plotly", plotlyOutput("res.ly", height = 600, width = 600))),
-                                                        column(4,uiOutput("var.which"),uiOutput("s.plot"), fluidRow(column(8,uiOutput("b.indx")), column(4,uiOutput("s.CI"))), column(12, uiOutput("comp.obs"), verbatimTextOutput("RMSEs")))))#,
-                                      ))#tabPanel("Manual", includeMarkdown("report.Rmd"))))
-              )
+ui.mfssa <- fluidPage(tags$head(tags$style(HTML("body { max-width: 1250px !important; }"))),
+                      titlePanel("MFSSA Illustration"),
+                      sidebarLayout(
+                        sidebarPanel(width=3, tags$head(tags$style(type="text/css", ".well { max-width: 300px; }")),
+                                     radioButtons("bs.fr","Choose Basis:", choices = c("B-spline", "Fourier"), selected = "B-spline", inline=TRUE),
+                                     uiOutput("xdeg", width="250px"), uiOutput("xdf", width="250px"),
+                                     tags$hr(style="border-color: red;", width="150px"),
+                                     column(6,uiOutput("g")), column(6,uiOutput("sg")), column(6,uiOutput("d")), column(6,uiOutput("dmd.uf")),
+                                     sliderInput("mssaL", HTML("Win.L. (MSSA):"), min = 1, max = 50, value = 50, step = 1, width="210px"),
+                                     sliderInput("fssaL", HTML("Win.L. (MFSSA):"), min = 1, max = 50, value = 20, step = 1, width="210px"),
+                                     column(6,uiOutput("run.fpca")), column(6,uiOutput("run.ssa"))),
+                        mainPanel(width=9, tags$style(type="text/css", ".shiny-output-error { visibility: hidden; }",".shiny-output-error:before { visibility: hidden; },"),#".nav-tabs {font-size: 10px}"),
+                                  tabsetPanel(id="Panel", type = "tabs",
+                                              tabPanel(title="Data", value="Data",
+                                                       column(12,uiOutput("ts.selected", align = "center"), style="color:red;"),
+                                                       fluidRow(column(4,radioButtons('f.choice', NULL, c("Server" = "server", "Upload" = "upload", "Simulate" = "sim"), selected= "sim", inline = TRUE, width="250px")),
+                                                                column(4,uiOutput("s.choice", width="250px"), column(6,uiOutput("a1.f")), column(6,uiOutput("a1.l"))), column(2,uiOutput('noise.t', width="125px")), column(2,uiOutput('noise.p', width="125px"))),
+                                                       column(4,uiOutput("file")), column(8,uiOutput("sep"),uiOutput("header")),
+                                                       column(4,uiOutput("model")), column(4,uiOutput("t.len")), column(2,uiOutput("a2.f")), column(2,uiOutput("n.sd")),
+                                                       column(12,plotOutput("data.plot", height = 500, width = 900))),
+                                              tabPanel("Basis Functions",
+                                                       column(8,plotOutput("basis.desc", height = 600, width = 600)), column(4,uiOutput("basis.n", width="300px"))),
+                                              tabPanel("Data Description (SSA Summary)",
+                                                       column(4,uiOutput("desc", width="250px")), column(4,uiOutput("as.choice", width="400px"), uiOutput("run.fda.gcv", width="200px"), uiOutput("rec.type", width="300px")), column(2,uiOutput("freq")), column(2,uiOutput("sts.choice")),
+                                                       fluidRow(column(8,conditionalPanel(condition="output.flag_plot", plotOutput("res.plot", height = 600, width = 600)),
+                                                                       conditionalPanel(condition="output.flag_plotly", plotlyOutput("res.ly", height = 600, width = 600))),
+                                                                column(4,uiOutput("var.which"),uiOutput("s.plot"), fluidRow(column(8,uiOutput("b.indx")), column(4,uiOutput("s.CI"))), column(12, uiOutput("comp.obs"), verbatimTextOutput("RMSEs"))))),
+                                              tabPanel("Manual", includeMarkdown(system.file("rmd", "report.Rmd", package = "Rfssa")))))
+                      )
 )
 
 #' Shiny app server function
@@ -44,13 +44,13 @@ ui<-fluidPage(tags$head(tags$style(HTML("body { max-width: 1250px !important; }"
 #'
 
 #' @importFrom plotly renderPlotly
-#' @importFrom fda pca.fd
+#' @importFrom fda pca.fd eval.fd
 #' @import Rssa
 # Define server logic required to draw a histogram
 
-server<-function(input, output, clientData, session) {
+server.mfssa <- function(input, output, clientData, session) {
 
-  #load("data/servshiny.Rda");
+  load("data/servshiny.Rda");
   source("https://raw.githubusercontent.com/haghbinh/Rfssa/Rfssa-V.0.01/R/ftsplot.r")
   iTs <- reactiveVal(list()); iTrs <- reactiveVal(list()); itmp <- reactiveVal(0)
   df <- 100; vf <- 20; T <- 100;
@@ -194,16 +194,15 @@ server<-function(input, output, clientData, session) {
   run_ssa <- eventReactive(input$run.ssa, {if (memory.size()>700) gc();
     withProgress(message = 'MSSA.MFSSA: Running', value = 0, {
       if(input$bs.fr=="B-spline") bas.fssa <- fda::create.bspline.basis(c(0, 1), nbasis=input$xdf, norder=input$xdeg+1)
-        else bas.fssa <- fda::create.fourier.basis(c(0, 1), nbasis=input$xdf);
+      else bas.fssa <- fda::create.fourier.basis(c(0, 1), nbasis=input$xdf);
       tau <- seq(0, 1, length = nrow(iTs()[[1]])); Y <- list()
       for (i in 1:length(iTs())) Y[[i]] <- smooth.basis(tau, iTs()[[i]], bas.fssa)$fd
-      input.g <- eval(parse(text=paste0("list(",input$g,")"))); uUf <- list()# uQf <-
-      if ("uf" %in% input$dmd.uf) for (i in 1:length(iTs())) {uUf[[i]] <- ufssa(fts(Y[[i]]), input$fssaL)}#; uQf[[i]] <- ufreconstruct(uUf[[i]], input.g)}
+      input.g <- eval(parse(text=paste0("list(",input$g,")"))); uUf <- list()
+      if ("uf" %in% input$dmd.uf) for (i in 1:length(iTs())) {uUf[[i]] <- Rfssa:::ufssa(fts(Y[[i]]), input$fssaL)}
       fts.Y <- fts(Y); if (fts.Y$p==1) fts.Y$fd <- list(fts.Y$fd)
-      mUf <- mfssa(fts.Y, input$fssaL);# mQf <- mfreconstruct(mUf, input.g);
-      #mUf <- mfssa(Y, input$fssaL); mQf <- mfreconstruct(mUf, input.g);
+      mUf <- Rfssa:::mfssa(fts.Y, input$fssaL); class(mUf) <- "fssa";
       Ys <- NULL; for (i in 1:length(iTs())) { Ys <- cbind(Ys,t(iTs()[[i]])) }
-      Us <- ssa(Ys, input$mssaL, kind = "mssa");# Qs <- reconstruct(Us, groups=input.g);
+      Us <- ssa(Ys, input$mssaL, kind = "mssa");
       return(list(Us=Us, mUf=mUf, uUf=uUf))
     })
   })
@@ -238,13 +237,6 @@ server<-function(input, output, clientData, session) {
   output$model <- renderUI({
     if (input$f.choice!="sim") return();  choices <- c("A.1t(w1,l) F1 +" = "f1", "A.2t(w2) F2" = "f2")
     checkboxGroupInput('model', 'Model:', choices=choices, selected="f1", inline = TRUE, width="250px")
-  })
-
-  output$sim.which <- renderUI({
-    return()
-    if ((input$f.choice=="upload" && is.null(input$file)) || (input$f.choice=="sim" && !length(input$model)) || length(iTs())==1) return();
-    choic <- as.character(1:length(iTs())); names(choic) <- names(iTs())
-    selectInput('sim.which', NULL, choices=choic, selected="1", width="125px")
   })
 
   output$t.len <- renderUI({
@@ -297,15 +289,10 @@ server<-function(input, output, clientData, session) {
     if ("dmd" %in% input$dmd.uf) {for (i in length(Ts)) {Ts[[i]] <- Ts[[i]]-mean(Ts[[i]]); if (input$f.choice=="sim") simul$Trs[[i]] <- simul$Trs[[i]]-mean(simul$Trs[[i]])}}
     if (is.null(names(Ts)) || sum(is.na(names(Ts)))) names(Ts) <- paste("Variable",1:length(Ts))
     #updateSliderInput(session, "mssaL", max=min(ncol(Ts[[1]]),trunc(nrow(Ts[[1]])/2))); updateSliderInput(session, "fssaL", max=min(ncol(Ts[[1]]),trunc(nrow(Ts[[1]])/2)))
-    updateSelectInput(session, "desc", selected = "ts"); updateSliderInput(session, "dimn", max=min(10,ncol(Ts[[1]])), value=min(2,ncol(Ts[[1]])));    updateSliderInput(session, "mssaL", max=min(120,trunc(ncol(Ts[[1]])/2))); updateSliderInput(session, "fssaL", max=min(120,trunc(ncol(Ts[[1]])/2)))
+    updateSelectInput(session, "desc", selected = "ts"); updateSliderInput(session, "dimn", max=min(10,ncol(Ts[[1]])), value=min(2,ncol(Ts[[1]])));
+    updateSliderInput(session, "mssaL", max=min(120,trunc(ncol(Ts[[1]])/2))); updateSliderInput(session, "fssaL", max=min(120,trunc(ncol(Ts[[1]])/2)))
     text <- paste("<b>",ncol(Ts[[1]]),ifelse(length(Ts)==1,"Univariate","Multivariate"),"Time series of length",nrow(Ts[[1]]),"</b>");
     if (input$f.choice=="sim") iTrs(simul$Trs); iTs(Ts); return(text)
-  })
-
-  output$data <- renderTable({if (memory.size()>700) gc();
-    return()
-    if ((input$f.choice=="upload" && is.null(input$file)) || (input$f.choice=="sim" && !length(input$model))) return();
-    return(head(as.matrix(iTs()[[as.numeric(input$sim.which)]][,1:min(15,ncol(iTs()[[1]]))]),15))
   })
 
   output$data.plot = renderPlot({if (memory.size()>700) gc();
@@ -364,14 +351,14 @@ server<-function(input, output, clientData, session) {
     if ((input$f.choice=="upload" && is.null(input$file)) || (input$f.choice=="sim" && !length(input$model))) return();
     if (is.null(input$desc)) { return() } else if (!input$desc%in%c("mfssa.reconst","mfssa.singF")) return()
     if (input$desc=="mfssa.singF") selectInput("rec.type","Type",choices=c("Heat plot"="lheats","Regular Plot"="lcurves"), width="250px") else
-                                   selectInput("rec.type","Type",choices=c("Heat Plot"="heatmap","Regular Plot"="line","3D Plot (line)"="3Dline","3D Plot (surface)"="3Dsurface","image2D"="3","ribbon3D"="1","ribbon3D-Curtain"="2"), width="250px")
+      selectInput("rec.type","Type",choices=c("Heat Plot"="heatmap","Regular Plot"="line","3D Plot (line)"="3Dline","3D Plot (surface)"="3Dsurface","image2D"="3","ribbon3D"="1","ribbon3D-Curtain"="2"), width="250px")
   })
 
   output$freq <- renderUI({
     if ((input$f.choice=="upload" && is.null(input$file)) || (input$f.choice=="sim" && !length(input$model))) return();
     if (((input$desc=="ts" && input$as.choice=="mult")) && !(input$s.plot=="bf" && length(input$s.plot)==1) && length(input$s.plot))
       sliderInput("freq", "Period:", min = 1, max = trunc(ncol(iTs()[[1]])/2), value = ifelse(is.null(input$freq),1,input$freq), step = 1, width="200px")
-    })
+  })
 
   output$var.which <- renderUI({
     if ((input$f.choice=="upload" && is.null(input$file)) || (input$f.choice=="sim" && !length(input$model)) || is.null(input$desc)) return();
@@ -454,24 +441,24 @@ server<-function(input, output, clientData, session) {
       sr <- run_ssa(); input.g <- eval(parse(text=paste0("list(",input$g,")")));
       mQ <- uQ <- Qs <- matrix(0,nr=nrow(Ts),nc=ncol(Ts))
       isolate(sr$Qs <- reconstruct(sr$Us, groups=input.g))
-      if ("uf" %in% input$dmd.uf) { isolate(sr$uQf <- ufreconstruct(sr$uUf[[var.which]], input.g)); uQf <- sr$uQf[[1]][[1]]; uQf$coefs[,] <- 0 }
-      isolate(sr$mQf <- mfreconstruct(sr$mUf, input.g)); mQf <- sr$mQf[[1]][[var.which]]; mQf$coefs[,] <- 0
-        for (i in input$sg[1]:input$sg[2]) {
-          Qs <- Qs + t(sr$Qs[[i]][,((var.which-1)*nrow(Ts)+1):(var.which*nrow(Ts))]);
-          if ("uf" %in% input$dmd.uf) { uQf$coefs <- uQf$coefs + sr$uQf[[i]][[1]]$coefs }
-          mQf$coefs <- mQf$coefs + sr$mQf[[i]][[var.which]]$coefs
-        }
+      if ("uf" %in% input$dmd.uf) { isolate(sr$uQf <- freconstruct(sr$uUf[[var.which]], input.g)); uQf <- sr$uQf[[1]][[1]]; uQf$coefs[,] <- 0 }
+      isolate(sr$mQf <- freconstruct(sr$mUf, input.g)); mQf <- sr$mQf[[1]][[var.which]]; mQf$coefs[,] <- 0
+      for (i in input$sg[1]:input$sg[2]) {
+        Qs <- Qs + t(sr$Qs[[i]][,((var.which-1)*nrow(Ts)+1):(var.which*nrow(Ts))]);
+        if ("uf" %in% input$dmd.uf) { uQf$coefs <- uQf$coefs + sr$uQf[[i]][[1]]$coefs }
+        mQf$coefs <- mQf$coefs + sr$mQf[[i]][[var.which]]$coefs
+      }
       if ("uf" %in% input$dmd.uf) uQ <- eval.fd(seq(0, 1, length = nrow(Ts)),uQf)
       mQ <- eval.fd(seq(0, 1, length = nrow(Ts)),mQf)
     }
     if ("fpca" %in% input$s.plot || "dfpca" %in% input$s.plot) {  f.pca <- run_fpca(); fpca <- f.pca$fpca; dfpca <- f.pca$dfpca;  }
     if (substr(input$desc,1,5)=="mfssa") {
-      if (input$desc=="mfssa.scree") plot.fssa(sr$mUf,d=input$d[2],type="values")
-      else if (input$desc=="mfssa.wcor") plot.fssa(sr$mUf, d=input$d[2], type="wcor")
-      else if (input$desc=="mfssa.pair") plot.fssa(sr$mUf,d=input$d[2],type="paired")
-      else if (input$desc=="mfssa.singV") plot.fssa(sr$mUf, d=input$d[2], type="vectors")
-      else if (input$desc=="mfssa.perGr") plot.fssa(sr$mUf,d=input$d[2],type="periodogram")
-      else if (input$desc=="mfssa.singF") {plot.fssa(sr$mUf, d=input$d[2], type=ifelse(is.null(input$rec.type),"lheats",input$rec.type), var=var.which)}
+      if (input$desc=="mfssa.scree") plot(sr$mUf,d=input$d[2],type="values")
+      else if (input$desc=="mfssa.wcor") plot(sr$mUf, d=input$d[2], type="wcor")
+      else if (input$desc=="mfssa.pair") plot(sr$mUf,d=input$d[2],type="paired")
+      else if (input$desc=="mfssa.singV") plot(sr$mUf, d=input$d[2], type="vectors")
+      else if (input$desc=="mfssa.perGr") plot(sr$mUf,d=input$d[2],type="periodogram")
+      else if (input$desc=="mfssa.singF") {plot(sr$mUf, d=input$d[2], type=ifelse(is.null(input$rec.type),"lheats",input$rec.type), var=var.which)}
       else if (input$desc=="mfssa.reconst" && input$rec.type%in%c("1","2","3")) ftsplot(seq(0, 1, length = nrow(Ts)), 1:ncol(Ts), mQf, space = 0.1, type=as.numeric(input$rec.type), ylab = "tau", xlab = "t", main = "mUf")
     } else if (substr(input$desc,1,3)=="ssa") {
       if (input$desc=="ssa.scree") plot.default(sr$Us$sigma,type="b",log="y")
@@ -498,13 +485,13 @@ server<-function(input, output, clientData, session) {
       if ("fpca" %in% input$s.plot) {for (i in indx) points(fpca[,i],type="l",col=2, lty=2)}
       if ("dfpca" %in% input$s.plot) {for (i in indx) points(dfpca[,i],type="l",col=3, lty=2)}
       if ("bss" %in% input$s.plot) { f.est <- matrix(0, nr=nrow(Ts), ncol=ncol(Ts))
-        for (i in indx) {
-          f.est[,i] <- as.matrix(B[,b.indx])%*%(cB%*%Ts[,i])[b.indx];
-          if (input$as.choice=="single") if (input$s.CI)
-          {polygon(c(1:nrow(Ts),nrow(Ts):1), c(f.est[,i]-2*sqrt(vB),rev(f.est[,i])+2*rev(sqrt(vB))), border=4, lwd=1,col=5);
-            if ("ts" %in% input$s.plot) points(Ts[,i],type="l",col=1)}
-          points(f.est[,i], col=4, type="l")
-        }
+      for (i in indx) {
+        f.est[,i] <- as.matrix(B[,b.indx])%*%(cB%*%Ts[,i])[b.indx];
+        if (input$as.choice=="single") if (input$s.CI)
+        {polygon(c(1:nrow(Ts),nrow(Ts):1), c(f.est[,i]-2*sqrt(vB),rev(f.est[,i])+2*rev(sqrt(vB))), border=4, lwd=1,col=5);
+          if ("ts" %in% input$s.plot) points(Ts[,i],type="l",col=1)}
+        points(f.est[,i], col=4, type="l")
+      }
       }
       if ("tf" %in% input$s.plot) {for (i in indx) points(iTrs()[[var.which]][,i],type="l",col=2)}
       if ("bf" %in% input$s.plot) {for (i in b.indx) points(seq(1,nrow(Ts),length.out = 1000), Bs[,i],col=8,type="l",lty=2)}
@@ -532,12 +519,11 @@ server<-function(input, output, clientData, session) {
     if ((input$f.choice=="upload" && is.null(input$file)) || (input$f.choice=="sim" && !length(input$model))) return();
     if (input$desc=="mfssa.reconst") if (!input$rec.type%in%c("heatmap","line","3Dline","3Dsurface")) return()
     sr <- run_ssa(); input.g <- eval(parse(text=paste0("list(",input$g,")")));
-    isolate(sr$mQf <- mfreconstruct(sr$mUf, input.g)); mQf <- 0;
+    isolate(sr$mQf <- freconstruct(sr$mUf, input.g)); mQf <- 0;
     if (input$var.which=="all" || is.null(input$var.which)) var.which <- NULL else var.which <- as.numeric(input$var.which)
     for (i in input$sg[1]:input$sg[2]) {  mQf <- mQf + sr$mQf[[i]]  }
-    plot.fts(mQf, type=input$rec.type, var=var.which)
+    plot(mQf, type=input$rec.type, var=var.which)
   })
 
 }
 
-shinyApp(ui=ui,server=server)

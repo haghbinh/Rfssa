@@ -4,7 +4,7 @@
 \alias{launchApp}
 \title{launches the shinyAppDemo app}
 \usage{
-launchApp()
+launchApp(type = "FSSA")
 }
 \value{
 shiny application object
