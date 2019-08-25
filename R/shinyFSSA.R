@@ -5,34 +5,34 @@
 
 # create the shiny application user interface
 ui.fssa <- fluidPage(tags$head(tags$style(HTML("body { max-width: 1250px !important; }"))),
-                      titlePanel("FSSA Illustration"),
-                      sidebarLayout(
-                        sidebarPanel(width=3, tags$head(tags$style(type="text/css", ".well { max-width: 300px; }")),
-                                     radioButtons("bs.fr","Choose Basis:", choices = c("B-spline", "Fourier"), selected = "B-spline", inline=TRUE),
-                                     uiOutput("xdeg", width="250px"), uiOutput("xdf", width="250px"),
-                                     tags$hr(style="border-color: red;", width="150px"),
-                                     column(6,uiOutput("g")), column(6,uiOutput("sg")), column(6,uiOutput("d")), column(6,uiOutput("dmd")),
-                                     sliderInput("mssaL", HTML("Win.L. (MSSA):"), min = 1, max = 50, value = 50, step = 1, width="210px"),
-                                     sliderInput("fssaL", HTML("Win.L. (FSSA):"), min = 1, max = 50, value = 20, step = 1, width="210px"),
-                                     column(6,uiOutput("run.fpca")), column(6,uiOutput("run.ssa"))),
-                        mainPanel(width=9, tags$style(type="text/css", ".shiny-output-error { visibility: hidden; }",".shiny-output-error:before { visibility: hidden; },"),#".nav-tabs {font-size: 10px}"),
-                                  tabsetPanel(id="Panel", type = "tabs",
-                                              tabPanel(title="Data", value="Data",
-                                                       column(12,uiOutput("ts.selected", align = "center"), style="color:red;"),
-                                                       fluidRow(column(4,radioButtons('f.choice', 'Choose from:', c("Server" = "server", "Upload" = "upload", "Simulate" = "sim"), selected= "sim", inline = TRUE, width="250px")),
-                                                                column(4,uiOutput("s.choice", width="250px")), column(2,uiOutput('noise.t', width="125px")), column(2,uiOutput('noise.p', width="125px"))),
-                                                       column(4,uiOutput("file")), column(8,uiOutput("sep"),uiOutput("header")),
-                                                       column(4,uiOutput("model")), column(4,uiOutput("t.len")), column(2,uiOutput("a.f")), column(2,uiOutput("n.sd")),
-                                                       column(8,plotOutput("data.plot", height = 600, width = 600)), column(4,tableOutput('data'))),
-                                              tabPanel("Basis Functions",
-                                                       column(8,plotOutput("basis.desc", height = 600, width = 600)), column(4,uiOutput("basis.n", width="300px"))),
-                                              tabPanel("Data Description (SSA Summary)",
-                                                       column(4,uiOutput("desc", width="250px")), column(4,uiOutput("as.choice", width="400px"), uiOutput("run.fda.gcv", width="200px"), uiOutput("rec.type", width="300px")), column(2,uiOutput("freq")), column(2,uiOutput("sts.choice")),
-                                                       fluidRow(column(8,conditionalPanel(condition="output.flag_plot", plotOutput("res.plot", height = 600, width = 600)),
-                                                                       conditionalPanel(condition="output.flag_plotly", plotlyOutput("res.ly", height = 600, width = 600))),
-                                                                column(4,uiOutput("s.plot"), fluidRow(column(8,uiOutput("b.indx")), column(4,uiOutput("s.CI"))), column(12, uiOutput("comp.obs"), verbatimTextOutput("RMSEs"))))),
-                                              tabPanel("Manual", includeMarkdown(system.file("rmd", "report.Rmd", package = "Rfssa")))))
-                      )
+                     titlePanel("FSSA Illustration"),
+                     sidebarLayout(
+                       sidebarPanel(width=3, tags$head(tags$style(type="text/css", ".well { max-width: 300px; }")),
+                                    radioButtons("bs.fr","Choose Basis:", choices = c("B-spline", "Fourier"), selected = "B-spline", inline=TRUE),
+                                    uiOutput("xdeg", width="250px"), uiOutput("xdf", width="250px"),
+                                    tags$hr(style="border-color: red;", width="150px"),
+                                    column(6,uiOutput("g")), column(6,uiOutput("sg")), column(6,uiOutput("d")), column(6,uiOutput("dmd")),
+                                    sliderInput("mssaL", HTML("Win.L. (MSSA):"), min = 1, max = 50, value = 50, step = 1, width="210px"),
+                                    sliderInput("fssaL", HTML("Win.L. (FSSA):"), min = 1, max = 50, value = 20, step = 1, width="210px"),
+                                    column(6,uiOutput("run.fpca")), column(6,uiOutput("run.ssa"))),
+                       mainPanel(width=9, tags$style(type="text/css", ".shiny-output-error { visibility: hidden; }",".shiny-output-error:before { visibility: hidden; },"),#".nav-tabs {font-size: 10px}"),
+                                 tabsetPanel(id="Panel", type = "tabs",
+                                             tabPanel(title="Data", value="Data",
+                                                      column(12,uiOutput("ts.selected", align = "center"), style="color:red;"),
+                                                      fluidRow(column(4,radioButtons('f.choice', 'Choose from:', c("Server" = "server", "Upload" = "upload", "Simulate" = "sim"), selected= "sim", inline = TRUE, width="250px")),
+                                                               column(4,uiOutput("s.choice", width="250px")), column(2,uiOutput('noise.t', width="125px")), column(2,uiOutput('noise.p', width="125px")),
+                                                               column(4,uiOutput("file")), column(4,uiOutput("sep"),uiOutput("header"))),
+                                                      column(4,uiOutput("model")), column(4,uiOutput("t.len")), column(2,uiOutput("a.f")), column(2,uiOutput("n.sd")),
+                                                      column(8,plotOutput("data.plot", height = 600, width = 600)), column(4,tableOutput('data'))),
+                                             tabPanel("Basis Functions",
+                                                      column(8,plotOutput("basis.desc", height = 600, width = 600)), column(4,uiOutput("basis.n", width="300px"))),
+                                             tabPanel("Data Description (SSA Summary)",
+                                                      column(4,uiOutput("desc", width="250px")), column(4,uiOutput("as.choice", width="400px"), uiOutput("run.fda.gcv", width="200px"), uiOutput("rec.type", width="300px")), column(2,uiOutput("freq")), column(2,uiOutput("sts.choice")),
+                                                      fluidRow(column(8,conditionalPanel(condition="output.flag_plot", plotOutput("res.plot", height = 600, width = 600)),
+                                                                      conditionalPanel(condition="output.flag_plotly", plotlyOutput("res.ly", height = 600, width = 600))),
+                                                               column(4,uiOutput("s.plot"), fluidRow(column(8,uiOutput("b.indx")), column(4,uiOutput("s.CI"))), column(12, uiOutput("comp.obs"), verbatimTextOutput("RMSEs"))))),
+                                             tabPanel("Manual", includeMarkdown(system.file("rmd", "report.Rmd", package = "Rfssa")))))
+                     )
 )
 
 #' Shiny app server function
@@ -48,10 +48,11 @@ ui.fssa <- fluidPage(tags$head(tags$style(HTML("body { max-width: 1250px !import
 #' @import Rssa
 # Define server logic required to draw a histogram
 
+source("https://raw.githubusercontent.com/haghbinh/Rfssa/Rfssa-V.0.01/R/ftsplot.r")
+
 server.fssa <- function(input, output, clientData, session) {
 
   load(system.file("data", "servshiny.Rda", package = "Rfssa"));
-  source("https://raw.githubusercontent.com/haghbinh/Rfssa/Rfssa-V.0.01/R/ftsplot.r")
   iTs <- reactiveVal(list()); iTrs <- reactiveVal(list()); itmp <- reactiveVal(0)
   df <- 100; vf <- 20; T <- 100;
   output$flag_plotly <- reactive(input$desc=="fssa.reconst" && input$rec.type%in%c("heatmap","line","3Dline","3Dsurface"));
@@ -256,10 +257,11 @@ server.fssa <- function(input, output, clientData, session) {
     if (input$f.choice=="upload") {Ts <- as.matrix(read.table(input$file$datapath, header=input$header, sep=input$sep))
     } else if (input$f.choice=="server") {if (is.null(input$s.choice)) return(); i <- as.numeric(input$s.choice); Ts <- Xs[[i]];
     } else {simul <- simulate(); Ts <- simul$Trs + simul$noise};
+    if (!length(Ts)) return()
     if (is.null(colnames(Ts))) {colnames(Ts) <- paste("fn",1:ncol(Ts))};
     if ("dmd" %in% input$dmd) {Ts <- Ts-mean(Ts); if (input$f.choice=="sim") Trs <- Trs-mean(Trs)} #{Ts <<- scale(Ts,scale=F); if (input$f.choice=="sim") Trs <<- scale(Trs,scale=F)}
     #updateSliderInput(session, "mssaL", max=min(ncol(Ts),trunc(nrow(Ts)/2))); updateSliderInput(session, "fssaL", max=min(ncol(Ts),trunc(nrow(Ts)/2)))
-    updateSliderInput(session, "mssaL", max=min(120,trunc(ncol(Ts)/2))); updateSliderInput(session, "fssaL", max=min(120,trunc(ncol(Ts)/2)))
+    updateSliderInput(session, "mssaL", max=trunc(ncol(Ts)/2)); updateSliderInput(session, "fssaL", max=min(120,trunc(ncol(Ts)/2)))
     updateSelectInput(session, "desc", selected = "ts"); updateSliderInput(session, "dimn", max=min(10,ncol(Ts)), value=min(2,ncol(Ts)));
     text <- paste("<b>",ncol(Ts),"Time series of length",nrow(Ts),"</b>")
     if (input$f.choice=="sim") iTrs(simul$Trs); iTs(Ts); return(text)
@@ -267,7 +269,7 @@ server.fssa <- function(input, output, clientData, session) {
 
   output$data <- renderTable({if (memory.size()>700) gc();
     if ((input$f.choice=="upload" && is.null(input$file)) || (input$f.choice=="sim" && !length(input$model))) return();
-    return(head(as.matrix(iTs()[,1:min(9,ncol(Ts))]),15))
+    return(head(as.matrix(iTs()[,1:min(9,ncol(iTs()))]),15))
   })
 
   output$data.plot = renderPlot({if (memory.size()>700) gc();
@@ -417,11 +419,11 @@ server.fssa <- function(input, output, clientData, session) {
       else if (input$desc=="fssa.singF") {plot(sr$Uf, d=input$d[2], type=ifelse(is.null(input$rec.type),"lheats",input$rec.type))}
       else if (input$desc=="fssa.reconst" && input$rec.type%in%c("1","2","3")) ftsplot(seq(0, 1, length = nrow(Ts)), 1:ncol(Ts), Qf, space = 0.1, type=as.numeric(input$rec.type), ylab = "tau", xlab = "t", main = "Q")
     } else if (substr(input$desc,1,3)=="ssa") {
-      if (input$desc=="ssa.scree") plot.default(sr$Us$sigma,type="b",log="y")
-      else if (input$desc=="ssa.wcor") image(wcor(sr$Us,groups=1:input$d[2]))
-      else if (input$desc=="ssa.pair") plot(sr$Us,type="paired")
-      else if (input$desc=="ssa.vec") plot(sr$Us,d=input$d[2],type="vectors")
-      else if (input$desc=="ssa.funs") plot(sr$Us,type="series")
+      if (input$desc=="ssa.scree") plot(sr$Us,type="values",numvalues=input$d[2])
+      else if (input$desc=="ssa.wcor") plot(sr$Us,type="wcor",groups=input$d[1]:input$d[2])
+      else if (input$desc=="ssa.pair") plot(sr$Us,type="paired",idx=input$d[1]:input$d[2])
+      else if (input$desc=="ssa.vec") plot(sr$Us,type="vectors",idx=input$d[1]:input$d[2])
+      else if (input$desc=="ssa.funs") plot(sr$Us,type="series",groups=input$d[1]:input$d[2])
       else if (input$desc=="ssa.reconst") ts.plot(Qs,main="Reconstructed", ylim=range(Ts))
     } else if (input$desc=="gcv") {
       res <- fda.gcv(); ind.m <- which(res$GCV==min(res$GCV));

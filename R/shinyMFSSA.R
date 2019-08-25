@@ -19,9 +19,9 @@ ui.mfssa <- fluidPage(tags$head(tags$style(HTML("body { max-width: 1250px !impor
                                   tabsetPanel(id="Panel", type = "tabs",
                                               tabPanel(title="Data", value="Data",
                                                        column(12,uiOutput("ts.selected", align = "center"), style="color:red;"),
-                                                       fluidRow(column(4,radioButtons('f.choice', NULL, c("Server" = "server", "Upload" = "upload", "Simulate" = "sim"), selected= "sim", inline = TRUE, width="250px")),
-                                                                column(4,uiOutput("s.choice", width="250px"), column(6,uiOutput("a1.f")), column(6,uiOutput("a1.l"))), column(2,uiOutput('noise.t', width="125px")), column(2,uiOutput('noise.p', width="125px"))),
-                                                       column(4,uiOutput("file")), column(8,uiOutput("sep"),uiOutput("header")),
+                                                       fluidRow(column(4,radioButtons('f.choice', "Choose from:", c("Server" = "server", "Upload" = "upload", "Simulate" = "sim"), selected= "sim", inline = TRUE, width="250px")),
+                                                                column(4,uiOutput("s.choice", width="250px"), column(6,uiOutput("a1.f")), column(6,uiOutput("a1.l"))), column(2,uiOutput('noise.t', width="125px")), column(2,uiOutput('noise.p', width="125px")),
+                                                                column(4,uiOutput("file")), column(4,uiOutput("sep"),uiOutput("header"))),
                                                        column(4,uiOutput("model")), column(4,uiOutput("t.len")), column(2,uiOutput("a2.f")), column(2,uiOutput("n.sd")),
                                                        column(12,plotOutput("data.plot", height = 500, width = 900))),
                                               tabPanel("Basis Functions",
@@ -51,7 +51,6 @@ ui.mfssa <- fluidPage(tags$head(tags$style(HTML("body { max-width: 1250px !impor
 server.mfssa <- function(input, output, clientData, session) {
 
   load(system.file("data", "servshiny.Rda", package = "Rfssa"));
-  source("https://raw.githubusercontent.com/haghbinh/Rfssa/Rfssa-V.0.01/R/ftsplot.r")
   iTs <- reactiveVal(list()); iTrs <- reactiveVal(list()); itmp <- reactiveVal(0)
   df <- 100; vf <- 20; T <- 100;
   output$flag_plotly <- reactive(input$desc=="mfssa.reconst" && input$rec.type%in%c("heatmap","line","3Dline","3Dsurface"));
@@ -198,7 +197,7 @@ server.mfssa <- function(input, output, clientData, session) {
       tau <- seq(0, 1, length = nrow(iTs()[[1]])); Y <- list()
       for (i in 1:length(iTs())) Y[[i]] <- smooth.basis(tau, iTs()[[i]], bas.fssa)$fd
       input.g <- eval(parse(text=paste0("list(",input$g,")"))); uUf <- list()
-      if ("uf" %in% input$dmd.uf) for (i in 1:length(iTs())) {uUf[[i]] <- Rfssa:::ufssa(fts(Y[[i]]), input$fssaL)}
+      if ("uf" %in% input$dmd.uf) for (i in 1:length(iTs())) {uUf[[i]] <- Rfssa:::ufssa(fts(Y[[i]]), input$fssaL); class(uUf[[i]]) <- "fssa"}
       fts.Y <- fts(Y); if (fts.Y$p==1) fts.Y$fd <- list(fts.Y$fd)
       mUf <- Rfssa:::mfssa(fts.Y, input$fssaL); class(mUf) <- "fssa";
       Ys <- NULL; for (i in 1:length(iTs())) { Ys <- cbind(Ys,t(iTs()[[i]])) }
@@ -290,7 +289,7 @@ server.mfssa <- function(input, output, clientData, session) {
     if (is.null(names(Ts)) || sum(is.na(names(Ts)))) names(Ts) <- paste("Variable",1:length(Ts))
     #updateSliderInput(session, "mssaL", max=min(ncol(Ts[[1]]),trunc(nrow(Ts[[1]])/2))); updateSliderInput(session, "fssaL", max=min(ncol(Ts[[1]]),trunc(nrow(Ts[[1]])/2)))
     updateSelectInput(session, "desc", selected = "ts"); updateSliderInput(session, "dimn", max=min(10,ncol(Ts[[1]])), value=min(2,ncol(Ts[[1]])));
-    updateSliderInput(session, "mssaL", max=min(120,trunc(ncol(Ts[[1]])/2))); updateSliderInput(session, "fssaL", max=min(120,trunc(ncol(Ts[[1]])/2)))
+    updateSliderInput(session, "mssaL", max=trunc(ncol(Ts[[1]])/2)); updateSliderInput(session, "fssaL", max=min(120,trunc(ncol(Ts[[1]])/2)))
     text <- paste("<b>",ncol(Ts[[1]]),ifelse(length(Ts)==1,"Univariate","Multivariate"),"Time series of length",nrow(Ts[[1]]),"</b>");
     if (input$f.choice=="sim") iTrs(simul$Trs); iTs(Ts); return(text)
   })
@@ -461,11 +460,11 @@ server.mfssa <- function(input, output, clientData, session) {
       else if (input$desc=="mfssa.singF") {plot(sr$mUf, d=input$d[2], type=ifelse(is.null(input$rec.type),"lheats",input$rec.type), var=var.which)}
       else if (input$desc=="mfssa.reconst" && input$rec.type%in%c("1","2","3")) ftsplot(seq(0, 1, length = nrow(Ts)), 1:ncol(Ts), mQf, space = 0.1, type=as.numeric(input$rec.type), ylab = "tau", xlab = "t", main = "mUf")
     } else if (substr(input$desc,1,3)=="ssa") {
-      if (input$desc=="ssa.scree") plot.default(sr$Us$sigma,type="b",log="y")
-      else if (input$desc=="ssa.wcor") image(wcor(sr$Us,groups=1:input$d[2]))
-      else if (input$desc=="ssa.pair") plot(sr$Us,type="paired")
-      else if (input$desc=="ssa.vec") plot(sr$Us,d=input$d[2],type="vectors")
-      else if (input$desc=="ssa.funs") plot(sr$Us,type="series")
+      if (input$desc=="ssa.scree") plot(sr$Us,type="values",numvalues=input$d[2])
+      else if (input$desc=="ssa.wcor") plot(sr$Us,type="wcor",groups=input$d[1]:input$d[2])
+      else if (input$desc=="ssa.pair") plot(sr$Us,type="paired",idx=input$d[1]:input$d[2])
+      else if (input$desc=="ssa.vec") plot(sr$Us,type="vectors",idx=input$d[1]:input$d[2])
+      else if (input$desc=="ssa.funs") plot(sr$Us,type="series",groups=input$d[1]:input$d[2])
       else if (input$desc=="ssa.reconst") ts.plot(Qs,main="Reconstructed", ylim=range(Ts))
     } else if (input$desc=="gcv") {
       res <- fda.gcv(); ind.m <- which(res$GCV==min(res$GCV));
@@ -526,4 +525,3 @@ server.mfssa <- function(input, output, clientData, session) {
   })
 
 }
-
