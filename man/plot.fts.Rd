@@ -8,11 +8,11 @@
   ylab = NULL, xlab = NULL, tlab = NULL, var = NULL)
 }
 \arguments{
-\item{Y}{??}
+\item{Y}{univariate or multivariate functional time series}
 
-\item{npts}{??}
+\item{npts}{number of points to evaluate functional object at}
 
-\item{type}{??}
+\item{type}{specifies type of plot to create}
 
 \item{main}{The main title.}
 
@@ -23,13 +23,20 @@
 \item{tlab}{The time label}
 
 \item{var}{an integer Specify the variable number.}
-
-\item{type}{??}
 }
 \description{
 Novel different type of plots to visualize the functional time series data objects.
 }
 \examples{
-plot(Y,type = "heat")
-plot(Y,type = "3D",var = 1)
+library(Rfssa)
+library(fda)
+data(Callcenter) # Read data
+u=seq(0,1,length.out=240) # Define domain of functional data
+d=12 # number of basis elements
+basis=create.bspline.basis(rangeval = c(0,1),nbasis = d) # create basis object
+Y=fts(smooth.basis(argvals = u, matrix(nrow=240,ncol=365,Callcenter$calls), basis)$fd) # create functional time series
+plot(Y,type = "heatmap")
+plot(Y,type = "line",var = 1)
+plot(Y,type = "3Dsurface",var = 1)
+plot(Y,type = "3Dline", var = 1)
 }

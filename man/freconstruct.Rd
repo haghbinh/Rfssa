@@ -2,7 +2,7 @@
 % Please edit documentation in R/freconstruct.r
 \name{freconstruct}
 \alias{freconstruct}
-\title{Reconstruction sage of FSSA}
+\title{Reconstruction stage of FSSA}
 \usage{
 freconstruct(U, group = as.list(1L:10L))
 }
@@ -17,9 +17,9 @@ a named list of reconstructed functional time series in each groups and
 a numeric vector of eigenvalues.
 }
 \description{
-This is a function for the reconstructing functional time series from
+This is a function for reconstructing functional time series from
 functional singular spectrum objects (including Grouping and
-Hankelization steps). The output is a list of functional time series corresponds to each group.
+Hankelization steps). The output is a list of functional time series corresponding to each group.
 }
 \seealso{
 \code{\link{fssa}}

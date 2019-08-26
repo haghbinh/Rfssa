@@ -1,9 +1,9 @@
 #--------------------------------------------------------------
-#' Reconstruction sage of FSSA
+#' Reconstruction stage of FSSA
 #'
-#' This is a function for the reconstructing functional time series from
+#' This is a function for reconstructing functional time series from
 #'functional singular spectrum objects (including Grouping and
-#' Hankelization steps). The output is a list of functional time series corresponds to each group.
+#' Hankelization steps). The output is a list of functional time series corresponding to each group.
 #' @return a named list of reconstructed functional time series in each groups and
 #' a numeric vector of eigenvalues.
 #' @param U an object of class \code{\link{fssa}}

@@ -7,40 +7,29 @@
 \method{[}{fts}(Y, i = "index")
 }
 \arguments{
-\item{Y}{A Univariate of Multivariate functional time series.}
+\item{Y}{a Univariate of Multivariate functional time series.}
 }
 \value{
 An object of class fts.
 
-\item{out}{A functional time series}
+\item{out}{a functional time series}
 }
 \description{
 [ is an S3 method that lets you index into a functional time series
 }
 \examples{
 
-station_data = read.csv(file = "C:/Users/jorda/Dropbox/Jordan_Trinka_Research/MFSSA/Data/Pedestrian/Pedestrian_2015/January_2015.csv",header = TRUE)
-library(fda)
 library(Rfssa)
-x=1:24
-y=station_data[1:nrow(station_data),33]
-nr=24
-d=11
-basis <- create.fourier.basis(c(0,1),d)
-u=seq(0,1,length.out = 24)
-Y=list()
-for(j in 1:ncol(y)){
-
- Y[[j]]=smooth.basis(argvals = u,y = sqrt(matrix(data=y[,j],nr=nr)),fdParobj = basis)$fd
-
-
-}
-
-Y=fts(Y)
-
-
-plot(Y[3:5])
-
+library(fda)
+data(Callcenter) # Read data
+u=seq(0,1,length.out=240) # Define domain of functional data
+d=12 # number of basis elements
+basis=create.bspline.basis(rangeval = c(0,1),nbasis = d) # create basis object
+Y=fts(smooth.basis(argvals = u, matrix(nrow=240,ncol=365,Callcenter$calls), basis)$fd) # create functional time series
+Yind=Y[4:8] # take only the 4th through 8th functions
+plot(Yind)
+Yminus=Y[4:8]-Y[14:18] # subtract functions from each other
+plot(Yminus)
 
 
 

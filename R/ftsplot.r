@@ -3,10 +3,9 @@
 #'
 #' Novel different type of plots to visualize the functional time series data objects.
 #'
-#' @param Y ??
-#' @param type ??
-#' @param npts ??
-#' @param type ??
+#' @param Y univariate or multivariate functional time series
+#' @param type specifies type of plot to create
+#' @param npts number of points to evaluate functional object at
 #' @param main The main title.
 #' @param ylab The character vector of name of variables
 #' @param xlab The label of the functions arguments.
@@ -15,8 +14,17 @@
 #' @importFrom plotly plotlyOutput plot_ly add_lines layout subplot add_surface
 #' @importFrom fda eval.fd
 #' @examples
-#' plot(Y,type = "heat")
-#' plot(Y,type = "3D",var = 1)
+#' library(Rfssa)
+#' library(fda)
+#' data(Callcenter) # Read data
+#' u=seq(0,1,length.out=240) # Define domain of functional data
+#' d=12 # number of basis elements
+#' basis=create.bspline.basis(rangeval = c(0,1),nbasis = d) # create basis object
+#' Y=fts(smooth.basis(argvals = u, matrix(nrow=240,ncol=365,Callcenter$calls), basis)$fd) # create functional time series
+#' plot(Y,type = "heatmap")
+#' plot(Y,type = "line",var = 1)
+#' plot(Y,type = "3Dsurface",var = 1)
+#' plot(Y,type = "3Dline", var = 1)
 #' @export
 plot.fts <- function(Y,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=NULL,var=NULL){
   p <- Y$p

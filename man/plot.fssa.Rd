@@ -17,11 +17,10 @@
 \item \code{"values"} plot the square-root of singular values (default).
 \item \code{"paired"} plot the pairs of eigenfunction's coefficients. (useful for the detection of periodic components).
 \item \code{"wcor"} plot the W-correlation matrix for the reconstructed objects.
-\item \code{"vectors"}  plot the eigenfunction's coefficients.(useful for the detection of period length).
-\item \code{"meanvectors"}  plot the mean of eigenfunction's coefficients.(useful for the detection of period length).
-\item \code{"meanpaired"} plot the pairs of mean of eigenfunction's coefficients. (useful for the detection of periodic components).
-\item \code{"efunctions"} heatmap plot of eigenfunctions.(useful for the detection of period length).
-\item \code{"efunctions2"} plot the eigenfunctions.(useful for the detection of meaningful patterns).
+\item \code{"vectors"} plot the eigenfunction's coefficients.(useful for the detection of period length).
+\item \code{"lcurves"} plot of the eigenfunctions.(useful for the detection of period length).
+\item \code{"lheats"} heatmap plot the eigenfunctions.(useful for the detection of meaningful patterns).
+\item \code{"periodogram"} periodogram plot.(useful for the detecting the frequencies of oscillations in functional data).
 }}
 
 \item{...}{Arguments to be passed to methods, such as graphical parameters.}
@@ -57,13 +56,12 @@ Y_fd <- f0_fd+f1_fd+f2_fd
 L <-10
 U <- fssa(Y_fd,L)
 plot(U)
-plot(U,d=4,type="efunctions")
+plot(U,d=4,type="lcurves")
 plot(U,d=4,type="vectors")
 plot(U,d=5,type="paired")
 plot(U,d=5,type="wcor")
-plot(U,d=5,type="meanvectors")
-plot(U,d=5,type="efunctions2")
-plot(U,d=5,type="meanpaired")
+plot(U,d=5,type="lheats")
+plot(U,d=5,type="periodogram")
 }
 \seealso{
 \code{\link{fssa}}, \code{\link{ftsplot}}

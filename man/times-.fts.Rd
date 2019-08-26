@@ -7,48 +7,32 @@
 \method{*}{fts}(Y1, Y2)
 }
 \arguments{
-\item{Y1}{A Univariate or Multivariate functional time series or scalar}
+\item{Y1}{a Univariate or Multivariate functional time series or scalar}
 
-\item{Y2}{A Univariate or Multivariate functional time series or scalar.}
+\item{Y2}{a Univariate or Multivariate functional time series or scalar.}
 }
 \value{
 An object of class fts.
 
-\item{out}{A functional time series}
+\item{out}{a functional time series}
 }
 \description{
 * is an S3 method that lets you multiply functional time series and perform scalar multiplication of functional time series
 }
 \examples{
 
-station_data = read.csv(file = "C:/Users/jorda/Dropbox/Jordan_Trinka_Research/MFSSA/Data/Pedestrian/Pedestrian_2015/January_2015.csv",header = TRUE)
-library(fda)
 library(Rfssa)
-x=1:24
-y=station_data[1:nrow(station_data),33:34]
-nr=24
-d=11
-basis <- create.fourier.basis(c(0,1),d)
-u=seq(0,1,length.out = 24)
-Y=list()
-for(j in 1:ncol(y)){
-
- Y[[j]]=smooth.basis(argvals = u,y = sqrt(matrix(data=y[,j],nr=nr)),fdParobj = basis)$fd
-
-
-}
-
-Y=fts(Y)
-
-Y1=fts(Y[[1]])
-
-Y2=fts(Y[[2]])
-
-plot(Y1 * Y2)
-
-plot(2 * Y2)
-
-plot(Y1 * 3)
+library(fda)
+data(Callcenter) # Read data
+u=seq(0,1,length.out=240) # Define domain of functional data
+d=12 # number of basis elements
+basis=create.bspline.basis(rangeval = c(0,1),nbasis = d) # create basis object
+Y=fts(smooth.basis(argvals = u, matrix(nrow=240,ncol=365,Callcenter$calls), basis)$fd) # create functional time series
+plot(Y)
+Ytimes=Y*Y # elementwise multiplication of the functional time series with itself
+plot(Ytimes)
+Ytimes2=2*Y # multiply 2 with every term in the functional time series
+plot(Ytimes2)
 
 
 }
