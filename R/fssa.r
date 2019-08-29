@@ -83,8 +83,8 @@
 #' plot(Q[[5]],main="5th Component(Noise)")
 #'
 #'
-#' load('NDVINDVI.RData')
-#' load('NDVIEVI.RData')
+#' load('JambiNDVI.RData')
+#' load('JambiEVI.RData')
 
 #'
 #' d <- 11
