@@ -53,8 +53,8 @@ server.mfssa <- function(input, output, clientData, session) {
   load(system.file("data", "servshiny.Rda", package = "Rfssa"));
   iTs <- reactiveVal(list()); iTrs <- reactiveVal(list()); itmp <- reactiveVal(0)
   df <- 100; vf <- 20; T <- 100;
-  output$flag_plotly <- reactive(input$desc=="mfssa.reconst" && input$rec.type%in%c("heatmap","line","3Dline","3Dsurface"));
-  output$flag_plot <- reactive(!(input$desc=="mfssa.reconst" && input$rec.type%in%c("heatmap","line","3Dline","3Dsurface")))
+  output$flag_plotly <- reactive(input$desc%in%c("mfssa.reconst","ssa.reconst") && input$rec.type%in%c("heatmap","line","3Dline","3Dsurface"));
+  output$flag_plot <- reactive(!(input$desc%in%c("mfssa.reconst","ssa.reconst") && input$rec.type%in%c("heatmap","line","3Dline","3Dsurface")))
   outputOptions(output, "flag_plotly", suspendWhenHidden = FALSE);
   outputOptions(output, "flag_plot", suspendWhenHidden = FALSE)
 
@@ -202,7 +202,7 @@ server.mfssa <- function(input, output, clientData, session) {
       mUf <- Rfssa:::mfssa(fts.Y, input$fssaL); class(mUf) <- "fssa";
       Ys <- NULL; for (i in 1:length(iTs())) { Ys <- cbind(Ys,t(iTs()[[i]])) }
       Us <- ssa(Ys, input$mssaL, kind = "mssa");
-      return(list(Us=Us, mUf=mUf, uUf=uUf))
+      return(list(Us=Us, mUf=mUf, uUf=uUf, tau=tau, bas.fssa=bas.fssa))
     })
   })
 
@@ -348,9 +348,10 @@ server.mfssa <- function(input, output, clientData, session) {
 
   output$rec.type <- renderUI({
     if ((input$f.choice=="upload" && is.null(input$file)) || (input$f.choice=="sim" && !length(input$model))) return();
-    if (is.null(input$desc)) { return() } else if (!input$desc%in%c("mfssa.reconst","mfssa.singF")) return()
-    if (input$desc=="mfssa.singF") selectInput("rec.type","Type",choices=c("Heat plot"="lheats","Regular Plot"="lcurves"), width="250px") else
-      selectInput("rec.type","Type",choices=c("Heat Plot"="heatmap","Regular Plot"="line","3D Plot (line)"="3Dline","3D Plot (surface)"="3Dsurface","image2D"="3","ribbon3D"="1","ribbon3D-Curtain"="2"), width="250px")
+    if (is.null(input$desc)) { return() } else if (!input$desc%in%c("mfssa.reconst","mfssa.singF","ssa.reconst")) return()
+    if (input$desc=="mfssa.singF") selectInput("rec.type","Type",choices=c("Heat plot"="lheats","Regular Plot"="lcurves"), width="250px")
+    else if (input$desc=="ssa.reconst") selectInput("rec.type","Type",choices=c("Heat Plot"="heatmap","Regular Plot"="line","3D Plot (line)"="3Dline","3D Plot (surface)"="3Dsurface","Old plot"="1"), width="250px")
+    else selectInput("rec.type","Type",choices=c("Heat Plot"="heatmap","Regular Plot"="line","3D Plot (line)"="3Dline","3D Plot (surface)"="3Dsurface","image2D"="3","ribbon3D"="1","ribbon3D-Curtain"="2"), width="250px")
   })
 
   output$freq <- renderUI({
@@ -415,7 +416,7 @@ server.mfssa <- function(input, output, clientData, session) {
 
   output$res.plot <- renderPlot({if (memory.size()>700) gc();
     if ((input$f.choice=="upload" && is.null(input$file)) || (input$f.choice=="sim" && !length(input$model))) return();
-    if (input$desc=="mfssa.reconst" && !is.null(input$rec.type)) if (input$rec.type%in%c("heatmap","line","3Dline","3Dsurface")) return()
+    if (input$desc%in%c("mfssa.reconst","ssa.reconst") && !is.null(input$rec.type)) if (input$rec.type%in%c("heatmap","line","3Dline","3Dsurface")) return()
     if (!is.null(input$var.which) && length(iTs())!=1) var.which <- as.numeric(input$var.which) else var.which <- 1
     if (input$f.choice=="server") {fname <- names(Xs)[as.numeric(input$s.choice)]} else if (input$f.choice=="upload") {fname <- input$file$name} else {fname <- "Simulation"}
     indx <- as.numeric(input$sts.choice); Ts <- iTs()[[var.which]]; name.Ts <- names(iTs())[var.which]
@@ -516,12 +517,18 @@ server.mfssa <- function(input, output, clientData, session) {
 
   output$res.ly <- renderPlotly({if (memory.size()>700) gc();
     if ((input$f.choice=="upload" && is.null(input$file)) || (input$f.choice=="sim" && !length(input$model))) return();
-    if (input$desc=="mfssa.reconst") if (!input$rec.type%in%c("heatmap","line","3Dline","3Dsurface")) return()
+    if (input$desc%in%c("mfssa.reconst","ssa.reconst")) if (!input$rec.type%in%c("heatmap","line","3Dline","3Dsurface")) return()
+    if (input$var.which=="all" || is.null(input$var.which)) var.which <- NULL else var.which <- as.numeric(input$var.which)
     sr <- run_ssa(); input.g <- eval(parse(text=paste0("list(",input$g,")")));
     isolate(sr$mQf <- freconstruct(sr$mUf, input.g)); mQf <- 0;
-    if (input$var.which=="all" || is.null(input$var.which)) var.which <- NULL else var.which <- as.numeric(input$var.which)
-    for (i in input$sg[1]:input$sg[2]) {  mQf <- mQf + sr$mQf[[i]]  }
-    plot(mQf, type=input$rec.type, var=var.which)
+    isolate(sr$Qs <- reconstruct(sr$Us, groups=input.g)); Qs <- matrix(0,nr=nrow(iTs()[[1]]),nc=ncol(iTs()[[1]]))
+    for (i in input$sg[1]:input$sg[2]) {
+      Qs <- Qs + t(sr$Qs[[i]][,((var.which-1)*nrow(iTs()[[1]])+1):(var.which*nrow(iTs()[[1]]))]);
+      mQf <- mQf + sr$mQf[[i]]
+    }
+    if (input$desc=="mfssa.reconst") {plot(mQf, type=input$rec.type, var=var.which)}
+    else {plot(fts(smooth.basis(sr$tau,Qs,sr$bas.fssa)$fd),type=input$rec.type)}
   })
 
 }
+

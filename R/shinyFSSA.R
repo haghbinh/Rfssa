@@ -48,8 +48,6 @@ ui.fssa <- fluidPage(tags$head(tags$style(HTML("body { max-width: 1250px !import
 #' @import Rssa
 # Define server logic required to draw a histogram
 
-source("https://raw.githubusercontent.com/haghbinh/Rfssa/Rfssa-V.0.01/R/ftsplot.r")
-
 server.fssa <- function(input, output, clientData, session) {
 
   load(system.file("data", "servshiny.Rda", package = "Rfssa"));
