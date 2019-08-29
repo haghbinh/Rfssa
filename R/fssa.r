@@ -11,7 +11,7 @@
 #' @param Y A functional time series.
 #' @param L Window length.
 #' @param type type of FSSA
-#' @importFrom fda fd inprod eval.fd smooth.basis is.fd
+#' @importFrom fda fd inprod eval.fd smooth.basis is.fd create.bspline.basis
 #' @examples
 #' \dontshow{
 #' require(Rfssa)
@@ -83,6 +83,35 @@
 #' plot(Q[[5]],main="5th Component(Noise)")
 #'
 #'
+#' load('NDVINDVI.RData')
+#' load('NDVIEVI.RData')
+
+#'
+#' d <- 11
+#' basis <- create.bspline.basis(c(0,1),d)
+#' u <- seq(0,1,length.out = 512)
+#' y_1 <- smooth.basis(u,as.matrix(NDVI),basis)$fd
+#' y_2 <- smooth.basis(u,as.matrix(EVI[,1:441]),basis)$fd
+#' y=list(y_1,y_2)
+#' library(Rfssa)
+#' Y=fts(y)
+#' plot(Y)
+#' fL=45
+#' fU=fssa(Y,fL)
+#' plot(fU,d=10,type='values')
+#' plot(fU,d=10,type='paired')
+#' plot(fU,d=10,type='lheats', var = 1)
+#' plot(fU,d=10,type='lheats', var = 2)
+#' plot(fU,d=10,type='lcurves',var = 1)
+#' plot(fU,d=10,type='lcurves',var = 2)
+#' plot(fU,d=10,type='wcor')
+#' plot(fU,d=10,type='periodogram')
+#' plot(fU,d=10,type='vectors')
+
+#' frecon <- freconstruct(U = fU, group = list(c(1),c(2,3),c(4)))
+#' plot(frecon[[1]],npts = 100,type = '3Dsurface')
+#' plot(frecon[[2]],npts = 100,type = '3Dsurface')
+#' plot(frecon[[3]],npts = 100,type = '3Dsurface')
 #'}
 #' @useDynLib Rfssa
 #' @export
