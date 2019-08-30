@@ -13,39 +13,9 @@
 #' @param type type of FSSA
 #' @importFrom fda fd inprod eval.fd smooth.basis is.fd create.bspline.basis
 #' @examples
-#' \dontshow{
-#' require(Rfssa)
-#' require(fda)
-#' n <- 50 # Number of points in each function.
-#' d <- 9
-#' N <- 60
-#' sigma <- 0.5
-#' set.seed(110)
-#' E <- matrix(rnorm(N*d,0,sigma/sqrt(d)),ncol = N, nrow = d)
-#' basis <- create.fourier.basis(c(0, 1), d)
-#' Eps <- fd(E,basis)
-#' om1 <- 1/10
-#' om2 <- 1/4
-#' f0 <- function(tau, t) 2*exp(-tau*t/10)
-#' f1 <- function(tau, t) 0.2*exp(-tau^3) * cos(2 * pi * t * om1)
-#' f2 <- function(tau, t) -0.2*exp(-tau^2) * cos(2 * pi * t * om2)
-#' tau <- seq(0, 1, length = n)
-#' t <- 1:N
-#' f0_mat <- outer(tau, t, FUN = f0)
-#' f0_fd <- smooth.basis(tau, f0_mat, basis)$fd
-#' f1_mat <- outer(tau, t, FUN = f1)
-#' f1_fd <- smooth.basis(tau, f1_mat, basis)$fd
-#' f2_mat <- outer(tau, t, FUN = f2)
-#' f2_fd <- smooth.basis(tau, f2_mat, basis)$fd
-#' Y_fd <- f0_fd+f1_fd+f2_fd
-#' L <-10
-#' U <- fssa(Y_fd,L)
-#' gr <- as.list(1:4)
-#' Q <- freconstruct(U, gr)
-#' ftsplot(tau,t,Q[[1]],space = 0.2,type=3,xlab = "Day")
-#' }
+#'
 #' \dontrun{
-#' ## Call Center Data
+#' ## Univariate FSSA Example on Callcenter data
 #' data("Callcenter")
 #' require(fda)
 #' require(Rfssa)
@@ -83,17 +53,17 @@
 #' plot(Q[[5]],main="5th Component(Noise)")
 #'
 #'
-#' load('JambiNDVI.RData')
-#' load('JambiEVI.RData')
-
-#'
+#' ## Multivariate FSSA Example on Bivariate Satelite Image Data
+#' library(fda)
+#' library(Rfssa)
+#' data(NDVI)
+#' data(EVI)
 #' d <- 11
 #' basis <- create.bspline.basis(c(0,1),d)
 #' u <- seq(0,1,length.out = 512)
 #' y_1 <- smooth.basis(u,as.matrix(NDVI),basis)$fd
-#' y_2 <- smooth.basis(u,as.matrix(EVI[,1:441]),basis)$fd
+#' y_2 <- smooth.basis(u,as.matrix(EVI),basis)$fd
 #' y=list(y_1,y_2)
-#' library(Rfssa)
 #' Y=fts(y)
 #' plot(Y)
 #' fL=45
@@ -101,17 +71,20 @@
 #' plot(fU,d=10,type='values')
 #' plot(fU,d=10,type='paired')
 #' plot(fU,d=10,type='lheats', var = 1)
-#' plot(fU,d=10,type='lheats', var = 2)
 #' plot(fU,d=10,type='lcurves',var = 1)
+#' plot(fU,d=10,type='lheats', var = 2)
 #' plot(fU,d=10,type='lcurves',var = 2)
 #' plot(fU,d=10,type='wcor')
 #' plot(fU,d=10,type='periodogram')
 #' plot(fU,d=10,type='vectors')
 
 #' frecon <- freconstruct(U = fU, group = list(c(1),c(2,3),c(4)))
-#' plot(frecon[[1]],npts = 100,type = '3Dsurface')
-#' plot(frecon[[2]],npts = 100,type = '3Dsurface')
-#' plot(frecon[[3]],npts = 100,type = '3Dsurface')
+#' plot(frecon[[1]],npts = 100,type = '3Dsurface',var=1)
+#' plot(frecon[[2]],npts = 100,type = '3Dsurface',var=1)
+#' plot(frecon[[3]],npts = 100,type = '3Dsurface',var=1)
+#' plot(frecon[[1]],npts = 100,type = '3Dsurface',var=2)
+#' plot(frecon[[2]],npts = 100,type = '3Dsurface',var=2)
+#' plot(frecon[[3]],npts = 100,type = '3Dsurface',var=2)
 #'}
 #' @useDynLib Rfssa
 #' @export
