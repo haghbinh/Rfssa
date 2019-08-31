@@ -48,7 +48,7 @@ ui.fssa <- fluidPage(tags$head(tags$style(HTML("body { max-width: 1250px !import
 
 server.fssa <- function(input, output, clientData, session) {
 
-  load(system.file("data", "servshiny.Rda", package = "Rfssa"));
+  load(system.file("data", "servshiny.rda", package = "Rfssa"));
   iTs <- reactiveVal(list()); iTrs <- reactiveVal(list()); itmp <- reactiveVal(0)
   df <- 100; vf <- 20; T <- 100;
   output$flag_plotly <- reactive(input$desc=="fssa.reconst" && input$rec.type%in%c("heatmap","line","3Dline","3Dsurface"));
