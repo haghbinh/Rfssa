@@ -12,3 +12,11 @@ shiny application object
 \description{
 launches the shinyAppDemo app
 }
+\examples{
+\dontrun{
+
+launchApp()}
+
+
+
+}

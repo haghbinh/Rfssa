@@ -19,7 +19,8 @@ a numeric vector of eigenvalues.
 \description{
 This is a function for reconstructing functional time series from
 functional singular spectrum objects (including Grouping and
-Hankelization steps). The output is a list of functional time series corresponding to each group.
+Hankelization steps). It perform the reconstruction step for univariate functional singular spectrum analysis or multivariate functional singular spectrum analysis.
+The output is a list of functional time series corresponding to each group.
 }
 \seealso{
 \code{\link{fssa}}
