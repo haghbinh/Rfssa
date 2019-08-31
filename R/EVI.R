@@ -1,16 +1,16 @@
-#' Jambi NDVI Density Function Data
+#' Jambi EVI Density Function Data
 #'
-#' This data set is the result of running kernel density estimation on the Normalized Difference Vegetation Index, NDVI, data from NASA’s MODerate-resolution Imaging Spectroradiometer (MODIS) with global coverage at 250 m^2.
-#' The study was located in Jambi Province, Indonesia.
+#' This data set is the result of running kernel density estimation on the Enhanced Vegetation Index, EVI, data from NASA’s MODerate-resolution Imaging Spectroradiometer (MODIS) with global coverage at 250 m^2.
+#' The study to collect the raw image data was located in Jambi Province, Indonesia.
 #' Indonesia manages various forested land utilizations, for instance natural forest and plantations.
 #' In the past, natural forest had been exploited throughout the country.
 #' Greater criticisms on forest exploitation lead to a moratorium which needs to be
-#' monitored frequently.Assessment of woody vegetation could be taken using field surveys or
+#' monitored frequently. Assessment of woody vegetation could be taken using field surveys or
 #' remote sensing. Season is probably the most intriguing factor in vegetative land cover,
 #' especially in long-term land cover changes (Lambin, 1999).
 #' The data was gathered starting in 2000-01-01 and ending in 2019-05-12 every 16 days.
-#' Therefore, the original dataset includes 441 NDVI images of size 33*33 pixels. Kernel desnity estimation was performed on this data to obtain 441 NDVI densities that give the distribution of pixel intensity in each image.
-#' @name NDVI
+#' The original dataset includes 441 EVI images of size 33 by 33 pixels. Kernel desnity estimation was performed on this data to obtain 441 EVI densities that give the distribution of pixel intensity in each image.
+#' @name EVI
 #' @format A data matrix with 512 rows and 441 columns where each column describes the density of pixel intensity on one of the days an image was taken:
 #' \describe{
 #'   \item{Days 1 - 441}{density of pixel intensity}
@@ -21,6 +21,7 @@
 #'  Dynamics of Land-Use and Land-Cover Change in Tropical Regions
 #'  \emph{Annual Review of Environment and Resources}, 205-244.
 #'
+#'
 #' }
-#' The raw NDVI image data can be found at @source \url{https://lpdaac.usgs.gov/products/mod13q1v006/}
-"NDVI"
+#' The raw EVI image data can be found at @source \url{https://lpdaac.usgs.gov/products/mod13q1v006/}
+"EVI"

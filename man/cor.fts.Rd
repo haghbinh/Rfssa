@@ -17,6 +17,22 @@ the correlation between functional time series.
 \description{
 This function finds the correlation between univarite or multivariate functional time series objects
 }
+\examples{
+
+\dontrun{
+library(fda)
+library(Rfssa)
+d <- 11
+basis <- create.bspline.basis(c(0,1),d)
+u <- seq(0,1,length.out = 512)
+y_1 <- smooth.basis(u,as.matrix(NDVI),basis)$fd
+y_2 <- smooth.basis(u,as.matrix(EVI),basis)$fd
+Y1=fts(y_1)
+Y2=fts(y_2)
+cor.fts(Y1,Y2)
+}
+
+}
 \seealso{
 \code{\link{fts}}
 }
