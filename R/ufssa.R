@@ -1,4 +1,4 @@
-# Univariate FSSA
+# Univariate Functional Singular Spectrum Analysis
 ufssa <- function(Y, L) {
   N <- Y$N
   basis <- Y[[1]]$basis

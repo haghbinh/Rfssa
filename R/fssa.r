@@ -1,7 +1,10 @@
 #' Functional Singular Spectrum Analysis
 #'
-#' fssa is a function for decomposition stage (including embedding
-#'  and  functional SVD steps) of a univariate or multivariate functional time series.
+#' fssa is a function which performs the decomposition (including embedding
+#'  and  functional SVD steps) stage for univariate functional singular spectrum analysis (ufssa)
+#'  or multivariate functional singular spectrum analysis (mfssa)
+#'  depending on whether the supplied input is a univariate or
+#'  multivariate functional time series object.
 #' @return An object of class fssa, which is a list of
 #' multivariate futional objects and the following components:
 #' \item{values}{A numeric vector of eigenvalues.}

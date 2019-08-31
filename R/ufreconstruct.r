@@ -1,4 +1,4 @@
-# Univariate reconstruction sage of FSSA
+# Univariate reconstruction stage of functional singular spectrum analysis
 
 ufreconstruct <- function(U, group = as.list(1L:10L)) {
   N <- U$N
