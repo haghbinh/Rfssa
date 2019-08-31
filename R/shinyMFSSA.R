@@ -1,7 +1,6 @@
 #' Shiny app server object
 
-#' @importFrom plotly plotlyOutput
-#' @import shiny
+
 
 # create the shiny application user interface
 ui.mfssa <- fluidPage(tags$head(tags$style(HTML("body { max-width: 1250px !important; }"))),

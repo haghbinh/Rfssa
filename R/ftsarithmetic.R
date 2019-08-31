@@ -6,11 +6,10 @@
 #' \item{out}{a functional time series}
 #' @param Y1 a Univariate or Multivariate functional time series or scalar.
 #' @param Y2 a Univariate or Multivariate functional time series or scalar.
-#' @importFrom fda fd inprod eval.fd smooth.basis is.fd
 #' @examples
 #'
-#' library(Rfssa)
 #' library(fda)
+#' library(Rfssa)
 #' data(Callcenter) # Read data
 #' u=seq(0,1,length.out=240) # Define domain of functional data
 #' d=12 # number of basis elements
@@ -21,7 +20,6 @@
 #' plot(Yplus)
 #' Yplus2=Y+2 # add 2 to every term in the functional time series
 #' plot(Yplus2)
-#'
 #'
 #'
 #' @useDynLib Rfssa
@@ -82,11 +80,10 @@
 #' \item{out}{a functional time series}
 #' @param Y1 a Univariate or Multivariate functional time series or scalar.
 #' @param Y2 a Univariate or Multivariate functional time series or scalar.
-#' @importFrom fda fd inprod eval.fd smooth.basis is.fd
 #' @examples
 #'
-#' library(Rfssa)
 #' library(fda)
+#' library(Rfssa)
 #' data(Callcenter) # Read data
 #' u=seq(0,1,length.out=240) # Define domain of functional data
 #' d=12 # number of basis elements
@@ -158,11 +155,10 @@
 #' \item{out}{a functional time series}
 #' @param Y1 a Univariate or Multivariate functional time series or scalar
 #' @param Y2 a Univariate or Multivariate functional time series or scalar.
-#' @importFrom fda fd inprod eval.fd smooth.basis is.fd
 #' @examples
 #'
-#' library(Rfssa)
 #' library(fda)
+#' library(Rfssa)
 #' data(Callcenter) # Read data
 #' u=seq(0,1,length.out=240) # Define domain of functional data
 #' d=12 # number of basis elements
@@ -233,11 +229,10 @@
 #'
 #' \item{out}{a functional time series}
 #' @param Y a Univariate of Multivariate functional time series.
-#' @importFrom fda fd inprod eval.fd smooth.basis is.fd
 #' @examples
 #'
-#' library(Rfssa)
 #' library(fda)
+#' library(Rfssa)
 #' data(Callcenter) # Read data
 #' u=seq(0,1,length.out=240) # Define domain of functional data
 #' d=12 # number of basis elements

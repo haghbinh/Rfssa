@@ -21,8 +21,8 @@ An object of class fts.
 }
 \examples{
 
-library(Rfssa)
 library(fda)
+library(Rfssa)
 data(Callcenter) # Read data
 u=seq(0,1,length.out=240) # Define domain of functional data
 d=12 # number of basis elements
@@ -33,7 +33,6 @@ Yplus=Y+Y # add the functional time series to itself
 plot(Yplus)
 Yplus2=Y+2 # add 2 to every term in the functional time series
 plot(Yplus2)
-
 
 
 }

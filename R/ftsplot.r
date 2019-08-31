@@ -12,7 +12,6 @@
 #' @param tlab The time label
 #' @param var an integer Specify the variable number.
 #' @importFrom plotly plotlyOutput plot_ly add_lines layout subplot add_surface
-#' @importFrom fda eval.fd
 #' @examples
 #' library(Rfssa)
 #' library(fda)

@@ -11,8 +11,6 @@
 #' of a group used for reconstruction.
 #' @seealso \code{\link{fssa}}
 
-#' @importFrom fda fd
-
 #' @export
 freconstruct <- function(U, group = as.list(1L:10L)) {
   if(is.fd(U[[1]])) out <- ufreconstruct(U,group) else out <- mfreconstruct(U,group)
