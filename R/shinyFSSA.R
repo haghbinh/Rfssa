@@ -29,7 +29,7 @@ ui.fssa <- fluidPage(tags$head(tags$style(HTML("body { max-width: 1250px !import
                                                       fluidRow(column(8,conditionalPanel(condition="output.flag_plot", plotOutput("res.plot", height = 600, width = 600)),
                                                                       conditionalPanel(condition="output.flag_plotly", plotlyOutput("res.ly", height = 600, width = 600))),
                                                                column(4,uiOutput("s.plot"), fluidRow(column(8,uiOutput("b.indx")), column(4,uiOutput("s.CI"))), column(12, uiOutput("comp.obs"), verbatimTextOutput("RMSEs"))))),
-                                             tabPanel("Manual", includeMarkdown(system.file("rmd", "report.Rmd", package = "Rfssa")))))
+                                             tabPanel("Manual", includeMarkdown(system.file("shiny/rmd", "report.Rmd", package = "Rfssa")))))
                      )
 )
 
@@ -40,14 +40,17 @@ ui.fssa <- fluidPage(tags$head(tags$style(HTML("body { max-width: 1250px !import
 #' @param clientData provided by shiny
 #' @param session provided by shiny
 #'
-
-#' @importFrom plotly renderPlotly
+#' @importFrom plotly renderPlotly plotlyOutput
 #' @importFrom fda pca.fd eval.fd
+#' @importFrom graphics abline axis par plot points polygon
+#' @importFrom stats fft integrate rnorm sd ts.plot
+#' @importFrom utils head read.table
 #' @import Rssa
 # Define server logic required to draw a histogram
 
 server.fssa <- function(input, output, clientData, session) {
 
+  load(system.file("shiny/data", "servshiny.rda", package = "Rfssa"));
   iTs <- reactiveVal(list()); iTrs <- reactiveVal(list()); itmp <- reactiveVal(0)
   df <- 100; vf <- 20; T <- 100;
   output$flag_plotly <- reactive(input$desc%in%c("fssa.reconst","ssa.reconst") && input$rec.type%in%c("heatmap","line","3Dline","3Dsurface"));
@@ -96,7 +99,7 @@ server.fssa <- function(input, output, clientData, session) {
     harm <- U$harmonics[i]
     scores <- U$scores[,i]
     m <- nrow(harm$coefs); n <- length(scores)
-    coef <- matrix(NA,nr=m,nc=n)
+    coef <- matrix(NA,nrow=m,ncol=n)
     for(i0 in 1:m) for(j in 1:n) coef[i0,j] <- harm$coefs[i0]*scores[j]
     pc <- fd(coef,harm$basis)
     return(pc)
@@ -127,7 +130,7 @@ server.fssa <- function(input, output, clientData, session) {
       }
     }
     if (input$noise.t=="swn") {
-      Z <- matrix(rnorm(input$t.len * input$xdf, 0, input$n.sd), nc=input$t.len);
+      Z <- matrix(rnorm(input$t.len * input$xdf, 0, input$n.sd), ncol=input$t.len);
       basis.Z <- fda::create.bspline.basis(c(0, 1), input$xdf); tau <- seq(0, 1, length = T)
       basis.noise <- fda::fd(Z, basis.Z); noise <- eval.fd(tau, basis.noise)
     }
@@ -206,7 +209,7 @@ server.fssa <- function(input, output, clientData, session) {
 
   output$s.choice <- renderUI({
     if (input$f.choice!="server") return();
-    s.choices <- 1:length(Rfssa::Xs); names(s.choices) <- names(Rfssa::Xs);
+    s.choices <- 1:length(Xs); names(s.choices) <- names(Xs);
     selectInput("s.choice","Select a file from server: ", choices = s.choices, width="250px");
   })
 
@@ -250,7 +253,7 @@ server.fssa <- function(input, output, clientData, session) {
   output$ts.selected = renderText({
     if (input$f.choice=="upload" && is.null(input$file)) return("<b>Select a 'csv' file that contain the time series in its columns</b>")
     if (input$f.choice=="upload") {Ts <- as.matrix(read.table(input$file$datapath, header=input$header, sep=input$sep))
-    } else if (input$f.choice=="server") {if (is.null(input$s.choice)) return(); i <- as.numeric(input$s.choice); Ts <- Rfssa::Xs[[i]];
+    } else if (input$f.choice=="server") {if (is.null(input$s.choice)) return(); i <- as.numeric(input$s.choice); Ts <- Xs[[i]];
     } else {simul <- simulate(); Ts <- simul$Trs + simul$noise};
     if (!length(Ts)) return()
     if (is.null(colnames(Ts))) {colnames(Ts) <- paste("fn",1:ncol(Ts))};
@@ -269,7 +272,7 @@ server.fssa <- function(input, output, clientData, session) {
 
   output$data.plot = renderPlot({
     if ((input$f.choice=="upload" && is.null(input$file)) || (input$f.choice=="sim" && !length(input$model))) return();
-    if (input$f.choice=="server") {i <- as.numeric(input$s.choice); fname <- names(Rfssa::Xs)[i]}
+    if (input$f.choice=="server") {i <- as.numeric(input$s.choice); fname <- names(Xs)[i]}
     else if (input$f.choice=="upload") {fname <- input$file$name} else {fname <- "Simulation"};
     ts.plot(iTs(), main=paste("Time Series -", fname), ylab="", ylim=range(iTs()), gpars=list(xaxt="n"), xlab="tau")
     if (input$f.choice=="sim") for (i in 1:ncol(iTrs())) points(iTrs()[,i],type="l",col=2)
@@ -378,7 +381,7 @@ server.fssa <- function(input, output, clientData, session) {
   output$res.plot <- renderPlot({
     if ((input$f.choice=="upload" && is.null(input$file)) || (input$f.choice=="sim" && !length(input$model))) return();
     if (input$desc%in%c("fssa.reconst","ssa.reconst") && !is.null(input$rec.type)) if (input$rec.type%in%c("heatmap","line","3Dline","3Dsurface")) return()
-    if (input$f.choice=="server") {fname <- names(Rfssa::Xs)[as.numeric(input$s.choice)]} else if (input$f.choice=="upload") {fname <- input$file$name} else {fname <- "Simulation"}
+    if (input$f.choice=="server") {fname <- names(Xs)[as.numeric(input$s.choice)]} else if (input$f.choice=="upload") {fname <- input$file$name} else {fname <- "Simulation"}
     indx <- as.numeric(input$sts.choice); Ts <- iTs(); name.Ts <- names(iTs())
     if (length(intersect(input$s.plot,c("bf","bss")))) {
       if (is.null(input$b.indx)) return()
@@ -399,7 +402,7 @@ server.fssa <- function(input, output, clientData, session) {
     #clust <- hclust(dist(t(Ts)),method="ward.D"); clcol <- cutree(clust,k=input$dimn);
     if (substr(input$desc,1,4)=="fssa" || sum(c("fssa","ssa")%in%input$s.plot) || substr(input$desc,1,3)=="ssa") {
       sr <- run_ssa(); input.g <- eval(parse(text=paste0("list(",input$g,")")))
-      Q <- Qs <- matrix(0,nr=nrow(Ts),nc=ncol(Ts));
+      Q <- Qs <- matrix(0,nrow=nrow(Ts),ncol=ncol(Ts));
       isolate(sr$Qs <- reconstruct(sr$Us, groups=input.g))
       isolate(sr$Qf <- freconstruct(sr$Uf, input.g)); Qf <- sr$Qf[[1]][[1]]; Qf$coefs[,] <- 0
       for (i in input$sg[1]:input$sg[2]) {Qs <- Qs+t(sr$Qs[[i]]); Qf$coefs <- Qf$coefs+sr$Qf[[i]][[1]]$coefs}
@@ -437,7 +440,7 @@ server.fssa <- function(input, output, clientData, session) {
       if ("fssa" %in% input$s.plot) {for (i in indx) points(Q[,i],type="l",col=6)}
       if ("fpca" %in% input$s.plot) {for (i in indx) points(fpca[,i],type="l",col=2, lty=2)}
       if ("dfpca" %in% input$s.plot) {for (i in indx) points(dfpca[,i],type="l",col=3, lty=2)}
-      if ("bss" %in% input$s.plot) { f.est <- matrix(0, nr=nrow(Ts), ncol=ncol(Ts))
+      if ("bss" %in% input$s.plot) { f.est <- matrix(0, nrow=nrow(Ts), ncol=ncol(Ts))
       for (i in indx) {
         f.est[,i] <- as.matrix(B[,b.indx])%*%(cB%*%Ts[,i])[b.indx];
         if (input$as.choice=="single") if (input$s.CI)
@@ -475,7 +478,7 @@ server.fssa <- function(input, output, clientData, session) {
       for (i in input$sg[1]:input$sg[2]) {  Qf <- Qf + sr$Qf[[i]]  }
       plot(Qf, type=input$rec.type)
     } else {
-      isolate(sr$Qs <- reconstruct(sr$Us, groups=input.g)); Qs <- matrix(0,nr=nrow(iTs()),nc=ncol(iTs()))
+      isolate(sr$Qs <- reconstruct(sr$Us, groups=input.g)); Qs <- matrix(0,nrow=nrow(iTs()),ncol=ncol(iTs()))
       for (i in input$sg[1]:input$sg[2]) {Qs <- Qs + t(sr$Qs[[i]])}
       plot(fts(smooth.basis(sr$tau,Qs,sr$bas.fssa)$fd),type=input$rec.type)
     }

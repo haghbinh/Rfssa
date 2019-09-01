@@ -11,7 +11,8 @@
 #' @param xlab The label of the functions arguments.
 #' @param tlab The time label
 #' @param var an integer Specify the variable number.
-#' @importFrom plotly plotlyOutput plot_ly add_lines layout subplot add_surface
+#' @importFrom plotly plot_ly add_lines layout subplot add_surface
+#' @import dplyr
 #' @examples
 #' library(Rfssa)
 #' library(fda)

@@ -29,7 +29,7 @@ ui.mfssa <- fluidPage(tags$head(tags$style(HTML("body { max-width: 1250px !impor
                                                        fluidRow(column(8,conditionalPanel(condition="output.flag_plot", plotOutput("res.plot", height = 600, width = 600)),
                                                                        conditionalPanel(condition="output.flag_plotly", plotlyOutput("res.ly", height = 600, width = 600))),
                                                                 column(4,uiOutput("var.which"),uiOutput("s.plot"), fluidRow(column(8,uiOutput("b.indx")), column(4,uiOutput("s.CI"))), column(12, uiOutput("comp.obs"), verbatimTextOutput("RMSEs"))))),
-                                              tabPanel("Manual", includeMarkdown(system.file("rmd", "report.Rmd", package = "Rfssa")))))
+                                              tabPanel("Manual", includeMarkdown(system.file("shiny/rmd", "report.Rmd", package = "Rfssa")))))
                       )
 )
 
@@ -41,13 +41,14 @@ ui.mfssa <- fluidPage(tags$head(tags$style(HTML("body { max-width: 1250px !impor
 #' @param session provided by shiny
 #'
 
-#' @importFrom plotly renderPlotly
+#' @importFrom plotly renderPlotly plotlyOutput
 #' @importFrom fda pca.fd eval.fd
 #' @import Rssa
 # Define server logic required to draw a histogram
 
 server.mfssa <- function(input, output, clientData, session) {
 
+  load(system.file("shiny/data", "servshiny.rda", package = "Rfssa"));
   iTs <- reactiveVal(list()); iTrs <- reactiveVal(list()); itmp <- reactiveVal(0)
   df <- 100; vf <- 20; T <- 100;
   output$flag_plotly <- reactive(input$desc%in%c("mfssa.reconst","ssa.reconst") && input$rec.type%in%c("heatmap","line","3Dline","3Dsurface"));
@@ -96,7 +97,7 @@ server.mfssa <- function(input, output, clientData, session) {
     harm <- U$harmonics[i]
     scores <- U$scores[,i]
     m <- nrow(harm$coefs); n <- length(scores)
-    coef <- matrix(NA,nr=m,nc=n)
+    coef <- matrix(NA,nrow=m,ncol=n)
     for(i0 in 1:m) for(j in 1:n) coef[i0,j] <- harm$coefs[i0]*scores[j]
     pc <- fd(coef,harm$basis)
     return(pc)
@@ -131,7 +132,7 @@ server.mfssa <- function(input, output, clientData, session) {
         }
       }
       if (input$noise.t=="swn") {
-        Z <- matrix(rnorm(input$t.len * input$xdf, 0, input$n.sd), nc=input$t.len);
+        Z <- matrix(rnorm(input$t.len * input$xdf, 0, input$n.sd), ncol=input$t.len);
         basis.Z <- fda::create.bspline.basis(c(0, 1), input$xdf); tau <- seq(0, 1, length = T)
         basis.noise <- fda::fd(Z, basis.Z); noise[[i]] <- eval.fd(tau, basis.noise)
       }
@@ -194,9 +195,9 @@ server.mfssa <- function(input, output, clientData, session) {
       tau <- seq(0, 1, length = nrow(iTs()[[1]])); Y <- list()
       for (i in 1:length(iTs())) Y[[i]] <- smooth.basis(tau, iTs()[[i]], bas.fssa)$fd
       input.g <- eval(parse(text=paste0("list(",input$g,")"))); uUf <- list()
-      if ("uf" %in% input$dmd.uf) for (i in 1:length(iTs())) {uUf[[i]] <- Rfssa:::ufssa(fts(Y[[i]]), input$fssaL); class(uUf[[i]]) <- "fssa"}
+      if ("uf" %in% input$dmd.uf) for (i in 1:length(iTs())) {uUf[[i]] <- ufssa(fts(Y[[i]]), input$fssaL); class(uUf[[i]]) <- "fssa"}
       fts.Y <- fts(Y); if (fts.Y$p==1) fts.Y$fd <- list(fts.Y$fd)
-      mUf <- Rfssa:::mfssa(fts.Y, input$fssaL); class(mUf) <- "fssa";
+      mUf <- mfssa(fts.Y, input$fssaL); class(mUf) <- "fssa";
       Ys <- NULL; for (i in 1:length(iTs())) { Ys <- cbind(Ys,t(iTs()[[i]])) }
       Us <- ssa(Ys, input$mssaL, kind = "mssa");
       return(list(Us=Us, mUf=mUf, uUf=uUf, tau=tau, bas.fssa=bas.fssa))
@@ -216,7 +217,7 @@ server.mfssa <- function(input, output, clientData, session) {
 
   output$s.choice <- renderUI({
     if (input$f.choice!="server") return();
-    s.choices <- 1:length(Rfssa::Xs); names(s.choices) <- names(Rfssa::Xs);
+    s.choices <- 1:length(Xs); names(s.choices) <- names(Xs);
     selectInput("s.choice","Select a file from server: ", choices = s.choices, width="250px");
   })
 
@@ -278,7 +279,7 @@ server.mfssa <- function(input, output, clientData, session) {
       } else {Ts <- list(Ts)}
     } else if (input$f.choice=="server") {
       if (is.null(input$s.choice)) return();  i <- as.numeric(input$s.choice);
-      Ts <- Rfssa::Xs[[i]]; if (is.matrix(Ts)) Ts <- list(Ts);
+      Ts <- Xs[[i]]; if (is.matrix(Ts)) Ts <- list(Ts);
     } else {simul <- simulate(); Ts <- Map("+", simul$Trs, simul$noise)};
     if (!length(Ts)) return()
     if (is.null(colnames(Ts[[1]]))) {for (i in 1:length(Ts)) colnames(Ts[[i]]) <- paste("fn",1:ncol(Ts[[i]]))};
@@ -293,7 +294,7 @@ server.mfssa <- function(input, output, clientData, session) {
 
   output$data.plot = renderPlot({
     if ((input$f.choice=="upload" && is.null(input$file)) || (input$f.choice=="sim" && !length(input$model)) || !length(iTs())) return();
-    if (input$f.choice=="server") {i <- as.numeric(input$s.choice); fname <- names(Rfssa::Xs)[i]}
+    if (input$f.choice=="server") {i <- as.numeric(input$s.choice); fname <- names(Xs)[i]}
     else if (input$f.choice=="upload") {fname <- input$file$name} else {fname <- "Simulation"};
     par(mfrow=c(1,length(iTs())),mgp=c(1.5,.5,0),mar=c(3,3,2.5,1.75))
     for (i in 1:length(iTs())) {
@@ -415,7 +416,7 @@ server.mfssa <- function(input, output, clientData, session) {
     if ((input$f.choice=="upload" && is.null(input$file)) || (input$f.choice=="sim" && !length(input$model))) return();
     if (input$desc%in%c("mfssa.reconst","ssa.reconst") && !is.null(input$rec.type)) if (input$rec.type%in%c("heatmap","line","3Dline","3Dsurface")) return()
     if (!is.null(input$var.which) && length(iTs())!=1) var.which <- as.numeric(input$var.which) else var.which <- 1
-    if (input$f.choice=="server") {fname <- names(Rfssa::Xs)[as.numeric(input$s.choice)]} else if (input$f.choice=="upload") {fname <- input$file$name} else {fname <- "Simulation"}
+    if (input$f.choice=="server") {fname <- names(Xs)[as.numeric(input$s.choice)]} else if (input$f.choice=="upload") {fname <- input$file$name} else {fname <- "Simulation"}
     indx <- as.numeric(input$sts.choice); Ts <- iTs()[[var.which]]; name.Ts <- names(iTs())[var.which]
     if (length(intersect(input$s.plot,c("bf","bss")))) {
       if (is.null(input$b.indx)) return()
@@ -436,7 +437,7 @@ server.mfssa <- function(input, output, clientData, session) {
     #clust <- hclust(dist(t(Ts)),method="ward.D"); clcol <- cutree(clust,k=input$dimn);
     if (substr(input$desc,1,5)=="mfssa" || sum(c("mfssa","fssa","ssa")%in%input$s.plot) || substr(input$desc,1,3)=="ssa") {
       sr <- run_ssa(); input.g <- eval(parse(text=paste0("list(",input$g,")")));
-      mQ <- uQ <- Qs <- matrix(0,nr=nrow(Ts),nc=ncol(Ts))
+      mQ <- uQ <- Qs <- matrix(0,nrow=nrow(Ts),ncol=ncol(Ts))
       isolate(sr$Qs <- reconstruct(sr$Us, groups=input.g))
       if ("uf" %in% input$dmd.uf) { isolate(sr$uQf <- freconstruct(sr$uUf[[var.which]], input.g)); uQf <- sr$uQf[[1]][[1]]; uQf$coefs[,] <- 0 }
       isolate(sr$mQf <- freconstruct(sr$mUf, input.g)); mQf <- sr$mQf[[1]][[var.which]]; mQf$coefs[,] <- 0
@@ -481,7 +482,7 @@ server.mfssa <- function(input, output, clientData, session) {
       if ("mfssa" %in% input$s.plot) {for (i in indx) points(mQ[,i],type="l",col=6)}
       if ("fpca" %in% input$s.plot) {for (i in indx) points(fpca[,i],type="l",col=2, lty=2)}
       if ("dfpca" %in% input$s.plot) {for (i in indx) points(dfpca[,i],type="l",col=3, lty=2)}
-      if ("bss" %in% input$s.plot) { f.est <- matrix(0, nr=nrow(Ts), ncol=ncol(Ts))
+      if ("bss" %in% input$s.plot) { f.est <- matrix(0, nrow=nrow(Ts), ncol=ncol(Ts))
       for (i in indx) {
         f.est[,i] <- as.matrix(B[,b.indx])%*%(cB%*%Ts[,i])[b.indx];
         if (input$as.choice=="single") if (input$s.CI)
@@ -523,7 +524,7 @@ server.mfssa <- function(input, output, clientData, session) {
       plot(mQf, type=input$rec.type, var=var.which)
     } else {
       if (is.null(input$var.which)) var.which <- 1 else var.which <- as.numeric(input$var.which)
-      isolate(sr$Qs <- reconstruct(sr$Us, groups=input.g)); Qs <- matrix(0,nr=nrow(iTs()[[1]]),nc=ncol(iTs()[[1]]))
+      isolate(sr$Qs <- reconstruct(sr$Us, groups=input.g)); Qs <- matrix(0,nrow=nrow(iTs()[[1]]),ncol=ncol(iTs()[[1]]))
       for (i in input$sg[1]:input$sg[2]) {Qs <- Qs + t(sr$Qs[[i]][,((var.which-1)*nrow(iTs()[[1]])+1):(var.which*nrow(iTs()[[1]]))])}
       plot(fts(smooth.basis(sr$tau,Qs,sr$bas.fssa)$fd),type=input$rec.type)
     }
