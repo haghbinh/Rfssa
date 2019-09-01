@@ -48,11 +48,10 @@ ui.fssa <- fluidPage(tags$head(tags$style(HTML("body { max-width: 1250px !import
 
 server.fssa <- function(input, output, clientData, session) {
 
-  load(system.file("data", "servshiny.rda", package = "Rfssa"));
   iTs <- reactiveVal(list()); iTrs <- reactiveVal(list()); itmp <- reactiveVal(0)
   df <- 100; vf <- 20; T <- 100;
-  output$flag_plotly <- reactive(input$desc=="fssa.reconst" && input$rec.type%in%c("heatmap","line","3Dline","3Dsurface"));
-  output$flag_plot <- reactive(!(input$desc=="fssa.reconst" && input$rec.type%in%c("heatmap","line","3Dline","3Dsurface")))
+  output$flag_plotly <- reactive(input$desc%in%c("fssa.reconst","ssa.reconst") && input$rec.type%in%c("heatmap","line","3Dline","3Dsurface"));
+  output$flag_plot <- reactive(!(input$desc%in%c("fssa.reconst","ssa.reconst") && input$rec.type%in%c("heatmap","line","3Dline","3Dsurface")))
   outputOptions(output, "flag_plotly", suspendWhenHidden = FALSE);
   outputOptions(output, "flag_plot", suspendWhenHidden = FALSE)
 
@@ -113,7 +112,7 @@ server.fssa <- function(input, output, clientData, session) {
       ifelse(input$model%in%c("f12","f2"),-1,0) * cos(2*pi*tau/0.5) * sin(2 * pi * t * input$a.f)
   }
 
-  simulate <- function() {if (memory.size()>700) gc();
+  simulate <- function() {
     if (is.null(input$a.f)) return()
     tau <- seq(0, 1, length = T); t <- 1:input$t.len;
     Trs <- outer(tau, t, FUN = Tr)
@@ -183,18 +182,18 @@ server.fssa <- function(input, output, clientData, session) {
     actionButton('run.fpca', paste('run (D)FPCA'))
   })
 
-  run_ssa <- eventReactive(input$run.ssa, {if (memory.size()>700) gc();
+  run_ssa <- eventReactive(input$run.ssa, {
     withProgress(message = 'SSA.FSSA: Running', value = 0, {
       if(input$bs.fr=="B-spline") bas.fssa <- fda::create.bspline.basis(c(0, 1), nbasis=input$xdf, norder=input$xdeg+1)
       else bas.fssa <- fda::create.fourier.basis(c(0, 1), nbasis=input$xdf);
       tau <- seq(0, 1, length = nrow(iTs()));
       Uf <- fssa(fts(smooth.basis(tau, iTs(), bas.fssa)$fd), input$fssaL);
       Us <- ssa(t(iTs()), input$mssaL, kind = "mssa");
-      return(list(Uf=Uf, Us=Us))
+      return(list(Uf=Uf, Us=Us, tau=tau, bas.fssa=bas.fssa))
     })
   })
 
-  run_fpca <- function(){#eventReactive(input$run.fpca, {if (memory.size()>700) gc();
+  run_fpca <- function(){#eventReactive(input$run.fpca, {
     withProgress(message = '(D)FPCA: Running', value = 0, {
       if(input$bs.fr=="B-spline") bas.fssa <- fda::create.bspline.basis(c(0, 1), nbasis=input$xdf, norder=input$xdeg+1)
       else bas.fssa <- fda::create.fourier.basis(c(0, 1), nbasis=input$xdf);
@@ -207,7 +206,7 @@ server.fssa <- function(input, output, clientData, session) {
 
   output$s.choice <- renderUI({
     if (input$f.choice!="server") return();
-    s.choices <- 1:length(Xs); names(s.choices) <- names(Xs);
+    s.choices <- 1:length(Rfssa::Xs); names(s.choices) <- names(Rfssa::Xs);
     selectInput("s.choice","Select a file from server: ", choices = s.choices, width="250px");
   })
 
@@ -238,7 +237,7 @@ server.fssa <- function(input, output, clientData, session) {
 
   output$a.f <- renderUI({
     if (input$f.choice!="sim") return();
-    sliderInput("a.f",HTML("&omega;1 Ang. Freq:"), min=0, max = 0.5, value = 0.1, step = 0.01, width="125px");
+    sliderInput("a.f",HTML("&omega;, Ang. Freq:"), min=0, max = 0.5, value = 0.1, step = 0.01, width="125px");
   })
 
   output$file <- renderUI({
@@ -251,7 +250,7 @@ server.fssa <- function(input, output, clientData, session) {
   output$ts.selected = renderText({
     if (input$f.choice=="upload" && is.null(input$file)) return("<b>Select a 'csv' file that contain the time series in its columns</b>")
     if (input$f.choice=="upload") {Ts <- as.matrix(read.table(input$file$datapath, header=input$header, sep=input$sep))
-    } else if (input$f.choice=="server") {if (is.null(input$s.choice)) return(); i <- as.numeric(input$s.choice); Ts <- Xs[[i]];
+    } else if (input$f.choice=="server") {if (is.null(input$s.choice)) return(); i <- as.numeric(input$s.choice); Ts <- Rfssa::Xs[[i]];
     } else {simul <- simulate(); Ts <- simul$Trs + simul$noise};
     if (!length(Ts)) return()
     if (is.null(colnames(Ts))) {colnames(Ts) <- paste("fn",1:ncol(Ts))};
@@ -263,14 +262,14 @@ server.fssa <- function(input, output, clientData, session) {
     if (input$f.choice=="sim") iTrs(simul$Trs); iTs(Ts); return(text)
   })
 
-  output$data <- renderTable({if (memory.size()>700) gc();
+  output$data <- renderTable({
     if ((input$f.choice=="upload" && is.null(input$file)) || (input$f.choice=="sim" && !length(input$model))) return();
     return(head(as.matrix(iTs()[,1:min(9,ncol(iTs()))]),15))
   })
 
-  output$data.plot = renderPlot({if (memory.size()>700) gc();
+  output$data.plot = renderPlot({
     if ((input$f.choice=="upload" && is.null(input$file)) || (input$f.choice=="sim" && !length(input$model))) return();
-    if (input$f.choice=="server") {i <- as.numeric(input$s.choice); fname <- names(Xs)[i]}
+    if (input$f.choice=="server") {i <- as.numeric(input$s.choice); fname <- names(Rfssa::Xs)[i]}
     else if (input$f.choice=="upload") {fname <- input$file$name} else {fname <- "Simulation"};
     ts.plot(iTs(), main=paste("Time Series -", fname), ylab="", ylim=range(iTs()), gpars=list(xaxt="n"), xlab="tau")
     if (input$f.choice=="sim") for (i in 1:ncol(iTrs())) points(iTrs()[,i],type="l",col=2)
@@ -280,7 +279,7 @@ server.fssa <- function(input, output, clientData, session) {
     sliderInput("basis.n", "Basis #:", min = 1, max =input$xdf, value = 1, step=1, width="400px")
   })
 
-  output$basis.desc = renderPlot({if (memory.size()>700) gc();
+  output$basis.desc = renderPlot({
     if (is.null(input$basis.n)) return()
     xs <- seq(0,1,length.out=1000);
     if (input$bs.fr=="B-spline") Bx <- fda::bsplineS(xs,breaks=seq(0,1,length.out=input$xdf-input$xdeg+1),norder=input$xdeg+1)
@@ -319,9 +318,10 @@ server.fssa <- function(input, output, clientData, session) {
 
   output$rec.type <- renderUI({
     if ((input$f.choice=="upload" && is.null(input$file)) || (input$f.choice=="sim" && !length(input$model))) return();
-    if (is.null(input$desc)) { return() } else if (!input$desc%in%c("fssa.reconst","fssa.singF")) return()
-    if (input$desc=="fssa.singF") selectInput("rec.type","Type",choices=c("Heat plot"="lheats","Regular Plot"="lcurves"), width="250px") else
-      selectInput("rec.type","Type",choices=c("Heat Plot"="heatmap","Regular Plot"="line","3D Plot (line)"="3Dline","3D Plot (surface)"="3Dsurface","image2D"="3","ribbon3D"="1","ribbon3D-Curtain"="2"), width="250px")
+    if (is.null(input$desc)) { return() } else if (!input$desc%in%c("fssa.reconst","fssa.singF","ssa.reconst")) return()
+    if (input$desc=="fssa.singF") selectInput("rec.type","Type",choices=c("Heat plot"="lheats","Regular Plot"="lcurves"), width="250px")
+    else if (input$desc=="ssa.reconst") selectInput("rec.type","Type",choices=c("Heat Plot"="heatmap","Regular Plot"="line","3D Plot (line)"="3Dline","3D Plot (surface)"="3Dsurface","Old Plot"="1"), width="250px")
+    else selectInput("rec.type","Type",choices=c("Heat Plot"="heatmap","Regular Plot"="line","3D Plot (line)"="3Dline","3D Plot (surface)"="3Dsurface","image2D"="3","ribbon3D"="1","ribbon3D-Curtain"="2"), width="250px")
   })
 
   output$freq <- renderUI({
@@ -362,7 +362,7 @@ server.fssa <- function(input, output, clientData, session) {
     actionButton('run.fda.gcv', paste('update GCV'))
   })
 
-  fda.gcv <- eventReactive(input$run.fda.gcv, {if (memory.size()>700) gc();
+  fda.gcv <- eventReactive(input$run.fda.gcv, {
     withProgress(message = 'FDA.GCV: # of Basis', value = 0, { GCV <- NULL; df <- min(df,nrow(iTs()))
     if(input$bs.fr=="B-spline") nbasis <- (input$xdeg+1):(df-1) else nbasis <- seq(3,df,by=2);
     #nbasis <- nbasis[1:min(max(nbasis),nrow(iTs())-(input$xdeg+1))]
@@ -375,10 +375,10 @@ server.fssa <- function(input, output, clientData, session) {
     })
   })
 
-  output$res.plot <- renderPlot({if (memory.size()>700) gc();
+  output$res.plot <- renderPlot({
     if ((input$f.choice=="upload" && is.null(input$file)) || (input$f.choice=="sim" && !length(input$model))) return();
-    if (input$desc=="fssa.reconst" && !is.null(input$rec.type)) if (input$rec.type%in%c("heatmap","line","3Dline","3Dsurface")) return()
-    if (input$f.choice=="server") {fname <- names(Xs)[as.numeric(input$s.choice)]} else if (input$f.choice=="upload") {fname <- input$file$name} else {fname <- "Simulation"}
+    if (input$desc%in%c("fssa.reconst","ssa.reconst") && !is.null(input$rec.type)) if (input$rec.type%in%c("heatmap","line","3Dline","3Dsurface")) return()
+    if (input$f.choice=="server") {fname <- names(Rfssa::Xs)[as.numeric(input$s.choice)]} else if (input$f.choice=="upload") {fname <- input$file$name} else {fname <- "Simulation"}
     indx <- as.numeric(input$sts.choice); Ts <- iTs(); name.Ts <- names(iTs())
     if (length(intersect(input$s.plot,c("bf","bss")))) {
       if (is.null(input$b.indx)) return()
@@ -466,13 +466,19 @@ server.fssa <- function(input, output, clientData, session) {
     }
   })
 
-  output$res.ly <- renderPlotly({if (memory.size()>700) gc();
+  output$res.ly <- renderPlotly({
     if ((input$f.choice=="upload" && is.null(input$file)) || (input$f.choice=="sim" && !length(input$model))) return();
-    if (input$desc=="fssa.reconst") if (!input$rec.type%in%c("heatmap","line","3Dline","3Dsurface")) return()
+    if (input$desc%in%c("fssa.reconst","ssa.reconst")) if (!input$rec.type%in%c("heatmap","line","3Dline","3Dsurface")) return()
     sr <- run_ssa(); input.g <- eval(parse(text=paste0("list(",input$g,")")));
-    isolate(sr$Qf <- freconstruct(sr$Uf, input.g)); Qf <- 0;
-    for (i in input$sg[1]:input$sg[2]) {  Qf <- Qf + sr$Qf[[i]]  }
-    plot(Qf, type=input$rec.type)
+    if (input$desc=="fssa.reconst") {
+      isolate(sr$Qf <- freconstruct(sr$Uf, input.g)); Qf <- 0;
+      for (i in input$sg[1]:input$sg[2]) {  Qf <- Qf + sr$Qf[[i]]  }
+      plot(Qf, type=input$rec.type)
+    } else {
+      isolate(sr$Qs <- reconstruct(sr$Us, groups=input.g)); Qs <- matrix(0,nr=nrow(iTs()),nc=ncol(iTs()))
+      for (i in input$sg[1]:input$sg[2]) {Qs <- Qs + t(sr$Qs[[i]])}
+      plot(fts(smooth.basis(sr$tau,Qs,sr$bas.fssa)$fd),type=input$rec.type)
+    }
   })
 
 }
