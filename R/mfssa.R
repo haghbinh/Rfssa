@@ -1,5 +1,5 @@
 # Code built by Jordan Trinka and Mehdi Maadooliat of Marquette University and Hossein Haghbin of Persian Gulf University
-# Embedding and Decomposition stages of multivariate functional singular spectrum decomposition of a multivariate functional time series.
+# Embedding and Decomposition stages of multivariate functional singular spectrum analysis.
 mfssa <- function(Y, L = floor(Y$N/2L)){
   # get c plus plus code
   p <- Y$p
