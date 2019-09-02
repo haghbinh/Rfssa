@@ -27,7 +27,8 @@ data(Callcenter) # Read data
 u=seq(0,1,length.out=240) # Define domain of functional data
 d=12 # number of basis elements
 basis=create.bspline.basis(rangeval = c(0,1),nbasis = d) # create basis object
-Y=fts(smooth.basis(argvals = u, matrix(nrow=240,ncol=365,Callcenter$calls), basis)$fd) # create functional time series
+smooth.calls=smooth.basis(u, matrix(nrow=240,ncol=365,Callcenter$calls), basis)
+Y=fts(smooth.calls$fd) # create functional time series
 plot(Y)
 Yplus=Y+Y # add the functional time series to itself
 plot(Yplus)

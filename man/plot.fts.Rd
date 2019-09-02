@@ -4,11 +4,11 @@
 \alias{plot.fts}
 \title{Functional Time Series visualization tools using plotly}
 \usage{
-\method{plot}{fts}(Y, npts = 100, type = "line", main = NULL,
-  ylab = NULL, xlab = NULL, tlab = NULL, var = NULL)
+\method{plot}{fts}(x, npts = 100, type = "line", main = NULL,
+  ylab = NULL, xlab = NULL, tlab = NULL, var = NULL, ...)
 }
 \arguments{
-\item{Y}{univariate or multivariate functional time series}
+\item{x}{univariate or multivariate functional time series}
 
 \item{npts}{number of points to evaluate functional object at}
 
@@ -23,6 +23,8 @@
 \item{tlab}{The time label}
 
 \item{var}{an integer Specify the variable number.}
+
+\item{...}{Arguments to be passed to methods, such as graphical parameters.}
 }
 \description{
 Novel different type of plots to visualize the functional time series data objects.
@@ -34,7 +36,8 @@ data(Callcenter) # Read data
 u=seq(0,1,length.out=240) # Define domain of functional data
 d=12 # number of basis elements
 basis=create.bspline.basis(rangeval = c(0,1),nbasis = d) # create basis object
-Y=fts(smooth.basis(argvals = u, matrix(nrow=240,ncol=365,Callcenter$calls), basis)$fd) # create functional time series
+smooth.calls=smooth.basis(u, matrix(nrow=240,ncol=365,Callcenter$calls), basis)
+Y=fts(smooth.calls$fd) # create functional time series
 plot(Y,type = "heatmap")
 plot(Y,type = "line",var = 1)
 plot(Y,type = "3Dsurface",var = 1)

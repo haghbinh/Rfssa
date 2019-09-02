@@ -5,7 +5,7 @@
 \title{Plotting fssa Objects}
 \usage{
 \method{plot}{fssa}(x, d = length(x$values), type = "values",
-  var = 1L, ylab = NA)
+  var = 1L, ylab = NA, ...)
 }
 \arguments{
 \item{x}{a functional singular value decomposition object, time series objects, usually inheriting from class "fssa".}
@@ -22,6 +22,10 @@
 \item \code{"lheats"} heatmap plot the eigenfunctions.(useful for the detection of meaningful patterns).
 \item \code{"periodogram"} periodogram plot.(useful for the detecting the frequencies of oscillations in functional data).
 }}
+
+\item{var}{an integer Specify the variable number.}
+
+\item{ylab}{The character vector of name of variables.}
 
 \item{...}{Arguments to be passed to methods, such as graphical parameters.}
 }
@@ -64,5 +68,5 @@ plot(U,d=5,type="lheats")
 plot(U,d=5,type="periodogram")
 }
 \seealso{
-\code{\link{fssa}}, \code{\link{ftsplot}}
+\code{\link{fssa}}, \code{\link{plot.fts}}
 }

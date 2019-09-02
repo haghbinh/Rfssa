@@ -4,7 +4,7 @@
 \alias{fssa}
 \title{Functional Singular Spectrum Analysis}
 \usage{
-fssa(Y, L = NA)
+fssa(Y, L = NA, type = "fssa")
 }
 \arguments{
 \item{Y}{A functional time series.}

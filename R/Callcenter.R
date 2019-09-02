@@ -39,7 +39,7 @@
 #'   components analysis. \emph{Journal of Computational and
 #'   Graphical Statistics}, \strong{24}(1), 84-103.
 #' }
-#' @seealso \code{\link{Deathrate}}, \code{\link{fssa}}
+#' @seealso \code{\link{fssa}}
 "Callcenter"
 
 

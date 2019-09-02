@@ -49,6 +49,6 @@ Brown, L., Gans, N., Mandelbaum, A., Sakov, A., Shen, H., Zeltyn, S., & Zhao, L.
 }
 }
 \seealso{
-\code{\link{Deathrate}}, \code{\link{fssa}}
+\code{\link{fssa}}
 }
 \keyword{datasets}

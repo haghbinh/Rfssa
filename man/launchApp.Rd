@@ -6,6 +6,9 @@
 \usage{
 launchApp(type = "FSSA")
 }
+\arguments{
+\item{type}{type of FSSA, either "FSSA" or "MFSSA"}
+}
 \value{
 shiny application object
 }

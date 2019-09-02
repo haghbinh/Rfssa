@@ -3,7 +3,7 @@
 #' @export launchApp
 #'
 #' @return shiny application object
-#'
+#' @param type type of FSSA, either "FSSA" or "MFSSA"
 #' @examples
 #' \dontrun{
 #'

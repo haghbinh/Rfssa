@@ -14,6 +14,8 @@
 #' \item \code{"lheats"} heatmap plot the eigenfunctions.(useful for the detection of meaningful patterns).
 #' \item \code{"periodogram"} periodogram plot.(useful for the detecting the frequencies of oscillations in functional data).
 #' }
+#' @param var an integer Specify the variable number.
+#' @param ylab The character vector of name of variables.
 #' @param ... Arguments to be passed to methods, such as graphical parameters.
 #' @examples
 #' require(Rfssa)
@@ -49,10 +51,10 @@
 #' plot(U,d=5,type="wcor")
 #' plot(U,d=5,type="lheats")
 #' plot(U,d=5,type="periodogram")
-#' @seealso \code{\link{fssa}}, \code{\link{ftsplot}}
+#' @seealso \code{\link{fssa}}, \code{\link{plot.fts}}
 #' @export
 plot.fssa <- function(x, d = length(x$values),
-                      type = "values",var=1L,ylab=NA) {
+                      type = "values",var=1L,ylab=NA, ...) {
   val <- sqrt(x$values)[1L:d]
   p <- x$Y$p
   A <- val/sum(val)
@@ -76,7 +78,7 @@ plot.fssa <- function(x, d = length(x$values),
          cex = 0.8, main = "Singular Values",
          ylab = " ", xlab = "Components")
   } else if (type == "wcor") {
-    if(is.fd(x[[1]])) W <- ufwcor(x, d) else W <- mfwcor(x, d)
+    W <- fwcor(x, d)
     wplot(W)
   }  else  if (type == "lheats") {
     n <- length(xindx)

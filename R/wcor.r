@@ -1,12 +1,3 @@
-#' W-correlation matrix
-#'
-#' This function evaluate the Wcorrelation plot for fssa
-#' @return A squared matrix of W-correlation values.
-#' @param U in the input is an object of class \code{fssa}.
-#' @param d is the number of elementary components
-#' in pairwise W-correlations matrix.
-#' @seealso \code{\link{fssa}}
-#' @export
 ufwcor <- function(U, d) {
   Q <- freconstruct(U, group = as.list(1:d))
   N <- U$N
@@ -29,16 +20,6 @@ ufwcor <- function(U, d) {
   return(out)
 }
 
-
-#' Multivariate W-correlation matrix
-#'
-#' This function evaluate the Wcorrelation plot for fssa
-#' @return A squared matrix of W-correlation values.
-#' @param U in the input is an object of class \code{fssa}.
-#' @param d is the number of elementary components
-#' in pairwise W-correlations matrix.
-#' @seealso \code{\link{fssa}}
-#' @export
 mfwcor <- function(U, d) {
   Q <- mfreconstruct(U, group = as.list(1:d))
   N <- U$N
@@ -75,3 +56,16 @@ mfwcor <- function(U, d) {
   return(wcor)
 }
 
+#' W-correlation matrix
+#'
+#' This function evaluate the Wcorrelation plot for fssa
+#' @return A squared matrix of W-correlation values.
+#' @param U in the input is an object of class \code{fssa}.
+#' @param d is the number of elementary components
+#' in pairwise W-correlations matrix.
+#' @seealso \code{\link{fssa}}
+#' @export
+fwcor <- function(U, d) {
+  if(is.fd(U[[1]])) out <- ufwcor(U, d) else out <- mfwcor(U, d)
+  return(out)
+}

@@ -195,9 +195,9 @@ server.mfssa <- function(input, output, clientData, session) {
       tau <- seq(0, 1, length = nrow(iTs()[[1]])); Y <- list()
       for (i in 1:length(iTs())) Y[[i]] <- smooth.basis(tau, iTs()[[i]], bas.fssa)$fd
       input.g <- eval(parse(text=paste0("list(",input$g,")"))); uUf <- list()
-      if ("uf" %in% input$dmd.uf) for (i in 1:length(iTs())) {uUf[[i]] <- ufssa(fts(Y[[i]]), input$fssaL); class(uUf[[i]]) <- "fssa"}
+      if ("uf" %in% input$dmd.uf) for (i in 1:length(iTs())) {uUf[[i]] <- fssa(fts(Y[[i]]), input$fssaL)}
       fts.Y <- fts(Y); if (fts.Y$p==1) fts.Y$fd <- list(fts.Y$fd)
-      mUf <- mfssa(fts.Y, input$fssaL); class(mUf) <- "fssa";
+      mUf <- fssa(fts.Y, input$fssaL, type="mfssa")
       Ys <- NULL; for (i in 1:length(iTs())) { Ys <- cbind(Ys,t(iTs()[[i]])) }
       Us <- ssa(Ys, input$mssaL, kind = "mssa");
       return(list(Us=Us, mUf=mUf, uUf=uUf, tau=tau, bas.fssa=bas.fssa))
@@ -348,7 +348,7 @@ server.mfssa <- function(input, output, clientData, session) {
     if ((input$f.choice=="upload" && is.null(input$file)) || (input$f.choice=="sim" && !length(input$model))) return();
     if (is.null(input$desc)) { return() } else if (!input$desc%in%c("mfssa.reconst","mfssa.singF","ssa.reconst")) return()
     if (input$desc=="mfssa.singF") selectInput("rec.type","Type",choices=c("Heat plot"="lheats","Regular Plot"="lcurves"), width="250px")
-    else if (input$desc=="ssa.reconst") selectInput("rec.type","Type",choices=c("Heat Plot"="heatmap","Regular Plot"="line","3D Plot (line)"="3Dline","3D Plot (surface)"="3Dsurface","Old plot"="1"), width="250px")
+    else if (input$desc=="ssa.reconst") selectInput("rec.type","Type",choices=c("Heat Plot"="heatmap","Regular Plot"="line","3D Plot (line)"="3Dline","3D Plot (surface)"="3Dsurface"), width="250px")
     else selectInput("rec.type","Type",choices=c("Heat Plot"="heatmap","Regular Plot"="line","3D Plot (line)"="3Dline","3D Plot (surface)"="3Dsurface","image2D"="3","ribbon3D"="1","ribbon3D-Curtain"="2"), width="250px")
   })
 
@@ -464,7 +464,6 @@ server.mfssa <- function(input, output, clientData, session) {
       else if (input$desc=="ssa.pair") plot(sr$Us,type="paired",idx=input$d[1]:input$d[2])
       else if (input$desc=="ssa.vec") plot(sr$Us,type="vectors",idx=input$d[1]:input$d[2])
       else if (input$desc=="ssa.funs") plot(sr$Us,type="series",groups=input$d[1]:input$d[2])
-      else if (input$desc=="ssa.reconst") ts.plot(Qs,main="Reconstructed", ylim=range(Ts))
     } else if (input$desc=="gcv") {
       res <- fda.gcv(); ind.m <- which(res$GCV==min(res$GCV));
       plot(res$nbasis, res$GCV, type="b", xlab="n.basis", log="y", ylab="GCV", main=paste("Gen. Cross Validation -", fname), cex.lab=1.5, pch=20);
