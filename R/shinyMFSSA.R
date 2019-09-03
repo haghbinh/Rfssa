@@ -1,6 +1,3 @@
-#' Shiny app server object
-
-
 # create the shiny application user interface
 ui.mfssa <- fluidPage(tags$head(tags$style(HTML("body { max-width: 1250px !important; }"))),
                       titlePanel("MFSSA Illustration"),
@@ -33,17 +30,7 @@ ui.mfssa <- fluidPage(tags$head(tags$style(HTML("body { max-width: 1250px !impor
                       )
 )
 
-#' Shiny app server function
-#'
-#' @param input provided by shiny
-#' @param output provided by shiny
-#' @param clientData provided by shiny
-#' @param session provided by shiny
-#'
 
-#' @importFrom plotly renderPlotly plotlyOutput
-#' @importFrom fda pca.fd eval.fd
-#' @import Rssa
 # Define server logic required to draw a histogram
 
 server.mfssa <- function(input, output, clientData, session) {
