@@ -23,7 +23,7 @@ the plots of the decomposition (\code{\link[=plot.fssa]{plot}}).
  the selected grouping (\code{\link{freconstruct}}).
 }
 \references{
-Haghbin H., Najibi, S.M., Mahmoudvand R., Maadooliat M. (2019).
+Haghbin H., Najibi, S.M., Mahmoudvand R., Trinka J., Maadooliat M. (2019).
   Functional singular spectrum Analysis. Manuscript submitted for publication.
 }
 \seealso{

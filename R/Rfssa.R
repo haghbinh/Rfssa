@@ -24,7 +24,7 @@
 #'
 #'
 #'@references
-#'   Haghbin H., Najibi, S.M., Mahmoudvand R., Maadooliat M. (2019).
+#'   Haghbin H., Najibi, S.M., Mahmoudvand R., Trinka J., Maadooliat M. (2019).
 #'   Functional singular spectrum Analysis. Manuscript submitted for publication.
 
 #' @docType package
