@@ -8,8 +8,8 @@
 #' @param Y2 a Univariate or Multivariate functional time series or scalar.
 #' @examples
 #'
-#' library(fda)
-#' library(Rfssa)
+#' require(fda)
+#' require(Rfssa)
 #' data(Callcenter) # Read data
 #' u=seq(0,1,length.out=240) # Define domain of functional data
 #' d=12 # number of basis elements
@@ -83,8 +83,8 @@
 #' @param Y2 a Univariate or Multivariate functional time series or scalar.
 #' @examples
 #'
-#' library(fda)
-#' library(Rfssa)
+#' require(fda)
+#' require(Rfssa)
 #' data(Callcenter) # Read data
 #' u=seq(0,1,length.out=240) # Define domain of functional data
 #' d=12 # number of basis elements
@@ -159,8 +159,8 @@
 #' @param Y2 a Univariate or Multivariate functional time series or scalar.
 #' @examples
 #'
-#' library(fda)
-#' library(Rfssa)
+#' require(fda)
+#' require(Rfssa)
 #' data(Callcenter) # Read data
 #' u=seq(0,1,length.out=240) # Define domain of functional data
 #' d=12 # number of basis elements
@@ -235,8 +235,8 @@
 #' @param i index.
 #' @examples
 #'
-#' library(fda)
-#' library(Rfssa)
+#' require(fda)
+#' require(Rfssa)
 #' data(Callcenter) # Read data
 #' u=seq(0,1,length.out=240) # Define domain of functional data
 #' d=12 # number of basis elements

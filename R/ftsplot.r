@@ -15,8 +15,8 @@
 #' @importFrom plotly plot_ly add_lines layout subplot add_surface
 #' @import dplyr
 #' @examples
-#' library(Rfssa)
-#' library(fda)
+#' require(fda)
+#' require(Rfssa)
 #' data(Callcenter) # Read data
 #' u=seq(0,1,length.out=240) # Define domain of functional data
 #' d=12 # number of basis elements

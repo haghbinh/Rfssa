@@ -1,6 +1,6 @@
 # Utility functions
 
-# This funcrtion Henkelize an d*K*L array.
+# This function Hankelize a d*K*L array.
 fH <- function(C, d) {
   for (j in 1:d)
     C[j, ,] <- H(C[j, ,])
@@ -12,7 +12,7 @@ fH <- function(C, d) {
 lagvec_new <- function(coefs, L, i)
   coefs[, i:(i + L - 1)]
 
-# Projection of all lag vector onto i-th functional eigen vector.
+# Projection of all lag vectors onto i-th functional eigen vector.
 ufproj <- function(U, i, d) {
   L <- U$L
   K <- U$N - L +1L
@@ -58,7 +58,7 @@ mV <- function(U, d) {
               ncol = d,
               data = NA)
   G <- list()
-  # get inner producjt matrices
+  # get inner product matrices
   for (i in 1L:p) {
     basis <- U$Y[[i]]$basis
     G[[i]] <- inprod(basis,basis)
@@ -78,7 +78,7 @@ mV <- function(U, d) {
   return(V)
 }
 
-# Rank one approximajtion
+# Rank one approximation
 mfproj <- function(U, i) {
   # defining pieces of multivariate rank one approximation
   L <- U$L
@@ -104,7 +104,7 @@ mfproj <- function(U, i) {
     for (j in 1:p) {
       x[[j]] <- lagvec_new(Y[[j]]$coefs, L, k)
     }
-    #build operajtor
+    #build operator
     for (j in 1:p) {
       C_jx <- C[[j]]
       C_jx[, k,] <- HpLinprod(x, u, G, p) * u[[j]]

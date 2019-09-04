@@ -21,8 +21,8 @@ An object of class fts.
 }
 \examples{
 
-library(fda)
-library(Rfssa)
+require(fda)
+require(Rfssa)
 data(Callcenter) # Read data
 u=seq(0,1,length.out=240) # Define domain of functional data
 d=12 # number of basis elements

@@ -20,8 +20,8 @@ This function finds the correlation between univarite or multivariate functional
 \examples{
 
 \dontrun{
-library(fda)
-library(Rfssa)
+require(fda)
+require(Rfssa)
 d <- 11
 basis <- create.bspline.basis(c(0,1),d)
 u <- seq(0,1,length.out = 512)
