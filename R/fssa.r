@@ -22,6 +22,7 @@
 #' data("Callcenter")
 #' require(fda)
 #' require(Rfssa)
+#' ## Define functional objects
 #' D <- matrix(sqrt(Callcenter$calls),nrow = 240)
 #' N <- ncol(D)
 #' time <- 1:N
@@ -30,8 +31,9 @@
 #' d <- 22 #Optimal Number of basises
 #' basis <- create.bspline.basis(c(min(u),max(u)),d)
 #' Ysmooth <- smooth.basis(u,D,basis)
+#' ## Define functional time series
 #' Y <- fts(Ysmooth$fd)
-#' ## fssa decomposition
+#' ## Univariate functional singular spectrum analysis
 #' L <- 28
 #' U <- fssa(Y,L)
 #' plot(U,d=13)
@@ -41,13 +43,8 @@
 #' plot(U,d=10,type="periodogram")
 #' plot(U,d=10,type="paired")
 #' plot(U,d=10,type="wcor")
-#' ## fssa reconstruction
 #' gr <- list(1,2:3,4:5,6:7,8:20)
 #' Q <- freconstruct(U, gr)
-#'
-#'
-#' layout(matrix(c(1,1,2,3,4,5,6,6),nr=2))
-#' par(mar=c(2,1,2,2))
 #' plot(Y,main="Call Numbers(Observed)")
 #' plot(Q[[1]],main="1st Component")
 #' plot(Q[[2]],main="2nd Component")
@@ -57,37 +54,48 @@
 #'
 #'
 #' ## Multivariate FSSA Example on Bivariate Satelite Image Data
-#' library(fda)
-#' library(Rfssa)
-#' data(NDVI)
-#' data(EVI)
+#' require(fda)
+#' require(Rfssa)
+#' ## Raw image data
+#' NDVI=Jambi$NDVI
+#' EVI=Jambi$EVI
+#' ## Kernel density estimation of pixel intensity
+#' D0_NDVI <- matrix(NA,nrow = 512, ncol = 448)
+#' D0_EVI <- matrix(NA,nrow =512, ncol = 448)
+#' for(i in 1:448){
+#'   D0_NDVI[,i] <- density(NDVI[,,i],from=0,to=1)$y
+#'   D0_EVI[,i] <- density(EVI[,,i],from=0,to=1)$y
+#' }
+#' ## Define functional objects
 #' d <- 11
 #' basis <- create.bspline.basis(c(0,1),d)
 #' u <- seq(0,1,length.out = 512)
-#' y_1 <- smooth.basis(u,as.matrix(NDVI),basis)$fd
-#' y_2 <- smooth.basis(u,as.matrix(EVI),basis)$fd
-#' y=list(y_1,y_2)
+#' y_NDVI <- smooth.basis(u,as.matrix(D0_NDVI),basis)$fd
+#' y_EVI <- smooth.basis(u,as.matrix(D0_EVI),basis)$fd
+#' y=list(y_NDVI,y_EVI)
+#' ## Define functional time series
 #' Y=fts(y)
 #' plot(Y)
-#' fL=45
-#' fU=fssa(Y,fL)
-#' plot(fU,d=10,type='values')
-#' plot(fU,d=10,type='paired')
-#' plot(fU,d=10,type='lheats', var = 1)
-#' plot(fU,d=10,type='lcurves',var = 1)
-#' plot(fU,d=10,type='lheats', var = 2)
-#' plot(fU,d=10,type='lcurves',var = 2)
-#' plot(fU,d=10,type='wcor')
-#' plot(fU,d=10,type='periodogram')
-#' plot(fU,d=10,type='vectors')
-
-#' frecon <- freconstruct(U = fU, group = list(c(1),c(2,3),c(4)))
-#' plot(frecon[[1]],npts = 100,type = '3Dsurface',var=1)
-#' plot(frecon[[2]],npts = 100,type = '3Dsurface',var=1)
-#' plot(frecon[[3]],npts = 100,type = '3Dsurface',var=1)
-#' plot(frecon[[1]],npts = 100,type = '3Dsurface',var=2)
-#' plot(frecon[[2]],npts = 100,type = '3Dsurface',var=2)
-#' plot(frecon[[3]],npts = 100,type = '3Dsurface',var=2)
+#' L=45
+#' ## Multivariate functional singular spectrum analysis
+#' U=fssa(Y,L)
+#' plot(U,d=10,type='values')
+#' plot(U,d=10,type='paired')
+#' plot(U,d=10,type='lheats', var = 1)
+#' plot(U,d=10,type='lcurves',var = 1)
+#' plot(U,d=10,type='lheats', var = 2)
+#' plot(U,d=10,type='lcurves',var = 2)
+#' plot(U,d=10,type='wcor')
+#' plot(U,d=10,type='periodogram')
+#' plot(U,d=10,type='vectors')
+#' recon <- freconstruct(U = U, group = list(c(1),c(2,3),c(4)))
+#' plot(recon[[1]],npts = 100,type = '3Dsurface',var=1)
+#' plot(recon[[2]],npts = 100,type = '3Dsurface',var=1)
+#' plot(recon[[3]],npts = 100,type = '3Dsurface',var=1)
+#' plot(recon[[1]],npts = 100,type = '3Dsurface',var=2)
+#' plot(recon[[2]],npts = 100,type = '3Dsurface',var=2)
+#' plot(recon[[3]],npts = 100,type = '3Dsurface',var=2)
+#'
 #'}
 #' @useDynLib Rfssa
 #' @export
