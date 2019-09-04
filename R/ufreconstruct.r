@@ -1,4 +1,4 @@
-# Univariate reconstruction stage of functional singular spectrum analysis
+# Reconstruction stage (including Hankelization) of univariate functional singular spectrum analysis
 
 ufreconstruct <- function(U, group = as.list(1L:10L)) {
   N <- U$N

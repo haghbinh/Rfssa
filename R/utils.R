@@ -1,4 +1,4 @@
-# Code built by Jordan Trinka and Mehdi Maadooliat of Marquette University and Hossein Haghbin of Persian Gulf University
+# Utility functions
 
 # This funcrtion Henkelize an d*K*L array.
 fH <- function(C, d) {

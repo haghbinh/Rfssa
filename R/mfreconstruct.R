@@ -1,5 +1,4 @@
-# Code built by Jordan Trinka and Mehdi Maadooliat of Marquette University and Hossein Haghbin of Persian Gulf University
-# Reconstruction stage (including Hankelization) of multivariate functional singular spectrum analysis
+# Reconstruction stage (including Hankelization) of multivariate functional singular spectrum analysis.
 mfreconstruct <-function(U, group = as.list(1L:10L)){
   N <- U$N
   Y <- U$Y

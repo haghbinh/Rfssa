@@ -1,3 +1,6 @@
+# Univariate and multivariate weighted correlation used to find weighted correlation matrix for the grouping stage
+# of ufssa and mfssa.
+
 ufwcor <- function(U, d) {
   Q <- freconstruct(U, group = as.list(1:d))
   N <- U$N

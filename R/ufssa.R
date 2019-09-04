@@ -1,4 +1,4 @@
-# Univariate Functional Singular Spectrum Analysis
+# Embedding and decomposition stages of univariate functional singular spectrum analysis
 ufssa <- function(Y, L) {
   N <- Y$N
   basis <- Y[[1]]$basis
