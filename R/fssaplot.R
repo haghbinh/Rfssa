@@ -57,7 +57,7 @@ plot.fssa <- function(x, d = length(x$values),
                       type = "values",var=1L,ylab=NA, ...) {
   val <- sqrt(x$values)[1L:d]
   p <- x$Y$p
-  A <- val/sum(val)
+  A <- ((x$values)/sum(x$values))[1L:d]
   pr = round(A * 100L, 2L)
   main1 = paste0(1L:d, "(", pr,"%)")
   N <- x$N
@@ -86,8 +86,8 @@ plot.fssa <- function(x, d = length(x$values),
     D0 <- expand.grid(x = 1L:L,
                       y = 1L:n, group = 1L:d)
     D0$z <- z
-    D0$group <- as.ordered(rep(main1,
-                               each = L * n))
+    D0$group <- factor(rep(main1,
+                               each = L * n), levels = main1)
     title0 <- "Singular functions"
     if(p>1) title0 <- paste(title0,"of the variable",
                             ifelse(is.na(ylab),var,ylab))
@@ -123,8 +123,8 @@ plot.fssa <- function(x, d = length(x$values),
     x0 <- c(x$RVectrs[,1L:d])
     D0 <- data.frame(x = x0,
                      time = rep(1L:K, d))
-    D0$group <- as.ordered(rep(main1,
-                               each = K))
+    D0$group <- factor(rep(main1,
+                               each = K), levels = main1)
     p1 <- lattice::xyplot(x ~ time |
                             group, data = D0, xlab = "",
                           ylab = "", main = "Singular vectors",
@@ -137,9 +137,9 @@ plot.fssa <- function(x, d = length(x$values),
     D0 <- data.frame(x = x0[1L:((d -
                                    1L) * K)], y = x0[(K +
                                                         1L):(d * K)])
-    D0$group <- as.ordered(rep(paste(main1[1:(d -
+    D0$group <- factor(rep(paste(main1[1:(d -
                                                 1L)], "vs", main1[2L:d]),
-                               each = K))
+                               each = K), levels = paste(main1[1:(d -1L)], "vs", main1[2L:d]))
     p1 <- lattice::xyplot(x ~ y | group,
                           data = D0, xlab = "",
                           ylab = "", main = "Paired Singular vectors (Right)",
@@ -156,8 +156,8 @@ plot.fssa <- function(x, d = length(x$values),
     x0 <- c(apply(x$RVectrs[,1L:d],2,ff))
     D0 <- data.frame(x = x0,
                      time = rep((0:floor(K/2))/K, d))
-    D0$group <- as.ordered(rep(main1,
-                               each = (floor(K/2) + 1)))
+    D0$group <- factor(rep(main1,
+                               each = (floor(K/2) + 1)), levels = main1)
     p1 <- lattice::xyplot(x ~ time |
                             group, data = D0, xlab = "",
                           ylab = "", main = "Periodogram of Singular vectors",
