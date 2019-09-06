@@ -121,7 +121,7 @@ plot.fts <- function(x,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=N
     axz$title <- ifelse(is.null(ylab),paste("Variable",var),ylab[var])
     D0 %>%
       group_by(time) %>%
-      plot_ly(x=~x,z=~z,y=~time, type = 'scatter3d', mode = 'lines',
+      plot_ly(y=~x,z=~z,x=~time, type = 'scatter3d', mode = 'lines',
               line = list(width = 4, color = ~z, colorscale = list(c(0,'#FFFFFAFF'), c(1,'#FF0000FF')))) %>%
       layout(scene = list(xaxis = axx, yaxis = axy, zaxis = axz))
     } else stop("The type for the plot is not valid.")
