@@ -76,7 +76,7 @@ plot.fssa <- function(x, d = length(x$values),
     graphics::plot(val, type = "o", lwd = 2L,
          col = "dodgerblue3", pch = 19L,
          cex = 0.8, main = "Singular Values",
-         ylab = " ", xlab = "Components")
+         ylab = "norm", xlab = "Components")
   } else if (type == "wcor") {
     W <- fwcor(x, d)
     wplot(W)
@@ -129,7 +129,7 @@ plot.fssa <- function(x, d = length(x$values),
                             group, data = D0, xlab = "",
                           ylab = "", main = "Singular vectors",
                           scales = list(x = list(at = NULL),
-                                        y = list(at = NULL)),
+                                        y = list(at = NULL, relation="free")),
                           as.table = TRUE, type = "l")
     graphics::plot(p1)
   } else if (type == "paired"){
@@ -143,8 +143,8 @@ plot.fssa <- function(x, d = length(x$values),
     p1 <- lattice::xyplot(x ~ y | group,
                           data = D0, xlab = "",
                           ylab = "", main = "Paired Singular vectors (Right)",
-                          scales = list(x = list(at = NULL),
-                                        y = list(at = NULL)),
+                          scales = list(x = list(at = NULL, relation="free"),
+                                        y = list(at = NULL, relation="free")),
                           as.table = TRUE, type = "l")
     graphics::plot(p1)
   } else if (type == "periodogram"){
@@ -161,7 +161,7 @@ plot.fssa <- function(x, d = length(x$values),
     p1 <- lattice::xyplot(x ~ time |
                             group, data = D0, xlab = "",
                           ylab = "", main = "Periodogram of Singular vectors",
-                          scales = list(y = list(at = NULL)),
+                          scales = list(y = list(at = NULL, relation="free")),
                           as.table = TRUE, type = "l")
     graphics::plot(p1)
     }else {
