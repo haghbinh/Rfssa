@@ -4,6 +4,10 @@
 #'  Plotting method for objects inheriting from class \code{\link{fssa}}.
 #' @param x a functional singular value decomposition object, time series objects, usually inheriting from class "fssa".
 #' @param d an integer which is the number of elementary components in the plot.
+#' @param idx A Vector of indices of eigen elements to plot
+#' @param idy A second vector of indices of eigen elements to plot(for type="paired")
+#' @param group Grouping used for the decomposition(for type="wcor")
+#' @param contrib logical. If 'TRUE' (the default), the contribution of the component to the total variance is displayed.
 #' @param type what type of plot should be drawn. Possible types are:
 #' \itemize{
 #' \item \code{"values"} plot the square-root of singular values (default).
@@ -54,12 +58,23 @@
 #' @seealso \code{\link{fssa}}, \code{\link{plot.fts}}
 #' @export
 plot.fssa <- function(x, d = length(x$values),
+                      idx = 1:d, idy = idx+1, contrib = TRUE,
+                      group = as.list(1:d),
                       type = "values",var=1L,ylab=NA, ...) {
-  val <- sqrt(x$values)[1L:d]
   p <- x$Y$p
   A <- ((x$values)/sum(x$values))[1L:d]
-  pr = round(A * 100L, 2L)
-  main1 = paste0(1L:d, "(", pr,"%)")
+  pr <- round(A * 100L, 2L)
+  idx <- sort(idx)
+  idy <- sort(idy)
+  if(max(idx) > d | min(idx)< 1) stop("The idx must be subset of 1:d.")
+  d_idx <- length(idx)
+  if(contrib){
+    main1 <- paste0(idx, "(", pr[idx],"%)")
+    main2 <- paste0(idy, "(", pr[idy],"%)")
+  } else{
+    main1 <- paste(idx)
+    main2 <- paste(idy)
+  }
   N <- x$N
   L <- x$L
   K <- N-L+1L
@@ -67,24 +82,25 @@ plot.fssa <- function(x, d = length(x$values),
     u <- x$Y$rangeval
     xindx <- seq(min(u), max(u),length = 100L)
     z0 <- list()
-    for (i in 1:d){
-      if(is.fd(x[[i]]))  x[[i]] <- list(x[[i]])
-      z0[[i]] <- t(eval.fd(xindx,x[[i]][[var]]) )
+    for (i in 1:d_idx){
+      if(is.fd(x[[idx[i]]]))  x[[idx[i]]] <- list(x[[idx[i]]])
+      z0[[i]] <- t(eval.fd(xindx,x[[idx[i]]][[var]]) )
     }
   }
   if (type == "values") {
-    graphics::plot(val, type = "o", lwd = 2L,
+    val <- sqrt(x$values)[idx]
+    graphics::plot(idx, val, type = "o", lwd = 2L,
          col = "dodgerblue3", pch = 19L,
          cex = 0.8, main = "Singular Values",
-         ylab = "norm", xlab = "Components")
+         ylab = "norms", xlab = "Components")
   } else if (type == "wcor") {
-    W <- fwcor(x, d)
+    W <- fwcor(x, group)
     wplot(W)
   }  else  if (type == "lheats") {
     n <- length(xindx)
     z <- c(sapply(z0, function(x) as.vector(x)))
     D0 <- expand.grid(x = 1L:L,
-                      y = 1L:n, group = 1L:d)
+                      y = 1L:n, group = idx)
     D0$z <- z
     D0$group <- factor(rep(main1,
                                each = L * n), levels = main1)
@@ -103,16 +119,16 @@ plot.fssa <- function(x, d = length(x$values),
     graphics::plot(p1)
   } else if (type == "lcurves") {
     col2 <- grDevices::rainbow(L)
-    d1 <- floor(sqrt(d))
-    d2 <- ceiling(d/d1)
+    d1 <- floor(sqrt(d_idx))
+    d2 <- ceiling(d_idx/d1)
     graphics::par(mfrow = c(d1, d2),
         mar = c(2, 2, 3, 1),oma=c(2,2,7,1),cex.main=1.6)
     title0 <- "Singular functions"
     if(p>1) title0 <- paste(title0,"of the variable",
                             ifelse(is.na(ylab),var,ylab))
 
-    for (i in 1:d){
-      graphics::plot(x[[i]][[var]],
+    for (i in 1:d_idx){
+      graphics::plot(x[[idx[i]]][[var]],
                         lty = 1, xlab = "",ylim=range(z0),
                         main = main1[i], ylab = "",
                         lwd = 2, col = col2)
@@ -120,9 +136,9 @@ plot.fssa <- function(x, d = length(x$values),
     }
     graphics::par(mfrow = c(1, 1))
   } else if (type == "vectors"){
-    x0 <- c(x$RVectrs[,1L:d])
+    x0 <- c(x$RVectrs[,idx])
     D0 <- data.frame(x = x0,
-                     time = rep(1L:K, d))
+                     time = rep(1L:K, d_idx))
     D0$group <- factor(rep(main1,
                                each = K), levels = main1)
     p1 <- lattice::xyplot(x ~ time |
@@ -133,13 +149,13 @@ plot.fssa <- function(x, d = length(x$values),
                           as.table = TRUE, type = "l")
     graphics::plot(p1)
   } else if (type == "paired"){
-    x0 <- c(x$RVectrs[,1L:d])
-    D0 <- data.frame(x = x0[1L:((d -
-                                   1L) * K)], y = x0[(K +
-                                                        1L):(d * K)])
-    D0$group <- factor(rep(paste(main1[1:(d -
-                                                1L)], "vs", main1[2L:d]),
-                               each = K), levels = paste(main1[1:(d -1L)], "vs", main1[2L:d]))
+    d_idy <- length(idy)
+    if(d_idx != d_idy) stop("The length of idx and idy must be same")
+    x0 <- c(x$RVectrs[,idx])
+    y0 <- c(x$RVectrs[,idy])
+    D0 <- data.frame(x = x0, y = y0)
+    main3 <- paste(main1, "vs", main2)
+    D0$group <- factor(rep(main3, each = K), levels = main3)
     p1 <- lattice::xyplot(x ~ y | group,
                           data = D0, xlab = "",
                           ylab = "", main = "Paired Singular vectors (Right)",
@@ -153,9 +169,9 @@ plot.fssa <- function(x, d = length(x$values),
       P = (4/K) * I
       return(P[1:(floor(K/2) + 1)])
     }
-    x0 <- c(apply(x$RVectrs[,1L:d],2,ff))
+    x0 <- c(apply(x$RVectrs[,idx],2,ff))
     D0 <- data.frame(x = x0,
-                     time = rep((0:floor(K/2))/K, d))
+                     time = rep((0:floor(K/2))/K, d_idx))
     D0$group <- factor(rep(main1,
                                each = (floor(K/2) + 1)), levels = main1)
     p1 <- lattice::xyplot(x ~ time |

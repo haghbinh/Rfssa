@@ -4,13 +4,22 @@
 \alias{plot.fssa}
 \title{Plotting fssa Objects}
 \usage{
-\method{plot}{fssa}(x, d = length(x$values), type = "values",
+\method{plot}{fssa}(x, d = length(x$values), idx = 1:d, idy = idx +
+  1, contrib = TRUE, group = as.list(1:d), type = "values",
   var = 1L, ylab = NA, ...)
 }
 \arguments{
 \item{x}{a functional singular value decomposition object, time series objects, usually inheriting from class "fssa".}
 
 \item{d}{an integer which is the number of elementary components in the plot.}
+
+\item{idx}{A Vector of indices of eigen elements to plot}
+
+\item{idy}{A second vector of indices of eigen elements to plot(for type="paired")}
+
+\item{contrib}{logical. If 'TRUE' (the default), the contribution of the component to the total variance is displayed.}
+
+\item{group}{Grouping used for the decomposition(for type="wcor")}
 
 \item{type}{what type of plot should be drawn. Possible types are:
 \itemize{
