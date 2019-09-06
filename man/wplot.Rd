@@ -4,10 +4,12 @@
 \alias{wplot}
 \title{Plot of W-correlations}
 \usage{
-wplot(W)
+wplot(W, cuts = 20)
 }
 \arguments{
 \item{W}{a W-correlation matrix.}
+
+\item{cuts}{integer, the number of levels the range of W-cor values will be divided into.}
 }
 \description{
 Display W-correlation matrix of a single components.

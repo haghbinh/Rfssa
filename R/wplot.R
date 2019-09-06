@@ -2,10 +2,12 @@
 #'
 #' Display W-correlation matrix of a single components.
 #' @param W a W-correlation matrix.
+#' @param cuts integer, the number of levels the range of W-cor values will be divided into.
 #' @seealso \code{\link{fssa}}
 
 #' @export
-wplot <- function(W) {
+wplot <- function(W, cuts=20) {
+  at <- pretty(c(0,1), n = cuts)
   d <- nrow(W)
   W0 <- abs(W)
   a <- min(W0)
@@ -13,7 +15,7 @@ wplot <- function(W) {
   s <- stats::sd(W0 - diag(1, d))
   diag(W0) <- min(1, b + 3 * s)
   xylabels <- paste0("F", 1:d)
-  p1 <- lattice::levelplot(1 - W0, xlab = "",
+  p1 <- lattice::levelplot(1 - W0, xlab = "", at=at,
                            ylab = "", colorkey = NULL,
                            main = paste("W-correlation matrix"),
                            scales = list(x = list(at = 1:d,

@@ -21,6 +21,7 @@ An object of class fts.
 }
 \examples{
 
+\dontrun{
 require(fda)
 require(Rfssa)
 data(Callcenter) # Read data
@@ -34,6 +35,7 @@ Yplus=Y+Y # add the functional time series to itself
 plot(Yplus)
 Yplus2=Y+2 # add 2 to every term in the functional time series
 plot(Yplus2)
+}
 
 
 }

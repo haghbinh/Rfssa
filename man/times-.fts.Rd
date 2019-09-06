@@ -21,6 +21,7 @@ An object of class fts.
 }
 \examples{
 
+\dontrun{
 require(fda)
 require(Rfssa)
 data(Callcenter) # Read data
@@ -34,6 +35,7 @@ Ytimes=Y*Y # elementwise multiplication of the functional time series with itsel
 plot(Ytimes)
 Ytimes2=2*Y # multiply 2 with every term in the functional time series
 plot(Ytimes2)
+}
 
 
 }

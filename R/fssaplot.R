@@ -6,7 +6,7 @@
 #' @param d an integer which is the number of elementary components in the plot.
 #' @param idx A Vector of indices of eigen elements to plot
 #' @param idy A second vector of indices of eigen elements to plot(for type="paired")
-#' @param group A list or vector of indices determines grouping used for the decomposition(for type="wcor")
+#' @param groups A list or vector of indices determines grouping used for the decomposition(for type="wcor")
 #' @param contrib logical. If 'TRUE' (the default), the contribution of the component to the total variance is displayed.
 #' @param type what type of plot should be drawn. Possible types are:
 #' \itemize{
@@ -59,7 +59,7 @@
 #' @export
 plot.fssa <- function(x, d = length(x$values),
                       idx = 1:d, idy = idx+1, contrib = TRUE,
-                      group = as.list(1:d),
+                      groups = as.list(1:d),
                       type = "values",var=1L,ylab=NA, ...) {
   p <- x$Y$p
   A <- ((x$values)/sum(x$values))[1L:d]
@@ -94,21 +94,21 @@ plot.fssa <- function(x, d = length(x$values),
          cex = 0.8, main = "Singular Values",
          ylab = "norms", xlab = "Components")
   } else if (type == "wcor") {
-    W <- fwcor(x, group)
+    W <- fwcor(x, groups)
     wplot(W)
   }  else  if (type == "lheats") {
     n <- length(xindx)
     z <- c(sapply(z0, function(x) as.vector(x)))
     D0 <- expand.grid(x = 1L:L,
-                      y = 1L:n, group = idx)
+                      y = 1L:n, groups = idx)
     D0$z <- z
-    D0$group <- factor(rep(main1,
+    D0$groups <- factor(rep(main1,
                                each = L * n), levels = main1)
     title0 <- "Singular functions"
     if(p>1) title0 <- paste(title0,"of the variable",
                             ifelse(is.na(ylab),var,ylab))
     p1 <- lattice::levelplot(z ~ x *
-                               y | group, data = D0,
+                               y | groups, data = D0,
                              colorkey = TRUE, cuts = 50L,
                              xlab = "", ylab = "",
                              scales = list(x = list(at = NULL),
@@ -139,10 +139,10 @@ plot.fssa <- function(x, d = length(x$values),
     x0 <- c(x$RVectrs[,idx])
     D0 <- data.frame(x = x0,
                      time = rep(1L:K, d_idx))
-    D0$group <- factor(rep(main1,
+    D0$groups <- factor(rep(main1,
                                each = K), levels = main1)
     p1 <- lattice::xyplot(x ~ time |
-                            group, data = D0, xlab = "",
+                            groups, data = D0, xlab = "",
                           ylab = "", main = "Singular vectors",
                           scales = list(x = list(at = NULL),
                                         y = list(at = NULL, relation="free")),
@@ -155,8 +155,8 @@ plot.fssa <- function(x, d = length(x$values),
     y0 <- c(x$RVectrs[,idy])
     D0 <- data.frame(x = x0, y = y0)
     main3 <- paste(main1, "vs", main2)
-    D0$group <- factor(rep(main3, each = K), levels = main3)
-    p1 <- lattice::xyplot(x ~ y | group,
+    D0$groups <- factor(rep(main3, each = K), levels = main3)
+    p1 <- lattice::xyplot(x ~ y | groups,
                           data = D0, xlab = "",
                           ylab = "", main = "Paired Singular vectors (Right)",
                           scales = list(x = list(at = NULL, relation="free"),
@@ -172,10 +172,10 @@ plot.fssa <- function(x, d = length(x$values),
     x0 <- c(apply(x$RVectrs[,idx],2,ff))
     D0 <- data.frame(x = x0,
                      time = rep((0:floor(K/2))/K, d_idx))
-    D0$group <- factor(rep(main1,
+    D0$groups <- factor(rep(main1,
                                each = (floor(K/2) + 1)), levels = main1)
     p1 <- lattice::xyplot(x ~ time |
-                            group, data = D0, xlab = "",
+                            groups, data = D0, xlab = "",
                           ylab = "", main = "Periodogram of Singular vectors",
                           scales = list(y = list(at = NULL, relation="free")),
                           as.table = TRUE, type = "l")

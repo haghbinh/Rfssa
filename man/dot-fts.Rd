@@ -21,6 +21,7 @@ An object of class fts.
 }
 \examples{
 
+\dontrun{
 require(fda)
 require(Rfssa)
 data(Callcenter) # Read data
@@ -34,6 +35,7 @@ Yminus=Y[4:8]-Y[14:18] # subtract elements of the functional time series from ea
 plot(Yminus)
 Yminus2=Y-2 # add 2 to every term in the functional time series
 plot(Yminus2)
+}
 
 
 }

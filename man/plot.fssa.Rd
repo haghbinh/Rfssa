@@ -5,7 +5,7 @@
 \title{Plotting fssa Objects}
 \usage{
 \method{plot}{fssa}(x, d = length(x$values), idx = 1:d, idy = idx +
-  1, contrib = TRUE, group = as.list(1:d), type = "values",
+  1, contrib = TRUE, groups = as.list(1:d), type = "values",
   var = 1L, ylab = NA, ...)
 }
 \arguments{
@@ -19,7 +19,7 @@
 
 \item{contrib}{logical. If 'TRUE' (the default), the contribution of the component to the total variance is displayed.}
 
-\item{group}{A list or vector of indices determines grouping used for the decomposition(for type="wcor")}
+\item{groups}{A list or vector of indices determines grouping used for the decomposition(for type="wcor")}
 
 \item{type}{what type of plot should be drawn. Possible types are:
 \itemize{

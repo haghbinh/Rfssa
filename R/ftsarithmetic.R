@@ -8,6 +8,7 @@
 #' @param Y2 a Univariate or Multivariate functional time series or scalar.
 #' @examples
 #'
+#' \dontrun{
 #' require(fda)
 #' require(Rfssa)
 #' data(Callcenter) # Read data
@@ -21,6 +22,7 @@
 #' plot(Yplus)
 #' Yplus2=Y+2 # add 2 to every term in the functional time series
 #' plot(Yplus2)
+#' }
 #'
 #'
 #' @useDynLib Rfssa
@@ -83,6 +85,7 @@
 #' @param Y2 a Univariate or Multivariate functional time series or scalar.
 #' @examples
 #'
+#' \dontrun{
 #' require(fda)
 #' require(Rfssa)
 #' data(Callcenter) # Read data
@@ -96,6 +99,7 @@
 #' plot(Yminus)
 #' Yminus2=Y-2 # add 2 to every term in the functional time series
 #' plot(Yminus2)
+#' }
 #'
 #'
 #' @useDynLib Rfssa
@@ -159,6 +163,7 @@
 #' @param Y2 a Univariate or Multivariate functional time series or scalar.
 #' @examples
 #'
+#' \dontrun{
 #' require(fda)
 #' require(Rfssa)
 #' data(Callcenter) # Read data
@@ -172,6 +177,7 @@
 #' plot(Ytimes)
 #' Ytimes2=2*Y # multiply 2 with every term in the functional time series
 #' plot(Ytimes2)
+#' }
 #'
 #'
 #' @useDynLib Rfssa
@@ -235,6 +241,7 @@
 #' @param i index.
 #' @examples
 #'
+#' \dontrun{
 #' require(fda)
 #' require(Rfssa)
 #' data(Callcenter) # Read data
@@ -247,6 +254,7 @@
 #' plot(Yind)
 #' Yminus=Y[4:8]-Y[14:18] # subtract functions from each other
 #' plot(Yminus)
+#' }
 #'
 #'
 #'

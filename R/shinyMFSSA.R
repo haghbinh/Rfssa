@@ -449,12 +449,12 @@ server.mfssa <- function(input, output, clientData, session) {
     }
     if ("fpca" %in% input$s.plot || "dfpca" %in% input$s.plot) {  f.pca <- run_fpca(); fpca <- f.pca$fpca; dfpca <- f.pca$dfpca;  }
     if (substr(input$desc,1,5)=="mfssa") {
-      if (input$desc=="mfssa.scree") plot(sr$mUf,d=input$d[2],type="values")
-      else if (input$desc=="mfssa.wcor") plot(sr$mUf, d=input$d[2], type="wcor")
-      else if (input$desc=="mfssa.pair") plot(sr$mUf,d=input$d[2],type="paired")
-      else if (input$desc=="mfssa.singV") plot(sr$mUf, d=input$d[2], type="vectors")
-      else if (input$desc=="mfssa.perGr") plot(sr$mUf,d=input$d[2],type="periodogram")
-      else if (input$desc=="mfssa.singF") {plot(sr$mUf, d=input$d[2], type=ifelse(is.null(input$rec.type),"lheats",input$rec.type), var=var.which)}
+      if (input$desc=="mfssa.scree") plot(sr$mUf,type="values",d=input$d[2])
+      else if (input$desc=="mfssa.wcor") plot(sr$mUf,type="wcor",groups=input$d[1]:input$d[2])
+      else if (input$desc=="mfssa.pair") plot(sr$mUf,type="paired",idx=input$d[1]:input$d[2])
+      else if (input$desc=="mfssa.singV") plot(sr$mUf,type="vectors",idx=input$d[1]:input$d[2])
+      else if (input$desc=="mfssa.perGr") plot(sr$mUf,type="periodogram",idx=input$d[1]:input$d[2])
+      else if (input$desc=="mfssa.singF") {plot(sr$mUf,type=ifelse(is.null(input$rec.type),"lheats",input$rec.type), var=var.which,idx=input$d[1]:input$d[2])}
       #else if (input$desc=="mfssa.reconst" && input$rec.type%in%c("1","2","3")) ftsplot(seq(0, 1, length = nrow(Ts)), 1:ncol(Ts), mQf, space = 0.1, type=as.numeric(input$rec.type), ylab = "tau", xlab = "t", main = "mUf")
     } else if (substr(input$desc,1,3)=="ssa") {
       if (input$desc=="ssa.scree") plot(sr$Us,type="values",numvalues=input$d[2])

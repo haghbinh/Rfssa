@@ -21,6 +21,7 @@ An object of class fts.
 }
 \examples{
 
+\dontrun{
 require(fda)
 require(Rfssa)
 data(Callcenter) # Read data
@@ -33,6 +34,7 @@ Yind=Y[4:8] # take only the 4th through 8th functions
 plot(Yind)
 Yminus=Y[4:8]-Y[14:18] # subtract functions from each other
 plot(Yminus)
+}
 
 
 

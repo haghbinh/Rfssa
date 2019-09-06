@@ -30,6 +30,8 @@
 Novel different type of plots to visualize the functional time series data objects.
 }
 \examples{
+
+\dontrun{
 require(fda)
 require(Rfssa)
 data(Callcenter) # Read data
@@ -42,4 +44,6 @@ plot(Y,type = "heatmap")
 plot(Y,type = "line",var = 1)
 plot(Y,type = "3Dsurface",var = 1)
 plot(Y,type = "3Dline", var = 1)
+}
+
 }

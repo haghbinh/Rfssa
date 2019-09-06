@@ -15,6 +15,8 @@
 #' @importFrom plotly plot_ly add_lines layout subplot add_surface
 #' @import dplyr
 #' @examples
+#'
+#' \dontrun{
 #' require(fda)
 #' require(Rfssa)
 #' data(Callcenter) # Read data
@@ -27,6 +29,8 @@
 #' plot(Y,type = "line",var = 1)
 #' plot(Y,type = "3Dsurface",var = 1)
 #' plot(Y,type = "3Dline", var = 1)
+#' }
+#'
 #' @export
 plot.fts <- function(x,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=NULL,var=NULL, ...){
   p <- x$p
@@ -72,7 +76,7 @@ plot.fts <- function(x,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=N
       for(i in 1:p) {
         if(is.null(ylab)) y_var <- paste("Variable",i) else y_var <- ylab[i]
         z0 <- eval.fd(x[[i]],u)
-        Pl[[i]] <- plot_ly(z = z0, x=time, y = u, type = "heatmap",
+        Pl[[i]] <- plot_ly(z = z0, x=time, y = u, type = "heatmap", colorscale = list(c(0,'#FFFFFAFF'), c(1,'#FF0000FF')),
                            showscale =FALSE) %>%
           layout(yaxis = list(title = y_var),xaxis = list(title = tlab))
       }
@@ -84,7 +88,7 @@ plot.fts <- function(x,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=N
       if(var > p ) var <- p
       z0 <- eval.fd(x[[var]],u)
       if(is.null(ylab)) y_var <- paste("Variable",var) else y_var <- ylab[var]
-      plot_ly(z = z0, x=time, y = u, type = "heatmap",
+      plot_ly(z = z0, x=time, y = u, type = "heatmap", colorscale = list(c(0,'#FFFFFAFF'), c(1,'#FF0000FF')),
                          showscale =FALSE) %>%
         layout(yaxis = list(title = y_var))
     }
@@ -94,13 +98,12 @@ plot.fts <- function(x,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=N
     z0 <- eval.fd(x[[var]],u)
     axx <-axy <-axz <- list(
       gridcolor="rgb(255,255,255)",
-      zerolinecolor="rgb(255,255,255"
+      zerolinecolor="rgb(255,255,255)"
     )
-    axx$title <- tlab
-    axy$title <- xlab
-    if(is.null(ylab)) y_var <- paste("Variable",var) else y_var <- ylab[var]
-    axz$title <- y_var
-    plot_ly(z = z0, x=time, y = u) %>%
+    axx$title <- ifelse(is.null(tlab),"time",tlab)
+    axy$title <- ifelse(is.null(xlab),"x",xlab)
+    axz$title <- ifelse(is.null(ylab),paste("Variable",var),ylab[var])
+    plot_ly(z = z0, x=time, y = u, colorscale = list(c(0,'#FFFFFAFF'), c(1,'#FF0000FF'))) %>%
       layout(scene = list(xaxis = axx, yaxis = axy, zaxis = axz))%>%
       add_surface(showscale=FALSE)
   } else if(type=="3Dline"){
@@ -109,11 +112,18 @@ plot.fts <- function(x,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=N
     D0 <- as.tbl(data.frame(z=c(eval.fd(x[[var]],u))))
     D0$time <- as.character(rep(time,each=npts))
     D0$x <- rep(u,length = npts)
+    axx <-axy <-axz <- list(
+      gridcolor="rgb(255,255,255)",
+      zerolinecolor="rgb(255,255,255)"
+    )
+    axx$title <- ifelse(is.null(tlab),"time",tlab)
+    axy$title <- ifelse(is.null(xlab),"x",xlab)
+    axz$title <- ifelse(is.null(ylab),paste("Variable",var),ylab[var])
     D0 %>%
       group_by(time) %>%
       plot_ly(x=~x,z=~z,y=~time, type = 'scatter3d', mode = 'lines',
-              line = list(width = 4, color = ~z, colorscale = list(c(0,'#BA52ED'), c(1,'#FCB040')))) %>%
-      layout(yaxis = list(title = paste("Variable",var)))
+              line = list(width = 4, color = ~z, colorscale = list(c(0,'#FFFFFAFF'), c(1,'#FF0000FF')))) %>%
+      layout(scene = list(xaxis = axx, yaxis = axy, zaxis = axz))
     } else stop("The type for the plot is not valid.")
 }
 
