@@ -1,8 +1,10 @@
 # Univariate and multivariate weighted correlation used to find weighted correlation matrix for the grouping stage
 # of ufssa and mfssa.
 
-ufwcor <- function(U, d) {
-  Q <- freconstruct(U, group = as.list(1:d))
+ufwcor <- function(U, group) {
+  if(is.numeric(group)) group <- as.list(group)
+  d <- length(group)
+  Q <- freconstruct(U, group = group)
   N <- U$N
   L <- U$L
   K <- N - L + 1L
@@ -23,8 +25,10 @@ ufwcor <- function(U, d) {
   return(out)
 }
 
-mfwcor <- function(U, d) {
-  Q <- mfreconstruct(U, group = as.list(1:d))
+mfwcor <- function(U, group) {
+  if(is.numeric(group)) group <- as.list(group)
+  d <- length(group)
+  Q <- mfreconstruct(U, group = group)
   N <- U$N
   L <- U$L
   K <- N - L + 1L
@@ -64,11 +68,11 @@ mfwcor <- function(U, d) {
 #' This function evaluate the Wcorrelation plot for fssa
 #' @return A squared matrix of W-correlation values.
 #' @param U in the input is an object of class \code{fssa}.
-#' @param d is the number of elementary components
+#' @param group A list or vector of indices determines the grouping used for the decomposition
 #' in pairwise W-correlations matrix.
 #' @seealso \code{\link{fssa}}
 #' @export
-fwcor <- function(U, d) {
-  if(is.fd(U[[1]])) out <- ufwcor(U, d) else out <- mfwcor(U, d)
+fwcor <- function(U, group) {
+  if(is.fd(U[[1]])) out <- ufwcor(U, group) else out <- mfwcor(U, group)
   return(out)
 }

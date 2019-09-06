@@ -4,12 +4,12 @@
 \alias{fwcor}
 \title{W-correlation matrix}
 \usage{
-fwcor(U, d)
+fwcor(U, group)
 }
 \arguments{
 \item{U}{in the input is an object of class \code{fssa}.}
 
-\item{d}{is the number of elementary components
+\item{group}{A list or vector of indices determines the grouping used for the decomposition
 in pairwise W-correlations matrix.}
 }
 \value{

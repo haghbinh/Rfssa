@@ -19,7 +19,7 @@
 
 \item{contrib}{logical. If 'TRUE' (the default), the contribution of the component to the total variance is displayed.}
 
-\item{group}{Grouping used for the decomposition(for type="wcor")}
+\item{group}{A list or vector of indices determines grouping used for the decomposition(for type="wcor")}
 
 \item{type}{what type of plot should be drawn. Possible types are:
 \itemize{

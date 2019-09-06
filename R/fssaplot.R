@@ -6,7 +6,7 @@
 #' @param d an integer which is the number of elementary components in the plot.
 #' @param idx A Vector of indices of eigen elements to plot
 #' @param idy A second vector of indices of eigen elements to plot(for type="paired")
-#' @param group Grouping used for the decomposition(for type="wcor")
+#' @param group A list or vector of indices determines grouping used for the decomposition(for type="wcor")
 #' @param contrib logical. If 'TRUE' (the default), the contribution of the component to the total variance is displayed.
 #' @param type what type of plot should be drawn. Possible types are:
 #' \itemize{
