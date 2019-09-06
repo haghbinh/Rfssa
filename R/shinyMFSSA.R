@@ -35,8 +35,8 @@ ui.mfssa <- fluidPage(tags$head(tags$style(HTML("body { max-width: 1250px !impor
 
 server.mfssa <- function(input, output, clientData, session) {
 
-  load(system.file("shiny/data", "servshiny.rda", package = "Rfssa"));
-  iTs <- reactiveVal(list()); iTrs <- reactiveVal(list()); itmp <- reactiveVal(0)
+  iTs <- reactiveVal(list()); iTrs <- reactiveVal(list());
+  iXs <- reactiveVal(list()); itmp <- reactiveVal(0);
   df <- 100; vf <- 20; T <- 100;
   output$flag_plotly <- reactive(input$desc%in%c("mfssa.reconst","ssa.reconst") && input$rec.type%in%c("heatmap","line","3Dline","3Dsurface"));
   output$flag_plot <- reactive(!(input$desc%in%c("mfssa.reconst","ssa.reconst") && input$rec.type%in%c("heatmap","line","3Dline","3Dsurface")))
@@ -204,8 +204,19 @@ server.mfssa <- function(input, output, clientData, session) {
 
   output$s.choice <- renderUI({
     if (input$f.choice!="server") return();
-    s.choices <- 1:length(Xs); names(s.choices) <- names(Xs);
-    selectInput("s.choice","Select a file from server: ", choices = s.choices, width="250px");
+    # if (!length(iXs())) {load(system.file("shiny/data", "servshiny.rda", package = "Rfssa")); iXs(Xs)}
+    if (!length(iXs())) {
+      Xs <- list(); Xs[[1]] <- matrix(sqrt(Rfssa::Callcenter$calls),nrow = 240)
+      Xs[[2]] <- Xs[[3]] <- matrix(NA, nrow = 128, ncol = dim(Rfssa::Jambi$NDVI)[3])
+      for(i in 1:dim(Rfssa::Jambi$NDVI)[3]){
+        Xs[[2]][,i] <- density(Rfssa::Jambi$NDVI[,,i],from=0,to=1,n=128)$y
+        Xs[[3]][,i] <- density(Rfssa::Jambi$EVI[,,i],from=0,to=1,n=128)$y
+      }; colnames(Xs[[2]]) <- colnames(Xs[[3]]) <- Rfssa::Jambi$Date
+      names(Xs) <- c("Callcenter", "NDVI", "EVI");
+      Xs[[4]] <- Xs[2:3]; names(Xs) <- c(names(Xs[1:3]),"xDI"); iXs(Xs)
+    }
+    s.choices <- 1:length(iXs()); names(s.choices) <- names(iXs());
+    selectInput("s.choice","Select a file from server: ", choices = s.choices, width="250px")
   })
 
   output$noise.t <- renderUI({
@@ -266,7 +277,7 @@ server.mfssa <- function(input, output, clientData, session) {
       } else {Ts <- list(Ts)}
     } else if (input$f.choice=="server") {
       if (is.null(input$s.choice)) return();  i <- as.numeric(input$s.choice);
-      Ts <- Xs[[i]]; if (is.matrix(Ts)) Ts <- list(Ts);
+      Ts <- iXs()[[i]]; if (is.matrix(Ts)) Ts <- list(Ts);
     } else {simul <- simulate(); Ts <- Map("+", simul$Trs, simul$noise)};
     if (!length(Ts)) return()
     if (is.null(colnames(Ts[[1]]))) {for (i in 1:length(Ts)) colnames(Ts[[i]]) <- paste("fn",1:ncol(Ts[[i]]))};
@@ -281,7 +292,7 @@ server.mfssa <- function(input, output, clientData, session) {
 
   output$data.plot = renderPlot({
     if ((input$f.choice=="upload" && is.null(input$file)) || (input$f.choice=="sim" && !length(input$model)) || !length(iTs())) return();
-    if (input$f.choice=="server") {i <- as.numeric(input$s.choice); fname <- names(Xs)[i]}
+    if (input$f.choice=="server") {i <- as.numeric(input$s.choice); fname <- names(iXs())[i]}
     else if (input$f.choice=="upload") {fname <- input$file$name} else {fname <- "Simulation"};
     par(mfrow=c(1,length(iTs())),mgp=c(1.5,.5,0),mar=c(3,3,2.5,1.75))
     for (i in 1:length(iTs())) {
@@ -310,7 +321,7 @@ server.mfssa <- function(input, output, clientData, session) {
   output$desc <- renderUI({
     if ((input$f.choice=="upload" && is.null(input$file)) || (input$f.choice=="sim" && !length(input$model))) return();
     choices <- list(Summary=c("Functional Time Series" = "ts", "How many basis? (GCV)"="gcv"),
-                    MFSSA=c("Scree"="mfssa.scree", "W.Corr" = "mfssa.wcor", "Paired"="mfssa.pair", "Singular Vectors"="mfssa.singV", "Peiodogram"="mfssa.perGr", "Singular Functions"="mfssa.singF", "Reconstruction"="mfssa.reconst"),
+                    MFSSA=c("Scree"="mfssa.scree", "W.Corr" = "mfssa.wcor", "Paired"="mfssa.pair", "Singular Vectors"="mfssa.singV", "Periodogram"="mfssa.perGr", "Singular Functions"="mfssa.singF", "Reconstruction"="mfssa.reconst"),
                     MSSA=c("Scree"="ssa.scree", "W.Corr" = "ssa.wcor", "Paired"="ssa.pair", "Vectors"="ssa.vec", "Functions" = "ssa.funs", "Reconstruction"="ssa.reconst"));
     selectInput("desc","Select",choices=choices, width="250px")
   })
@@ -336,7 +347,7 @@ server.mfssa <- function(input, output, clientData, session) {
     if (is.null(input$desc)) { return() } else if (!input$desc%in%c("mfssa.reconst","mfssa.singF","ssa.reconst")) return()
     if (input$desc=="mfssa.singF") selectInput("rec.type","Type",choices=c("Heat plot"="lheats","Regular Plot"="lcurves"), width="250px")
     else if (input$desc=="ssa.reconst") selectInput("rec.type","Type",choices=c("Heat Plot"="heatmap","Regular Plot"="line","3D Plot (line)"="3Dline","3D Plot (surface)"="3Dsurface"), width="250px")
-    else selectInput("rec.type","Type",choices=c("Heat Plot"="heatmap","Regular Plot"="line","3D Plot (line)"="3Dline","3D Plot (surface)"="3Dsurface","image2D"="3","ribbon3D"="1","ribbon3D-Curtain"="2"), width="250px")
+    else selectInput("rec.type","Type",choices=c("Heat Plot"="heatmap","Regular Plot"="line","3D Plot (line)"="3Dline","3D Plot (surface)"="3Dsurface"), width="250px") #,"image2D"="3","ribbon3D"="1","ribbon3D-Curtain"="2"
   })
 
   output$freq <- renderUI({
@@ -403,7 +414,7 @@ server.mfssa <- function(input, output, clientData, session) {
     if ((input$f.choice=="upload" && is.null(input$file)) || (input$f.choice=="sim" && !length(input$model))) return();
     if (input$desc%in%c("mfssa.reconst","ssa.reconst") && !is.null(input$rec.type)) if (input$rec.type%in%c("heatmap","line","3Dline","3Dsurface")) return()
     if (!is.null(input$var.which) && length(iTs())!=1) var.which <- as.numeric(input$var.which) else var.which <- 1
-    if (input$f.choice=="server") {fname <- names(Xs)[as.numeric(input$s.choice)]} else if (input$f.choice=="upload") {fname <- input$file$name} else {fname <- "Simulation"}
+    if (input$f.choice=="server") {fname <- names(iXs())[as.numeric(input$s.choice)]} else if (input$f.choice=="upload") {fname <- input$file$name} else {fname <- "Simulation"}
     indx <- as.numeric(input$sts.choice); Ts <- iTs()[[var.which]]; name.Ts <- names(iTs())[var.which]
     if (length(intersect(input$s.plot,c("bf","bss")))) {
       if (is.null(input$b.indx)) return()
@@ -444,7 +455,7 @@ server.mfssa <- function(input, output, clientData, session) {
       else if (input$desc=="mfssa.singV") plot(sr$mUf, d=input$d[2], type="vectors")
       else if (input$desc=="mfssa.perGr") plot(sr$mUf,d=input$d[2],type="periodogram")
       else if (input$desc=="mfssa.singF") {plot(sr$mUf, d=input$d[2], type=ifelse(is.null(input$rec.type),"lheats",input$rec.type), var=var.which)}
-      else if (input$desc=="mfssa.reconst" && input$rec.type%in%c("1","2","3")) ftsplot(seq(0, 1, length = nrow(Ts)), 1:ncol(Ts), mQf, space = 0.1, type=as.numeric(input$rec.type), ylab = "tau", xlab = "t", main = "mUf")
+      #else if (input$desc=="mfssa.reconst" && input$rec.type%in%c("1","2","3")) ftsplot(seq(0, 1, length = nrow(Ts)), 1:ncol(Ts), mQf, space = 0.1, type=as.numeric(input$rec.type), ylab = "tau", xlab = "t", main = "mUf")
     } else if (substr(input$desc,1,3)=="ssa") {
       if (input$desc=="ssa.scree") plot(sr$Us,type="values",numvalues=input$d[2])
       else if (input$desc=="ssa.wcor") plot(sr$Us,type="wcor",groups=input$d[1]:input$d[2])
