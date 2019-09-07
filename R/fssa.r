@@ -28,7 +28,7 @@
 #' time <- 1:N
 #' K <- nrow(D)
 #' u <- seq(0,K,length.out =K)
-#' d <- 22 #Optimal Number of basises
+#' d <- 22 #Optimal Number of basis elements
 #' basis <- create.bspline.basis(c(min(u),max(u)),d)
 #' Ysmooth <- smooth.basis(u,D,basis)
 #' ## Define functional time series
