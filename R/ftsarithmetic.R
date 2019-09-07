@@ -28,6 +28,11 @@
 #' @export
 '+.fts' <- function(Y1,Y2){
   if(class(Y1)=='fts' && class(Y2)=='fts'){
+    if(ncol(Y1[[1]]$coefs)!=ncol(Y2[[1]]$coefs)){
+
+      stop("Functional time series are of different length")
+
+    }
     p=Y1$p
     out = list()
     for(j in 1:p){
@@ -105,6 +110,11 @@
 #' @export
 '-.fts' <- function(Y1,Y2){
   if(class(Y1) == 'fts' && class(Y2) == 'fts'){
+    if(ncol(Y1[[1]]$coefs)!=ncol(Y2[[1]]$coefs)){
+
+      stop("Functional time series are of different length")
+
+    }
     p=Y1$p
     out = list()
     for(j in 1:p){
@@ -183,6 +193,11 @@
 #' @export
 '*.fts' <- function(Y1,Y2){
   if(class(Y1) == 'fts' && class(Y2) == 'fts'){
+    if(ncol(Y1[[1]]$coefs)!=ncol(Y2[[1]]$coefs)){
+
+      stop("Functional time series are of different length")
+
+    }
     p=Y1$p
     out = list()
     for(j in 1:p){
