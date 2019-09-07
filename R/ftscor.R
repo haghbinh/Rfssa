@@ -25,6 +25,16 @@
 #'
 #' @export
 cor.fts <- function(Y1, Y2) {
+  if(Y1$N!=Y2$N){
+
+    stop("Functional time series are of different length")
+
+  }
+  if(Y1$p!=Y2$p){
+
+    stop("Functional time series have different number of covariates")
+
+  }
   N <- Y1$N
   w <- matrix(nrow=1,ncol=N,data=1)
   p = Y1$p
