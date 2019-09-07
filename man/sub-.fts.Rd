@@ -7,17 +7,18 @@
 \method{[}{fts}(Y, i = "index")
 }
 \arguments{
-\item{Y}{a Univariate of Multivariate functional time series.}
+\item{Y}{an object of class \code{\link{fts}}}
 
-\item{i}{index.}
+\item{i}{index}
 }
 \value{
-An object of class fts.
-
-\item{out}{a functional time series}
+an object of class \code{\link{fts}}
 }
 \description{
-[ is an S3 method that lets you index into a functional time series
+A method that lets you index into a functional time series (\code{\link{fts}}).
+}
+\note{
+can use ':' as an operator to specify a range of indices
 }
 \examples{
 

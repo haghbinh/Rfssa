@@ -7,17 +7,15 @@
 \method{*}{fts}(Y1, Y2)
 }
 \arguments{
-\item{Y1}{a Univariate or Multivariate functional time series or scalar}
+\item{Y1}{an object of class \code{\link{fts}} or scalar}
 
-\item{Y2}{a Univariate or Multivariate functional time series or scalar.}
+\item{Y2}{an object of class \code{\link{fts}} or scalar}
 }
 \value{
-An object of class fts.
-
-\item{out}{a functional time series}
+an object of class \code{\link{fts}}
 }
 \description{
-* is an S3 method that lets you multiply functional time series and perform scalar multiplication of functional time series
+A method that lets you multiply functional time series (\code{\link{fts}}) and perform scalar multiplication of functional time series.
 }
 \examples{
 

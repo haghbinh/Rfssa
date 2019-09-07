@@ -1,9 +1,10 @@
-#' Plot of W-correlations
+#' Weighted-Correlations Plot
 #'
-#' Display W-correlation matrix of a single components.
-#' @param W a W-correlation matrix.
-#' @param cuts integer, the number of levels the range of W-cor values will be divided into.
-#' @seealso \code{\link{fssa}}
+#' This function displays the weighted-correlation (w-correlation) matrix of reconstructed functional time series that arise
+#' from single component reconstructions.
+#' @param W a w-correlation matrix
+#' @param cuts an integer that is the number of levels the range of w-correlation values will be divided into
+#' @seealso \code{\link{fssa}} \code{\link{freconstruct}} \code{\link{plot.fssa}}
 
 #' @export
 wplot <- function(W, cuts=20) {

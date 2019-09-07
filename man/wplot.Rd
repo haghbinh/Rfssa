@@ -2,18 +2,19 @@
 % Please edit documentation in R/wplot.R
 \name{wplot}
 \alias{wplot}
-\title{Plot of W-correlations}
+\title{Weighted-Correlations Plot}
 \usage{
 wplot(W, cuts = 20)
 }
 \arguments{
-\item{W}{a W-correlation matrix.}
+\item{W}{a w-correlation matrix}
 
-\item{cuts}{integer, the number of levels the range of W-cor values will be divided into.}
+\item{cuts}{an integer that is the number of levels the range of w-correlation values will be divided into}
 }
 \description{
-Display W-correlation matrix of a single components.
+This function displays the weighted-correlation (w-correlation) matrix of reconstructed functional time series that arise
+from single component reconstructions.
 }
 \seealso{
-\code{\link{fssa}}
+\code{\link{fssa}} \code{\link{freconstruct}} \code{\link{plot.fssa}}
 }

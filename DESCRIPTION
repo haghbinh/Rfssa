@@ -5,7 +5,7 @@ Version: 1.0.0
 Authors@R: c(
     person("Hossein", "Haghbin", email = "haghbinh@gmail.com", role = c("aut", "cre")),
     person("Seyed Morteza", "Najibi", email = "mnajibi@shirazu.ac.ir", role = "aut"),
-    person("Jordan", "Trinka", email = "jordan.trinka@marquette.edu", role = "aut"),
+    person("Jordan", "Trinka", email = "jordantrinka4@hotmail.com", role = "aut"),
     person("Mehdi", "Maadooliat", email = " mehdi@mscs.mu.edu", role = "aut")
     )
 Maintainer: Hossein Haghbin <haghbinh@gmail.com>

@@ -1,17 +1,18 @@
 #--------------------------------------------------------------
-#' Functional Time Series visualization tools using plotly
+#' Functional Time Series Visualization Tools Using Plotly
 #'
-#' Novel different type of plots to visualize the functional time series data objects.
+#' This is a plotting method for univariate or multivariate functional time series (\code{\link{fts}}). This method is designed to help the user visualize
+#' \code{\link{fts}} data using a variety of techniques that use plotly.
 #'
-#' @param x univariate or multivariate functional time series
-#' @param type specifies type of plot to create
+#' @param x an object of class \code{\link{fts}}
+#' @param type specifies the type of plot to create
 #' @param npts number of points to evaluate functional object at
-#' @param main The main title.
-#' @param ylab The character vector of name of variables
-#' @param xlab The label of the functions arguments.
-#' @param tlab The time label
-#' @param var an integer Specify the variable number.
-#' @param ... Arguments to be passed to methods, such as graphical parameters.
+#' @param main the main title
+#' @param ylab the y-axis label
+#' @param xlab the x-axis label
+#' @param tlab the time-axis label
+#' @param var an integer specifying the variable number
+#' @param ... arguments to be passed to methods, such as graphical parameters.
 #' @importFrom plotly plot_ly add_lines layout subplot add_surface
 #' @import dplyr
 #' @examples
@@ -30,6 +31,8 @@
 #' plot(Y,type = "3Dsurface",var = 1)
 #' plot(Y,type = "3Dline", var = 1)
 #' }
+#' @references
+#' Carson Sievert (2018) plotly for R. https://plotly-r.com
 #'
 #' @export
 plot.fts <- function(x,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=NULL,var=NULL, ...){

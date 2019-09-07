@@ -2,15 +2,22 @@
 % Please edit documentation in R/FTSclass.R
 \name{fts}
 \alias{fts}
-\title{Functional time series class}
+\title{Functional Time Series Class}
 \usage{
 fts(Y, time = NULL)
 }
 \arguments{
-\item{Y}{an object of class fd or a list of objects of class fd.}
+\item{Y}{an object of class fd or a list of objects of class fd}
 
-\item{time}{the vector of times at which a time series was sampled.}
+\item{time}{the vector of times at which a time series was sampled}
 }
 \description{
-The function fts is used to create functional time-series objects.
+This function is used to create functional time series objects from functional data (fd) objects.
+}
+\references{
+J. O. Ramsay, Hadley Wickham, Spencer Graves and Giles Hooker (2018). fda: Functional Data Analysis. R package
+version 2.4.8. https://CRAN.R-project.org/package=fda
+}
+\seealso{
+\code{\link{fssa}} for an example on how to run this function starting from fd objects
 }

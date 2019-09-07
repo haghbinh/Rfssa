@@ -1,19 +1,19 @@
 #' Functional Singular Spectrum Analysis
 #'
-#' fssa is a function which performs the decomposition (including embedding
+#' This is a function which performs the decomposition (including embedding
 #'  and  functional SVD steps) stage for univariate functional singular spectrum analysis (ufssa)
 #'  or multivariate functional singular spectrum analysis (mfssa)
 #'  depending on whether the supplied input is a univariate or
-#'  multivariate functional time series object.
+#'  multivariate functional time series (\code{\link{fts}}) object.
 #' @return An object of class fssa, which is a list of
-#' multivariate futional objects and the following components:
-#' \item{values}{A numeric vector of eigenvalues.}
-#' \item{L}{Window length.}
-#' \item{N}{Length of time series.}
-#' \item{Y}{The original functional time series.}
-#' @param Y A functional time series.
-#' @param L Window length.
-#' @param type type of FSSA
+#' multivariate functional objects and the following components:
+#' \item{values}{a numeric vector of eigenvalues}
+#' \item{L}{window length}
+#' \item{N}{length of the functional time series}
+#' \item{Y}{the original functional time series}
+#' @param Y an object of class \code{\link{fts}}
+#' @param L window length
+#' @param type type of FSSA with options of \code{type='ufssa'} or \code{type='mfssa'}
 #' @importFrom fda fd inprod eval.fd smooth.basis is.fd create.bspline.basis
 #' @examples
 #'

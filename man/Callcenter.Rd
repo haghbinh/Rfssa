@@ -3,7 +3,7 @@
 \docType{data}
 \name{Callcenter}
 \alias{Callcenter}
-\title{Number of calls for a bank.}
+\title{Number of Calls for a Bank.}
 \format{A dataframe with 87600 rows and 5 variables:
 \describe{
   \item{calls}{The number of calls in 6 minutes aggregated interval.}
@@ -18,8 +18,8 @@ Callcenter
 \description{
 This dataset is a small call center for an anonymous bank (Brown et al.,
 2005). This dataset provides the exact time of the calls that were connected to
-the call center from January 1 to December 31 in the year 1999.
-The data are aggregated  into time intervals  to obtain a data matrix. More
+the center from January 1 to December 31 in the year 1999.
+The data are aggregated into time intervals to obtain a data matrix. More
 precisely, the \emph{(i,j)}'th element of the data matrix contains the call volume
 during the \emph{j}th time interval on day \emph{i}. This dataset has been analyzed in several
 prior studies; e.g. Brown et al. (2005),  Shen and Huang

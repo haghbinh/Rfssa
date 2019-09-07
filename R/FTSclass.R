@@ -1,10 +1,12 @@
-#' Functional time series class
+#' Functional Time Series Class
 #'
-#' The function fts is used to create functional time-series objects.
-
-#' @param Y  an object of class fd or a list of objects of class fd.
-#' @param time the vector of times at which a time series was sampled.
-
+#' This function is used to create functional time series objects from functional data (fd) objects.
+#' @param Y  an object of class fd or a list of objects of class fd
+#' @param time the vector of times at which a time series was sampled
+#' @references
+#' J. O. Ramsay, Hadley Wickham, Spencer Graves and Giles Hooker (2018). fda: Functional Data Analysis. R package
+#' version 2.4.8. https://CRAN.R-project.org/package=fda
+#' @seealso \code{\link{fssa}} for an example on how to run this function starting from fd objects
 #' @export
 fts <- function(Y,time = NULL){
   if(is.list(Y) & !is.fd(Y)){

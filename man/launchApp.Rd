@@ -2,24 +2,40 @@
 % Please edit documentation in R/launchApp.R
 \name{launchApp}
 \alias{launchApp}
-\title{launches the shinyAppDemo app}
+\title{Launch the Shiny Application Demonstration}
 \usage{
-launchApp(type = "FSSA")
+launchApp(type = "ufssa")
 }
 \arguments{
-\item{type}{type of FSSA, either "FSSA" or "MFSSA"}
+\item{type}{type of FSSA with options of \code{type='ufssa'} or \code{type='mfssa'}}
 }
 \value{
-shiny application object
+a shiny application object
 }
 \description{
-launches the shinyAppDemo app
+This function launches an app that can be used to help an individual better understand univariate or multivariate functional
+singular spectrum analysis (\code{\link{fssa}}). The app allows the user to run univariate or multivariate functional singular spectrum analysis (depending on
+the entered type of parameter)
+on a variety of data types including simulated and real data available through the server. The app also has functionality
+that allows the user to upload their own data. The app allows the user to compare different methods simultaneously such as
+multivariate singular spectrum analysis versus univariate functional singular spectrum analysis. It also allows the user to choose
+the number and types of basis elements used to estimate functional time series (\code{\link{fts}}) objects. The app supports \code{\link{fts}} plots and \code{\link{fssa}}
+plots.
 }
 \examples{
 \dontrun{
 
 launchApp()}
 
+}
+\references{
+Anton Korobeynikov (2010) Computation- and space-efficient implementation of SSA. Statistics and Its Interface,
+Vol. 3, No. 3, 257-368
 
+Nina Golyandina and Anton Korobeynikov (2014) Basic Singular Spectrum Analysis and Forecasting with R.
+Computational Statistics and Data Analysis, Vol. 71, 934-954
 
+Nina Golyandina, Anton Korobeynikov, Alex Shlemov, Konstantin Usevich (2015). Multivariate and 2D Extensions of
+Singular Spectrum Analysis with the Rssa Package. Journal of Statistical Software, 67(2), 1-78.
+doi:10.18637/jss.v067.i02.
 }

@@ -2,32 +2,33 @@
 % Please edit documentation in R/ftsplot.r
 \name{plot.fts}
 \alias{plot.fts}
-\title{Functional Time Series visualization tools using plotly}
+\title{Functional Time Series Visualization Tools Using Plotly}
 \usage{
 \method{plot}{fts}(x, npts = 100, type = "line", main = NULL,
   ylab = NULL, xlab = NULL, tlab = NULL, var = NULL, ...)
 }
 \arguments{
-\item{x}{univariate or multivariate functional time series}
+\item{x}{an object of class \code{\link{fts}}}
 
 \item{npts}{number of points to evaluate functional object at}
 
-\item{type}{specifies type of plot to create}
+\item{type}{specifies the type of plot to create}
 
-\item{main}{The main title.}
+\item{main}{the main title}
 
-\item{ylab}{The character vector of name of variables}
+\item{ylab}{the y-axis label}
 
-\item{xlab}{The label of the functions arguments.}
+\item{xlab}{the x-axis label}
 
-\item{tlab}{The time label}
+\item{tlab}{the time-axis label}
 
-\item{var}{an integer Specify the variable number.}
+\item{var}{an integer specifying the variable number}
 
-\item{...}{Arguments to be passed to methods, such as graphical parameters.}
+\item{...}{arguments to be passed to methods, such as graphical parameters.}
 }
 \description{
-Novel different type of plots to visualize the functional time series data objects.
+This is a plotting method for univariate or multivariate functional time series (\code{\link{fts}}). This method is designed to help the user visualize
+\code{\link{fts}} data using a variety of techniques that use plotly.
 }
 \examples{
 
@@ -45,5 +46,7 @@ plot(Y,type = "line",var = 1)
 plot(Y,type = "3Dsurface",var = 1)
 plot(Y,type = "3Dline", var = 1)
 }
-
+}
+\references{
+Carson Sievert (2018) plotly for R. https://plotly-r.com
 }

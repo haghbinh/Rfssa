@@ -2,44 +2,45 @@
 % Please edit documentation in R/fssaplot.R
 \name{plot.fssa}
 \alias{plot.fssa}
-\title{Plotting fssa Objects}
+\title{Plot Functional Singular Spectrum Analysis Objects}
 \usage{
 \method{plot}{fssa}(x, d = length(x$values), idx = 1:d, idy = idx +
   1, contrib = TRUE, groups = as.list(1:d), type = "values",
   var = 1L, ylab = NA, ...)
 }
 \arguments{
-\item{x}{a functional singular value decomposition object, time series objects, usually inheriting from class "fssa".}
+\item{x}{an object of class \code{\link{fssa}}}
 
-\item{d}{an integer which is the number of elementary components in the plot.}
+\item{d}{an integer which is the number of elementary components in the plot}
 
-\item{idx}{A Vector of indices of eigen elements to plot}
+\item{idx}{a vector of indices of eigen elements to plot}
 
-\item{idy}{A second vector of indices of eigen elements to plot(for type="paired")}
+\item{idy}{a second vector of indices of eigen elements to plot (for type="paired")}
 
-\item{contrib}{logical. If 'TRUE' (the default), the contribution of the component to the total variance is displayed.}
+\item{contrib}{a logical where if the value is 'TRUE' (the default), the contribution of the component to the total variance is displayed}
 
-\item{groups}{A list or vector of indices determines grouping used for the decomposition(for type="wcor")}
+\item{groups}{a list or vector of indices determines grouping used for the decomposition(for type="wcor")}
 
-\item{type}{what type of plot should be drawn. Possible types are:
+\item{type}{the type of plot to be displayed where possible types are:
 \itemize{
-\item \code{"values"} plot the square-root of singular values (default).
-\item \code{"paired"} plot the pairs of eigenfunction's coefficients. (useful for the detection of periodic components).
-\item \code{"wcor"} plot the W-correlation matrix for the reconstructed objects.
-\item \code{"vectors"} plot the eigenfunction's coefficients.(useful for the detection of period length).
-\item \code{"lcurves"} plot of the eigenfunctions.(useful for the detection of period length).
-\item \code{"lheats"} heatmap plot the eigenfunctions.(useful for the detection of meaningful patterns).
-\item \code{"periodogram"} periodogram plot.(useful for the detecting the frequencies of oscillations in functional data).
+\item \code{"values"} plot the square-root of singular values (default)
+\item \code{"paired"} plot the pairs of eigenfunction's coefficients (useful for the detection of periodic components)
+\item \code{"wcor"} plot the W-correlation matrix for the reconstructed objects
+\item \code{"vectors"} plot the eigenfunction's coefficients (useful for the detection of period length)
+\item \code{"lcurves"} plot of the eigenfunctions (useful for the detection of period length)
+\item \code{"lheats"} heatmap plot the eigenfunctions (useful for the detection of meaningful patterns)
+\item \code{"periodogram"} periodogram plot (useful for the detecting the frequencies of oscillations in functional data)
 }}
 
-\item{var}{an integer Specify the variable number.}
+\item{var}{an integer specifying the variable number}
 
-\item{ylab}{The character vector of name of variables.}
+\item{ylab}{the character vector of name of variables}
 
-\item{...}{Arguments to be passed to methods, such as graphical parameters.}
+\item{...}{arguments to be passed to methods, such as graphical parameters}
 }
 \description{
-Plotting method for objects inheriting from class \code{\link{fssa}}.
+This is a plotting method for objects of class functional singular spectrum analysis (\code{\link{fssa}}). The method is designed to help the user make decisions
+ on how to do the grouping stage of univariate or multivariate functional singular spectrum analysis.
 }
 \examples{
 require(Rfssa)

@@ -1,11 +1,10 @@
 #' Addition of Functional Time Series
 #'
-#' + is an S3 method that lets you perform functional time series addition and scalar addition
-#' @return An object of class fts.
+#' A method that lets you perform functional time series (\code{\link{fts}}) addition and scalar addition.
+#' @return an object of class \code{\link{fts}}.
 #'
-#' \item{out}{a functional time series}
-#' @param Y1 a Univariate or Multivariate functional time series or scalar.
-#' @param Y2 a Univariate or Multivariate functional time series or scalar.
+#' @param Y1 an object of class \code{\link{fts}} or scalar
+#' @param Y2 an object of class \code{\link{fts}} or scalar
 #' @examples
 #'
 #' \dontrun{
@@ -77,12 +76,12 @@
 
 #' Subtraction of Functional Time Series
 #'
-#' - is an S3 method that lets you perform functional time series subtraction and scalar subtraction
-#' @return An object of class fts.
+#' A method that lets you perform functional time series (\code{\link{fts}}) subtraction and scalar subtraction.
+#' @return an object of class \code{\link{fts}}.
 #'
-#' \item{out}{a functional time series}
-#' @param Y1 a Univariate or Multivariate functional time series or scalar.
-#' @param Y2 a Univariate or Multivariate functional time series or scalar.
+#'
+#' @param Y1 an object of class \code{\link{fts}} or scalar
+#' @param Y2 an object of class \code{\link{fts}} or scalar
 #' @examples
 #'
 #' \dontrun{
@@ -155,12 +154,12 @@
 
 #' Multiplication of Functional Time Series
 #'
-#' * is an S3 method that lets you multiply functional time series and perform scalar multiplication of functional time series
-#' @return An object of class fts.
+#' A method that lets you multiply functional time series (\code{\link{fts}}) and perform scalar multiplication of functional time series.
+#' @return an object of class \code{\link{fts}}
 #'
-#' \item{out}{a functional time series}
-#' @param Y1 a Univariate or Multivariate functional time series or scalar
-#' @param Y2 a Univariate or Multivariate functional time series or scalar.
+#'
+#' @param Y1 an object of class \code{\link{fts}} or scalar
+#' @param Y2 an object of class \code{\link{fts}} or scalar
 #' @examples
 #'
 #' \dontrun{
@@ -233,12 +232,12 @@
 
 #' Indexing into Functional Time Series
 #'
-#' [ is an S3 method that lets you index into a functional time series
-#' @return An object of class fts.
+#' A method that lets you index into a functional time series (\code{\link{fts}}).
+#' @return an object of class \code{\link{fts}}
 #'
-#' \item{out}{a functional time series}
-#' @param Y a Univariate of Multivariate functional time series.
-#' @param i index.
+#'
+#' @param Y an object of class \code{\link{fts}}
+#' @param i index
 #' @examples
 #'
 #' \dontrun{
@@ -260,6 +259,7 @@
 #'
 #'
 #' @useDynLib Rfssa
+#' @note can use ':' as an operator to specify a range of indices
 #' @export
 '[.fts'<-function(Y,i='index'){
   p=Y$p
