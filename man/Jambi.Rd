@@ -15,8 +15,10 @@
  \emph{Annual Review of Environment and Resources}, 205-244.
 
 
+}}
+\source{
+\url{https://lpdaac.usgs.gov/products/mod13q1v006/}
 }
-The raw data can be found at @source \url{https://lpdaac.usgs.gov/products/mod13q1v006/}}
 \usage{
 Jambi
 }
@@ -29,5 +31,8 @@ monitored frequently. Assessment of woody vegetation could be taken using field 
 remote sensing. It was found that season is probably the most intriguing factor in vegetative land cover,
 especially in long-term land cover changes (Lambin, 1999).
 The data was gathered starting in 2000-02-18 and ending in 2019-07-28 every 16 days.
+}
+\seealso{
+\code{\link{fssa}}
 }
 \keyword{datasets}

@@ -21,5 +21,6 @@
 #'
 #'
 #' }
-#' The raw data can be found at @source \url{https://lpdaac.usgs.gov/products/mod13q1v006/}
+#' @source \url{https://lpdaac.usgs.gov/products/mod13q1v006/}
+#' @seealso \code{\link{fssa}}
 "Jambi"

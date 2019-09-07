@@ -37,23 +37,24 @@
 #' between FTS objects by using \code{\link{cor.fts}}. The plotting of FTS objects can be performed using \code{\link[=plot.fts]{plot}}
 #' which uses the plotly package for visualization .
 #'
+#' The package update also includes a new shiny app (\code{\link{launchApp}}) that can be used for demonstrations of univariate or multivariate FSSA
+#' depending on the type that is specified.
+#' The app allows the user to explore FSSA with simulated data, data that is provided on the server, or data that the user provides.
+#' It allows the user to change parameters as they please, gives visual results of the methods, and also allows the user to compare FSSA results to other
+#' spectrum analysis methods such as multivariate singular spectrum analysis. The tool is easy to use and can act as a nice starting point for a user that wishes to
+#' perform FSSA as a part of their data analysis.
 #'
 #'
 #'@seealso
 #'  \code{\link{fssa}}, \code{\link{freconstruct}},
 #'  \code{\link{fwcor}}, \code{\link{wplot}}, \code{\link{fts}}, \code{\link{plot.fts}}, \code{\link{plot.fssa}},
-#'  \code{\link{cor.fts}}
+#'  \code{\link{cor.fts}}, \code{\link{launchApp}}
 #'
 #'
 #'
 #'@references
 #'   Haghbin H., Najibi, S.M., Mahmoudvand R., Trinka J., Maadooliat M. (2019).
 #'   Functional singular spectrum Analysis. Manuscript submitted for publication.
-#'
-#'   J. O. Ramsay, Hadley Wickham, Spencer Graves and Giles Hooker (2018). fda: Functional Data Analysis. R package version 2.4.8.
-#'   https://CRAN.R-project.org/package=fda
-#'
-#'   Carson Sievert (2018) plotly for R. https://plotly-r.com
 #'
 #'
 #'
