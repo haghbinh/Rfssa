@@ -100,7 +100,7 @@ plot.fts <- function(x,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=N
     if(var>p) var <- p
     z0 <- eval.fd(x[[var]],u)
     axx <-axy <-axz <- list(
-      gridcolor="rgb(255,255,255)",
+      gridcolor="rgb(196, 196, 196)",
       zerolinecolor="rgb(255,255,255)"
     )
     axx$title <- ifelse(is.null(tlab),"time",tlab)
@@ -113,20 +113,26 @@ plot.fts <- function(x,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=N
     if(is.null(var) | p==1) var <- 1
     if(var>p) var <- p
     D0 <- as.tbl(data.frame(z=c(eval.fd(x[[var]],u))))
-    D0$time <- as.character(rep(time,each=npts))
-    D0$x <- rep(u,length = npts)
+    D0$time <- factor(rep(time,each=npts))
+    D0$u <- rep(u,length = npts)
     axx <-axy <-axz <- list(
-      gridcolor="rgb(255,255,255)",
+      gridcolor="rgb(196, 196, 196)",
       zerolinecolor="rgb(255,255,255)"
     )
-    axx$title <- ifelse(is.null(tlab),"time",tlab)
-    axy$title <- ifelse(is.null(xlab),"x",xlab)
+    axx$title <- ifelse(is.null(tlab),"x",tlab)
+    axy$title <- ifelse(is.null(xlab),"time",xlab)
     axz$title <- ifelse(is.null(ylab),paste("Variable",var),ylab[var])
-    D0 %>%
-      group_by(time) %>%
-      plot_ly(y=~x,z=~z,x=~time, type = 'scatter3d', mode = 'lines',
-              line = list(width = 4, color = ~z, colorscale = list(c(0,'#FFFFFAFF'), c(1,'#FF0000FF')))) %>%
+    p <- plot_ly(D0) %>%
       layout(scene = list(xaxis = axx, yaxis = axy, zaxis = axz))
+    for(i in time){
+      y0 <- D0[D0$time == i,]$time
+      x0 <- D0[D0$time == i,]$u
+      z0 <- D0[D0$time == i,]$z
+      p <- add_trace(
+        p = p, y=y0,z=z0,x=x0, type = 'scatter3d', mode = 'lines',
+              line = list(width = 4, color = ~z, colorscale = list(c(0,'#FFFFFAFF'), c(1,'#FF0000FF'))))
+    }
+    p %>% layout(showlegend = FALSE)
     } else stop("The type for the plot is not valid.")
 }
 
