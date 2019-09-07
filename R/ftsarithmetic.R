@@ -28,9 +28,14 @@
 #' @export
 '+.fts' <- function(Y1,Y2){
   if(class(Y1)=='fts' && class(Y2)=='fts'){
-    if(ncol(Y1[[1]]$coefs)!=ncol(Y2[[1]]$coefs)){
+    if(Y1$N!=Y2$N){
 
       stop("Functional time series are of different length")
+
+    }
+    if(Y1$p!=Y2$p){
+
+      stop("Functional time series have different number of covariates")
 
     }
     p=Y1$p
@@ -110,9 +115,14 @@
 #' @export
 '-.fts' <- function(Y1,Y2){
   if(class(Y1) == 'fts' && class(Y2) == 'fts'){
-    if(ncol(Y1[[1]]$coefs)!=ncol(Y2[[1]]$coefs)){
+    if(Y1$N!=Y2$N){
 
       stop("Functional time series are of different length")
+
+    }
+    if(Y1$p!=Y2$p){
+
+      stop("Functional time series have different number of covariates")
 
     }
     p=Y1$p
@@ -193,9 +203,14 @@
 #' @export
 '*.fts' <- function(Y1,Y2){
   if(class(Y1) == 'fts' && class(Y2) == 'fts'){
-    if(ncol(Y1[[1]]$coefs)!=ncol(Y2[[1]]$coefs)){
+    if(Y1$N!=Y2$N){
 
       stop("Functional time series are of different length")
+
+    }
+    if(Y1$p!=Y2$p){
+
+      stop("Functional time series have different number of covariates")
 
     }
     p=Y1$p

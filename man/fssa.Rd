@@ -90,7 +90,9 @@ y=list(y_NDVI,y_EVI)
 Y=fts(y)
 plot(Y,npts = 100, type = 'line')
 plot(Y,npts = 100, type = '3Dsurface', var=1)
+plot(Y,npts = 100, type = '3Dline', var=1)
 plot(Y,npts = 100, type = '3Dsurface', var=2)
+plot(Y,npts = 100, type = '3Dline', var=2)
 plot(Y,npts = 100, type = 'heatmap')
 L=45
 ## Multivariate functional singular spectrum analysis

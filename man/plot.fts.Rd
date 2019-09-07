@@ -53,6 +53,7 @@ Y=fts(smooth.calls$fd) # create functional time series
 plot(Y,type = "heatmap")
 plot(Y,type = "line",var = 1)
 plot(Y,type = "3Dsurface",var = 1)
+plot(Y,type = "3Dline",var = 1)
 }
 
 }

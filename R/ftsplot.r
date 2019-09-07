@@ -35,6 +35,7 @@
 #' plot(Y,type = "heatmap")
 #' plot(Y,type = "line",var = 1)
 #' plot(Y,type = "3Dsurface",var = 1)
+#' plot(Y,type = "3Dline",var = 1)
 #' }
 #'
 #' @note for a multivariate example, see the examples in \code{\link{fssa}}
