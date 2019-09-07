@@ -63,14 +63,15 @@ mfwcor <- function(U, group) {
   return(wcor)
 }
 
-#' W-correlation matrix
+#' Weighted Correlation Matrix
 #'
-#' This function evaluate the Wcorrelation plot for fssa
-#' @return A squared matrix of W-correlation values.
-#' @param U in the input is an object of class \code{fssa}.
-#' @param group A list or vector of indices determines the grouping used for the decomposition
-#' in pairwise W-correlations matrix.
-#' @seealso \code{\link{fssa}}
+#' This function returns the weighted correlation (w-correlation) matrix for functional time series (\code{\link{fts}}) objects
+#' that were reconstructed from functional singular spectrum analysis (\code{\link{fssa}}) objects.
+#' @return a square matrix of w-correlation values
+#' @param U an object of class \code{\link{fssa}}
+#' @param group a list or vector of indices which determines the grouping used for the reconstruction
+#' in pairwise w-correlations matrix
+#' @seealso \code{\link{fssa}}, \code{\link{fts}}
 #' @export
 fwcor <- function(U, group) {
   if(is.fd(U[[1]])) out <- ufwcor(U, group) else out <- mfwcor(U, group)

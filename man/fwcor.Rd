@@ -2,22 +2,23 @@
 % Please edit documentation in R/wcor.r
 \name{fwcor}
 \alias{fwcor}
-\title{W-correlation matrix}
+\title{Weighted Correlation Matrix}
 \usage{
 fwcor(U, group)
 }
 \arguments{
-\item{U}{in the input is an object of class \code{fssa}.}
+\item{U}{an object of class \code{\link{fssa}}}
 
-\item{group}{A list or vector of indices determines the grouping used for the decomposition
-in pairwise W-correlations matrix.}
+\item{group}{a list or vector of indices which determines the grouping used for the reconstruction
+in pairwise w-correlations matrix}
 }
 \value{
-A squared matrix of W-correlation values.
+a square matrix of w-correlation values
 }
 \description{
-This function evaluate the Wcorrelation plot for fssa
+This function returns the weighted correlation (w-correlation) matrix for functional time series (\code{\link{fts}}) objects
+that were reconstructed from functional singular spectrum analysis (\code{\link{fssa}}) objects.
 }
 \seealso{
-\code{\link{fssa}}
+\code{\link{fssa}}, \code{\link{fts}}
 }

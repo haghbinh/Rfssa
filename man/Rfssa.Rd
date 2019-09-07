@@ -53,7 +53,6 @@ Haghbin H., Najibi, S.M., Mahmoudvand R., Trinka J., Maadooliat M. (2019).
 }
 \seealso{
 \code{\link{fssa}}, \code{\link{freconstruct}},
- \code{\link{fwcor}}, \code{\link{wplot}}, \code{\link{fts}}, \code{\link{plot.fts}}, \code{\link{plot.fssa}}
- \code{\link{+.fts}}, \code{\link{'-.fts'}}, \code{\link{'*.fts'}}, \code{\link{'[.fts'}}
+ \code{\link{fwcor}}, \code{\link{wplot}}, \code{\link{fts}}, \code{\link{plot.fts}}, \code{\link{plot.fssa}},
  \code{\link{cor.fts}}
 }
