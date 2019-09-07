@@ -12,11 +12,13 @@
 #' @export launchApp
 #'
 #' @return a shiny application object
-#' @param type type of FSSA with options of \code{type='ufssa'} or \code{type='mfssa'}
+#' @param type type of FSSA with options of \code{type = "ufssa"} or \code{type = "mfssa"}
 #' @examples
 #' \dontrun{
 #'
-#' launchApp()}
+#' launchApp()
+#'
+#' }
 #'
 #' @references
 #'

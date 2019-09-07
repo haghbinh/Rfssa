@@ -1,7 +1,7 @@
 #' Correlation for Functional Time Series Objects
 #'
 #' This function finds the correlation between univarite or multivariate functional time series (\code{\link{fts}}) objects.
-#' @return a scalar that is the correlation between functional time series
+#' @return a scalar that is the correlation between \code{\link{fts}} objects
 #' @param Y1 an object of class \code{\link{fts}}
 #' @param Y2 an object of class \code{\link{fts}}
 #'

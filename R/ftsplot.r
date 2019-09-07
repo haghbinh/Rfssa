@@ -5,13 +5,19 @@
 #' \code{\link{fts}} data using a variety of techniques that use plotly.
 #'
 #' @param x an object of class \code{\link{fts}}
-#' @param type specifies the type of plot to create
+#' @param type the type of plot to be displayed where possible types are:
+#' \itemize{
+#' \item \code{"line"} plot the \code{\link{fts}} elements in a line plot (default)
+#' \item \code{"heatmap"} plot the \code{\link{fts}} elements in a heat map
+#' \item \code{"3Dsurface"} plot the \code{\link{fts}} elements as a surface
+#' \item \code{"3Dline"} plot the \code{\link{fts}} elements in a three-dimensional line plot
+#' }
 #' @param npts number of points to evaluate functional object at
 #' @param main the main title
 #' @param ylab the y-axis label
 #' @param xlab the x-axis label
 #' @param tlab the time-axis label
-#' @param var an integer specifying the variable number
+#' @param var an integer specifying the variable number to plot if \code{type="3Dsurface"} or \code{type="3Dline"}
 #' @param ... arguments to be passed to methods, such as graphical parameters.
 #' @importFrom plotly plot_ly add_lines layout subplot add_surface
 #' @import dplyr
@@ -29,8 +35,10 @@
 #' plot(Y,type = "heatmap")
 #' plot(Y,type = "line",var = 1)
 #' plot(Y,type = "3Dsurface",var = 1)
-#' plot(Y,type = "3Dline", var = 1)
 #' }
+#'
+#' @note for a multivariate example, see the examples in \code{\link{fssa}}
+#'
 #' @references
 #' Carson Sievert (2018) plotly for R. https://plotly-r.com
 #'

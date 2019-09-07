@@ -42,7 +42,11 @@
 This is a plotting method for objects of class functional singular spectrum analysis (\code{\link{fssa}}). The method is designed to help the user make decisions
  on how to do the grouping stage of univariate or multivariate functional singular spectrum analysis.
 }
+\note{
+for a multivariate example, see the examples in \code{\link{fssa}}
+}
 \examples{
+## Simulated Data Example
 require(Rfssa)
 require(fda)
 n <- 50 # Number of points in each function.

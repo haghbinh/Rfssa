@@ -13,7 +13,7 @@ freconstruct(U, group = as.list(1L:10L))
 of a group used for reconstruction}
 }
 \value{
-a named list of reconstructed functional time series in each groups and
+a named list of objects of class \code{\link{fts}} that are reconstructed as according to the specified groups and
 a numeric vector of eigenvalues
 }
 \description{
@@ -22,6 +22,9 @@ This is a function for reconstructing functional time series (\code{\link{fts}})
 Hankelization steps). The function performs the reconstruction step for univariate functional singular spectrum analysis (ufssa) or multivariate functional singular spectrum analysis (mfssa)
 depending on whether or not the input is an \code{\link{fssa}} object from ufssa or mfssa.
 }
+\note{
+refer to \code{\link{fssa}} for an example on how to run this function starting from \code{\link{fssa}} objects
+}
 \seealso{
-\code{\link{fssa}} for an example on how to run this function starting from \code{\link{fssa}} objects
+\code{\link{fssa}}, \code{\link{fts}},
 }

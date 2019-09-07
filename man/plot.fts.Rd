@@ -12,7 +12,13 @@
 
 \item{npts}{number of points to evaluate functional object at}
 
-\item{type}{specifies the type of plot to create}
+\item{type}{the type of plot to be displayed where possible types are:
+\itemize{
+\item \code{"line"} plot the \code{\link{fts}} elements in a line plot (default)
+\item \code{"heatmap"} plot the \code{\link{fts}} elements in a heat map
+\item \code{"3Dsurface"} plot the \code{\link{fts}} elements as a surface
+\item \code{"3Dline"} plot the \code{\link{fts}} elements in a three-dimensional line plot
+}}
 
 \item{main}{the main title}
 
@@ -22,13 +28,16 @@
 
 \item{tlab}{the time-axis label}
 
-\item{var}{an integer specifying the variable number}
+\item{var}{an integer specifying the variable number to plot if \code{type="3Dsurface"} or \code{type="3Dline"}}
 
 \item{...}{arguments to be passed to methods, such as graphical parameters.}
 }
 \description{
 This is a plotting method for univariate or multivariate functional time series (\code{\link{fts}}). This method is designed to help the user visualize
 \code{\link{fts}} data using a variety of techniques that use plotly.
+}
+\note{
+for a multivariate example, see the examples in \code{\link{fssa}}
 }
 \examples{
 
@@ -44,8 +53,8 @@ Y=fts(smooth.calls$fd) # create functional time series
 plot(Y,type = "heatmap")
 plot(Y,type = "line",var = 1)
 plot(Y,type = "3Dsurface",var = 1)
-plot(Y,type = "3Dline", var = 1)
 }
+
 }
 \references{
 Carson Sievert (2018) plotly for R. https://plotly-r.com

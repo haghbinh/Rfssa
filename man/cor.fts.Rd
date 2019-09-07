@@ -12,7 +12,7 @@ cor.fts(Y1, Y2)
 \item{Y2}{an object of class \code{\link{fts}}}
 }
 \value{
-a scalar that is the correlation between functional time series
+a scalar that is the correlation between \code{\link{fts}} objects
 }
 \description{
 This function finds the correlation between univarite or multivariate functional time series (\code{\link{fts}}) objects.

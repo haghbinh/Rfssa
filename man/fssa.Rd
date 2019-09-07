@@ -11,10 +11,10 @@ fssa(Y, L = NA, type = "fssa")
 
 \item{L}{window length}
 
-\item{type}{type of FSSA with options of \code{type='ufssa'} or \code{type='mfssa'}}
+\item{type}{type of FSSA with options of \code{type = "ufssa"} or \code{type = "mfssa"}}
 }
 \value{
-An object of class fssa, which is a list of
+An object of class \code{fssa}, which is a list of
 multivariate functional objects and the following components:
 \item{values}{a numeric vector of eigenvalues}
 \item{L}{window length}
@@ -88,7 +88,10 @@ y_EVI <- smooth.basis(u,as.matrix(D0_EVI),basis)$fd
 y=list(y_NDVI,y_EVI)
 ## Define functional time series
 Y=fts(y)
-plot(Y)
+plot(Y,npts = 100, type = 'line')
+plot(Y,npts = 100, type = '3Dsurface', var=1)
+plot(Y,npts = 100, type = '3Dsurface', var=2)
+plot(Y,npts = 100, type = 'heatmap')
 L=45
 ## Multivariate functional singular spectrum analysis
 U=fssa(Y,L)

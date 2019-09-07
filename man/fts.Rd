@@ -14,10 +14,13 @@ fts(Y, time = NULL)
 \description{
 This function is used to create functional time series objects from functional data (fd) objects.
 }
+\note{
+refer to \code{\link{fssa}} for an example on how to run this function starting from fd objects
+}
 \references{
 J. O. Ramsay, Hadley Wickham, Spencer Graves and Giles Hooker (2018). fda: Functional Data Analysis. R package
 version 2.4.8. https://CRAN.R-project.org/package=fda
 }
 \seealso{
-\code{\link{fssa}} for an example on how to run this function starting from fd objects
+\code{\link{fssa}}
 }

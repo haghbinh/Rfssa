@@ -67,11 +67,68 @@ mfwcor <- function(U, group) {
 #'
 #' This function returns the weighted correlation (w-correlation) matrix for functional time series (\code{\link{fts}}) objects
 #' that were reconstructed from functional singular spectrum analysis (\code{\link{fssa}}) objects.
-#' @return a square matrix of w-correlation values
+#' @return a square matrix of w-correlation values for the reconstructed \code{\link{fts}} objects that were built from
+#' \code{\link{fssa}} components
 #' @param U an object of class \code{\link{fssa}}
 #' @param group a list or vector of indices which determines the grouping used for the reconstruction
 #' in pairwise w-correlations matrix
-#' @seealso \code{\link{fssa}}, \code{\link{fts}}
+#' @examples
+#'
+#' \dontrun{
+#'
+#' ## Univariate W-Correlation Example on Callcenter data
+#' data("Callcenter")
+#' require(fda)
+#' require(Rfssa)
+#' ## Define functional objects
+#' D <- matrix(sqrt(Callcenter$calls),nrow = 240)
+#' N <- ncol(D)
+#' time <- 1:N
+#' K <- nrow(D)
+#' u <- seq(0,K,length.out =K)
+#' d <- 22 #Optimal Number of basis elements
+#' basis <- create.bspline.basis(c(min(u),max(u)),d)
+#' Ysmooth <- smooth.basis(u,D,basis)
+#' ## Define functional time series
+#' Y <- fts(Ysmooth$fd)
+#' ## Decomposition stage of univariate functional singular spectrum analysis
+#' L <- 28
+#' U <- fssa(Y,L)
+#' ufwcor=fwcor(U = U,group = list(1,2,3))
+#' wplot(W=ufwcor)
+#'
+#' ## Multivariate W-Correlation Example on Bivariate Satelite Image Data
+#' require(fda)
+#' require(Rfssa)
+#' ## Raw image data
+#' NDVI=Jambi$NDVI
+#' EVI=Jambi$EVI
+#' ## Kernel density estimation of pixel intensity
+#' D0_NDVI <- matrix(NA,nrow = 512, ncol = 448)
+#' D0_EVI <- matrix(NA,nrow =512, ncol = 448)
+#' for(i in 1:448){
+#'   D0_NDVI[,i] <- density(NDVI[,,i],from=0,to=1)$y
+#'   D0_EVI[,i] <- density(EVI[,,i],from=0,to=1)$y
+#' }
+#' ## Define functional objects
+#' d <- 11
+#' basis <- create.bspline.basis(c(0,1),d)
+#' u <- seq(0,1,length.out = 512)
+#' y_NDVI <- smooth.basis(u,as.matrix(D0_NDVI),basis)$fd
+#' y_EVI <- smooth.basis(u,as.matrix(D0_EVI),basis)$fd
+#' y=list(y_NDVI,y_EVI)
+#' ## Define functional time series
+#' Y=fts(y)
+#' plot(Y)
+#' L=45
+#' ## Decomposition stage of multivariate functional singular spectrum analysis
+#' U=fssa(Y,L)
+#' mfwcor=fwcor(U = U,group = list(1,2,3,4))
+#' wplot(W=mfwcor)
+#' }
+#'
+#'
+#' @seealso \code{\link{fssa}}, \code{\link{freconstruct}}, \code{\link{fts}}, \code{\link{wplot}}
 #' @export
 fwcor <- function(U, group) {
   if(is.fd(U[[1]])) out <- ufwcor(U, group) else out <- mfwcor(U, group)

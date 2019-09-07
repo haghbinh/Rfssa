@@ -7,7 +7,7 @@
 launchApp(type = "ufssa")
 }
 \arguments{
-\item{type}{type of FSSA with options of \code{type='ufssa'} or \code{type='mfssa'}}
+\item{type}{type of FSSA with options of \code{type = "ufssa"} or \code{type = "mfssa"}}
 }
 \value{
 a shiny application object
@@ -25,7 +25,9 @@ plots.
 \examples{
 \dontrun{
 
-launchApp()}
+launchApp()
+
+}
 
 }
 \references{
