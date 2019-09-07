@@ -40,6 +40,7 @@
 launchApp <- function(type="ufssa") {
   if (type=="ufssa")
     shinyApp(ui = ui.fssa, server = server.fssa)
-  else
+  else if (type=="mfssa")
     shinyApp(ui = ui.mfssa, server = server.mfssa)
+  else stop("The type for the shiny is not valid.")
 }
