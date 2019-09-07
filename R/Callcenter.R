@@ -39,6 +39,7 @@
 #'   components analysis. \emph{Journal of Computational and
 #'   Graphical Statistics}, \strong{24}(1), 84-103.
 #' }
+#' @source \url{http://iew3.technion.ac.il/serveng/callcenterdata/index.html}
 #' @seealso \code{\link{fssa}}
 "Callcenter"
 

@@ -56,6 +56,3 @@ plot(Y,type = "3Dsurface",var = 1)
 }
 
 }
-\references{
-Carson Sievert (2018) plotly for R. https://plotly-r.com
-}

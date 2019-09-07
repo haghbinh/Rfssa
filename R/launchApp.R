@@ -20,17 +20,6 @@
 #'
 #' }
 #'
-#' @references
-#'
-#' Anton Korobeynikov (2010) Computation- and space-efficient implementation of SSA. Statistics and Its Interface,
-#' Vol. 3, No. 3, 257-368
-#'
-#' Nina Golyandina and Anton Korobeynikov (2014) Basic Singular Spectrum Analysis and Forecasting with R.
-#' Computational Statistics and Data Analysis, Vol. 71, 934-954
-#'
-#' Nina Golyandina, Anton Korobeynikov, Alex Shlemov, Konstantin Usevich (2015). Multivariate and 2D Extensions of
-#' Singular Spectrum Analysis with the Rssa Package. Journal of Statistical Software, 67(2), 1-78.
-#' doi:10.18637/jss.v067.i02.
 #'
 #' @import shiny
 #'

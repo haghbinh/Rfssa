@@ -39,8 +39,6 @@
 #'
 #' @note for a multivariate example, see the examples in \code{\link{fssa}}
 #'
-#' @references
-#' Carson Sievert (2018) plotly for R. https://plotly-r.com
 #'
 #' @export
 plot.fts <- function(x,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=NULL,var=NULL, ...){
