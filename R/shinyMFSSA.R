@@ -321,8 +321,8 @@ server.mfssa <- function(input, output, clientData, session) {
   output$desc <- renderUI({
     if ((input$f.choice=="upload" && is.null(input$file)) || (input$f.choice=="sim" && !length(input$model))) return();
     choices <- list(Summary=c("Functional Time Series" = "ts", "How many basis? (GCV)"="gcv"),
-                    MFSSA=c("Scree"="mfssa.scree", "W.Corr" = "mfssa.wcor", "Paired"="mfssa.pair", "Singular Vectors"="mfssa.singV", "Periodogram"="mfssa.perGr", "Singular Functions"="mfssa.singF", "Reconstruction"="mfssa.reconst"),
-                    MSSA=c("Scree"="ssa.scree", "W.Corr" = "ssa.wcor", "Paired"="ssa.pair", "Vectors"="ssa.vec", "Functions" = "ssa.funs", "Reconstruction"="ssa.reconst"));
+                    MFSSA=c("Scree"="mfssa.scree", "W.Correlation" = "mfssa.wcor", "Paired"="mfssa.pair", "Singular Vectors"="mfssa.singV", "Periodogram"="mfssa.perGr", "Singular Functions"="mfssa.singF", "Reconstruction"="mfssa.reconst"),
+                    MSSA=c("Scree"="ssa.scree", "W.Correlation" = "ssa.wcor", "Paired"="ssa.pair", "Singular Vectors"="ssa.vec", "Functions" = "ssa.funs", "Reconstruction"="ssa.reconst"));
     selectInput("desc","Select",choices=choices, width="250px")
   })
 

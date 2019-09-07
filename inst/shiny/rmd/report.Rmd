@@ -13,11 +13,11 @@ Contains the inputs that will be used in different `sub-panels`. The following i
 * [Deg. of freedom](https://en.wikipedia.org/wiki/Degrees_of_freedom) of B-spline or Fourier Basis  
 * [Groups](https://en.wikipedia.org/w/index.php?title=Singular_spectrum_analysis#Main_algorithm_of_SSA): 3rd step of the SSA(FSSA) algorithm:
     + Each group is specified via a vector (e.g. 'c(1,2,4)' or '1:3') and seperated from other groups via comma (',')
-* **d** is the dimensions used in FPCA, SSA(w-corr. plot) and FSSA (w-corr., functions, eigen-paired and eigein-vectors plots)
+* **d** is the dimensions used in FPCA, SSA and FSSA (Scree, W.Correlation, Paired, Singular Vectors & Functions, and Periodogram Plots)
 * **Functions**
     + Demean: Subtract the *mean* to obtain mean-zero functions
     + Dbl Range: extending the y-axis to cover all potential mirrord functions (e.g. sometime FPCs may get multiply by a '-' sign)
-* [Win.L.](https://en.wikipedia.org/w/index.php?title=Singular_spectrum_analysis#Basic_SSA): Window length parameter used in SSA(FSSA)
+* [Win.L.](https://en.wikipedia.org/w/index.php?title=Singular_spectrum_analysis#Basic_SSA): Window length parameter used in *SSA* and *FSSA*
 * **run (F)SSA** button is used to run SSA and FSSA using the specified parameters for the given dataset.
 The top inputs (above red line) are mostly to describe the *basis functions*. The bottom inputs (below red line) are used to specify *SSA* and *FSSA* parameters.
 
@@ -25,9 +25,8 @@ The top inputs (above red line) are mostly to describe the *basis functions*. Th
 ## Data
 One can either use the files posted in Server
 
-* *call.center*: used in the *FSSA paper*
-* *fertility* data or
-* *death rate* examples
+* *Callcenter*: used in the *FSSA paper (package)*
+* *NDVI* and *EVI*: Jambi Sattelite data used in the *FSSA paper (package)*
 
 or simulate FTS (see *FSSA* paper for more details),
 
@@ -57,11 +56,12 @@ or upload any FTS to be analyzed.
 In this panel we can also select outputs under **SSA** and **FSSA**:
 
 * _Scree_ plot: based on the _trajectory_ matrix
-* _W.Corr_ plot: w-correlation plot
-* Eigen _Functions_
-* _Reconstruction_ of FTS using different _Type_ of images (_2D_ and _3D_)
-* Eigen _Paired_ plots
-* Eigen _Vecots_ (Functions)
+* _W.Correlation_ plot: w-correlation plot
+* _Paired_ plots
+* _Singular Vectors_ plots
+* _Periodogram_ plots
+* _Singular Functions_ (Heat or Regular plots)
+* _Reconstruction_ of FTS using different _Type_ of plots (Heat, Regular, 3D(line) and 3D(surface))
 
 ## Manual
 The sub-panel that contains this _instruction manual_.

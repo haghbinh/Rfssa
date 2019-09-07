@@ -298,8 +298,8 @@ server.fssa <- function(input, output, clientData, session) {
   output$desc <- renderUI({
     if ((input$f.choice=="upload" && is.null(input$file)) || (input$f.choice=="sim" && !length(input$model))) return();
     choices <- list(Summary=c("Functional Time Series" = "ts", "How many basis? (GCV)"="gcv"),
-                    FSSA=c("Scree"="fssa.scree", "W.Corr" = "fssa.wcor", "Paired"="fssa.pair", "Singular Vectors"="fssa.singV", "Periodogram"="fssa.perGr", "Singular Functions"="fssa.singF", "Reconstruction"="fssa.reconst"),
-                    SSA=c("Scree"="ssa.scree", "W.Corr" = "ssa.wcor", "Paired"="ssa.pair", "Vectors"="ssa.vec", "Functions" = "ssa.funs", "Reconstruction"="ssa.reconst"));
+                    FSSA=c("Scree"="fssa.scree", "W.Correlation" = "fssa.wcor", "Paired"="fssa.pair", "Singular Vectors"="fssa.singV", "Periodogram"="fssa.perGr", "Singular Functions"="fssa.singF", "Reconstruction"="fssa.reconst"),
+                    SSA=c("Scree"="ssa.scree", "W.Correlation" = "ssa.wcor", "Paired"="ssa.pair", "Singular Vectors"="ssa.vec", "Functions" = "ssa.funs", "Reconstruction"="ssa.reconst"));
     selectInput("desc","Select",choices=choices, width="250px")
   })
 
