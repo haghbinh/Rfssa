@@ -108,7 +108,7 @@ plot.fts <- function(x,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=N
     if(var>p) var <- p
     z0 <- eval.fd(x[[var]],u)
     axx <-axy <-axz <- list(
-      gridcolor="rgb(196, 196, 196)",
+      gridcolor="rgb(180, 180, 180)",
       zerolinecolor="rgb(255,255,255)"
     )
     axx$title <- ifelse(is.null(tlab),"time",tlab)
@@ -121,10 +121,10 @@ plot.fts <- function(x,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=N
     if(is.null(var) | p==1) var <- 1
     if(var>p) var <- p
     D0 <- as.tbl(data.frame(z=c(eval.fd(x[[var]],u))))
-    D0$time <- as.character(rep(time,each=npts))
+    D0$time <- rep(time,each=npts)
     D0$x <- rep(u,length = npts)
     axx <-axy <-axz <- list(
-      gridcolor="rgb(196, 196, 196)",
+      gridcolor="rgb(180, 180, 180)",
       zerolinecolor="rgb(255,255,255)"
     )
     axx$title <- ifelse(is.null(tlab),"x",tlab)
@@ -134,7 +134,7 @@ plot.fts <- function(x,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=N
       group_by(time) %>%
       plot_ly(y=~time,z=~z,x=~x, type = 'scatter3d', mode = 'lines', color = ~z,
               line = list(width = 4), colors=c("#FFFFFAFF","#FF0000FF")) %>%
-      layout(scene = list(xaxis = axx, yaxis = axy, zaxis = axz)) %>% layout(showlegend = FALSE)
+      layout(scene = list(xaxis = axx, yaxis = axy, zaxis = axz)) %>% hide_colorbar()
     } else stop("The type for the plot is not valid.")
 }
 
