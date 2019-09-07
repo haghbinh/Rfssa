@@ -35,5 +35,7 @@ Yplus2=Y+2 # add 2 to every term in the functional time series
 plot(Yplus2)
 }
 
-
+}
+\seealso{
+\code{\link{fts}}
 }

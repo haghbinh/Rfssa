@@ -35,5 +35,7 @@ Ytimes2=2*Y # multiply 2 with every term in the functional time series
 plot(Ytimes2)
 }
 
-
+}
+\seealso{
+\code{\link{fts}}
 }

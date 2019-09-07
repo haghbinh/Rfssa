@@ -13,14 +13,25 @@
 #' \dontrun{
 #' require(fda)
 #' require(Rfssa)
+#' ## Raw image data
+#' NDVI=Jambi$NDVI
+#' EVI=Jambi$EVI
+#' ## Kernel density estimation of pixel intensity
+#' D0_NDVI <- matrix(NA,nrow = 512, ncol = 448)
+#' D0_EVI <- matrix(NA,nrow =512, ncol = 448)
+#' for(i in 1:448){
+#'   D0_NDVI[,i] <- density(NDVI[,,i],from=0,to=1)$y
+#'   D0_EVI[,i] <- density(EVI[,,i],from=0,to=1)$y
+#' }
+#' ## Define functional objects
 #' d <- 11
 #' basis <- create.bspline.basis(c(0,1),d)
 #' u <- seq(0,1,length.out = 512)
-#' y_1 <- smooth.basis(u,as.matrix(NDVI),basis)$fd
-#' y_2 <- smooth.basis(u,as.matrix(EVI),basis)$fd
-#' Y1=fts(y_1)
-#' Y2=fts(y_2)
-#' cor.fts(Y1,Y2)
+#' y_NDVI <- smooth.basis(u,as.matrix(D0_NDVI),basis)$fd
+#' y_EVI <- smooth.basis(u,as.matrix(D0_EVI),basis)$fd
+#' Y_NDVI <- fts(y_NDVI)
+#' Y_EVI <- fts(y_EVI)
+#' cor.fts(Y_NDVI,Y_EVI)
 #' }
 #'
 #' @export

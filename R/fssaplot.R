@@ -24,6 +24,7 @@
 #' @param ylab the character vector of name of variables
 #' @param ... arguments to be passed to methods, such as graphical parameters
 #' @examples
+#' \dontrun{
 #' ## Simulated Data Example
 #' require(Rfssa)
 #' require(fda)
@@ -58,6 +59,7 @@
 #' plot(U,d=5,type="wcor")
 #' plot(U,d=5,type="lheats")
 #' plot(U,d=5,type="periodogram")
+#' }
 #' @seealso \code{\link{fssa}}, \code{\link{plot.fts}}
 #' @note for a multivariate example, see the examples in \code{\link{fssa}}
 #' @export

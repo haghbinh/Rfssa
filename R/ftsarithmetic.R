@@ -23,7 +23,7 @@
 #' plot(Yplus2)
 #' }
 #'
-#'
+#' @seealso \code{\link{fts}}
 #' @useDynLib Rfssa
 #' @export
 '+.fts' <- function(Y1,Y2){
@@ -110,7 +110,7 @@
 #' plot(Yminus2)
 #' }
 #'
-#'
+#' @seealso \code{\link{fts}}
 #' @useDynLib Rfssa
 #' @export
 '-.fts' <- function(Y1,Y2){
@@ -198,7 +198,7 @@
 #' plot(Ytimes2)
 #' }
 #'
-#'
+#' @seealso \code{\link{fts}}
 #' @useDynLib Rfssa
 #' @export
 '*.fts' <- function(Y1,Y2){
@@ -287,7 +287,7 @@
 #'
 #'
 #'
-#'
+#' @seealso \code{\link{fts}}
 #' @useDynLib Rfssa
 #' @note can use ':' as an operator to specify a range of indices
 #' @export

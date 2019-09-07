@@ -35,5 +35,7 @@ Yminus2=Y-2 # add 2 to every term in the functional time series
 plot(Yminus2)
 }
 
-
+}
+\seealso{
+\code{\link{fts}}
 }

@@ -46,6 +46,7 @@ This is a plotting method for objects of class functional singular spectrum anal
 for a multivariate example, see the examples in \code{\link{fssa}}
 }
 \examples{
+\dontrun{
 ## Simulated Data Example
 require(Rfssa)
 require(fda)
@@ -80,6 +81,7 @@ plot(U,d=5,type="paired")
 plot(U,d=5,type="wcor")
 plot(U,d=5,type="lheats")
 plot(U,d=5,type="periodogram")
+}
 }
 \seealso{
 \code{\link{fssa}}, \code{\link{plot.fts}}

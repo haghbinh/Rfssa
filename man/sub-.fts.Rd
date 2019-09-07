@@ -39,5 +39,7 @@ plot(Yminus)
 
 
 
-
+}
+\seealso{
+\code{\link{fts}}
 }
