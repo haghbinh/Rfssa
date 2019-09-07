@@ -19,7 +19,7 @@
 #' @param tlab the time-axis label
 #' @param var an integer specifying the variable number to plot if \code{type="3Dsurface"} or \code{type="3Dline"}
 #' @param ... arguments to be passed to methods, such as graphical parameters.
-#' @importFrom plotly plot_ly add_lines layout subplot add_surface
+#' @importFrom plotly plot_ly add_lines layout subplot add_surface hide_colorbar
 #' @import dplyr
 #' @examples
 #'

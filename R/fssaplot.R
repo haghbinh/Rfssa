@@ -140,7 +140,7 @@ plot.fssa <- function(x, d = length(x$values),
     }
     graphics::par(mfrow = c(1, 1))
   } else if (type == "vectors"){
-    x0 <- c(x$RVectrs[,idx])
+    x0 <- c(apply(x$RVectrs[,idx],2,scale,center=F))
     D0 <- data.frame(x = x0,
                      time = rep(1L:K, d_idx))
     D0$groups <- factor(rep(main1,
@@ -149,22 +149,22 @@ plot.fssa <- function(x, d = length(x$values),
                             groups, data = D0, xlab = "",
                           ylab = "", main = "Singular vectors",
                           scales = list(x = list(at = NULL),
-                                        y = list(at = NULL,relation="sliced")),
+                                        y = list(at = NULL,relation="same")),
                           as.table = TRUE, type = "l")
     graphics::plot(p1)
   } else if (type == "paired"){
     d_idy <- length(idy)
     if(d_idx != d_idy) stop("The length of idx and idy must be same")
-    x0 <- c(x$RVectrs[,idx])
-    y0 <- c(x$RVectrs[,idy])
+    x0 <- c(apply(x$RVectrs[,idx],2,scale,center=F))
+    y0 <- c(apply(x$RVectrs[,idy],2,scale,center=F))
     D0 <- data.frame(x = x0, y = y0)
     main3 <- paste(main1, "vs", main2)
     D0$groups <- factor(rep(main3, each = K), levels = main3)
     p1 <- lattice::xyplot(x ~ y | groups,
                           data = D0, xlab = "",
                           ylab = "", main = "Paired Singular vectors (Right)",
-                          scales = list(x = list(at = NULL, relation="free"),
-                                        y = list(at = NULL, relation="free")),
+                          scales = list(x = list(at = NULL, relation="same"),
+                                        y = list(at = NULL, relation="same")),
                           as.table = TRUE, type = "l")
     graphics::plot(p1)
   } else if (type == "periodogram"){
@@ -173,7 +173,7 @@ plot.fssa <- function(x, d = length(x$values),
       P = (4/K) * I
       return(P[1:(floor(K/2) + 1)])
     }
-    x0 <- c(apply(x$RVectrs[,idx],2,ff))
+    x0 <- c(apply(apply(x$RVectrs[,idx],2,scale,center=F),2,ff))
     D0 <- data.frame(x = x0,
                      time = rep((0:floor(K/2))/K, d_idx))
     D0$groups <- factor(rep(main1,
@@ -181,7 +181,7 @@ plot.fssa <- function(x, d = length(x$values),
     p1 <- lattice::xyplot(x ~ time |
                             groups, data = D0, xlab = "",
                           ylab = "", main = "Periodogram of Singular vectors",
-                          scales = list(y = list(at = NULL, relation="free")),
+                          scales = list(y = list(at = NULL, relation="same")),
                           as.table = TRUE, type = "l")
     graphics::plot(p1)
     }else {
