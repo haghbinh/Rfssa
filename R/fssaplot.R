@@ -149,7 +149,7 @@ plot.fssa <- function(x, d = length(x$values),
                             groups, data = D0, xlab = "",
                           ylab = "", main = "Singular vectors",
                           scales = list(x = list(at = NULL),
-                                        y = list(at = NULL)),
+                                        y = list(at = NULL,relation="sliced")),
                           as.table = TRUE, type = "l")
     graphics::plot(p1)
   } else if (type == "paired"){
