@@ -88,7 +88,7 @@ plot.fts <- function(x,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=N
         z0 <- eval.fd(x[[i]],u)
         Pl[[i]] <- plot_ly(z = z0, x=time, y = u, type = "heatmap", colorscale = list(c(0,'#FFFFFAFF'), c(1,'#FF0000FF')),
                            showscale =FALSE) %>%
-          layout(yaxis = list(title = y_var),xaxis = list(title = tlab))
+          layout(title = y_var, yaxis = list(title = xlab),xaxis = list(title = tlab))
       }
       Pl2 <- subplot(Pl, nrows = ceiling(sqrt(p)), shareX = TRUE,
                      titleY = TRUE,titleX = TRUE) %>%
@@ -120,7 +120,7 @@ plot.fts <- function(x,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=N
     if(is.null(var) | p==1) var <- 1
     if(var>p) var <- p
     D0 <- as.tbl(data.frame(z=c(eval.fd(x[[var]],u))))
-    D0$time <- rep(time,each=npts)
+    D0$time <- rep(1:N,each=npts)
     D0$x <- rep(u,length = npts)
     axx <-axy <-axz <- list(
       gridcolor="rgb(180, 180, 180)",
@@ -131,7 +131,7 @@ plot.fts <- function(x,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=N
     axz$title <- ifelse(is.null(ylab),paste("Variable",var),ylab[var])
     D0 %>%
       group_by(time) %>%
-      plot_ly(y=~time,z=~z,x=~x, type = 'scatter3d', mode = 'lines', color = ~z,
+      plot_ly(x=~time,z=~z,y=~x, type = 'scatter3d', mode = 'lines', color = ~z,
               line = list(width = 4), colors=c("#FFFFFAFF","#FF0000FF")) %>%
       layout(scene = list(xaxis = axx, yaxis = axy, zaxis = axz)) %>% hide_colorbar()
     } else stop("The type for the plot is not valid.")

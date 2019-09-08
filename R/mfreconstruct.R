@@ -41,7 +41,7 @@ mfreconstruct <-function(U, group = as.list(1L:10L)){
       recon_out_j[[j]] <- fd(C_jx, basis[[j]])
     }
     # output the reconstructions
-    recon_out[[i]] <- fts(recon_out_j)
+    recon_out[[i]] <- fts(recon_out_j,time=Y$time)
   }
   recon_out$values <- U$values
   return(recon_out)

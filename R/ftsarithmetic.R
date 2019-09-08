@@ -303,7 +303,7 @@
   }
 
   out=fts(out)
-  out$time=i
+  out$time=Y$time[i]
   return(out)
 
 }
