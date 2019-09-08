@@ -34,7 +34,7 @@
 #' by using '+', '-', and '*' respectively. The package also
 #' allows for indexing of FTS objects by using '['. The user can also measure the unweighted correlation
 #' between FTS objects by using \code{\link{cor.fts}}. The plotting of FTS objects can be performed using \code{\link[=plot.fts]{plot}}
-#' which uses the plotly package for visualization .
+#' which uses the plotly package for visualization.
 #'
 #' The package update also includes a new shiny app (\code{\link{launchApp}}) that can be used for demonstrations of univariate or multivariate FSSA
 #' depending on the type that is specified.
