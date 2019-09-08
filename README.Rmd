@@ -19,7 +19,7 @@ The Rfssa package provides the collections of necessary functions to implement F
 
 # Introduction
 
-The use of the package starts with the decomposition of the functional time series using fssa. Then a suitable grouping of the principal compomnents is required for reconstruction. This can be done heuristically by looking at the plots of the decomposition (plot). Alternatively, one can examine the weighted correlation (w-correlation) matrix (fwcor). The final step is the reconstruction of the principal components into additive functional time series whose sum approximates the original univariate or multivariate functional time series (freconstruct).
+The use of the package starts with the decomposition of functional time series (fts) objects using fssa. Then a suitable grouping of the principal compomnents is required for reconstruction which can be done heuristically by looking at the plots of the decomposition (plot). Alternatively, one can examine the weighted correlation (w-correlation) matrix (fwcor). The final step is the reconstruction of the principal components into additive fts objects whose sum approximates the original univariate or multivariate functional time series (freconstruct).
 
 # Updated Functionality
 

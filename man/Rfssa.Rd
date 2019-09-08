@@ -13,13 +13,12 @@ non-parametric method to perform decomposition and reconstruction of FTS.
 }
 \details{
 The use of the package starts with the decomposition
-of the functional time series using \code{\link{fssa}}.
-Then a suitable grouping of the principal compomnents is required for reconstruction.
-This can be done heuristically by looking at
+of functional time series (\code{\link{fts}}) objects using \code{\link{fssa}}.
+Then a suitable grouping of the principal compomnents is required for reconstruction which can be done heuristically by looking at
 the plots of the decomposition (\code{\link[=plot.fssa]{plot}}).
 Alternatively, one can examine the  weighted correlation (w-correlation) matrix
 (\code{\link{fwcor}}). The final step is the reconstruction of the
-principal components into additive functional time series
+principal components into additive \code{\link{fts}} objects
 whose sum approximates the original univariate or multivariate functional time series (\code{\link{freconstruct}}).
 
 This version of the Rfssa package includes updates to existing functions including \code{\link{fssa}}, \code{\link[=plot.fssa]{plot}}, \code{\link{wplot}}, and
