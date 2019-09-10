@@ -12,17 +12,17 @@ Updates
 
 -   `plot.fssa` was updated to allow the user to plot:
 
-1.  left singular functions in curves (`lcurves`)
-2.  left singular functions in heat map (`lheats`)
-3.  periodograms (`periodogram`)
-4.  right singular vectors (`vectors`)
+    1.  left singular functions in curves (`lcurves`)
+    2.  left singular functions in heat map (`lheats`)
+    3.  periodograms (`periodogram`)
+    4.  right singular vectors (`vectors`)
 
 -   `plot.fssa` was also updated to remove plotting options:
 
-1.  `meanvectors` and `meanpaired` removed in lieu of `vectors` and
-    `paired` plot options
-2.  `efunctions` and `efunctions2` removed in lieu of `lcurves` and
-    `lheats`
+    1.  `meanvectors` and `meanpaired` removed in lieu of `vectors` and
+        `paired` plot options
+    2.  `efunctions` and `efunctions2` removed in lieu of `lcurves` and
+        `lheats`
 
 -   `wplot` was updated to allow the user to specify the `cuts`
     parameter to improve visualization of weighted correlation
