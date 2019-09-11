@@ -84,9 +84,9 @@
 #' ## Define functional time series
 #' Y <- fts(y,time=time)
 #' plot(Y[1:100],ylab = c("NDVI","EVI"),main = "Probability Kernel Density")
-#' plot(Y type = '3Dsurface', var=1,ylab = c("NDVI"),main = "Probability Kernel Density")
-#' plot(Y type = '3Dline', var=2,ylab = c("EVI"),main = "Probability Kernel Density")
-#' plot(Y type = 'heatmap',ylab = c("NDVI","EVI"),main = "Probability Kernel Density")
+#' plot(Y, type = '3Dsurface', var=1,ylab = c("NDVI"),main = "Probability Kernel Density")
+#' plot(Y, type = '3Dline', var=2,ylab = c("EVI"),main = "Probability Kernel Density")
+#' plot(Y, type = 'heatmap',ylab = c("NDVI","EVI"),main = "Probability Kernel Density")
 #' L=45
 #' ## Multivariate functional singular spectrum analysis
 #' U=fssa(Y,L)
