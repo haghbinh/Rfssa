@@ -5,7 +5,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # Rfssa
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/devtools)](https://cran.r-project.org/package=Rfss)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/Rfssa)](https://cran.r-project.org/package=Rfssa)
 
 The Rfssa package provides the collections of necessary functions to
 implement Functional Singular Spectrum Analysis (FSSA) for analysing
