@@ -6,7 +6,6 @@
 <!-- badges: start -->
 [![Travis build status](https://travis-ci.org/haghbinh/Rfssa.svg?branch=master)](https://travis-ci.org/haghbinh/Rfssa)
 <!-- badges: end -->
-
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/Rfssa)](https://cran.r-project.org/package=Rfssa)
 
 The Rfssa package provides the collections of necessary functions to
