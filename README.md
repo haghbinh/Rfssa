@@ -94,6 +94,6 @@ There are two basic examples which shows you how to use fssa algorithm
 to analyze a univariate or multivariate functional time
 series:
 
-#### [FSSA (Part I: Visualization)](https://haghbinh.github.io/FSSA_report/part_1_visualization.html)
-#### [FSSA (Part II: Decomposition)](https://haghbinh.github.io/FSSA_report/part_2_decomposition.html)
-#### [FSSA (Part III: Reconstruction)](https://haghbinh.github.io/FSSA_report/part_3_reconstruction.html)
+#### [FSSA (Univariate Visualization)](https://haghbinh.github.io/FSSA_report/uvisualization.html)
+#### [FSSA (Univariate Decomposition)](https://haghbinh.github.io/FSSA_report/udecomposition.html)
+#### [FSSA (Univariate Reconstruction)](https://haghbinh.github.io/FSSA_report/ureconstruction.html)
