@@ -9,7 +9,7 @@ freconstruct(U, groups = as.list(1L:10L))
 \arguments{
 \item{U}{an object of class \code{\link{fssa}}}
 
-\item{group}{a list of numeric vectors, each vector includes indices of elementary components
+\item{groups}{a list of numeric vectors, each vector includes indices of elementary components
 of a group used for reconstruction}
 }
 \value{

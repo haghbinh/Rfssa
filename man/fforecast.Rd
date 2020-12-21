@@ -2,22 +2,32 @@
 % Please edit documentation in R/fforecast.r
 \name{fforecast}
 \alias{fforecast}
-\title{Functional Singular Spectrum Analysis R-Forecasting and V-Forecasting}
+\title{Functional Singular Spectrum Analysis Recurrent Forecasting and Vector Forecasting}
 \usage{
 fforecast(U, groups = list(c(1)), h = 1, method = "recurrent", tol = 10^-3)
 }
 \arguments{
 \item{U}{an object of class \code{\link{fssa}} that holds the decomposition}
 
-\item{groups}{a list of length one containing a vector of the indices of the left singular functions to be used in the forecast}
+\item{groups}{a list of numeric vectors where each vector includes indices of elementary components of a group used for reconstruction and forecasting}
 
 \item{h}{an integer that specifies the forecast horizon}
 
-\item{method}{a character string specifying the type of forecasting to perform}
+\item{method}{a character string specifying the type of forecasting to perform either 'recurrent' or 'vector'}
 
-\item{tol}{a double specifying the amount of tolerated error in the approximation of the Neumann series leveraged in both forecasting algorithms
+\item{tol}{a double specifying the amount of tolerated error in the approximation of the operator formed using a Neumann series leveraged in both forecasting algorithms}
+}
+\value{
+A list of objects of class \code{\link{fts}} where each fts corresponds to a group
+}
+\description{
+This function performs functional singular spectrum analysis (FSSA) recurrent forecasting (R-forecasting) or vector forecasting (V-forecasting) of functional time series (\code{\link{fts}}) as described in
+Trinka et al. (2020)
+}
+\examples{
+
 \dontrun{
-# Univariate FSSA Forecasting
+# FSSA Forecasting
 require(fda)
 require(Rfssa)
 data("Callcenter")
@@ -36,49 +46,22 @@ plot(Y,xlab="Time (6 minutes aggregated)", ylab="Square root of call numbers",ma
 ## Perfrom FSSA decomposition
 L <- 28
 U <- fssa(Y,L)
-groups <- list(1:7)
-## Perfrom FSSA R-forecast and FSSA V-forecast
-pr_R <- fforecast(U = U, groups = groups, h = 50, method = "recurrent", tol = 10^-3)
-plot(pr_R,xlab="Time (6 minutes aggregated)", ylab="Square root of call numbers",main = "Recurrent Forecast")
-pr_V <- fforecast(U = U, groups = groups, h = 50, method = "vector", tol = 10^-3)
-plot(pr_V,xlab="Time (6 minutes aggregated)", ylab="Square root of call numbers",main = "Vector Forecast")
+groups <- list(1:7,1,2:3,4:5,6:7)
+## Perform FSSA R-forecast and FSSA V-forecast
+pr_R <- fforecast(U = U, groups = groups, h = 30, method = "recurrent", tol = 10^-3)
+plot(pr_R[[1]],xlab="Time (6 minutes aggregated)", ylab="Square root of call numbers",main = "Recurrent Forecast Group 1")
+plot(pr_R[[2]],xlab="Time (6 minutes aggregated)", ylab="Square root of call numbers",main = "Recurrent Forecast Group 2")
+plot(pr_R[[3]],xlab="Time (6 minutes aggregated)", ylab="Square root of call numbers",main = "Recurrent Forecast Group 3")
+plot(pr_R[[4]],xlab="Time (6 minutes aggregated)", ylab="Square root of call numbers",main = "Recurrent Forecast Group 4")
+plot(pr_R[[5]],xlab="Time (6 minutes aggregated)", ylab="Square root of call numbers",main = "Recurrent Forecast Group 5")
 
+pr_V <- fforecast(U = U, groups = groups, h = 30, method = "vector", tol = 10^-3)
+plot(pr_V[[1]],xlab="Time (6 minutes aggregated)", ylab="Square root of call numbers",main = "Vector Forecast Group 1")
+plot(pr_V[[2]],xlab="Time (6 minutes aggregated)", ylab="Square root of call numbers",main = "Vector Forecast Group 2")
+plot(pr_V[[3]],xlab="Time (6 minutes aggregated)", ylab="Square root of call numbers",main = "Vector Forecast Group 3")
+plot(pr_V[[4]],xlab="Time (6 minutes aggregated)", ylab="Square root of call numbers",main = "Vector Forecast Group 4")
+plot(pr_V[[5]],xlab="Time (6 minutes aggregated)", ylab="Square root of call numbers",main = "Vector Forecast Group 5")
 
-# Multivariate FSSA Forecasting
-NDVI=Jambi$NDVI
-EVI=Jambi$EVI
-time <- Jambi$Date
-## Kernel density estimation of pixel intensity
-D0_NDVI <- matrix(NA,nrow = 512, ncol = 448)
-D0_EVI <- matrix(NA,nrow =512, ncol = 448)
-for(i in 1:448){
- D0_NDVI[,i] <- density(NDVI[,,i],from=0,to=1)$y
- D0_EVI[,i] <- density(EVI[,,i],from=0,to=1)$y
 }
-## Define functional objects
-d <- 11
-basis <- create.bspline.basis(c(0,1),d)
-u <- seq(0,1,length.out = 512)
-y_NDVI <- smooth.basis(u,as.matrix(D0_NDVI),basis)$fd
-y_EVI <- smooth.basis(u,as.matrix(D0_EVI),basis)$fd
-y=list(y_NDVI,y_EVI)
-## Define functional time series
-Y <- fts(y,time=time)
-plot(Y,xlab="NDVI Value", ylab=c("Density","Density"),main = "NDVI Densities")
-## Perform MFSSA decompsosition
-U <- fssa(Y,L=45)
-groups <-list(1:4)
-## Perform MFSSA forecasting
-pr_R_M <- fforecast(U = U, groups = groups, h = 56, method = "recurrent", tol = 10^-3)
-plot(pr_R_M,xlab="NDVI Value", ylab=c("Density","Density"),main = "Recurrent Forecast")
-pr_V_M <- fforecast(U = U, groups = groups, h = 56, method = "vector", tol = 10^-3)
-plot(pr_V_M,xlab="NDVI Value", ylab=c("Density","Density"),main = "Vector Forecast")
 
-}}
-}
-\value{
-An object of class \code{\link{fts}}
-}
-\description{
-This function performs FSSA and MFSSA R-forecasting or V-forecasting of functional time series (\code{\link{fts}})
 }

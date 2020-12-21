@@ -9,6 +9,8 @@
 #' @param h an integer that specifies the forecast horizon
 #' @param method a character string specifying the type of forecasting to perform either 'recurrent' or 'vector'
 #' @param tol a double specifying the amount of tolerated error in the approximation of the operator formed using a Neumann series leveraged in both forecasting algorithms
+#' @examples
+#'
 #' \dontrun{
 #'# FSSA Forecasting
 #'require(fda)
@@ -30,7 +32,7 @@
 #'L <- 28
 #'U <- fssa(Y,L)
 #'groups <- list(1:7,1,2:3,4:5,6:7)
-#'## Perfrom FSSA R-forecast and FSSA V-forecast
+#'## Perform FSSA R-forecast and FSSA V-forecast
 #'pr_R <- fforecast(U = U, groups = groups, h = 30, method = "recurrent", tol = 10^-3)
 #'plot(pr_R[[1]],xlab="Time (6 minutes aggregated)", ylab="Square root of call numbers",main = "Recurrent Forecast Group 1")
 #'plot(pr_R[[2]],xlab="Time (6 minutes aggregated)", ylab="Square root of call numbers",main = "Recurrent Forecast Group 2")
@@ -46,6 +48,7 @@
 #'plot(pr_V[[5]],xlab="Time (6 minutes aggregated)", ylab="Square root of call numbers",main = "Vector Forecast Group 5")
 #'
 #' }
+#'
 #' @export
 fforecast <- function(U, groups=list(c(1)), h = 1, method = "recurrent",tol=10^-3){
   out=list()
