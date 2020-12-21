@@ -1,18 +1,18 @@
 # Reconstruction stage (including Hankelization) of univariate functional singular spectrum analysis
 
-ufreconstruct <- function(U, group = as.list(1L:10L)) {
+ufreconstruct <- function(U, groups = as.list(1L:10L)) {
   N <- U$N
   Y <- U$Y
   d <- U$Y$d
   L <- U$L
   K <- N - L + 1L
   basis <- Y[[1]]$basis
-  m <- length(group)
+  m <- length(groups)
   basis <- U[[1]]$basis
   out <- list()
   for (i in 1L:m) {
     Cx <- matrix(NA, nrow = d, ncol = N)
-    g <- group[[i]]
+    g <- groups[[i]]
     S <- 0L
     for (j in 1L:length(g)) S <- S + ufproj(U, g[j], d)
     S <- fH(S, d)

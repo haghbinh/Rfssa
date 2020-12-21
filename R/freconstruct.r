@@ -8,12 +8,12 @@
 #' @return a named list of objects of class \code{\link{fts}} that are reconstructed as according to the specified groups and
 #' a numeric vector of eigenvalues
 #' @param U an object of class \code{\link{fssa}}
-#' @param group a list of numeric vectors, each vector includes indices of elementary components
+#' @param groups a list of numeric vectors, each vector includes indices of elementary components
 #' of a group used for reconstruction
 #' @note refer to \code{\link{fssa}} for an example on how to run this function starting from \code{\link{fssa}} objects
 #' @seealso \code{\link{fssa}}, \code{\link{fts}},
 #' @export
-freconstruct <- function(U, group = as.list(1L:10L)) {
-  if(is.fd(U[[1]])) out <- ufreconstruct(U,group) else out <- mfreconstruct(U,group)
+freconstruct <- function(U, groups = as.list(1L:10L)) {
+  if(is.fd(U[[1]])) out <- ufreconstruct(U,groups) else out <- mfreconstruct(U,groups)
   return(out)
 }

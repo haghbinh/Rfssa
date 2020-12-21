@@ -54,7 +54,7 @@ plot.fts <- function(x,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=N
       for(i in 1:p) {
         y <- as.tbl(data.frame(y=c(eval.fd(x[[i]],u))))
         y$time <- as.factor(rep(time,each=npts))
-        y$x <- rep(u,length = npts)
+        y$x <- rep(u, N)
         if(is.null(ylab)) y_var <- paste("Variable",i) else y_var <- ylab[i]
         Pl[[i]] <- y %>%
           group_by(time) %>%
@@ -121,7 +121,7 @@ plot.fts <- function(x,npts=100,type="line",main=NULL,ylab=NULL,xlab=NULL,tlab=N
     if(var>p) var <- p
     D0 <- as.tbl(data.frame(z=c(eval.fd(x[[var]],u))))
     D0$time <- rep(1:N,each=npts)
-    D0$x <- rep(u,length = npts)
+    D0$x <- rep(u,length = N*npts)
     axx <-axy <-axz <- list(
       gridcolor="rgb(180, 180, 180)",
       zerolinecolor="rgb(255,255,255)"

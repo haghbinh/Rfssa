@@ -4,14 +4,16 @@
 \name{Callcenter}
 \alias{Callcenter}
 \title{Number of Calls for a Bank.}
-\format{A dataframe with 87600 rows and 5 variables:
+\format{
+A dataframe with 87600 rows and 5 variables:
 \describe{
   \item{calls}{The number of calls in 6 minutes aggregated interval.}
   \item{u}{a numeric vector to show the aggregated interval.}
   \item{Date}{Date time when the calls counts are recorded}.
   \item{Day}{Weekday associated with Date.}
   \item{Month}{Month associated with Date.}
-}}
+}
+}
 \source{
 \url{http://iew3.technion.ac.il/serveng/callcenterdata/index.html}
 }

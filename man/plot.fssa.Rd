@@ -4,9 +4,18 @@
 \alias{plot.fssa}
 \title{Plot Functional Singular Spectrum Analysis Objects}
 \usage{
-\method{plot}{fssa}(x, d = length(x$values), idx = 1:d, idy = idx +
-  1, contrib = TRUE, groups = as.list(1:d), type = "values",
-  var = 1L, ylab = NA, ...)
+\method{plot}{fssa}(
+  x,
+  d = length(x$values),
+  idx = 1:d,
+  idy = idx + 1,
+  contrib = TRUE,
+  groups = as.list(1:d),
+  type = "values",
+  var = 1L,
+  ylab = NA,
+  ...
+)
 }
 \arguments{
 \item{x}{an object of class \code{\link{fssa}}}

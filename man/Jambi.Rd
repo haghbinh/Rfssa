@@ -4,7 +4,8 @@
 \name{Jambi}
 \alias{Jambi}
 \title{Jambi MODIS Data}
-\format{A list which contains two 33 by 33 by 448 arrays where one array is for NDVI image data and the other is for EVI image data. The list also contains a date vector of length 448 which specifies upon which date was each image 33 by 33 image taken.
+\format{
+A list which contains two 33 by 33 by 448 arrays where one array is for NDVI image data and the other is for EVI image data. The list also contains a date vector of length 448 which specifies upon which date was each image 33 by 33 image taken.
 \describe{
   \item{Days 1 - 448}{Pixel intensity with values between zero and one}
 } @references
@@ -15,7 +16,8 @@
  \emph{Annual Review of Environment and Resources}, 205-244.
 
 
-}}
+}
+}
 \source{
 \url{https://lpdaac.usgs.gov/products/mod13q1v006/}
 }

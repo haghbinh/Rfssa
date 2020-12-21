@@ -3,7 +3,6 @@
 \docType{package}
 \name{Rfssa}
 \alias{Rfssa}
-\alias{Rfssa-package}
 \title{Rfssa: A Package for Functional Singular Spectrum Analysis.}
 \description{
 The Rfssa package provides the collection of necessary

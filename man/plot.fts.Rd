@@ -4,8 +4,17 @@
 \alias{plot.fts}
 \title{Functional Time Series Visualization Tools Using Plotly}
 \usage{
-\method{plot}{fts}(x, npts = 100, type = "line", main = NULL,
-  ylab = NULL, xlab = NULL, tlab = NULL, var = NULL, ...)
+\method{plot}{fts}(
+  x,
+  npts = 100,
+  type = "line",
+  main = NULL,
+  ylab = NULL,
+  xlab = NULL,
+  tlab = NULL,
+  var = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{an object of class \code{\link{fts}}}

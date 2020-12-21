@@ -4,7 +4,7 @@
 \alias{freconstruct}
 \title{Reconstruction Stage of Functional Singular Spectrum Analysis}
 \usage{
-freconstruct(U, group = as.list(1L:10L))
+freconstruct(U, groups = as.list(1L:10L))
 }
 \arguments{
 \item{U}{an object of class \code{\link{fssa}}}

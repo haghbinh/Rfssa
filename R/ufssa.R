@@ -12,7 +12,7 @@ ufssa <- function(Y, L) {
   Q$vectors <- Re(Q$vectors)
   out <- list(NA)
   d1 <- sum(Re(Q$values) > 0.001)
-  for (i in 1L:d1) out[[i]] <- fd(Cofmat(d, L, Q$vectors[, i]), basis)
+  for (i in 1L:d1) out[[i]] <- fd(Cofmat(d, L, Q$vectors[, i]), basis) # coefficient are <tilde{psi},phi>.
   out$values <- Re(Q$values[1L:d1])
   out$L <- L
   out$N <- N
