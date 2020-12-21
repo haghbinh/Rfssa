@@ -10,9 +10,9 @@
 
 
 The Rfssa package provides the collections of necessary functions to
-implement Functional Singular Spectrum Analysis (FSSA) for analysing
-Functional Time Series (FTS). FSSA is a novel non-parametric method to
-perform decomposition and reconstruction of FTS.
+implement Functional Singular Spectrum Analysis (FSSA) for analyzing 
+and forecasting of Functional Time Series (FTS). FSSA is a novel non-parametric method to
+perform decomposition, reconstruction, and prediction of FTS.
 
 # Introduction
 
@@ -25,8 +25,16 @@ matrix (fwcor). The final step is the reconstruction of the principal
 components into additive fts objects whose sum approximates the original
 univariate or multivariate functional time series (freconstruct).
 
-# Updated Functionality
+Nonparametric forecasting of FTS is also now possible by way of FSSA
+recurrent and vector forecasting (fforecast). This is done by first
+performing FSSA on a FTS and then using the decomposition results to
+peform the forecasts.
 
+# Updated Functionality
+(update made 12/21/20)
+Issues with FTS plotting options 'line' and '3Dline' have been resolved.
+
+(update made 09/16/19)
 This version of the Rfssa package includes updates to existing functions
 including fssa, plot, wplot, and freconstruct. Multivariate functional
 singular spectrum analysis (mfssa) was added to the package in fssa to
@@ -47,7 +55,11 @@ user can also specify the ‘cuts’ parameter in wplot to make
 visualization of the w-correlation matrix easier.
 
 # New Functionality
+(update made 12/21/20)
+FSSA recurrent forecasting (R-forecasting) and FSSA vector forecasting (V-forecasting)
+have been added to the package.
 
+(update made 09/16/19)
 This version of the Rfssa package also includes new functions for
 converting functional data (FD) objects to FTS objects, arithmetic,
 indexing, correlation, and plotting of FTS data. The user is able to
