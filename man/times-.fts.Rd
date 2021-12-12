@@ -7,31 +7,30 @@
 \method{*}{fts}(Y1, Y2)
 }
 \arguments{
-\item{Y1}{an object of class \code{\link{fts}} or scalar}
+\item{Y1}{An object of class \code{\link{fts}} or numeric.}
 
-\item{Y2}{an object of class \code{\link{fts}} or scalar}
+\item{Y2}{An object of class \code{\link{fts}} or numeric.}
 }
 \value{
-an object of class \code{\link{fts}}
+An object of class \code{\link{fts}}.
 }
 \description{
-A method that lets you multiply functional time series (\code{\link{fts}}) and perform scalar multiplication of functional time series.
+A method for functional time series (\code{\link{fts}}) pointwise multiplication and fts-scalar multiplication. Note that if the fts is multivariate
+then a vector of numerics may be provided allowing for multiplication of different variables by different scalars. For example, multivariate fts-numeric multiplication
+follows the form of \code{Y*c(1,2)} if \code{Y} is a bivariate fts.
 }
 \examples{
-
 \dontrun{
-require(fda)
 require(Rfssa)
-data(Callcenter) # Read data
-u=seq(0,1,length.out=240) # Define domain of functional data
-d=12 # number of basis elements
-basis=create.bspline.basis(rangeval = c(0,1),nbasis = d) # create basis object
-smooth.calls=smooth.basis(u, matrix(nrow=240,ncol=365,Callcenter$calls), basis)
-Y=fts(smooth.calls$fd) # create functional time series
+load_github_data("https://github.com/haghbinh/Rfssa/blob/main/data/Callcenter.RData")
+D <- matrix(sqrt(Callcenter$calls), nrow = 240)
+u <- seq(0, 1, length.out = 240) # Define domain of functional data
+d <- 22 # number of basis elements
+Y <- fts(list(D), list(list(d, "bspline")), list(u))
 plot(Y)
-Ytimes=Y*Y # elementwise multiplication of the functional time series with itself
+Ytimes <- Y * Y # multiply the functional time series by itself
 plot(Ytimes)
-Ytimes2=2*Y # multiply 2 with every term in the functional time series
+Ytimes2 <- Y * 2 # multiply every term in the fts by 2
 plot(Ytimes2)
 }
 

@@ -7,7 +7,7 @@ using namespace Rcpp;
 double winprod(arma::mat x, arma::mat y, arma::vec w,  arma::mat G)
 {
   int N = x.n_cols;
-  double s;
+  double s = 0;
   arma::vec xi(x.n_rows),yi(y.n_rows);
   for(int i=0; i<N; i++ )
   {

@@ -1,6 +1,10 @@
-#include <Rcpp.h>
+#include <RcppEigen.h>
 #include <list>
+
 using namespace Rcpp;
+
+// [[Rcpp::depends(RcppEigen)]]
+
 // Module  function
 //' @importFrom Rcpp sourceCpp
 //' @useDynLib Rfssa, .registration = TRUE
@@ -29,6 +33,29 @@ NumericMatrix Cofmat (int d,int L, NumericVector cx)
   }
   return S;
 }
+
+// Matrix Inversion
+//
+//'@importFrom Rcpp sourceCpp
+// [[Rcpp::export]]
+SEXP CalculateInverse (const Eigen::Map<Eigen::MatrixXd> A)
+{
+  Eigen::PartialPivLU<Eigen::MatrixXd> lu(A);
+  return Rcpp::wrap(lu.inverse());
+
+}
+// Matrix Multiplication
+
+//'@importFrom Rcpp sourceCpp
+// [[Rcpp::export]]
+SEXP AtimesB(const Eigen::Map<Eigen::MatrixXd> A, Eigen::Map<Eigen::MatrixXd> B){
+  Eigen::MatrixXd C = A * B;
+
+  return Rcpp::wrap(C);
+}
+
+
+
 
 // Sij value
 //' @importFrom Rcpp sourceCpp

@@ -1,29 +1,34 @@
 Package: Rfssa
 Type: Package
 Title: Functional Singular Spectrum Analysis
-Version: 1.0.0
+Version: 2.0.0
 Authors@R: c(
     person("Hossein", "Haghbin", email = "haghbinh@gmail.com", role = c("aut", "cre")),
-    person("Seyed Morteza", "Najibi", email = "mnajibi@shirazu.ac.ir", role = "aut"),
     person("Jordan", "Trinka", email = "jordantrinka4@hotmail.com", role = "aut"),
+    person("Seyed Morteza", "Najibi", email = "mnajibi@shirazu.ac.ir", role = "aut"),
     person("Mehdi", "Maadooliat", email = " mehdi@mscs.mu.edu", role = "aut")
     )
 Maintainer: Hossein Haghbin <haghbinh@gmail.com>
 URL: https://github.com/haghbinh/Rfssa.git
-Description: Methods and tools for implementing functional singular spectrum analysis for functional time series
-    as described in Haghbin H., Najibi, S.M., Mahmoudvand R., Trinka J., Maadooliat M. (2019). Functional singular spectrum Analysis. Manuscript submitted for publication. 
+Description: Methods and tools for implementing univariate and multivariate functional singular spectrum analysis (fssa) for functional time series (fts) whose variables might be observed over different dimensional domains. The univariate fssa algorithm is described in Haghbin H., Najibi, S.M., Mahmoudvand R., Trinka J., Maadooliat M. (2021) and the multivariate fssa over different dimensional domains technique may be found in Trinka J., Haghbin H., and Maadooliat M. (Accepted). In addition, one may perform forecasting of univariate and multivariate fts whose variables are observed over one-dimensional domains as described in the dissertation of Trinka J. (2021) and the manuscript of Trinka J., Haghbin H., Maadooliat M. (2020) where the manuscript is to be submitted to a journal for publication. 
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.2
 Imports: Rcpp,
          fda,
          lattice,
          plotly,
          shiny,
          Rssa,
-         markdown,
+         hrbrthemes,
+         ggplot2,
+         tibble,
+         methods,
+         RSpectra,
+         httr,
 LinkingTo: Rcpp,
            RcppArmadillo,
+           RcppEigen,
 Suggests: knitr,
 Depends: R (>= 2.10), dplyr

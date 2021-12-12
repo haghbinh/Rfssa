@@ -7,40 +7,36 @@
 cor.fts(Y1, Y2)
 }
 \arguments{
-\item{Y1}{an object of class \code{\link{fts}}}
+\item{Y1}{An object of class \code{\link{fts}}.}
 
-\item{Y2}{an object of class \code{\link{fts}}}
+\item{Y2}{An object of class \code{\link{fts}}.}
 }
 \value{
-a scalar that is the correlation between \code{\link{fts}} objects
+A scalar that is the correlation between \code{\link{fts}} objects.
 }
 \description{
-This function finds the correlation between univarite or multivariate functional time series (\code{\link{fts}}) objects.
+This function finds the correlation between univariate or multivariate functional time series (\code{\link{fts}}) objects.
 }
 \examples{
-
 \dontrun{
-require(fda)
 require(Rfssa)
+load_github_data("https://github.com/haghbinh/Rfssa/blob/main/data/Jambi.RData")
 ## Raw image data
-NDVI=Jambi$NDVI
-EVI=Jambi$EVI
+NDVI <- Jambi$NDVI
+EVI <- Jambi$EVI
 ## Kernel density estimation of pixel intensity
-D0_NDVI <- matrix(NA,nrow = 512, ncol = 448)
-D0_EVI <- matrix(NA,nrow =512, ncol = 448)
-for(i in 1:448){
-  D0_NDVI[,i] <- density(NDVI[,,i],from=0,to=1)$y
-  D0_EVI[,i] <- density(EVI[,,i],from=0,to=1)$y
+D0_NDVI <- matrix(NA, nrow = 512, ncol = 448)
+D0_EVI <- matrix(NA, nrow = 512, ncol = 448)
+for (i in 1:448) {
+  D0_NDVI[, i] <- density(NDVI[, , i], from = 0, to = 1)$y
+  D0_EVI[, i] <- density(EVI[, , i], from = 0, to = 1)$y
 }
-## Define functional objects
 d <- 11
-basis <- create.bspline.basis(c(0,1),d)
-u <- seq(0,1,length.out = 512)
-y_NDVI <- smooth.basis(u,as.matrix(D0_NDVI),basis)$fd
-y_EVI <- smooth.basis(u,as.matrix(D0_EVI),basis)$fd
-Y_NDVI <- fts(y_NDVI)
-Y_EVI <- fts(y_EVI)
-cor.fts(Y_NDVI,Y_EVI)
+u <- seq(0, 1, length.out = 512)
+Y_1 <- fts(list(D0_NDVI), list(list(d, "bspline")), list(u))
+Y_2 <- fts(list(D0_EVI), list(list(d, "bspline")), list(u))
+out <- cor.fts(Y_1, Y_2)
+print(out)
 }
 
 }

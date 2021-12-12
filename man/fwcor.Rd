@@ -4,16 +4,16 @@
 \alias{fwcor}
 \title{Weighted Correlation Matrix}
 \usage{
-fwcor(U, group)
+fwcor(U, groups)
 }
 \arguments{
-\item{U}{an object of class \code{\link{fssa}}}
+\item{U}{An object of class \code{\link{fssa}}.}
 
-\item{group}{a list or vector of indices which determines the grouping used for the reconstruction
-in pairwise w-correlations matrix}
+\item{groups}{A list or vector of indices which determines the grouping used for the reconstruction
+in pairwise w-correlations matrix.}
 }
 \value{
-a square matrix of w-correlation values for the reconstructed \code{\link{fts}} objects that were built from
+A square matrix of w-correlation values for the reconstructed \code{\link{fts}} objects that were built from.
 \code{\link{fssa}} components
 }
 \description{
@@ -21,60 +21,51 @@ This function returns the weighted correlation (w-correlation) matrix for functi
 that were reconstructed from functional singular spectrum analysis (\code{\link{fssa}}) objects.
 }
 \examples{
-
 \dontrun{
 
-## Univariate W-Correlation Example on Callcenter data
-data("Callcenter")
-require(fda)
+## Univariate FSSA Example on Callcenter data
 require(Rfssa)
+load_github_data("https://github.com/haghbinh/Rfssa/blob/main/data/Callcenter.RData")
 ## Define functional objects
-D <- matrix(sqrt(Callcenter$calls),nrow = 240)
+D <- matrix(sqrt(Callcenter$calls), nrow = 240)
 N <- ncol(D)
-time <- 1:N
+time <- seq(ISOdate(1999, 1, 1), ISOdate(1999, 12, 31), by = "day")
 K <- nrow(D)
-u <- seq(0,K,length.out =K)
-d <- 22 #Optimal Number of basis elements
-basis <- create.bspline.basis(c(min(u),max(u)),d)
-Ysmooth <- smooth.basis(u,D,basis)
+u <- seq(0, K, length.out = K)
+d <- 22 # Optimal Number of basis elements
 ## Define functional time series
-Y <- fts(Ysmooth$fd)
-## Decomposition stage of univariate functional singular spectrum analysis
+Y <- fts(list(D), list(list(d, "bspline")), list(u))
+Y
+plot(Y, mains = c("Sqrt of Call Center Data"))
+## Univariate functional singular spectrum analysis
 L <- 28
-U <- fssa(Y,L)
-ufwcor=fwcor(U = U,group = list(1,2,3))
-wplot(W=ufwcor)
+U <- fssa(Y, L)
+ufwcor <- fwcor(U = U, groups = list(1, 2, 3))
+wplot(W = ufwcor)
 
 ## Multivariate W-Correlation Example on Bivariate Satelite Image Data
-require(fda)
 require(Rfssa)
+load_github_data("https://github.com/haghbinh/Rfssa/blob/main/data/Jambi.RData")
 ## Raw image data
-NDVI=Jambi$NDVI
-EVI=Jambi$EVI
+NDVI <- Jambi$NDVI
+EVI <- Jambi$EVI
+time <- Jambi$Date
 ## Kernel density estimation of pixel intensity
-D0_NDVI <- matrix(NA,nrow = 512, ncol = 448)
-D0_EVI <- matrix(NA,nrow =512, ncol = 448)
-for(i in 1:448){
-  D0_NDVI[,i] <- density(NDVI[,,i],from=0,to=1)$y
-  D0_EVI[,i] <- density(EVI[,,i],from=0,to=1)$y
+D0_NDVI <- matrix(NA, nrow = 512, ncol = 448)
+D0_EVI <- matrix(NA, nrow = 512, ncol = 448)
+for (i in 1:448) {
+  D0_NDVI[, i] <- density(NDVI[, , i], from = 0, to = 1)$y
+  D0_EVI[, i] <- density(EVI[, , i], from = 0, to = 1)$y
 }
 ## Define functional objects
 d <- 11
-basis <- create.bspline.basis(c(0,1),d)
-u <- seq(0,1,length.out = 512)
-y_NDVI <- smooth.basis(u,as.matrix(D0_NDVI),basis)$fd
-y_EVI <- smooth.basis(u,as.matrix(D0_EVI),basis)$fd
-y=list(y_NDVI,y_EVI)
-## Define functional time series
-Y=fts(y)
+Y <- fts(list(D0_NDVI, D0_EVI), list(list(d, "bspline"), list(d + 4, "fourier")), list(c(0, 1), c(0, 1)))
 plot(Y)
-L=45
-## Decomposition stage of multivariate functional singular spectrum analysis
-U=fssa(Y,L)
-mfwcor=fwcor(U = U,group = list(1,2,3,4))
-wplot(W=mfwcor)
+U <- fssa(Y = Y, L = 45)
+L <- 45
+mfwcor <- fwcor(U = U, groups = list(1, 2, 3, 4))
+wplot(W = mfwcor)
 }
-
 
 }
 \seealso{

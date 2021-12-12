@@ -11,25 +11,26 @@
 #'
 #' @export launchApp
 #'
-#' @return a shiny application object
-#' @param type type of FSSA with options of \code{type = "ufssa"} or \code{type = "mfssa"}
+#' @return A shiny application object.
+#' @param type Type of FSSA with options of \code{type = "ufssa"} or \code{type = "mfssa"}.
 #' @examples
 #' \dontrun{
 #'
 #' launchApp()
-#'
 #' }
-#'
 #'
 #' @import shiny
 #'
 
 
 # wrapper for shiny::shinyApp()
-launchApp <- function(type="ufssa") {
-  if (type=="ufssa")
+launchApp <- function(type = "ufssa") {
+  options(shiny.sanitize.errors = FALSE)
+  if (type == "ufssa") {
     shinyApp(ui = ui.fssa, server = server.fssa)
-  else if (type=="mfssa")
+  } else if (type == "mfssa") {
     shinyApp(ui = ui.mfssa, server = server.mfssa)
-  else stop("The type for the shiny is not valid.")
+  } else {
+    stop("The type for the shiny is not valid.")
+  }
 }

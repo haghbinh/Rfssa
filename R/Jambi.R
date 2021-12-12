@@ -7,7 +7,7 @@
 #' monitored frequently. Assessment of woody vegetation could be taken using field surveys or
 #' remote sensing. It was found that season is probably the most intriguing factor in vegetative land cover,
 #' especially in long-term land cover changes (Lambin, 1999).
-#' The data was gathered starting in 2000-02-18 and ending in 2019-07-28 every 16 days.
+#' The data was gathered starting in 2000-02-18 and ending in 2019-07-28 every 16 days. The data is hosted on GitHub and \code{\link{load_github_data}} may be used to load the data.
 #' @name Jambi
 #' @format A list which contains two 33 by 33 by 448 arrays where one array is for NDVI image data and the other is for EVI image data. The list also contains a date vector of length 448 which specifies upon which date was each image 33 by 33 image taken.
 #' \describe{
@@ -23,4 +23,4 @@
 #' }
 #' @source \url{https://lpdaac.usgs.gov/products/mod13q1v006/}
 #' @seealso \code{\link{fssa}}
-"Jambi"
+NULL

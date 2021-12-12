@@ -7,10 +7,10 @@
 launchApp(type = "ufssa")
 }
 \arguments{
-\item{type}{type of FSSA with options of \code{type = "ufssa"} or \code{type = "mfssa"}}
+\item{type}{Type of FSSA with options of \code{type = "ufssa"} or \code{type = "mfssa"}.}
 }
 \value{
-a shiny application object
+A shiny application object.
 }
 \description{
 This function launches an app that can be used to help an individual better understand univariate or multivariate functional
@@ -26,8 +26,6 @@ plots.
 \dontrun{
 
 launchApp()
-
 }
-
 
 }

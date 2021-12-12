@@ -37,6 +37,16 @@ Cofmat <- function(d, L, cx) {
 }
 
 #'@importFrom Rcpp sourceCpp
+CalculateInverse <- function(A) {
+    .Call(`_Rfssa_CalculateInverse`, A)
+}
+
+#'@importFrom Rcpp sourceCpp
+AtimesB <- function(A, B) {
+    .Call(`_Rfssa_AtimesB`, A, B)
+}
+
+#'@importFrom Rcpp sourceCpp
 SS <- function(K, L, B, d) {
     .Call(`_Rfssa_SS`, K, L, B, d)
 }

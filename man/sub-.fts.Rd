@@ -7,37 +7,27 @@
 \method{[}{fts}(Y, i = "index")
 }
 \arguments{
-\item{Y}{an object of class \code{\link{fts}}}
+\item{Y}{An object of class \code{\link{fts}}.}
 
-\item{i}{index}
+\item{i}{The index value.}
 }
 \value{
-an object of class \code{\link{fts}}
+An object of class \code{\link{fts}}.
 }
 \description{
-A method that lets you index into a functional time series (\code{\link{fts}}).
-}
-\note{
-can use ':' as an operator to specify a range of indices
+An indexing method for functional time series (\code{\link{fts}}).
 }
 \examples{
-
 \dontrun{
-require(fda)
 require(Rfssa)
-data(Callcenter) # Read data
-u=seq(0,1,length.out=240) # Define domain of functional data
-d=12 # number of basis elements
-basis=create.bspline.basis(rangeval = c(0,1),nbasis = d) # create basis object
-smooth.calls=smooth.basis(u, matrix(nrow=240,ncol=365,Callcenter$calls), basis)
-Y=fts(smooth.calls$fd) # create functional time series
-Yind=Y[4:8] # take only the 4th through 8th functions
-plot(Yind)
-Yminus=Y[4:8]-Y[14:18] # subtract functions from each other
-plot(Yminus)
+load_github_data("https://github.com/haghbinh/Rfssa/blob/main/data/Callcenter.RData")
+D <- matrix(sqrt(Callcenter$calls), nrow = 240)
+u <- seq(0, 1, length.out = 240) # Define domain of functional data
+d <- 22 # number of basis elements
+Y <- fts(list(D), list(list(d, "bspline")), list(u))
+plot(Y)
+plot(Y[10:15])
 }
-
-
 
 }
 \seealso{

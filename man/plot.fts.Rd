@@ -4,31 +4,45 @@
 \alias{plot.fts}
 \title{Functional Time Series Visualization Tools Using Plotly}
 \usage{
-\method{plot}{fts}(x, npts = 100, type = "line", main = NULL,
-  ylab = NULL, xlab = NULL, tlab = NULL, var = NULL, ...)
+\method{plot}{fts}(
+  x,
+  vars = NULL,
+  types = NULL,
+  subplot = TRUE,
+  mains = NULL,
+  ylabels = NULL,
+  xlabels = NULL,
+  tlabels = NULL,
+  zlabels = NULL,
+  ...
+)
 }
 \arguments{
-\item{x}{an object of class \code{\link{fts}}}
+\item{x}{An object of class \code{\link{fts}}.}
 
-\item{npts}{number of points to evaluate functional object at}
+\item{vars}{A numeric specifying which variables in the fts to plot. The default is to plot all variables in succession. Note as well that variable indices may be repeated.}
 
-\item{type}{the type of plot to be displayed where possible types are:
+\item{types}{A tuple of strings specifying the types of plots to be displayed where possible types for fts variables observed over a one-dimensional domain are:
 \itemize{
 \item \code{"line"} plot the \code{\link{fts}} elements in a line plot (default)
-\item \code{"heatmap"} plot the \code{\link{fts}} elements in a heat map
+\item \code{"heatmap"} plot the \code{\link{fts}} elements in a heat map which can be used for variables observed over one or two-dimensional domains
 \item \code{"3Dsurface"} plot the \code{\link{fts}} elements as a surface
-\item \code{"3Dline"} plot the \code{\link{fts}} elements in a three-dimensional line plot
-}}
+\item \code{"3Dline"} plot the \code{\link{fts}} elements in a three-dimensional line plot.
+}
+The current plot type supported for fts variables observed over a two-dimensional domain is \code{"heatmap"}. Also note that
+the same variable may be plotted several times using many different type options.}
 
-\item{main}{the main title}
+\item{subplot}{A logical specifying whether or not line plots should be plotted in a subplot or not. The default is \code{TRUE} and if any other plot type is provided, the value is switched to \code{FALSE}.}
 
-\item{ylab}{the y-axis label}
+\item{mains}{A tuple of strings providing the the main titles of each plot.}
 
-\item{xlab}{the x-axis label}
+\item{ylabels}{A tuple of strings providing the the y-axis titles of each plot.}
 
-\item{tlab}{the time-axis label}
+\item{xlabels}{A tuple of strings providing the the x-axis titles of each plot.}
 
-\item{var}{an integer specifying the variable number to plot if \code{type="3Dsurface"} or \code{type="3Dline"}}
+\item{tlabels}{A tuple of strings providing the the time-axis titles of each plot.}
+
+\item{zlabels}{A tuple of strings providing the the z-axis titles of each plot.}
 
 \item{...}{arguments to be passed to methods, such as graphical parameters.}
 }
@@ -37,23 +51,5 @@ This is a plotting method for univariate or multivariate functional time series 
 \code{\link{fts}} data using a variety of techniques that use plotly.
 }
 \note{
-for a multivariate example, see the examples in \code{\link{fssa}}
-}
-\examples{
-
-\dontrun{
-require(fda)
-require(Rfssa)
-data(Callcenter) # Read data
-u=seq(0,1,length.out=240) # Define domain of functional data
-d=12 # number of basis elements
-basis=create.bspline.basis(rangeval = c(0,1),nbasis = d) # create basis object
-smooth.calls=smooth.basis(u, matrix(nrow=240,ncol=365,Callcenter$calls), basis)
-Y=fts(smooth.calls$fd) # create functional time series
-plot(Y,type = "heatmap")
-plot(Y,type = "line",var = 1)
-plot(Y,type = "3Dsurface",var = 1)
-plot(Y,type = "3Dline",var = 1)
-}
-
+For examples, see \code{\link{fssa}}
 }

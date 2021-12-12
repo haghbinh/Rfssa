@@ -1,42 +1,56 @@
-#' Rfssa: A Package for Functional Singular Spectrum Analysis.
+#' Rfssa: A Package for Functional Singular Spectrum Analysis and Related Methods.
 #'
-#' The Rfssa package provides the collection of necessary
-#' functions to implement functional singular spectrum analysis (FSSA)
-#' for analysing functional time series (FTS) data. FSSA is a novel
-#' non-parametric method to perform decomposition and reconstruction of FTS.
+#' The Rfssa package provides the collection of necessary functions to
+#' implement functional singular spectrum analysis (FSSA)-based methods for
+#' analyzing univariate and multivariate functional time series (FTS).
+#' Univariate and multivariate FSSA are novel, non-parametric methods used to perform decomposition and reconstruction of univariate and multivariate FTS
+#' respectively. In addition, the FSSA-based routines may be performed on FTS
+#' whose variables are observed over a one or two-dimensional domain. Finally,
+#' one may perform FSSA recurrent or fssa vector forecasting of univariate or
+#' multivariate FTS observed over one-dimensional domains. Forecasting of FTS
+#' whose variables are observed over domains of dimension greater than one is
+#' under development.
 #'
 #'
-#'@details
-#' The use of the package starts with the decomposition
-#' of functional time series (\code{\link{fts}}) objects using \code{\link{fssa}}.
-#' Then a suitable grouping of the principal compomnents is required for reconstruction which can be done heuristically by looking at
-#' the plots of the decomposition (\code{\link[=plot.fssa]{plot}}).
-#' Alternatively, one can examine the  weighted correlation (w-correlation) matrix
-#' (\code{\link{fwcor}}). The final step is the reconstruction of the
-#' principal components into additive \code{\link{fts}} objects
-#' whose sum approximates the original univariate or multivariate functional time series (\code{\link{freconstruct}}).
+#' @details
+#' The use of the package starts with the decomposition of functional time
+#' series (\code{\link{fts}}) objects using the \code{\link{fssa}} routine. Then a suitable grouping of the
+#' principal components is required for reconstruction (\code{\link{freconstruct}}) or
+#' forecasting (\code{\link{fforecast}}) which can be done heuristically by looking at the
+#' plots of the decomposition. Once a suitable grouping is chosen,
+#' one may perform reconstruction where the sum of all the elements between the disjoint
+#' groups approximates the original FTS. One may also choose to perform
+#' forecasting after a grouping is chosen which returns future observations in
+#' each FTS specified by the groups.
 #'
-#' This version of the Rfssa package includes updates to existing functions including \code{\link{fssa}}, \code{\link[=plot.fssa]{plot}}, \code{\link{wplot}}, and
-#' \code{\link{freconstruct}}. Multivariate functional singular spectrum analysis (mfssa) was added to the package in \code{\link{fssa}} to allow
-#' the user to perform embedding and decomposition of a multivariate FTS. The reconstruction stage in \code{\link{freconstruct}} was also updated
-#'  to allow for reconstruction (including Hankelization) of multivariate FTS objects
-#'  using multivariate FSSA objects that come from mfssa. Plotting options for FSSA objects in \code{\link[=plot.fssa]{plot}} were also updated
-#'  so that the user can now plot left singular functions, right singular vectors, left singular function heat diagrams, and periodograms. FSSA plotting
-#'  options also allow the user to specify which particular components they want to plot. For example, a user can specify that they want to see a paired-plot of only the
-#'  third and fourth component. The 'meanvectors' and 'meanpaired' options were removed as these are satisfied with 'paired' and 'vectors' options. The 'efunctions'
-#'  and 'efunctions2' options were also removed in lieu of the addition of the left singular function heat map option. The user can also specify the 'cuts' parameter in
-#'  \code{\link{wplot}} to make visualization of the w-correlation matrix easier.
+#' This version of the package leverages a new S4 object for FTS objects (\code{\link{fts}}).
+#' Along with providing the raw, sampled data, the new object may be specified using a provided basis and grid, a requested
+#' basis and grid, or a mixture of provided and requested elements. We note that
+#' the FTS object may be univariate or multivariate and variables may be observed
+#' over one or two-dimensional domains. Validity checking of the S4 object
+#' constructor inputs was also added to help guide the user. The plotting of FTS
+#' objects was also updated to allow the user to plot FTS variables
+#' observed over two-dimensional domains. Next, the FSSA routine (\code{\link{fssa}}) was
+#' updated to perform faster by leveraging the RSpectra and RcppEigen R packages,
+#' and the Eigen C++ package. We achieved a roughly 20 times speed up for
+#' certain data examples. We updated the plotting of fssa objects to
+#' allow for plotting of left singular functions that correspond with FTS
+#' variables observed over a two-dimensional domain.
+#' We updated FSSA reconstruction \code{\link{freconstruct}} to handle
+#' FTS whose variables are observed over one or two-dimensional domains. We also
+#' updated FTS arithmetic (such as FTS addition, FTS subtraction, etc.) to allow
+#' the user to perform scalar-FTS arithmetic on different variables of a
+#' multivariate FTS.
 #'
-#' This version of the Rfssa package also includes new functions
-#' for converting functional data (FD) objects to FTS objects, arithmetic, indexing, correlation, and plotting of FTS data.
-#' The user is able to convert an FD object to an FTS object using \code{\link{fts}}. The user can also perform addition,
-#' subtraction, and multiplication of FTS objects with other FTS objects or FTS objects with scalars
-#' by using '+', '-', and '*' respectively. The package also
-#' allows for indexing of FTS objects by using '['. The user can also measure the unweighted correlation
-#' between FTS objects by using \code{\link{cor.fts}}. The plotting of FTS objects can be performed using \code{\link[=plot.fts]{plot}}
-#' which uses the plotly package for visualization.
+#' The first piece of new functionality that has been added is that the user
+#' may now specify univariate or multivariate FTS comprised of variables observed
+#' over one or two-dimensional domains. In addition, forecasting of univariate
+#' and multivariate FTS observed over one-dimensional domains by FSSA/MFSSA
+#' recurrent forecasting and FSSA/MFSSA vector forecasting has also been added.
+#' We have also added in a new data set (\code{\link{Montana}}) which provides the data for a
+#' multivariate FTS observed over different dimensional domains.
 #'
-#' The package update also includes a new shiny app (\code{\link{launchApp}}) that can be used for demonstrations of univariate or multivariate FSSA
+#' The package update also includes updates to the shiny app (\code{\link{launchApp}}) that can be used for demonstrations of univariate or multivariate FSSA
 #' depending on the type that is specified.
 #' The app allows the user to explore FSSA with simulated data, data that is provided on the server, or data that the user provides.
 #' It allows the user to change parameters as they please, gives visual results of the methods, and also allows the user to compare FSSA results to other
@@ -44,17 +58,24 @@
 #' perform FSSA as a part of their data analysis.
 #'
 #'
-#'@seealso
-#'  \code{\link{fssa}}, \code{\link{freconstruct}},
+#' @seealso
+#'  \code{\link{fssa}}, \code{\link{freconstruct}}, \code{\link{fforecast}}
 #'  \code{\link{fwcor}}, \code{\link{wplot}}, \code{\link{fts}}, \code{\link{plot.fts}}, \code{\link{plot.fssa}},
 #'  \code{\link{cor.fts}}, \code{\link{launchApp}}
 #'
 #'
 #'
-#'@references
-#'   Haghbin H., Najibi, S.M., Mahmoudvand R., Trinka J., Maadooliat M. (2019).
-#'   Functional singular spectrum Analysis. Manuscript submitted for publication.
+#' @references
+#'   Haghbin, H., Morteza Najibi, S., Mahmoudvand, R., Trinka, J., and Maadooliat, M. (2021). Functional
+#'   singular spectrum analysis. Stat. e330 STAT-20-0240.R1.
 #'
+#'   Trinka J., Haghbin H., Maadooliat M. (Accepted) Multivariate Functional Singular Spectrum Analysis: A Nonparametric Approach for Analyzing Multivariate Functional Time Series. In: Bekker A., Ferreira, J., Arashi M., Chen D. (eds) Innovations in Multivariate Statistical Modeling: Navigating Theoretical and Multidisciplinary Domains. Emerging Topics in Statistics and Biostatistics. Springer, Cham.
+#'
+#'   Trinka J. (2021) Functional Singular Spectrum Analysis: Nonparametric Decomposition and Forecasting Approaches for Functional Time Series [Doctoral dissertation, Marquette University]. ProQuest Dissertations Publishing.
+#'
+#'   Trinka, J., Haghbin, H., and Maadooliat, M. (2021). Functional time series forecasting: Functional
+#'   singular spectrum analysis approaches. Version 4 retrieved from https://arxiv.org/abs/2011.
+#'   13077.
 #'
 #'
 #' @docType package
