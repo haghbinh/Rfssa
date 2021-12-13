@@ -25,7 +25,7 @@ precisely, the \emph{(i,j)}'th element of the data matrix contains the call volu
 during the \emph{j}th time interval on day \emph{i}. This dataset has been analyzed in several
 prior studies; e.g. Brown et al. (2005),  Shen and Huang
 (2005), Huang et al. (2008), and Maadooliat et al. (2015). Here, the data are aggregated  into time
-intervals 6 minutes. The data is hosted on GitHub and \code{\link{load_github_data}} may be used to load the data.
+intervals of 6 minutes. The data is hosted on GitHub and \code{\link{load_github_data}} may be used to load the data.
 }
 \references{
 \enumerate{

@@ -51,7 +51,11 @@ We updated FSSA reconstruction (freconstruct) to handle
 FTS whose variables are observed over one or two-dimensional domains. We also 
 updated FTS arithmetic (such as FTS addition, FTS subtraction, etc.) to allow 
 the user to perform scalar-FTS arithmetic on different variables of a 
-multivariate FTS.
+multivariate FTS. In addition, we also now host the Callcenter, Jambi, and 
+Montana datasets on GitHub to significantly decrease the size of the package. 
+In order to load the data, one simply needs to use the load_github_data 
+function. This same function can also be used to load data from any other 
+public GitHub repository.
 
 # New Functionality
 

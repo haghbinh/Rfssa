@@ -14,9 +14,9 @@
 #' @examples
 #' \dontrun{
 #' # Loading different datasets from the Rfssa repository hosted by GitHub.
-#' call = load_github_data("https://github.com/haghbinh/Rfssa/blob/main/data/Callcenter.RData")
-#' jambi = load_github_data("https://github.com/haghbinh/Rfssa/blob/main/data/Jambi.RData")
-#' montana = load_github_data("https://github.com/haghbinh/Rfssa/blob/main/data/Montana.RData")
+#' call = load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Callcenter.RData")
+#' jambi = load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Jambi.RData")
+#' montana = load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Montana.RData")
 #'
 #' }
 #'

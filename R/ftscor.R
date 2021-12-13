@@ -11,7 +11,7 @@
 #' @examples
 #' \dontrun{
 #' require(Rfssa)
-#' load_github_data("https://github.com/haghbinh/Rfssa/blob/main/data/Jambi.RData")
+#' load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Jambi.RData")
 #' ## Raw image data
 #' NDVI <- Jambi$NDVI
 #' EVI <- Jambi$EVI

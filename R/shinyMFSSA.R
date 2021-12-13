@@ -281,9 +281,9 @@ server.mfssa <- function(input, output, clientData, session) {
     # if (!length(iXs())) {load(system.file("shiny/data", "servshiny.rda", package = "Rfssa")); iXs(Xs)}
     if (!length(iXs())) {
       # load the call center data
-      call=load_github_data("https://github.com/haghbinh/Rfssa/blob/main/data/Callcenter")
+      call=load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Callcenter")
       # load the Jambi data
-      jambi=load_github_data("https://github.com/haghbinh/Rfssa/blob/main/data/Jambi")
+      jambi=load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Jambi")
 
       Xs <- list()
       Xs[[1]] <- matrix(sqrt(call$calls), nrow = 240)

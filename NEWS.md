@@ -46,6 +46,11 @@ New Additions
 -   `Montana` was added to provide an example of a multivariate `fts` 
     whose variables are observed over a one-dimensional and two-dimensional 
     domain.
+    
+-   `load_github_data` was added to allow the user to load the `Callcenter`, 
+    `Jambi`, and `Montana` datasets from GitHub which significantly reduced 
+    the size of the package. In addition, this same function may be used to 
+    load data from any other public GitHub repository.
 
 Minor improvements and bug fixes
 --------------------------------

@@ -25,15 +25,15 @@ An object of class \code{fssa}, which is a list of functional objects and the fo
 \description{
 This is a function which performs the decomposition (including embedding
  and  functional SVD steps) stage for univariate functional singular spectrum analysis (ufssa)
- or multivariate functional singular spectrum analysis (mfssa)
- depending on whether the supplied input is a univariate or
- multivariate functional time series (\code{\link{fts}}) object. Also note that the variables of the \code{\link{fts}} maybe observed over different dimensional domains where the maximum dimension currently supported is two.
+ or multivariate functional singular spectrum analysis (mfssa). The algorithm (ufssa or mfssa) is chosen based on
+ whether the supplied input is a univariate or
+ multivariate functional time series (\code{\link{fts}}) object. The \code{type} parameter can also be set to \code{"mfssa"} if the user wishes to perform ufssa of a univariate \code{\link{fts}} object using the mfssa code. Also note that the variables of the \code{\link{fts}} maybe observed over different dimensional domains where the maximum dimension currently supported is two.
 }
 \examples{
 \dontrun{
 ## Univariate FSSA Example on Callcenter data
 require(Rfssa)
-load_github_data("https://github.com/haghbinh/Rfssa/blob/main/data/Callcenter.RData")
+load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Callcenter.RData")
 ## Define functional objects
 D <- matrix(sqrt(Callcenter$calls), nrow = 240)
 N <- ncol(D)
@@ -74,7 +74,7 @@ plot(Q[[3]][1:60], type = "3Dline", xlabels = "Intraday intervals", tlabels = "D
 ## Multivariate FSSA Example on bivariate intraday
 ## temperature curves and smoothed images of vegetation
 require(Rfssa)
-load_github_data("https://github.com/haghbinh/Rfssa/blob/main/data/Montana.RData")
+load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Montana.RData")
 Temp <- Montana$Temp
 NDVI <- Montana$NDVI
 d_temp <- 11

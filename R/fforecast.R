@@ -12,7 +12,7 @@
 #' \dontrun{
 #' # FSSA Forecasting
 #' require(Rfssa)
-#' load_github_data("https://github.com/haghbinh/Rfssa/blob/main/data/Callcenter.RData")
+#' load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Callcenter.RData")
 #' ## Define functional objects
 #' D <- matrix(sqrt(Callcenter$calls), nrow = 240)
 #' N <- ncol(D)
@@ -44,7 +44,7 @@
 #'
 #' # MFSSA Forecasting
 #' require(Rfssa)
-#' load_github_data("https://github.com/haghbinh/Rfssa/blob/main/data/Jambi.RData")
+#' load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Jambi.RData")
 #' ## Raw image data
 #' NDVI <- Jambi$NDVI
 #' EVI <- Jambi$EVI

@@ -10,7 +10,7 @@
 #' @examples
 #' \dontrun{
 #' require(Rfssa)
-#' load_github_data("https://github.com/haghbinh/Rfssa/blob/main/data/Callcenter.RData")
+#' load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Callcenter.RData")
 #' D <- matrix(sqrt(Callcenter$calls), nrow = 240)
 #' u <- seq(0, 1, length.out = 240) # Define domain of functional data
 #' d <- 22 # number of basis elements
@@ -146,7 +146,7 @@
 #' @examples
 #' \dontrun{
 #' require(Rfssa)
-#' load_github_data("https://github.com/haghbinh/Rfssa/blob/main/data/Callcenter.RData")
+#' load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Callcenter.RData")
 #' D <- matrix(sqrt(Callcenter$calls), nrow = 240)
 #' u <- seq(0, 1, length.out = 240) # Define domain of functional data
 #' d <- 22 # number of basis elements
@@ -283,7 +283,7 @@
 #' @examples
 #' \dontrun{
 #' require(Rfssa)
-#' load_github_data("https://github.com/haghbinh/Rfssa/blob/main/data/Callcenter.RData")
+#' load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Callcenter.RData")
 #' D <- matrix(sqrt(Callcenter$calls), nrow = 240)
 #' u <- seq(0, 1, length.out = 240) # Define domain of functional data
 #' d <- 22 # number of basis elements
@@ -423,7 +423,7 @@
 #' @examples
 #' \dontrun{
 #' require(Rfssa)
-#' load_github_data("https://github.com/haghbinh/Rfssa/blob/main/data/Callcenter.RData")
+#' load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Callcenter.RData")
 #' D <- matrix(sqrt(Callcenter$calls), nrow = 240)
 #' u <- seq(0, 1, length.out = 240) # Define domain of functional data
 #' d <- 22 # number of basis elements
