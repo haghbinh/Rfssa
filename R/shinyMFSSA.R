@@ -280,19 +280,21 @@ server.mfssa <- function(input, output, clientData, session) {
     }
     # if (!length(iXs())) {load(system.file("shiny/data", "servshiny.rda", package = "Rfssa")); iXs(Xs)}
     if (!length(iXs())) {
-      # load the call center data
-      call=load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Callcenter")
-      # load the Jambi data
-      jambi=load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Jambi")
+      Callcenter <- NULL
+      Jambi <- NULL
+      load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Callcenter.RData")
+      load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Jambi.RData")
+      Callcenter <- get("Callcenter", envir = .GlobalEnv)
+      Jambi <- get("Jambi", envir = .GlobalEnv)
 
       Xs <- list()
-      Xs[[1]] <- matrix(sqrt(call$calls), nrow = 240)
-      Xs[[2]] <- Xs[[3]] <- matrix(NA, nrow = 128, ncol = dim(jambi$NDVI)[3])
-      for (i in 1:dim(jambi$NDVI)[3]) {
-        Xs[[2]][, i] <- density(jambi$NDVI[, , i], from = 0, to = 1, n = 128)$y
-        Xs[[3]][, i] <- density(jambi$EVI[, , i], from = 0, to = 1, n = 128)$y
+      Xs[[1]] <- matrix(sqrt(Callcenter$calls), nrow = 240)
+      Xs[[2]] <- Xs[[3]] <- matrix(NA, nrow = 128, ncol = dim(Jambi$NDVI)[3])
+      for (i in 1:dim(Jambi$NDVI)[3]) {
+        Xs[[2]][, i] <- density(Jambi$NDVI[, , i], from = 0, to = 1, n = 128)$y
+        Xs[[3]][, i] <- density(Jambi$EVI[, , i], from = 0, to = 1, n = 128)$y
       }
-      colnames(Xs[[2]]) <- colnames(Xs[[3]]) <- jambi$Date
+      colnames(Xs[[2]]) <- colnames(Xs[[3]]) <- Jambi$Date
       names(Xs) <- c("Callcenter", "NDVI", "EVI")
       Xs[[4]] <- Xs[2:3]
       names(Xs) <- c(names(Xs[1:3]), "xDI")

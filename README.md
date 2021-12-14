@@ -3,7 +3,6 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # Rfssa
-[![Build Status](https://travis-ci.org/haghbinh/Rfssa.svg?branch=master)](https://travis-ci.org/haghbinh/Rfssa)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/Rfssa)](https://cran.r-project.org/package=Rfssa)
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
