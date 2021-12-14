@@ -20,7 +20,7 @@
 #'
 #' }
 #'
-#' @importFrom httr GET stop_for_status content
+#' @importFrom httr GET stop_for_status content timeout
 #'
 
 load_github_data <- function (github_data_url) {
@@ -29,7 +29,7 @@ load_github_data <- function (github_data_url) {
   # based very closely on code for devtools::source_url
   temp_file <- tempfile()
   on.exit(unlink(temp_file))
-  request <- httr::GET(github_data_url)
+  request <- httr::GET(github_data_url,httr::timeout(30))
   httr::stop_for_status(request)
   writeBin(httr::content(request, type = "raw"), temp_file)
   load(temp_file, envir = .GlobalEnv)

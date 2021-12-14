@@ -267,8 +267,6 @@ server.fssa <- function(input, output, clientData, session) {
     }
     # if (!length(iXs())) {load(system.file("shiny/data", "servshiny.rda", package = "Rfssa")); iXs(Xs[-6])}
     if (!length(iXs())) {
-      Callcenter <- NULL
-      Jambi <- NULL
       load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Callcenter.RData")
       load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Jambi.RData")
       Callcenter <- get("Callcenter", envir = .GlobalEnv)
