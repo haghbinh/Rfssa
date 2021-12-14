@@ -26,10 +26,10 @@ series (fts) objects using the fssa routine. Then a suitable grouping of the
 principal components is required for reconstruction (freconstruct) or 
 forecasting (fforecast) which can be done heuristically by looking at the 
 plots of the decomposition (plot). Once a suitable grouping is chosen, 
-one may perform reconstruction where the sum of all the elements in the 
-groups approximates the original FTS. One may also choose to perform 
+one may perform reconstruction where the sum of all the elements between the 
+disjoint groups approximates the original FTS. One may also choose to perform 
 forecasting after a grouping is chosen which returns future observations in 
-the FTS.
+each FTS specified by the groups.
 
 # Updated Functionality
 
