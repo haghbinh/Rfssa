@@ -53,10 +53,10 @@
 #'
 #' ## Other visualisation types for object of class "fts":
 #'
-#' plot(Q[[1]], type = "3Dsurface", xlabels = "Intraday intervals", tlabels = "Day", zlabels = "Output")
+#' plot(Q[[1]], type = "3Dsurface", xlabels = "Intraday", tlabels = "Day", zlabels = "Output")
 #' # Visualizing the first 60 observations in the reconstructed fts.
 #' plot(Q[[2]][1:60], type = "heatmap", xlabels = "Intraday intervals")
-#' plot(Q[[3]][1:60], type = "3Dline", xlabels = "Intraday intervals", tlabels = "Day", zlabels = "Output")
+#' plot(Q[[3]][1:60], type = "3Dline", xlabels = "Intraday", tlabels = "Day", zlabels = "Output")
 #'
 #' ## Multivariate FSSA Example on bivariate intraday
 #' ## temperature curves and smoothed images of vegetation

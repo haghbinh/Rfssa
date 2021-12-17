@@ -14,22 +14,21 @@
 #' @examples
 #' \dontrun{
 #' # Loading different datasets from the Rfssa repository hosted by GitHub.
-#' call = load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Callcenter.RData")
-#' jambi = load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Jambi.RData")
-#' montana = load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Montana.RData")
-#'
+#' call <- load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Callcenter.RData")
+#' jambi <- load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Jambi.RData")
+#' montana <- load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Montana.RData")
 #' }
 #'
 #' @importFrom httr GET stop_for_status content timeout
 #'
 
-load_github_data <- function (github_data_url) {
-  url_len=nchar(github_data_url)
-  if(substr(github_data_url,start = (url_len-8),stop = url_len)!="?raw=true") github_data_url=paste0(github_data_url,"?raw=true");
+load_github_data <- function(github_data_url) {
+  url_len <- nchar(github_data_url)
+  if (substr(github_data_url, start = (url_len - 8), stop = url_len) != "?raw=true") github_data_url <- paste0(github_data_url, "?raw=true")
   # based very closely on code for devtools::source_url
   temp_file <- tempfile()
   on.exit(unlink(temp_file))
-  request <- httr::GET(github_data_url,httr::timeout(30))
+  request <- httr::GET(github_data_url, httr::timeout(30))
   httr::stop_for_status(request)
   writeBin(httr::content(request, type = "raw"), temp_file)
   load(temp_file, envir = .GlobalEnv)

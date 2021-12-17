@@ -298,8 +298,10 @@ server.fssa <- function(input, output, clientData, session) {
     if (input$f.choice != "sim") {
       return()
     }
-    if (!is.null(input$noise.t)) if (input$noise.t == "swn") {
-      return()
+    if (!is.null(input$noise.t)) {
+      if (input$noise.t == "swn") {
+        return()
+      }
     }
     sliderInput("noise.p", "AR Parameter:", min = 0, max = 1, value = 0, step = 0.01, width = "125px")
   })
@@ -580,8 +582,10 @@ server.fssa <- function(input, output, clientData, session) {
     if ((input$f.choice == "upload" && is.null(input$file)) || (input$f.choice == "sim" && !length(input$model))) {
       return()
     }
-    if (input$desc %in% c("fssa.reconst", "ssa.reconst") && !is.null(input$rec.type)) if (input$rec.type %in% c("heatmap", "line", "3Dline", "3Dsurface")) {
-      return()
+    if (input$desc %in% c("fssa.reconst", "ssa.reconst") && !is.null(input$rec.type)) {
+      if (input$rec.type %in% c("heatmap", "line", "3Dline", "3Dsurface")) {
+        return()
+      }
     }
     if (input$f.choice == "server") {
       fname <- names(iXs())[as.numeric(input$s.choice)]
@@ -754,8 +758,10 @@ server.fssa <- function(input, output, clientData, session) {
     if ((input$f.choice == "upload" && is.null(input$file)) || (input$f.choice == "sim" && !length(input$model))) {
       return()
     }
-    if (input$desc %in% c("fssa.reconst", "ssa.reconst")) if (!input$rec.type %in% c("heatmap", "line", "3Dline", "3Dsurface")) {
-      return()
+    if (input$desc %in% c("fssa.reconst", "ssa.reconst")) {
+      if (!input$rec.type %in% c("heatmap", "line", "3Dline", "3Dsurface")) {
+        return()
+      }
     }
     sr <- run_ssa()
     input.g <- eval(parse(text = paste0("list(", input$g, ")")))

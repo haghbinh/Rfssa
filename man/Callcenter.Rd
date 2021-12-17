@@ -13,9 +13,6 @@ A dataframe with 87600 rows and 5 variables:
   \item{Month}{Month associated with Date.}
 }
 }
-\source{
-\url{http://iew3.technion.ac.il/serveng/callcenterdata/index.html}
-}
 \description{
 This dataset is a small call center for an anonymous bank (Brown et al.,
 2005). This dataset provides the exact time of the calls that were connected to

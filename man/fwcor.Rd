@@ -59,7 +59,11 @@ for (i in 1:448) {
 }
 ## Define functional objects
 d <- 11
-Y <- fts(list(D0_NDVI, D0_EVI), list(list(d, "bspline"), list(d + 4, "fourier")), list(c(0, 1), c(0, 1)))
+D <- list(D0_NDVI, D0_EVI)
+B0 <- list(list(d, "bspline")
+B1 <- list(d + 4, "fourier"))
+U <- list(c(0, 1), c(0, 1))
+Y <- fts(D, B0, B1, U)
 plot(Y)
 U <- fssa(Y = Y, L = 45)
 L <- 45

@@ -9,8 +9,8 @@ Authors@R: c(
     person("Mehdi", "Maadooliat", email = " mehdi@mscs.mu.edu", role = "aut")
     )
 Maintainer: Hossein Haghbin <haghbinh@gmail.com>
-URL: https://github.com/haghbinh/Rfssa.git
-Description: Methods and tools for implementing univariate and multivariate functional singular spectrum analysis (fssa) for functional time series (fts) whose variables might be observed over different dimensional domains. The univariate fssa algorithm is described in Haghbin H., Najibi, S.M., Mahmoudvand R., Trinka J., Maadooliat M. (2021) and the multivariate fssa over different dimensional domains technique may be found in Trinka J., Haghbin H., and Maadooliat M. (Accepted). In addition, one may perform forecasting of univariate and multivariate fts whose variables are observed over one-dimensional domains as described in the dissertation of Trinka J. (2021) and the manuscript of Trinka J., Haghbin H., Maadooliat M. (2020) where the manuscript is to be submitted to a journal for publication. 
+URL: https://github.com/haghbinh/Rfssa
+Description: Methods and tools for implementing univariate and multivariate functional singular spectrum analysis for functional time series whose variables might be observed over different dimensional domains. The univariate fssa algorithm is described in Haghbin H., Najibi, S.M., Mahmoudvand R., Trinka J., Maadooliat M. (2021) and the multivariate fssa over different dimensional domains technique may be found in Trinka J., Haghbin H., and Maadooliat M. (Accepted). In addition, one may perform forecasting of univariate and multivariate fts whose variables are observed over one-dimensional domains as described in the dissertation of Trinka J. (2021) and the manuscript of Trinka J., Haghbin H., Maadooliat M. (2020) where the manuscript is to be submitted to a journal for publication. 
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
@@ -27,8 +27,9 @@ Imports: Rcpp,
          methods,
          RSpectra,
          httr,
+         markdown
 LinkingTo: Rcpp,
            RcppArmadillo,
            RcppEigen,
 Suggests: knitr,
-Depends: R (>= 2.10), dplyr
+Depends: R (>= 4.0.0), dplyr
