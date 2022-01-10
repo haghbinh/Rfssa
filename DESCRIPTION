@@ -1,12 +1,12 @@
 Package: Rfssa
 Type: Package
 Title: Functional Singular Spectrum Analysis
-Version: 2.0.0
+Version: 2.0.1
 Authors@R: c(
-    person("Hossein", "Haghbin", email = "haghbinh@gmail.com", role = c("aut", "cre")),
+    person("Hossein", "Haghbin", email = "haghbinh@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-8416-2354")),
     person("Jordan", "Trinka", email = "jordantrinka4@hotmail.com", role = "aut"),
-    person("Seyed Morteza", "Najibi", email = "mnajibi@shirazu.ac.ir", role = "aut"),
-    person("Mehdi", "Maadooliat", email = " mehdi@mscs.mu.edu", role = "aut")
+    person("Seyed Morteza", "Najibi", email = "mor.najibi@gmail.com", role = "aut"),
+    person("Mehdi", "Maadooliat", email = "mehdi.maadooliat@mu.edu", role = "aut", comment = c(ORCID = "0000-0002-5408-2676"))
     )
 Maintainer: Hossein Haghbin <haghbinh@gmail.com>
 URL: https://github.com/haghbinh/Rfssa

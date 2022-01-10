@@ -1,4 +1,4 @@
-Rfssa 2.0.0
+Rfssa 2.0.1
 ===========
 
 Updates
