@@ -125,7 +125,6 @@ plot.fssa <- function(x, d = length(x$values),
           print(ggplotly(ggplot(y, aes(x_1, x_2, fill = y, frame = time)) +
             geom_tile() +
             scale_fill_distiller(palette = "RdYlBu") +
-            theme_ipsum() +
             ggtitle(paste("Singular function", as.character(i), "of variable", as.character(vars[j])))))
         }
       } else if (type == "lcurves" && ncol(x$Y@grid[[vars[j]]]) == 1) {
