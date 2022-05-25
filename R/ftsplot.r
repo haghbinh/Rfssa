@@ -24,7 +24,6 @@
 #' @param ... arguments to be passed to methods, such as graphical parameters.
 #' @importFrom plotly plot_ly add_lines layout subplot add_surface hide_colorbar ggplotly
 #' @importFrom ggplot2 ggplot aes geom_tile scale_fill_distiller xlab ylab labs ggtitle
-#' @importFrom hrbrthemes theme_ipsum
 #' @importFrom tibble as_tibble
 #' @import dplyr
 #'
