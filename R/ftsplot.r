@@ -125,7 +125,6 @@ plot.fts <- function(x, vars = NULL, types = NULL, subplot = TRUE, mains = NULL,
       Pl[[j]] <- ggplotly(ggplot(y, aes(x_1, x_2, fill = y, frame = time)) +
         geom_tile() +
         scale_fill_distiller(palette = "RdYlBu") +
-        theme_ipsum() +
         xlab(xlabels[j]) +
         ylab(ylabels[j]) +
         labs(fill = zlabels[j]) +
