@@ -8,61 +8,48 @@
 The Rfssa package provides the collection of necessary functions to
 implement functional singular spectrum analysis (FSSA)-based methods for
 analyzing univariate and multivariate functional time series (FTS).
-Univariate and multivariate FSSA are novel, non-parametric methods used to perform decomposition and reconstruction of univariate and multivariate FTS
+Univariate and multivariate FSSA are novel, non-parametric methods used to
+perform decomposition and reconstruction of univariate and multivariate FTS
 respectively. In addition, the FSSA-based routines may be performed on FTS
 whose variables are observed over a one or two-dimensional domain. Finally,
-one may perform FSSA recurrent or fssa vector forecasting of univariate or
+one may perform FSSA recurrent or FSSA vector forecasting of univariate or
 multivariate FTS observed over one-dimensional domains. Forecasting of FTS
 whose variables are observed over domains of dimension greater than one is
 under development.
 }
 \details{
-The use of the package starts with the decomposition of functional time
-series (\code{\link{fts}}) objects using the \code{\link{fssa}} routine. Then a suitable grouping of the
-principal components is required for reconstruction (\code{\link{freconstruct}}) or
-forecasting (\code{\link{fforecast}}) which can be done heuristically by looking at the
-plots of the decomposition. Once a suitable grouping is chosen,
-one may perform reconstruction where the sum of all the elements between the disjoint
-groups approximates the original FTS. One may also choose to perform
-forecasting after a grouping is chosen which returns future observations in
-each FTS specified by the groups.
+The use of the package begins by defining an \code{\link{fts}} object by providing the constructor with the raw data, basis specifications, and grid specifications.
+We note that the FTS object may be univariate or multivariate and variables may be observed
+over one (curves) or two-dimensional (images) domains. Validity checking of the S4 object
+constructor inputs is included to help guide the user. The user may
+leverage the \code{\link{plot.fts}} method to visualize the \code{\link{fts}} object. A variety
+of plotting options are available for variables observed over a one-dimensional domain and a visuanimation is offered
+for variables observed over a two-dimensional domain. Next, the user provides the \code{\link{fts}} object
+and a chosen lag parameter to the FSSA routine (\code{\link{fssa}}) to obtain the decomposition. We note that the
+decomposition function leverages the RSpectra and RcppEigen R packages,
+and the Eigen C++ package to speed up the routine. The \code{\link{plot.fssa}} method may be used to visualize the results of
+the decomposition and to choose an appropriate grouping of the eigentriples for reconstruction (\code{\link{freconstruct}}) or
+forecasting (\code{\link{fforecast}}). The \code{\link{freconstruct}} routine can be used to reconstruct a list of \code{\link{fts}} objects
+specified by the grouping while the \code{\link{fforecast}} function returns a list of \code{\link{fts}} objects that contain predictions of the signals specified by the grouping. We note that when forecasting is performed,
+usually the user specifies one group that captures the assumed deterministic, extracted signal that is found within the FTS and all other modes of variation are excluded.
+We also note that currently, forecasting only supports FTS whose variables are observed over a one-dimensional domain with two-dimensional domain forecasting to be added in the future.
 
-This version of the package leverages a new S4 object for FTS objects (\code{\link{fts}}).
-Along with providing the raw, sampled data, the new object may be specified using a provided basis and grid, a requested
-basis and grid, or a mixture of provided and requested elements. We note that
-the FTS object may be univariate or multivariate and variables may be observed
-over one or two-dimensional domains. Validity checking of the S4 object
-constructor inputs was also added to help guide the user. The plotting of FTS
-objects was also updated to allow the user to plot FTS variables
-observed over two-dimensional domains. Next, the FSSA routine (\code{\link{fssa}}) was
-updated to perform faster by leveraging the RSpectra and RcppEigen R packages,
-and the Eigen C++ package. We achieved a roughly 20 times speed up for
-certain data examples. We updated the plotting of fssa objects to
-allow for plotting of left singular functions that correspond with FTS
-variables observed over a two-dimensional domain.
-We updated FSSA reconstruction \code{\link{freconstruct}} to handle
-FTS whose variables are observed over one or two-dimensional domains. We also
-updated FTS arithmetic (such as FTS addition, FTS subtraction, etc.) to allow
-the user to perform scalar-FTS arithmetic on different variables of a
-multivariate FTS. In addition, we also now host the \code{\link{Callcenter}}, \code{\link{Jambi}},
-and \code{\link{Montana}} datasets on GitHub to significantly decrease the size of the package. In
-order to load the data, one simply needs to use the \code{\link{load_github_data}} function. This same
-function can also be used to load data from any other public GitHub repository.
+Other functionalities offered by the package include:
+\itemize{
+\item FTS arithmetic - Allows the user to perform FTS-FTS arithmetic and FTS-scalar arithmetic (such as addition, subtraction, etc.).
+\item \code{\link{eval.fts}} - Allows the user to evaluate the FTS object over a new specified grid.
+\item \code{\link{load_github_data}} - Allows the user to load any .RData file hosted on GitHub including the \code{\link{Callcenter}}, \code{\link{Jambi}},
+and \code{\link{Montana}} datasets.
+\item \code{\link{fwcor}} - Returns the weighted correlation matrix corresponding to the decomposition of an FTS.
+\item \code{\link{cor.fts}} - Returns the correlation between two \code{\link{fts}} objects.
+\item \code{\link{launchApp}} - Launches the built-in R Shiny app that can be used to interactively explore the FSSA-based routines on various datasets.
+}
 
-The first piece of new functionality that has been added is that the user
-may now specify univariate or multivariate FTS comprised of variables observed
-over one or two-dimensional domains. In addition, forecasting of univariate
-and multivariate FTS observed over one-dimensional domains by FSSA/MFSSA
-recurrent forecasting and FSSA/MFSSA vector forecasting has also been added.
-We have also added in a new data set (\code{\link{Montana}}) which provides the data for a
-multivariate FTS observed over different dimensional domains.
-
-The package update also includes updates to the shiny app (\code{\link{launchApp}}) that can be used for demonstrations of univariate or multivariate FSSA
-depending on the type that is specified.
-The app allows the user to explore FSSA with simulated data, data that is provided on the server, or data that the user provides.
-It allows the user to change parameters as they please, gives visual results of the methods, and also allows the user to compare FSSA results to other
-spectrum analysis methods such as multivariate singular spectrum analysis. The tool is easy to use and can act as a nice starting point for a user that wishes to
-perform FSSA as a part of their data analysis.
+The first update we include in this version of the Rfssa R package, is the \code{\link{eval.fts}} method used to evaluate an \code{\link{fts}} object over a new, specified grid.
+We updated the \code{\link{plot.fts}} method to allow for custom tick labels and new choices in visuanimation colors (for variables observed over two-dimensional domains) that are offered by the ggplot2 package.
+We have also updated the \code{\link{plot.fssa}} method to allow for new choices in visuanimation colors offered by the ggplot2 package when plotting left singular functions that correspond with variables observed over two-dimensional domains.
+A user may now specify a character vector that contains the time when each observation is made when building an \code{\link{fts}} object and we improved various plot fonts for readability.
+Finally, we include many other small updates that further improve plotting quality, code readability, documentation improvements, and other details that add to the professionalism of the package.
 }
 \references{
 Haghbin, H., Morteza Najibi, S., Mahmoudvand, R., Trinka, J., and Maadooliat, M. (2021). Functional

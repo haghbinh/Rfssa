@@ -4,28 +4,22 @@
 \alias{fts}
 \title{Functional Time Series Class}
 \usage{
-fts(X, B, grid)
+fts(X, B, grid, time = NULL)
 }
 \arguments{
-\item{X}{A list of length \code{p} where \code{p} is a positive integer specifying the number of variables observed in the fts. Each entry in the list should be a matrix or
-an array. For a variable observed over a one-dimensional domain, the list entry should be an \code{m} by \code{N} matrix where \code{m} is the number of sampling points for each observation and \code{N} is the number of observations.
-For a variable observed over a two-dimensional domain, the list entry should be an \code{m_1} by \code{m_2} by \code{N} array where \code{m_1} is the number of sampling points in the horizontal direction and
-\code{m_2} is the number of sampling points in the vertical direction.}
+\item{X}{A list of length p where p is a positive integer specifying the number of variables observed in the fts. Each entry in the list should be a matrix or an array.}
 
-\item{B}{A list of length \code{p}. Each entry in the list should be either a matrix specifying the basis for each variable or each list entry should be a list specifying the number of basis elements and desired basis type to be used in the smoothing process.
-For a variable observed over a one-dimensional domain, the list entry should be a \code{m} by \code{d} matrix or the list entry should be a list of the form, \code{list(d, "basistype")}, where \code{d} specifies the number basis elements and \code{"basistype"} is a string that is set to \code{"bspline"} or \code{"fourier"} to specify the type of basis.
-For a variable observed over a two-dimensional domain, the list entry should be a \code{(m_1)(m_2)} by \code{(d_1)(d_2)} matrix or the list entry should be a list of the form,
-\code{list(d_1,d_2,"basistype1","basistype2")}, where \code{d_1} and \code{d_2} specify the number of basis elements in the horizontal and vertical directions respectively, and \code{"basistype1"} and \code{"basistype2"} are set to be \code{"bspline"} or \code{"fourier"} which specifies the type of basis in the horizontal direction, and \code{"basistype2"} is set to be \code{"bspline"} or \code{"fourier"} to specify the type of basis in the horizontal and vertical directions respectively.}
+\item{B}{A list of length p. Each entry in the list should be either a matrix specifying the basis for each variable or each list entry should be a list specifying the number of basis elements and desired basis type to be used in the smoothing process.}
 
-\item{grid}{A list of length \code{p}. Each entry in the list should either be a numeric or a list of numeric elements depending on the dimension of the domain the variable is observed over.
-For a variable observed over a one-dimensional domain, the list entry should be either an ordered (from smallest to largest) numeric of length \code{m} giving the sampling points or a numeric of the form, \code{c(x_1,x_2)} where \code{x_1} and \code{x_2} are the smallest and largest values attained in the domain of the variable respectively. In addition, these list entries can also be provided in a list.
-For a variable observed over a two-dimensional domain, the list entry should be either a list of the form, \code{list(u,v)}, or of the form, \code{list(c(x_1,x_2),v)}, or of the form, \code{list(u,c(x_3,x_4))}, or of the form, \code{list(c(x_1,x_2),c(x_3,x_4))} where \code{u} is a numeric with minimium and maximum values of \code{x_1} and \code{x_2} respectively and \code{v} is a numeric with minimium and maximum values of \code{x_3} and \code{x_4} respectively.}
+\item{grid}{A list of length p. Each entry in the list should either be a numeric or a list of numeric elements depending on the dimension of the domain the variable is observed over.}
+
+\item{time}{A character vector where each entry specifies the time an observation is made.}
 }
 \description{
-This function is used to create functional time series (fts) objects from lists of discretely sampled data, basis specifications, and grid elements which provide the domain that each variable is observed over. Each variable is assumed to be observed over a regular and equidistant grid. In addition, each variable in the fts is assumed to be observed over a one or two-dimensional domain.
+This function is used to create functional time series (\code{\link{fts}}) objects from lists of discretely sampled data, basis specifications, and grid elements which provide the domain that each variable is observed over. Each variable is assumed to be observed over a regular and equidistant grid. In addition, each variable in the fts is assumed to be observed over a one or two-dimensional domain.
 }
 \note{
-Refer to \code{\link{fssa}} for an example on how to run this function.
+Refer to \code{\link{fssa}} for examples on how to run this function.
 }
 \seealso{
 \code{\link{fssa}}

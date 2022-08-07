@@ -89,12 +89,12 @@ mfwcor <- function(U, groups) {
 #' ## Define functional objects
 #' D <- matrix(sqrt(Callcenter$calls), nrow = 240)
 #' N <- ncol(D)
-#' time <- seq(ISOdate(1999, 1, 1), ISOdate(1999, 12, 31), by = "day")
+#' time <- substr(seq(ISOdate(1999, 1, 1), ISOdate(1999, 12, 31), by = "day"),1,10)
 #' K <- nrow(D)
 #' u <- seq(0, K, length.out = K)
 #' d <- 22 # Optimal Number of basis elements
 #' ## Define functional time series
-#' Y <- fts(list(D), list(list(d, "bspline")), list(u))
+#' Y <- Rfssa::fts(list(D), list(list(d, "bspline")), list(u),time)
 #' Y
 #' plot(Y, mains = c("Sqrt of Call Center Data"))
 #' ## Univariate functional singular spectrum analysis
@@ -120,10 +120,9 @@ mfwcor <- function(U, groups) {
 #' ## Define functional objects
 #' d <- 11
 #' D <- list(D0_NDVI, D0_EVI)
-#' B0 <- list(list(d, "bspline")
-#' B1 <- list(d + 4, "fourier"))
+#' B <- list(list(d, "bspline"), list(d + 4, "fourier"))
 #' U <- list(c(0, 1), c(0, 1))
-#' Y <- fts(D, B0, B1, U)
+#' Y <- Rfssa::fts(D, B, U, time)
 #' plot(Y)
 #' U <- fssa(Y = Y, L = 45)
 #' L <- 45
@@ -134,6 +133,6 @@ mfwcor <- function(U, groups) {
 #' @seealso \code{\link{fssa}}, \code{\link{freconstruct}}, \code{\link{fts}}, \code{\link{wplot}}
 #' @export
 fwcor <- function(U, groups) {
-  if (length(U$Y@C) == 1) out <- ufwcor(U, groups) else out <- mfwcor(U, groups)
+  if (class(U[[1]])[[1]]!="list") out <- ufwcor(U, groups) else out <- mfwcor(U, groups)
   return(out)
 }

@@ -14,6 +14,9 @@
   type = "values",
   vars = NULL,
   ylab = NA,
+  main = NA,
+  color_palette = "RdYlBu",
+  reverse_color_palette = FALSE,
   ...
 )
 }
@@ -32,18 +35,24 @@
 
 \item{type}{The type of plot to be displayed where possible types are:
 \itemize{
-\item \code{"values"} plot the square-root of singular values (default)
-\item \code{"paired"} plot the pairs of eigenfunction's coefficients (useful for the detection of periodic components)
-\item \code{"wcor"} plot the W-correlation matrix for the reconstructed objects
-\item \code{"vectors"} plot the eigenfunction's coefficients (useful for the detection of period length)
-\item \code{"lcurves"} plot of the eigenfunctions (useful for the detection of period length)
-\item \code{"lheats"} heatmap plot of the eigenfunctions which can be used for \code{\link{fts}} variables observed over one or two-dimensional domains (useful for the detection of meaningful patterns)
-\item \code{"periodogram"} periodogram plot (useful for the detecting the frequencies of oscillations in functional data).
+\item \code{"values"} - plot the square-root of singular values (default)
+\item \code{"paired"} - plot the pairs of eigenfunction's coefficients (useful for the detection of periodic components)
+\item \code{"wcor"} - plot the W-correlation matrix for the reconstructed objects
+\item \code{"vectors"} - plot the eigenfunction's coefficients (useful for the detection of period length)
+\item \code{"lcurves"} - plot of the eigenfunctions (useful for the detection of period length)
+\item \code{"lheats"} - heatmap plot of the eigenfunctions which can be used for \code{\link{fts}} variables observed over one or two-dimensional domains (useful for the detection of meaningful patterns)
+\item \code{"periodogram"} - periodogram plot (useful for the detecting the frequencies of oscillations in functional data).
 }}
 
 \item{vars}{A numeric specifying the variable number (can be used in plotting MFSSA \code{"lheats"} or \code{"lcurves"}).}
 
 \item{ylab}{The character vector of name of variables.}
+
+\item{main}{The main plot title}
+
+\item{color_palette}{A string specifying the color palette that is offered by the ggplot2 package to be used when plotting left singular functions corresponding with \code{\link{fts}} variables observed over two-dimensional domains.}
+
+\item{reverse_color_palette}{A boolean specifying if the color palette scale should be reversed.}
 
 \item{...}{Arguments to be passed to methods, such as graphical parameters.}
 }

@@ -4,12 +4,14 @@
 \alias{wplot}
 \title{Weighted-Correlations Plot}
 \usage{
-wplot(W, cuts = 20)
+wplot(W, cuts = 20, main = NA)
 }
 \arguments{
 \item{W}{A w-correlation matrix.}
 
 \item{cuts}{An integer that is the number of levels the range of w-correlation values will be divided into.}
+
+\item{main}{A character that is the main title of the plot.}
 }
 \description{
 This function displays a plot of the weighted-correlation (w-correlation) matrix of functional time series (\code{\link{fts}}) objects that were reconstructed

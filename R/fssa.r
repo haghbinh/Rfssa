@@ -14,7 +14,6 @@
 #' @param L A positive integer giving the window length.
 #' @param ntriples A positive integer specifying the number of eigentriples to calculate in the decomposition.
 #' @param type A string indicating which type of fssa to perform. Use \code{type="ufssa"} to perform univariate fssa (default for univariate fts). Use \code{type="mfssa"} to perform multivariate fssa (default for multivariate fts).
-#' @importFrom fda fd inprod eval.fd smooth.basis is.fd create.bspline.basis
 #' @importFrom RSpectra eigs
 #' @examples
 #' \dontrun{
@@ -24,14 +23,18 @@
 #' ## Define functional objects
 #' D <- matrix(sqrt(Callcenter$calls), nrow = 240)
 #' N <- ncol(D)
-#' time <- seq(ISOdate(1999, 1, 1), ISOdate(1999, 12, 31), by = "day")
+#' time <- substr(seq(ISOdate(1999, 1, 1), ISOdate(1999, 12, 31), by = "day"),1,10)
 #' K <- nrow(D)
 #' u <- seq(0, K, length.out = K)
 #' d <- 22 # Optimal Number of basis elements
 #' ## Define functional time series
-#' Y <- fts(list(D), list(list(d, "bspline")), list(u))
+#' Y <- Rfssa::fts(list(D), list(list(d, "bspline")), list(u),time)
 #' Y
-#' plot(Y, mains = c("Sqrt of Call Center Data"))
+#' plot(Y, mains = c("Call Center Data Line Plot"),
+#' xlabels = "Time (6 minutes aggregated)",
+#' ylabels = "Sqrt of Call Numbers",type="line",
+#' xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
+#'  list(c(1,60,120,180,240)))
 #' ## Univariate functional singular spectrum analysis
 #' L <- 28
 #' U <- fssa(Y, L)
@@ -42,21 +45,56 @@
 #' plot(U, d = 10, type = "periodogram")
 #' plot(U, d = 10, type = "paired")
 #' plot(U, d = 10, type = "wcor")
-#' gr <- list(1, 2:3, 4:5, 6:7, 8:20)
+#' gr <- list(1, 2:3, 4:5, 6:7, 1:7)
 #' Q <- freconstruct(U, gr)
-#' plot(Y, mains = "Sqrt of Call Center Data")
-#' plot(Q[[1]], mains = "1st Component")
-#' plot(Q[[2]], mains = "2nd Component")
-#' plot(Q[[3]], mains = "3rd Component")
-#' plot(Q[[4]], mains = "4th Component")
-#' plot(Q[[5]], mains = "5th Component (Noise)")
+#' plot(Q[[1]], mains = "Call Center Mean Component",
+#' xlabels = "Time (6 minutes aggregated)",
+#'      ylabels = "Sqrt of Call Numbers",type="line",
+#'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
+#'        list(c(1,60,120,180,240)))
+#' plot(Q[[2]], mains = "Call Center First Periodic Component",
+#' xlabels = "Time (6 minutes aggregated)",
+#'      ylabels = "Sqrt of Call Numbers",type="line",
+#'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
+#'        list(c(1,60,120,180,240)))
+#' plot(Q[[3]], mains = "Call Center Second Periodic Component",
+#' xlabels = "Time (6 minutes aggregated)",
+#'      ylabels = "Sqrt of Call Numbers",type="line",
+#'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
+#'        list(c(1,60,120,180,240)))
+#' plot(Q[[4]], mains = "Call Center Third Periodic Component",
+#' xlabels = "Time (6 minutes aggregated)",
+#'      ylabels = "Sqrt of Call Numbers",type="line",
+#'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
+#'        list(c(1,60,120,180,240)))
+#' plot(Y, mains = c("Call Center Data Line Plot"),
+#' xlabels = "Time (6 minutes aggregated)",
+#'      ylabels = "Sqrt of Call Numbers",type="line",
+#'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
+#'        list(c(1,60,120,180,240)))
+#' plot(Q[[5]], mains = "Call Center Extracted Signal",
+#' xlabels = "Time (6 minutes aggregated)",
+#'      ylabels = "Sqrt of Call Numbers",type="line",
+#'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
+#'        list(c(1,60,120,180,240)))
 #'
-#' ## Other visualisation types for object of class "fts":
+#' ## Other visualization types for object of class "fts":
 #'
-#' plot(Q[[1]], type = "3Dsurface", xlabels = "Intraday", tlabels = "Day", zlabels = "Output")
-#' # Visualizing the first 60 observations in the reconstructed fts.
-#' plot(Q[[2]][1:60], type = "heatmap", xlabels = "Intraday intervals")
-#' plot(Q[[3]][1:60], type = "3Dline", xlabels = "Intraday", tlabels = "Day", zlabels = "Output")
+#' plot(Q[[1]],xlabels = "Time (6 minutes aggregated)",
+#'      zlabels = "Sqrt of Call Numbers",type="3Dsurface", tlabels = "Date",
+#'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
+#'        list(c(1,60,120,180,240)))
+#' plot(Q[[2]], mains = "Call Center First Periodic Component",
+#' xlabels = "Time (6 minutes aggregated)",
+#'      zlabels = "Sqrt of Call Numbers",type="heatmap",
+#'      tlabels = "Date",
+#'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
+#'        list(c(1,60,120,180,240)))
+#' plot(Q[[3]],xlabels = "Time (6 minutes aggregated)",
+#'      zlabels = "Sqrt of Call Numbers",type="3Dline",
+#'      tlabels = "Date",
+#'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
+#'        list(c(1,60,120,180,240)))
 #'
 #' ## Multivariate FSSA Example on bivariate intraday
 #' ## temperature curves and smoothed images of vegetation
@@ -67,17 +105,24 @@
 #' d_temp <- 11
 #' d_NDVI <- 13
 #' ## Define functional time series
-#' Y <- fts(
+#' Y <- Rfssa::fts(
 #'   list(Temp / sd(Temp), NDVI), list(
 #'     list(d_temp, "bspline"),
 #'     list(d_NDVI, d_NDVI, "bspline", "bspline")
 #'   ),
-#'   list(c(0, 23), list(c(1, 33), c(1, 33)))
-#' )
+#'   list(c(0, 23), list(c(1, 33), c(1, 33))),
+#' colnames(Temp))
 #' # Plot the first 100 observations
 #' plot(Y[1:100],
-#'   xlabels = c("Time", "Lon."), ylabels = c("Temperature (\u00B0C)", "Lat."),
-#'   zlabels = c("", "NDVI"), mains = c("Temperature Curves", "NDVI Images")
+#'      xlabels = c("Time", "Longitude"),
+#'      ylabels = c("Normalized Temperature (\u00B0C)", "Latitude"),
+#'      zlabels = c("", "NDVI"),
+#'      mains = c("Temperature Curves", "NDVI Images"), color_palette = "RdYlGn",
+#'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00"),
+#'      c("113.40\u00B0 W", "113.30\u00B0 W")),xticklocs =
+#'        list(c(1,6,12,18,24),c(1,33)),
+#'        yticklabels = list(NA,c("48.70\u00B0 N", "48.77\u00B0 N")),yticklocs =
+#'        list(NA,c(1,33))
 #' )
 #' plot(Y, types = c("3Dline", "heatmap"), vars = c(1, 1))
 #' plot(Y, types = "heatmap", vars = 2)
@@ -95,15 +140,46 @@
 #' # Reconstruction of multivariate fts observed over different dimensional domains
 #' Q <- freconstruct(U = U, groups = list(c(1), c(2:3), c(4)))
 #' # Plotting reconstructions to show accuracy
-#' plot(Q[[1]]) # mean
-#' plot(Q[[2]]) # periodic
-#' plot(Q[[3]]) # trend
+#' plot(Q[[1]],
+#'      xlabels = c("Time", "Longitude"),
+#'      ylabels = c("Normalized Temperature (\u00B0C)", "Latitude"),
+#'      zlabels = c("", "NDVI"),
+#'      mains = c("Temperature Curves Mean", "NDVI Images Mean"), color_palette = "RdYlGn",
+#'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00"),
+#'      c("113.40\u00B0 W", "113.30\u00B0 W")),xticklocs =
+#'        list(c(1,6,12,18,24),c(1,33)),
+#'        yticklabels = list(NA,c("48.70\u00B0 N", "48.77\u00B0 N")),yticklocs =
+#'        list(NA,c(1,33))) # mean
+#' plot(Q[[2]],
+#'      xlabels = c("Time", "Longitude"),
+#'      ylabels = c("Normalized Temperature (\u00B0C)", "Latitude"),
+#'      zlabels = c("", "NDVI"),
+#'      mains = c("Temperature Curves Periodic", "NDVI Images Periodic"), color_palette = "RdYlGn",
+#'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00"),
+#'      c("113.40\u00B0 W", "113.30\u00B0 W")),xticklocs =
+#'        list(c(1,6,12,18,24),c(1,33)),
+#'        yticklabels = list(NA,c("48.70\u00B0 N", "48.77\u00B0 N")),yticklocs =
+#'        list(NA,c(1,33))) # periodic
+#' plot(Q[[3]],
+#'      xlabels = c("Time", "Longitude"),
+#'      ylabels = c("Normalized Temperature (\u00B0C)", "Latitude"),
+#'      zlabels = c("", "NDVI"),
+#'      mains = c("Temperature Curves Trend", "NDVI Images Trend"), color_palette = "RdYlGn",
+#'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00"),
+#'      c("113.40\u00B0 W", "113.30\u00B0 W")),xticklocs =
+#'        list(c(1,6,12,18,24),c(1,33)),
+#'        yticklabels = list(NA,c("48.70\u00B0 N", "48.77\u00B0 N")),yticklocs =
+#'        list(NA,c(1,33))) # trend
 #' }
 #' @useDynLib Rfssa
 #' @export
 fssa <- function(Y, L = NA, ntriples = 20, type = "ufssa") {
   N <- ncol(Y@C[[1]])
   if (is.na(L)) L <- floor(N / 2L)
+  if (ntriples > L){
+    ntriples = L
+    warning("\"ntriples\" must be less than or equal to \"L\". Setting \"ntriples\" = \"L\"")
+  }
   if (length(Y@C) == 1 && type == "ufssa") {
     out <- ufssa(Y, L, ntriples)
   } else if (length(Y@C) > 1 || type == "mfssa") {

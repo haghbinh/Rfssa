@@ -781,7 +781,7 @@ server.fssa <- function(input, output, clientData, session) {
       Qs <- Rfssa::fts(X = list(Qs), B = list(eval.basis(sr$tau, sr$bas.fssa)), grid = list(sr$tau))
       myplot <- plot(Qs, type = input$rec.type)
     }
-    if (substr(input$rec.type, 1, 2) != "3D") print(myplot) else print(myplot[[1]])
+    print(myplot[[1]])
   })
 
   output$fcast.horizon <- renderUI({
@@ -834,6 +834,6 @@ server.fssa <- function(input, output, clientData, session) {
       Qf <- Qf + fc[[i]][[j]]
     }
     myplot <- plot(Qf, type = input$fcast.type)
-    if (substr(input$fcast.type, 1, 2) != "3D") print(myplot) else print(myplot[[1]])
+    print(myplot[[1]])
   })
 }

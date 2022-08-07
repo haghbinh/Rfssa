@@ -14,6 +14,12 @@
   xlabels = NULL,
   tlabels = NULL,
   zlabels = NULL,
+  xticklabels = NULL,
+  xticklocs = NULL,
+  yticklabels = NULL,
+  yticklocs = NULL,
+  color_palette = "RdYlBu",
+  reverse_color_palette = FALSE,
   ...
 )
 }
@@ -24,10 +30,10 @@
 
 \item{types}{A tuple of strings specifying the types of plots to be displayed where possible types for fts variables observed over a one-dimensional domain are:
 \itemize{
-\item \code{"line"} plot the \code{\link{fts}} elements in a line plot (default)
-\item \code{"heatmap"} plot the \code{\link{fts}} elements in a heat map which can be used for variables observed over one or two-dimensional domains
-\item \code{"3Dsurface"} plot the \code{\link{fts}} elements as a surface
-\item \code{"3Dline"} plot the \code{\link{fts}} elements in a three-dimensional line plot.
+\item \code{"line"} - plot the \code{\link{fts}} elements in a line plot (default)
+\item \code{"heatmap"} - plot the \code{\link{fts}} elements in a heat map which can be used for variables observed over one or two-dimensional domains
+\item \code{"3Dsurface"} - plot the \code{\link{fts}} elements as a surface
+\item \code{"3Dline"} - plot the \code{\link{fts}} elements in a three-dimensional line plot.
 }
 The current plot type supported for fts variables observed over a two-dimensional domain is \code{"heatmap"}. Also note that
 the same variable may be plotted several times using many different type options.}
@@ -43,6 +49,18 @@ the same variable may be plotted several times using many different type options
 \item{tlabels}{A tuple of strings providing the the time-axis titles of each plot.}
 
 \item{zlabels}{A tuple of strings providing the the z-axis titles of each plot.}
+
+\item{xticklabels}{A list of character vectors where each entry specifies the tick labels for the domain of the functions.}
+
+\item{xticklocs}{A list of numerics where each entry specifies the position of the tick labels for the domain of the functions.}
+
+\item{yticklabels}{A list of character vectors where each entry specifies the tick labels for the domain of the functions.}
+
+\item{yticklocs}{A list of numerics where each entry specifies the position of the tick labels for the domain of the functions.}
+
+\item{color_palette}{A string specifying the color palette that is offered by the ggplot2 package to be used when plotting \code{\link{fts}} variables observed over two-dimensional domains.}
+
+\item{reverse_color_palette}{A boolean specifying if the color palette scale should be reversed.}
 
 \item{...}{arguments to be passed to methods, such as graphical parameters.}
 }

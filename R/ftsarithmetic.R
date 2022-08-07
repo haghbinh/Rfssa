@@ -14,7 +14,7 @@
 #' D <- matrix(sqrt(Callcenter$calls), nrow = 240)
 #' u <- seq(0, 1, length.out = 240) # Define domain of functional data
 #' d <- 22 # number of basis elements
-#' Y <- fts(list(D), list(list(d, "bspline")), list(u))
+#' Y <- Rfssa::fts(list(D), list(list(d, "bspline")), list(u))
 #' plot(Y)
 #' Yplus <- Y + Y # add the functional time series to itself
 #' plot(Yplus)
@@ -25,12 +25,12 @@
 #' @useDynLib Rfssa
 #' @export
 "+.fts" <- function(Y1, Y2) {
-  if (class(Y1) == "fts" && class(Y2) == "fts") {
+  if (is(Y1)[[1]] == "fts" && is(Y2)[[1]] == "fts") {
     if (length(Y1@C) != length(Y2@C)) {
       stop("Functional time series are of different length.")
     }
-
-
+    basis_type = Y1@basis_type
+    time <- colnames(Y1@C[[1]])
     p <- length(Y1@C)
     grid <- Y1@grid
     basis <- Y1@B
@@ -64,7 +64,9 @@
         new_grid[[j]] <- Y1@grid[[j]]
       }
     }
-  } else if (class(Y1) == "fts" && class(Y2) == "numeric" || class(Y1) == "fts" && class(Y2) == "matrix") {
+  } else if (is(Y1)[[1]] == "fts" && is.numeric(Y2) || is(Y1)[[1]] == "fts" && is.matrix(Y2)) {
+    basis_type = Y1@basis_type
+    time <- colnames(Y1@C[[1]])
     Y2 <- as.numeric(Y2)
     p <- length(Y1@C)
     if (length(Y2) == 1) Y2 <- rep(Y2, p)
@@ -96,7 +98,9 @@
         new_grid[[j]] <- Y1@grid[[j]]
       }
     }
-  } else if (class(Y1) == "numeric" && class(Y2) == "fts" || class(Y1) == "matrix" && class(Y2) == "fts") {
+  } else if (is.numeric(Y1) && is(Y2)[[1]] == "fts" || is.matrix(Y1) && is(Y2)[[1]] == "fts") {
+    basis_type = Y2@basis_type
+    time <- colnames(Y2@C[[1]])
     Y1 <- as.numeric(Y1)
     p <- length(Y2@C)
     if (length(Y1) == 1) Y1 <- rep(Y1, p)
@@ -128,8 +132,9 @@
       }
     }
   }
-
-  out <- Rfssa::fts(eval_fts, basis, new_grid)
+  fts_out <- Rfssa::fts(eval_fts, basis, new_grid, time)
+  fts_out@basis_type <- basis_type
+  out <- fts_out
   return(out)
 }
 
@@ -150,7 +155,7 @@
 #' D <- matrix(sqrt(Callcenter$calls), nrow = 240)
 #' u <- seq(0, 1, length.out = 240) # Define domain of functional data
 #' d <- 22 # number of basis elements
-#' Y <- fts(list(D), list(list(d, "bspline")), list(u))
+#' Y <- Rfssa::fts(list(D), list(list(d, "bspline")), list(u))
 #' plot(Y)
 #' Yminus <- Y[1:4] - Y[5:8] # subtract the functional time series to itself
 #' plot(Yminus)
@@ -162,11 +167,12 @@
 #' @useDynLib Rfssa
 #' @export
 "-.fts" <- function(Y1, Y2) {
-  if (class(Y1) == "fts" && class(Y2) == "fts") {
+  if (is(Y1)[[1]] == "fts" && is(Y2)[[1]] == "fts") {
     if (length(Y1@C) != length(Y2@C)) {
       stop("Functional time series are of different length.")
     }
-
+    basis_type <- Y1@basis_type
+    time <- colnames(Y1@C[[1]])
     p <- length(Y1@C)
     grid <- Y1@grid
     basis <- Y1@B
@@ -199,7 +205,9 @@
         new_grid[[j]] <- Y1@grid[[j]]
       }
     }
-  } else if (class(Y1) == "fts" && class(Y2) == "numeric" || class(Y1) == "fts" && class(Y2) == "matrix") {
+  } else if (is(Y1)[[1]] == "fts" && is.numeric(Y2) || is(Y1)[[1]] == "fts" && is.matrix(Y2)) {
+    basis_type <- Y1@basis_type
+    time <- colnames(Y1@C[[1]])
     Y2 <- as.numeric(Y2)
     p <- length(Y1@C)
     if (length(Y2) == 1) Y2 <- rep(Y2, p)
@@ -231,7 +239,9 @@
         new_grid[[j]] <- Y1@grid[[j]]
       }
     }
-  } else if (class(Y1) == "numeric" && class(Y2) == "fts" || class(Y1) == "matrix" && class(Y2) == "fts") {
+  } else if (is.numeric(Y1) && is(Y2)[[1]] == "fts" || is.matrix(Y1) && is(Y2)[[1]] == "fts") {
+    basis_type <- Y2@basis_type
+    time <- colnames(Y2@C[[1]])
     Y1 <- as.numeric(Y1)
     p <- length(Y2@C)
     if (length(Y1) == 1) Y1 <- rep(Y1, p)
@@ -264,8 +274,9 @@
       }
     }
   }
-
-  out <- Rfssa::fts(eval_fts, basis, new_grid)
+  fts_out <- Rfssa::fts(eval_fts, basis, new_grid, time)
+  fts_out@basis_type <- basis_type
+  out <- fts_out
   return(out)
 }
 
@@ -287,7 +298,7 @@
 #' D <- matrix(sqrt(Callcenter$calls), nrow = 240)
 #' u <- seq(0, 1, length.out = 240) # Define domain of functional data
 #' d <- 22 # number of basis elements
-#' Y <- fts(list(D), list(list(d, "bspline")), list(u))
+#' Y <- Rfssa::fts(list(D), list(list(d, "bspline")), list(u))
 #' plot(Y)
 #' Ytimes <- Y * Y # multiply the functional time series by itself
 #' plot(Ytimes)
@@ -299,11 +310,12 @@
 #' @useDynLib Rfssa
 #' @export
 "*.fts" <- function(Y1, Y2) {
-  if (class(Y1) == "fts" && class(Y2) == "fts") {
+  if (is(Y1)[[1]] == "fts" && is(Y2)[[1]] == "fts") {
     if (length(Y1@C) != length(Y2@C)) {
       stop("Functional time series are of different length.")
     }
-
+    basis_type <- Y1@basis_type
+    time <- colnames(Y1@C[[1]])
     p <- length(Y1@C)
     grid <- Y1@grid
     basis <- Y1@B
@@ -339,7 +351,9 @@
         new_grid[[j]] <- Y1@grid[[j]]
       }
     }
-  } else if (class(Y1) == "fts" && class(Y2) == "numeric" || class(Y1) == "fts" && class(Y2) == "matrix") {
+  } else if (is(Y1)[[1]] == "fts" && is.numeric(Y2) || is(Y1)[[1]] == "fts" && is.matrix(Y2)) {
+    basis_type <- Y1@basis_type
+    time <- colnames(Y1@C[[1]])
     Y2 <- as.numeric(Y2)
     p <- length(Y1@C)
     if (length(Y2) == 1) Y2 <- rep(Y2, p)
@@ -372,7 +386,9 @@
         new_grid[[j]] <- Y1@grid[[j]]
       }
     }
-  } else if (class(Y1) == "numeric" && class(Y2) == "fts" || class(Y1) == "matrix" && class(Y2) == "fts") {
+  } else if (is.numeric(Y1) && is(Y2)[[1]] == "fts" || is.matrix(Y1) && is(Y2)[[1]] == "fts") {
+    basis_type <- Y2@basis_type
+    time <- colnames(Y2@C[[1]])
     Y1 <- as.numeric(Y1)
     p <- length(Y2@C)
     if (length(Y1) == 1) Y1 <- rep(Y1, p)
@@ -406,8 +422,9 @@
       }
     }
   }
-
-  out <- Rfssa::fts(eval_fts, basis, new_grid)
+  fts_out <- Rfssa::fts(eval_fts, basis, new_grid, time)
+  fts_out@basis_type <- basis_type
+  out <- fts_out
   return(out)
 }
 
@@ -427,7 +444,7 @@
 #' D <- matrix(sqrt(Callcenter$calls), nrow = 240)
 #' u <- seq(0, 1, length.out = 240) # Define domain of functional data
 #' d <- 22 # number of basis elements
-#' Y <- fts(list(D), list(list(d, "bspline")), list(u))
+#' Y <- Rfssa::fts(list(D), list(list(d, "bspline")), list(u))
 #' plot(Y)
 #' plot(Y[10:15])
 #' }
@@ -465,7 +482,9 @@
       new_grid[[j]] <- Y@grid[[j]]
     }
   }
-
-  out <- Rfssa::fts(eval_fts, basis, new_grid)
+  time = colnames(Y@C[[1]])[i]
+  fts_out <- Rfssa::fts(eval_fts, basis, new_grid, time)
+  fts_out@basis_type <- Y@basis_type
+  out <- fts_out
   return(out)
 }

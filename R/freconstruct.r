@@ -14,6 +14,6 @@
 #' @seealso \code{\link{fssa}}, \code{\link{fts}},
 #' @export
 freconstruct <- function(U, groups = as.list(1L:10L)) {
-  if (length(U$Y@C) == 1) out <- ufreconstruct(U, groups) else out <- mfreconstruct(U, groups)
+  if (class(U[[1]])[[1]] != "list") out <- ufreconstruct(U, groups) else out <- mfreconstruct(U, groups)
   return(out)
 }

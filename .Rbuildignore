@@ -5,3 +5,5 @@
 
 ^\.travis\.yml$
 ^CRAN-SUBMISSION$
+
+desktop.ini

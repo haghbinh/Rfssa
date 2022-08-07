@@ -13,6 +13,7 @@
 #'
 #' @return A shiny application object.
 #' @param type Type of FSSA with options of \code{type = "ufssa"} or \code{type = "mfssa"}.
+#' @importFrom fda fd inprod eval.fd smooth.basis is.fd
 #' @examples
 #' \dontrun{
 #'

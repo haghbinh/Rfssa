@@ -16,31 +16,86 @@
 #' ## Define functional objects
 #' D <- matrix(sqrt(Callcenter$calls), nrow = 240)
 #' N <- ncol(D)
-#' time <- seq(ISOdate(1999, 1, 1), ISOdate(1999, 12, 31), by = "day")
+#' time <- substr(seq(ISOdate(1999, 1, 1), ISOdate(1999, 12, 31), by = "day"),1,10)
 #' K <- nrow(D)
 #' u <- seq(0, K, length.out = K)
 #' d <- 22
 #' ## Define functional time series
-#' Y <- fts(list(D), list(list(d, "bspline")), list(u))
-#' plot(Y, mains = "Call Center Data")
-#' ## Perfom FSSA decomposition
+#' Y <- Rfssa::fts(list(D), list(list(d, "bspline")), list(u),time)
+#' plot(Y, mains = c("Call Center Data Line Plot"),
+#' xlabels = "Time (6 minutes aggregated)",
+#' ylabels = "Sqrt of Call Numbers",type="line",
+#' xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
+#'  list(c(1,60,120,180,240)))
+#' ## Perform FSSA decomposition
 #' L <- 28
 #' U <- fssa(Y, L)
-#' groups <- list(1:7, 1, 2:3, 4:5, 6:7)
+#' groups <- list(1, 2:3, 4:5, 6:7, 1:7)
 #' ## Perform FSSA R-forecast and FSSA V-forecast
-#' pr_R <- fforecast(U = U, groups = groups, h = 30, method = "recurrent", tol = 10^-3)
-#' plot(pr_R[[1]], mains = "Recurrent Forecast Group 1")
-#' plot(pr_R[[2]], mains = "Recurrent Forecast Group 2")
-#' plot(pr_R[[3]], mains = "Recurrent Forecast Group 3")
-#' plot(pr_R[[4]], mains = "Recurrent Forecast Group 4")
-#' plot(pr_R[[5]], mains = "Recurrent Forecast Group 5")
+#' pr_R <- fforecast(U = U, groups = groups, h = 30,
+#' method = "recurrent", tol = 10^-3)
+#' plot(pr_R[[1]], mains = "Call Center Mean Component Forecast",
+#' xlabels = "Time (6 minutes aggregated)",
+#'      ylabels = "Sqrt of Call Numbers",type="line",
+#'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
+#'        list(c(1,60,120,180,240)))
+#' plot(pr_R[[2]], mains = "Call Center First Periodic Component Forecast",
+#' xlabels = "Time (6 minutes aggregated)",
+#'      ylabels = "Sqrt of Call Numbers",type="line",
+#'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
+#'        list(c(1,60,120,180,240)))
+#' plot(pr_R[[3]], mains = "Call Center Second Periodic Component Forecast",
+#' xlabels = "Time (6 minutes aggregated)",
+#'      ylabels = "Sqrt of Call Numbers",type="line",
+#'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
+#'        list(c(1,60,120,180,240)))
+#' plot(pr_R[[4]], mains = "Call Center Third Periodic Component Forecast",
+#' xlabels = "Time (6 minutes aggregated)",
+#'      ylabels = "Sqrt of Call Numbers",type="line",
+#'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
+#'        list(c(1,60,120,180,240)))
+#' plot(Y, mains = c("Call Center Data Line Plot"),
+#' xlabels = "Time (6 minutes aggregated)",
+#'      ylabels = "Sqrt of Call Numbers",type="line",
+#'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
+#'        list(c(1,60,120,180,240)))
+#' plot(pr_R[[5]], mains = "Call Center Extracted Signal Forecast",
+#' xlabels = "Time (6 minutes aggregated)",
+#'      ylabels = "Sqrt of Call Numbers",type="line",
+#'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
+#'        list(c(1,60,120,180,240)))
 #'
 #' pr_V <- fforecast(U = U, groups = groups, h = 30, method = "vector", tol = 10^-3)
-#' plot(pr_V[[1]], mains = "Vector Forecast Group 1")
-#' plot(pr_V[[2]], mains = "Vector Forecast Group 2")
-#' plot(pr_V[[3]], mains = "Vector Forecast Group 3")
-#' plot(pr_V[[4]], mains = "Vector Forecast Group 4")
-#' plot(pr_V[[5]], mains = "Vector Forecast Group 5")
+#' plot(pr_V[[1]], mains = "Call Center Mean Component Forecast",
+#' xlabels = "Time (6 minutes aggregated)",
+#'      ylabels = "Sqrt of Call Numbers",type="line",
+#'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
+#'        list(c(1,60,120,180,240)))
+#' plot(pr_V[[2]], mains = "Call Center First Periodic Component Forecast",
+#' xlabels = "Time (6 minutes aggregated)",
+#'      ylabels = "Sqrt of Call Numbers",type="line",
+#'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
+#'        list(c(1,60,120,180,240)))
+#' plot(pr_V[[3]], mains = "Call Center Second Periodic Component Forecast",
+#' xlabels = "Time (6 minutes aggregated)",
+#'      ylabels = "Sqrt of Call Numbers",type="line",
+#'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
+#'        list(c(1,60,120,180,240)))
+#' plot(pr_V[[4]], mains = "Call Center Third Periodic Component Forecast",
+#' xlabels = "Time (6 minutes aggregated)",
+#'      ylabels = "Sqrt of Call Numbers",type="line",
+#'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
+#'        list(c(1,60,120,180,240)))
+#' plot(Y, mains = c("Call Center Data Line Plot"),
+#' xlabels = "Time (6 minutes aggregated)",
+#'      ylabels = "Sqrt of Call Numbers",type="line",
+#'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
+#'        list(c(1,60,120,180,240)))
+#' plot(pr_V[[5]], mains = "Call Center Extracted Signal Forecast",
+#' xlabels = "Time (6 minutes aggregated)",
+#'      ylabels = "Sqrt of Call Numbers",type="line",
+#'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
+#'        list(c(1,60,120,180,240)))
 #'
 #' # MFSSA Forecasting
 #' require(Rfssa)
@@ -59,11 +114,13 @@
 #' ## Define functional objects
 #' d <- 11
 #' D <- list(D0_NDVI, D0_EVI)
-#' B0 <- list(list(d, "bspline")
-#' B1 <- list(d + 4, "fourier"))
+#' B <- list(list(d, "bspline"),list(d + 4, "fourier"))
 #' U <- list(c(0, 1), c(0, 1))
-#' Y <- fts(D, B0, B1, U)
-#' plot(Y)
+#' Y <- Rfssa::fts(D, B, U,time)
+#' plot(Y,mains = c("NDVI","EVI"),xlabels = c("NDVI","EVI"),
+#'      ylabels = c("NDVI Density","EVI Density"),type="line",
+#'      xticklabels = list(c("0","1"),c("0","1")),xticklocs =
+#'        list(c(0,512),c(0,512)))
 #' U <- fssa(Y = Y, L = 45)
 #' groups <- list(c(1:4), c(1), c(2:3), c(4))
 #' pr_R <- fforecast(U = U, groups = groups, h = 1, method = "recurrent")
@@ -87,7 +144,7 @@ fforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol =
     }
   }
 
-  if (length(U$Y@C) == 1) {
+  if (class(U[[1]])[[1]] != "list") {
     out <- ufforecast(U = U, groups = groups, h = h, method = method, tol = tol)
   } else {
     out <- mfforecast(U = U, groups = groups, h = h, method = method, tol = tol)

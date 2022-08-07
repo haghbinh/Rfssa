@@ -26,7 +26,7 @@ load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Callcenter.
 D <- matrix(sqrt(Callcenter$calls), nrow = 240)
 u <- seq(0, 1, length.out = 240) # Define domain of functional data
 d <- 22 # number of basis elements
-Y <- fts(list(D), list(list(d, "bspline")), list(u))
+Y <- Rfssa::fts(list(D), list(list(d, "bspline")), list(u))
 plot(Y)
 Yminus <- Y[1:4] - Y[5:8] # subtract the functional time series to itself
 plot(Yminus)

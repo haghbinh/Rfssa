@@ -37,7 +37,9 @@ ufreconstruct <- function(U, groups = as.list(1L:10L)) {
     } else {
       new_grid <- Y@grid[[1]]
     }
-    out[[i]] <- Rfssa::fts(list(recon_out), list(Y@B[[1]]), list(new_grid))
+    fts_out <- Rfssa::fts(list(recon_out), list(Y@B[[1]]), list(new_grid), time = colnames(U$Y@C[[1]]))
+    fts_out@basis_type = Y@basis_type
+    out[[i]] <- fts_out
   }
   out$values <- sqrt(U$values)
   return(out)

@@ -33,8 +33,8 @@ for (i in 1:448) {
 }
 d <- 11
 u <- seq(0, 1, length.out = 512)
-Y_1 <- fts(list(D0_NDVI), list(list(d, "bspline")), list(u))
-Y_2 <- fts(list(D0_EVI), list(list(d, "bspline")), list(u))
+Y_1 <- Rfssa::fts(list(D0_NDVI), list(list(d, "bspline")), list(u))
+Y_2 <- Rfssa::fts(list(D0_EVI), list(list(d, "bspline")), list(u))
 out <- cor.fts(Y_1, Y_2)
 print(out)
 }

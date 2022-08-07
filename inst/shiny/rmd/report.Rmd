@@ -63,5 +63,8 @@ In this panel we can also select outputs under **SSA** and **FSSA**:
 * _Singular Functions_ (Heat or Regular plots)
 * _Reconstruction_ of FTS using different _Type_ of plots (Heat, Regular, 3D(line) and 3D(surface))
 
+## Forecasting
+This sub-panel would be accessible after user runs the **FSSA** procedure, and it includes the functionalities of _R-forecasting_ and _V-forecasting algorithms_.
+
 ## Manual
 The sub-panel that contains this _instruction manual_.

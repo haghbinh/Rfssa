@@ -10,8 +10,9 @@ ufforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol 
     K <- N - L + 1
     k <- length(g)
     G <- t(basis) %*% basis
+    G_inv <- solve(G)
     D <- matrix(data = NA, nrow = d, ncol = k)
-    for (n in 1:k) D[, n] <- solve(G) %*% t(basis) %*% U[[g[n]]][, L]
+    for (n in 1:k) D[, n] <- G_inv %*% t(basis) %*% U[[g[n]]][, L]
 
     # Define Truncated Neumann Series
     NU_1 <- D %*% t(D)
@@ -38,19 +39,21 @@ ufforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol 
         for (j in 1:(L - 1)) {
           E_j <- matrix(data = NA, nrow = d, ncol = k)
           for (n in 1:k) {
-            E_j[, n] <- solve(G) %*% t(basis) %*% U[[g[n]]][, j]
+            E_j[, n] <- G_inv %*% t(basis) %*% U[[g[n]]][, j]
           }
           A_j <- Neu %*% D %*% t(E_j)
           fssa_fore[, m] <- fssa_fore[, m] + A_j %*% as.matrix(Q[[1]]@C[[1]][, (N + j - L + m)])
         }
         Q[[1]]@C[[1]] <- cbind(Q[[1]]@C[[1]], fssa_fore[, m])
       }
-      out[[a]] <- Rfssa::fts(list(basis %*% fssa_fore), list(basis), list(Q[[1]]@grid[[1]]))
+      fts_out <- Rfssa::fts(list(basis %*% fssa_fore), list(basis), list(Q[[1]]@grid[[1]]))
+      fts_out@basis_type <- U$Y@basis_type
+      out[[a]] <- fts_out
     } else if (method == "vector") {
       # FSSA V-forecasting
       F_matrix <- matrix(data = NA, nrow = ((L - 1) * d), ncol = k)
       for (n in 1:k) {
-        F_matrix[, n] <- matrix(data = solve(G) %*% t(basis) %*% U[[g[n]]][, 1:(L - 1)], nrow = ((L - 1) * d), ncol = 1)
+        F_matrix[, n] <- matrix(data = G_inv %*% t(basis) %*% U[[g[n]]][, 1:(L - 1)], nrow = ((L - 1) * d), ncol = 1)
       }
       P <- F_matrix %*% t(F_matrix) + F_matrix %*% t(D) %*% Neu %*% D %*% t(F_matrix)
       S <- array(data = 0, dim = c(d, (K + h), L))
@@ -65,7 +68,7 @@ ufforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol 
         for (j in 1:(L - 1)) {
           E_j <- matrix(data = NA, nrow = d, ncol = k)
           for (n in 1:k) {
-            E_j[, n] <- solve(G) %*% t(basis) %*% U[[g[n]]][, j]
+            E_j[, n] <- G_inv %*% t(basis) %*% U[[g[n]]][, j]
           }
           A_j <- Neu %*% D %*% t(E_j)
 
@@ -76,8 +79,9 @@ ufforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol 
       }
       S <- fH(S, d)
       predictions <- S[, (K + 1):(K + h), L]
-
-      out[[a]] <- Rfssa::fts(list(basis %*% predictions), list(basis), list(U$Y@grid[[1]]))
+      fts_out <- Rfssa::fts(list(basis %*% predictions), list(basis), list(U$Y@grid[[1]]))
+      fts_out@basis_type <- U$Y@basis_type
+      out[[a]] <- fts_out
     }
   }
   return(out)

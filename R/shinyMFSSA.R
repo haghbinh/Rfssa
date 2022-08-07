@@ -547,7 +547,7 @@ server.mfssa <- function(input, output, clientData, session) {
     }
     choic <- as.character(1:length(iTs()))
     names(choic) <- names(iTs())
-    if (!is.null(input$rec.type) && input$desc == "mfssa.reconst" && length(choic) != 1) if (input$rec.type %in% c("heatmap", "line")) choic <- c("All Variables" = "all", choic)
+    if (!is.null(input$rec.type) && input$desc == "mfssa.reconst" && length(choic) != 1) if (input$rec.type %in% c("line")) choic <- c("All Variables" = "all", choic)
     selectInput("var.which", NULL, choices = choic, selected = "1", width = "125px")
   })
 
@@ -859,7 +859,7 @@ server.mfssa <- function(input, output, clientData, session) {
       Qs <- Rfssa::fts(X = list(Qs), B = list(eval.basis(sr$tau, sr$bas.fssa)), grid = list(sr$tau))
       myplot <- plot(Qs, type = input$rec.type)
     }
-    if (substr(input$rec.type, 1, 2) != "3D") print(myplot) else print(myplot[[1]])
+    print(myplot[[1]])
   })
 
   output$fcast.horizon <- renderUI({
@@ -900,7 +900,7 @@ server.mfssa <- function(input, output, clientData, session) {
     }
     choic <- as.character(1:length(iTs()))
     names(choic) <- names(iTs())
-    if (!is.null(input$fcast.type) && length(choic) != 1) if (input$fcast.type %in% c("heatmap", "line")) choic <- c("All Variables" = "all", choic)
+    if (!is.null(input$fcast.type) && length(choic) != 1) if (input$fcast.type %in% c("line")) choic <- c("All Variables" = "all", choic)
     selectInput("fcast.var", NULL, choices = choic, width = "125px")
   })
 
@@ -929,6 +929,6 @@ server.mfssa <- function(input, output, clientData, session) {
       mQf <- mQf + fc[[i]][[j]]
     }
     myplot <- plot(mQf, types = types, vars = vars)
-    if (substr(input$fcast.type, 1, 2) != "3D") print(myplot) else print(myplot[[1]])
+    print(myplot[[1]])
   })
 }
