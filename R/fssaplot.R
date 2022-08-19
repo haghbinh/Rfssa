@@ -118,7 +118,6 @@ plot.fssa <- function(x, d = length(x$values),
       } else if (type == "lheats" && ncol(x$Y@grid[[vars[j]]]) == 2) {
         flag_2 <- 1
         time <- NULL
-        Pl = list()
         for (i in idx) {
           if (class(x[[i]])[[1]]!="list") {
             temp_df = data.frame(matrix(ncol = 3, nrow = ncol(x[[1]])*nrow(x[[1]])))
@@ -197,7 +196,6 @@ plot.fssa <- function(x, d = length(x$values),
         flag_2 <- 1
         time <- NULL
         warning("\"lcurves\" plotting option defined only for variables observed over one-dimensional domains. Plotting variable singular functions using \"lheats\".")
-        Pl = list()
         for (i in idx) {
           if (class(x[[i]])[[1]]!="list") {
             temp_df = data.frame(matrix(ncol = 3, nrow = ncol(x[[1]])*nrow(x[[1]])))
