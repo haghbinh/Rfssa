@@ -2,9 +2,6 @@
 
 mfforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol = 10^-3) {
   out <- list()
-  if (method == "vector") {
-    warning("MFSSA vector forecasting displays some instabilities for certain datasets and certain chosen forecast horizons. The instability phenomenon is still under investigation. Use the MFSSA vector forecasting algorithm with caution or set method=\"recurrent\" to use the stable MFSSA recurrent forecasting technique.")
-  }
   for (a in 1:length(groups)) {
     g <- groups[[a]]
     # Define prediction space
