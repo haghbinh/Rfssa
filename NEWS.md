@@ -1,58 +1,21 @@
-Rfssa 2.0.1
+Rfssa 2.1.0
 ===========
 
 Updates
 -------
--   `fts` updated to be a constructor of a new S4 object that is used to create
-    objects of class `fts`. Note that the user may specify their own basis 
-    and grid or may specify that they want the constructor to build such 
-    attributes automatically. In addition, the `fts` may be comprised of 
-    variables observed over one or two-dimensional domains. This constructor 
-    also has custom validity checks built in to help the user construct `fts` 
-    objects.
+
+-   `fts` was updated to allow the user to specify a character vectors that contains the time point at which observation is made when building an `fts` object.
+
+-   `fts.plot` was updated to allow for custom tick labels and new choices in visuanimation colors (for FTS variables observed over two-dimensional domains) that are offered by the ggplot2 package.
     
--   `fts.plot` was updated to allow for plotting of `fts` variables observed 
-    over two-dimensional domains.
-
--   `fssa` updated so that univariate and multivariate `fts` objects may be 
-    decomposed where each variable may be observed over a one or 
-    two-dimensional domain. In addition, the speed of the decomposition 
-    process was increased by using the Rspectra and RcppEigen R packages, 
-    and the Eigen C++ package.
-    
--   `plot.fssa` was updated to allow the user to plot the left singular 
-    functions for `fts` whose variables have domains over two-dimensions. All 
-    other plotting options were updated to handle the two-dimensional domain 
-    functionality as well.
-
--   `freconstruct` updated to allow for the reconstruction stage of
-    univariate and multivariate `fts` objects whose variables might be 
-    might observed over one or two-dimensional domains.
-
--   Arithmetic operations such as `fts` addition and `fts` subtraction have 
-    been updated to allow for numeric vector-`fts` arithmetic.
-
+-   `plot.fssa` was updated to allow for new choices in visuanimation colors offered by the ggplot2 package when plotting left singular functions that correspond with variables observed over two-dimensional domains.
 
 New Additions
 -------------
 
--   `fforecast` was added to allow for nonparametric forecasting of `fts` 
-    objects via `fssa` recurrent or `fssa` vector forecasting. The 
-    approach begins with objects of class `fssa`. The `fts` may be 
-    univariate or multivariate however, the variables must be observed over 
-    a one-dimensional domain. Different dimensional domains forecasting is 
-    under development.
+-   `eval.fts` was added to allow the user to evaluate an `fts` object over a new, specified grid.
     
--   `Montana` was added to provide an example of a multivariate `fts` 
-    whose variables are observed over a one-dimensional and two-dimensional 
-    domain.
-    
--   `load_github_data` was added to allow the user to load the `Callcenter`, 
-    `Jambi`, and `Montana` datasets from GitHub which significantly reduced 
-    the size of the package. In addition, this same function may be used to 
-    load data from any other public GitHub repository.
-
 Minor improvements and bug fixes
 --------------------------------
 
--   Fixed a bug in `line` type plots in `plot.fts` that prevented plotting.
+-   We include other small updates that improve plotting quality, code readability, documentation, and other details that add to the professionalism of the package.

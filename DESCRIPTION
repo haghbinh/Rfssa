@@ -8,7 +8,7 @@ Authors@R: c(
     person("Seyed Morteza", "Najibi", email = "mor.najibi@gmail.com", role = "aut"),
     person("Mehdi", "Maadooliat", email = "mehdi.maadooliat@mu.edu", role = "aut", comment = c(ORCID = "0000-0002-5408-2676"))
     )
-Maintainer: Hossein Haghbin <haghbin@pgu.ai.ir>
+Maintainer: Hossein Haghbin <haghbin@pgu.ac.ir>
 URL: https://github.com/haghbinh/Rfssa
 Description: Methods and tools for implementing functional singular spectrum analysis and related techniques.
 License: GPL (>= 2)
