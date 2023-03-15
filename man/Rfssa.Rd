@@ -30,7 +30,8 @@ decomposition function leverages the RSpectra and RcppEigen R packages,
 and the Eigen C++ package to speed up the routine. The \code{\link{plot.fssa}} method may be used to visualize the results of
 the decomposition and to choose an appropriate grouping of the eigentriples for reconstruction (\code{\link{freconstruct}}) or
 forecasting (\code{\link{fforecast}}). The \code{\link{freconstruct}} routine can be used to reconstruct a list of \code{\link{fts}} objects
-specified by the grouping while the \code{\link{fforecast}} function returns a list of \code{\link{fts}} objects that contain predictions of the signals specified by the grouping. We note that when forecasting is performed,
+specified by the grouping while the \code{\link{fforecast}} function returns a list of \code{\link{fts}} objects that contain predictions of the signals specified by the grouping. The user may also calculate the bootstrapped prediction interval for forecasts using the \code{\link{fpredinterval}} function.
+We note that when forecasting is performed,
 usually the user specifies one group that captures the assumed deterministic, extracted signal that is found within the FTS and all other modes of variation are excluded.
 We also note that currently, forecasting only supports FTS whose variables are observed over a one-dimensional domain with two-dimensional domain forecasting to be added in the future.
 
@@ -45,11 +46,7 @@ and \code{\link{Montana}} datasets.
 \item \code{\link{launchApp}} - Launches the built-in R Shiny app that can be used to interactively explore the FSSA-based routines on various datasets.
 }
 
-The first update we include in this version of the Rfssa R package, is the \code{\link{eval.fts}} method used to evaluate an \code{\link{fts}} object over a new, specified grid.
-We updated the \code{\link{plot.fts}} method to allow for custom tick labels and new choices in visuanimation colors (for variables observed over two-dimensional domains) that are offered by the ggplot2 package.
-We have also updated the \code{\link{plot.fssa}} method to allow for new choices in visuanimation colors offered by the ggplot2 package when plotting left singular functions that correspond with variables observed over two-dimensional domains.
-A user may now specify a character vector that contains the time when each observation is made when building an \code{\link{fts}} object and we improved various plot fonts for readability.
-Finally, we include many other small updates that further improve plotting quality, code readability, documentation improvements, and other details that add to the professionalism of the package.
+The update we include in this version of the Rfssa R package, is the \code{\link{fpredinterval}} function used to calculate prediction intervals for FSSA-based forecasts using a bootstrap approach of the residuals.
 }
 \references{
 Haghbin, H., Morteza Najibi, S., Mahmoudvand, R., Trinka, J., and Maadooliat, M. (2021). Functional

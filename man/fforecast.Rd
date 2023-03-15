@@ -15,7 +15,7 @@ fforecast(U, groups = list(c(1)), h = 1, method = "recurrent", tol = 10^-3)
 
 \item{method}{A character string specifying the type of forecasting to perform either \code{"recurrent"} or \code{"vector"}.}
 
-\item{tol}{A double specifying the amount of tolerated error in the approximation of the matrix that corresponds with the operator formed using a Neumann series leveraged in both forecasting algorithms; see Trinka et. al. (2021) for more details.}
+\item{tol}{A double specifying the amount of tolerated error in the approximation of the matrix that corresponds with the operator formed using a Neumann series leveraged in both forecasting algorithms.}
 }
 \value{
 A list of objects of class \code{\link{fts}} where each fts corresponds to a forecasted group.

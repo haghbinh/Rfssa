@@ -7,7 +7,7 @@
 #' @param groups A list of numeric vectors where each vector includes indices of elementary components of a group used for reconstruction and forecasting.
 #' @param h An integer that specifies the forecast horizon.
 #' @param method A character string specifying the type of forecasting to perform either \code{"recurrent"} or \code{"vector"}.
-#' @param tol A double specifying the amount of tolerated error in the approximation of the matrix that corresponds with the operator formed using a Neumann series leveraged in both forecasting algorithms; see Trinka et. al. (2021) for more details.
+#' @param tol A double specifying the amount of tolerated error in the approximation of the matrix that corresponds with the operator formed using a Neumann series leveraged in both forecasting algorithms.
 #' @examples
 #' \dontrun{
 #' # FSSA Forecasting

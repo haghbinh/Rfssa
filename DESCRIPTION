@@ -1,7 +1,7 @@
 Package: Rfssa
 Type: Package
 Title: Functional Singular Spectrum Analysis
-Version: 2.1.0
+Version: 2.1.1
 Authors@R: c(
     person("Hossein", "Haghbin", email = "haghbin@pgu.ac.ir", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-8416-2354")),
     person("Jordan", "Trinka", email = "jordantrinka4@hotmail.com", role = "aut"),
@@ -26,7 +26,9 @@ Imports: Rcpp,
          methods,
          RSpectra,
          httr,
-         markdown
+         markdown,
+         rainbow,
+         ftsa
 LinkingTo: Rcpp,
            RcppArmadillo,
            RcppEigen,
