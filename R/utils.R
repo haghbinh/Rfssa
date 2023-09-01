@@ -172,3 +172,16 @@ twodG <- function(A, B, grid, method = "trapezoidal") {
 
   return(G)
 }
+
+
+
+init_basis_check <- function(B) {
+  if (!is.basis(B) & is.list(B)) {
+    if (!all(sapply(B, is.basis)) | !all(sapply(B, is.basis))) {
+      stop("All elements of the basis list must be `basisfd` objects.")
+    }
+  }
+  if(!is.basis(basis) & !is.list(basis)){
+    stop("The basis must be a `basisfd` object or list of `basisfd` objects.")
+  }
+}
