@@ -36,7 +36,7 @@
 mfts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = NULL ) { # Constructor function for the mfts class
   # Check if X is a matrix, and if so, convert it to a list
   if (is.array(X)) X <- list(X)
-  if (is.basis(basisobj) | is.array(B)) basisobj <- list(basisobj)
+  if (is.basis(basisobj) | is.array(basisobj)) basisobj <- list(basisobj)
   if (is.numeric(argval)) argval <- list(argval)
   if (!is.list(X)) stop("The data input `X` must be a `matrix`,`array` or a list.")
   if (!is.list(basisobj)) stop("The basis input `basisobj` must be a `basisfd` object or a list of `basisfd` objects or empirical basis matrix.")
@@ -50,7 +50,7 @@ mfts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = N
     dimSupp[[j]] <- ifelse(!is.basis(basisobj[[j]]) && !is.array(basisobj[[j]]), length(basisobj[[j]]), 1)
     # Generating basis matrices=========================================
     # Generating a fd basis for variables whose domain is one-dimensional using a supplied list.
-    if (dimSupp[[j]] == 1 && is.basis(B[[j]])) {
+    if (dimSupp[[j]] == 1 && is.basis(basisobj[[j]])) {
       # setting up the grids:
       if (is.null(argval)) {
         minval <- basisobj[[j]]$rangeval[1]
@@ -65,7 +65,7 @@ mfts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = N
       }
       B_mat[[j]] <- eval.basis(arg[[j]], basisobj = basisobj[[j]])
     } else if (dimSupp[[j]] > 1) {
-      if (all(sapply(B[[j]], is.basis))) {
+      if (all(sapply(basisobj[[j]], is.basis))) {
         if (is.null(argval)) { # 2d fd basis with NULL grids
           minval1 <- basisobj[[j]][[1]]$rangeval[1]
           maxval1 <- basisobj[[j]][[1]]$rangeval[2]
@@ -114,7 +114,7 @@ mfts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = N
   time <- seq(from = start, to = end, length.out = N)
 
   # Create and return an instance of the mfts class=========================================
-  out <- list(Class = "mfts", N = N, dimSupp = dimSupp, time = time, Coefs = Coefs, Basis = B_mat, argval = arg)
+  out <- list(N = N, dimSupp = dimSupp, time = time, Coefs = Coefs, Basis = B_mat, argval = arg)
   class(out) <- "mfts"
   return(out)
 }
