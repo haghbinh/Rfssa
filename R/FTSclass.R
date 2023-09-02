@@ -33,9 +33,13 @@
 #' @note Refer to \code{\link{fssa}} for examples on how to use this function.
 #'
 #' @export
-mfts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = NULL ) { # Constructor function for the mfts class
+mfts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = NULL) { # Constructor function for the mfts class
   # Check if X is a matrix, and if so, convert it to a list
-  if (is.array(X)) X <- list(X)
+  if (is.array(X)) {
+    X <- list(X)
+    basisobj <- list(basisobj)
+    if (!is.null(argval)) argval <- list(argval)
+  }
   if (is.basis(basisobj) | is.array(basisobj)) basisobj <- list(basisobj)
   if (is.numeric(argval)) argval <- list(argval)
   if (!is.list(X)) stop("The data input `X` must be a `matrix`,`array` or a list.")
@@ -47,61 +51,80 @@ mfts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = N
   n_def <- 100
   for (j in 1L:p) {
     # determine the dimension support of the variable j
-    dimSupp[[j]] <- ifelse(!is.basis(basisobj[[j]]) && !is.array(basisobj[[j]]), length(basisobj[[j]]), 1)
+    ######## dimSupp[[j]] <- ifelse(!is.basis(basisobj[[j]]) && !is.array(basisobj[[j]]), length(basisobj[[j]]), 1)
+    dimSupp[[j]] <- length(dim(X[[j]])) - 1
     # Generating basis matrices=========================================
     # Generating a fd basis for variables whose domain is one-dimensional using a supplied list.
-    if (dimSupp[[j]] == 1 && is.basis(basisobj[[j]])) {
+    if (dimSupp[[j]] == 1) { # 1d
       # setting up the grids:
-      if (is.null(argval)) {
-        minval <- basisobj[[j]]$rangeval[1]
-        maxval <- basisobj[[j]]$rangeval[2]
-        if (method == "data") {
+      if (is.null(argval)) { # 1d with NULL grids
+        if (is.basis(basisobj[[j]])) { # fd basis
+          minval <- basisobj[[j]]$rangeval[1]
+          maxval <- basisobj[[j]]$rangeval[2]
+        } else {
+          minval <- 0
+          maxval <- 1
+        }
+        if (method == "data") { # method == "data" and NULL grids:
           arg[[j]] <- seq(from = minval, to = maxval, length.out = nrow(X[[j]]))
         } else { # method == "coefs" and NULL grids:
           arg[[j]] <- seq(from = minval, to = maxval, length.out = n_def)
         }
-      } else {
+      } else { # 1d Not NULL grids:
         arg[[j]] <- argval[[j]]
       }
-      B_mat[[j]] <- eval.basis(arg[[j]], basisobj = basisobj[[j]])
-    } else if (dimSupp[[j]] > 1) {
-      if (all(sapply(basisobj[[j]], is.basis))) {
-        if (is.null(argval)) { # 2d fd basis with NULL grids
+      if (is.basis(basisobj[[j]])) { # fd basis
+        B_mat[[j]] <- eval.basis(arg[[j]], basisobj = basisobj[[j]])
+      } else {
+        B_mat[[j]] <- basisobj[[j]]
+      }
+    } else if (dimSupp[[j]] > 1) { # 2d
+      # setting up u and v for grids:
+      if (is.null(argval)) { # 2d with NULL grids
+        if (all(sapply(basisobj[[j]], is.basis))) { # fd basis
           minval1 <- basisobj[[j]][[1]]$rangeval[1]
           maxval1 <- basisobj[[j]][[1]]$rangeval[2]
           minval2 <- basisobj[[j]][[2]]$rangeval[1]
           maxval2 <- basisobj[[j]][[2]]$rangeval[2]
-          if (method == "data") {
-            u <- seq(from = minval1, to = maxval1, length.out = dim(X[[j]])[2])
-            v <- seq(from = minval2, to = maxval2, length.out = dim(X[[j]])[2])
-          } else { # method == "coefs" and NULL grids:
-            u <- seq(from = minval1, to = maxval1, length.out = n_def)
-            v <- seq(from = minval2, to = maxval2, length.out = n_def)
-          }
-        } else { #  2d fd basis Not NULL grids:
-          u <- argval[[j]][[1]]
-          v <- argval[[j]][[2]]
+        } else {
+          minval1 <- minval2 <- 0
+          maxval1 <- maxval2 <- 1
         }
-      } else if (is.null(argval)) { # Empirical 2d basis and NULL grids
-        u <- seq(1, nrow(basisobj[[j]][[1]]))
-        v <- seq(1, nrow(basisobj[[j]][[2]]))
-      } else { # Empirical 2d basis and not NULL grids
+        if (method == "data") { # method == "data" and NULL grids:
+          u <- seq(from = minval1, to = maxval1, length.out = dim(X[[j]])[1])
+          v <- seq(from = minval2, to = maxval2, length.out = dim(X[[j]])[2])
+        } else { # method == "coefs" and NULL grids:
+          u <- seq(from = minval1, to = maxval1, length.out = n_def / 4)
+          v <- seq(from = minval2, to = maxval2, length.out = n_def / 4)
+        }
+      } else { # 2d Not NULL grids:
         u <- argval[[j]][[1]]
         v <- argval[[j]][[2]]
       }
+      if (all(sapply(basisobj[[j]], is.basis))) { # fd basis
+        b_1 <- eval.basis(evalarg = u, basisobj = basisobj[[j]][[1]])
+        b_2 <- eval.basis(evalarg = v, basisobj = basisobj[[j]][[2]])
+      } else { # Empirical basis (list)
+        if (is.list(basisobj[[j]])) {
+          b_1 <- basisobj[[j]][[1]]
+          b_2 <- basisobj[[j]][[2]]
+        } else { # Empirical basis (Kronecker product or SVD)
+          b_1 <- basisobj[[j]]
+          b_2 <- 1
+        }
+      }
       # Create the grid using u and v
       arg[[j]] <- cbind(rep(u, each = length(v)), rep(v, length(u)))
-      b_1 <- eval.basis(evalarg = u, basisobj = basisobj[[j]][[1]])
-      b_2 <- eval.basis(evalarg = v, basisobj = basisobj[[j]][[2]])
       B_mat[[j]] <- kronecker(b_1, b_2)
 
       M_x <- length(u)
       M_y <- length(v)
-      # # Reshape mfts of Images from matricies to vectors
+      # # Reshape mfts of Images from matrices to vectors
       if (is.matrix(X[[j]])) X[[j]] <- array(X[[j]], dim = c(M_x, M_y, 1))
       X[[j]] <- matrix(aperm(X[[j]], c(2, 1, 3)), nrow = M_x * M_y)
     }
     if (method == "data") {
+      ### We should through an error if nrow(X), nrow(B) do not match in the empirical case ###
       # Estimate the coefficients of each mfts variables.=========================================
       Coefs[[j]] <- solve(t(B_mat[[j]]) %*% B_mat[[j]]) %*% t(B_mat[[j]]) %*% X[[j]]
     } else { # method == "coefs"
@@ -110,7 +133,7 @@ mfts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = N
   }
   # Creating the time object ========================================
   N <- tail(dim(X[[1]]), 1)
-  if (is.null(end)) end <- start+N-1
+  if (is.null(end)) end <- start + N - 1
   time <- seq(from = start, to = end, length.out = N)
 
   # Create and return an instance of the mfts class=========================================
@@ -118,4 +141,3 @@ mfts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = N
   class(out) <- "mfts"
   return(out)
 }
-
