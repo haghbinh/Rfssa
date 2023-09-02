@@ -1,20 +1,15 @@
-#' Load Data from GitHub Repositories
+#' Load Jambi Data from GitHub Repository
 #'
-#' These functions are used to load .RData files from GitHub repositories. They can be used to load the
-#' Jambi and Montana datasets from the Rfssa package hosted on GitHub at https://github.com/haghbinh/Rfssa.
-#' Hosting datasets on GitHub instead of including them in the Rfssa R package saves
-#' a significant amount of space.
-#'
-#' @docType package
-#'
-#' @importFrom methods is new
+#' This function is used to load the Jambi dataset from the Rfssa package hosted on GitHub at
+#' https://github.com/haghbinh/Rfssa. Hosting datasets on GitHub instead of including them
+#' in the Rfssa R package saves a significant amount of space.
 #'
 #' @examples
 #' \dontrun{
 #' loadJambiData()
-#' loadMontanaData()
 #' }
-
+#'
+#'
 #' @export
 loadJambiData <- function() {
   # Check if the data file exists locally
@@ -29,6 +24,18 @@ loadJambiData <- function() {
   }
 }
 
+
+#' Load Montana Data from GitHub Repository
+#'
+#' This function is used to load the Montana dataset from the Rfssa package hosted on GitHub at
+#' https://github.com/haghbinh/Rfssa. Hosting datasets on GitHub instead of including them
+#' in the Rfssa R package saves a significant amount of space.
+#'
+#' @examples
+#' \dontrun{
+#' loadMontanaData()
+#' }
+#'
 #' @export
 loadMontanaData <- function() {
   # Check if the data file exists locally
