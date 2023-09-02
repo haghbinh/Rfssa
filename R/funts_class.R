@@ -51,8 +51,15 @@ funts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = 
   n_def <- 100
   for (j in 1L:p) {
     # determine the dimension support of the variable j
-    ######## dimSupp[[j]] <- ifelse(!is.basis(basisobj[[j]]) && !is.array(basisobj[[j]]), length(basisobj[[j]]), 1)
-    dimSupp[[j]] <- length(dim(X[[j]])) - 1
+    if (method == "data") {
+      dimSupp[[j]] <- length(dim(X[[j]])) - 1
+    } else if (is.list(argval[[j]])) {
+      dimSupp[[j]] <- length(argval[[j]])
+    } else if (!is.basis(basisobj[[j]]) && is.list(basisobj[[j]])) {
+      dimSupp[[j]] <- length(basisobj[[j]])
+    } else {
+      dimSupp[[j]] <- 1
+    }
     # Generating basis matrices=========================================
     # Generating a fd basis for variables whose domain is one-dimensional using a supplied list.
     if (dimSupp[[j]] == 1) { # 1d
@@ -61,9 +68,16 @@ funts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = 
         if (is.basis(basisobj[[j]])) { # fd basis
           minval <- basisobj[[j]]$rangeval[1]
           maxval <- basisobj[[j]]$rangeval[2]
-        } else {
-          minval <- 0
-          maxval <- 1
+        } else { # Emp basis
+          if (!is.null(attr(basisobj[[j]], "grids"))) {
+            rangeval <- range(attr(basisobj[[j]], "grids"))
+          } else if (!is.null(attr(basisobj[[j]], "rangeval"))) {
+            rangeval <- attr(basisobj[[j]], "rangeval")
+          } else {
+            rangeval <- c(0, 1)
+          }
+          minval <- rangeval[1]
+          maxval <- rangeval[2]
         }
         if (method == "data") { # method == "data" and NULL grids:
           arg[[j]] <- seq(from = minval, to = maxval, length.out = nrow(X[[j]]))
@@ -74,9 +88,10 @@ funts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = 
         arg[[j]] <- argval[[j]]
       }
       if (is.basis(basisobj[[j]])) { # fd basis
-        B_mat[[j]] <- eval.basis(arg[[j]], basisobj = basisobj[[j]])
+        B_mat[[j]] <- eval.basis(evalarg = arg[[j]], basisobj = basisobj[[j]])
+        dimnames(B_mat[[j]]) <- NULL
       } else {
-        B_mat[[j]] <- basisobj[[j]]
+        B_mat[[j]] <- eval.empb(evalarg = arg[[j]], basisobj = basisobj[[j]])[, ]
       }
     } else if (dimSupp[[j]] > 1) { # 2d
       # setting up u and v for grids:
@@ -86,6 +101,25 @@ funts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = 
           maxval1 <- basisobj[[j]][[1]]$rangeval[2]
           minval2 <- basisobj[[j]][[2]]$rangeval[1]
           maxval2 <- basisobj[[j]][[2]]$rangeval[2]
+        } else if (is.list(basisobj[[j]])) {
+          if (!is.null(attr(basisobj[[j]][[1]], "grids"))) {
+            rangeval1 <- range(attr(basisobj[[j]][[1]], "grids"))
+          } else if (!is.null(attr(basisobj[[j]][[1]], "rangeval"))) {
+            rangeval1 <- attr(basisobj[[j]][[1]], "rangeval")
+          } else {
+            rangeval <- c(0, 1)
+          }
+          if (!is.null(attr(basisobj[[j]][[2]], "grids"))) {
+            rangeval2 <- range(attr(basisobj[[j]][[2]], "grids"))
+          } else if (!is.null(attr(basisobj[[j]][[2]], "rangeval"))) {
+            rangeval2 <- attr(basisobj[[j]][[2]], "rangeval")
+          } else {
+            rangeval2 <- c(0, 1)
+          }
+          minval1 <- rangeval1[1]
+          maxval1 <- rangeval1[2]
+          minval2 <- rangeval2[1]
+          maxval2 <- rangeval2[2]
         } else {
           minval1 <- minval2 <- 0
           maxval1 <- maxval2 <- 1
@@ -106,25 +140,26 @@ funts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = 
         b_2 <- eval.basis(evalarg = v, basisobj = basisobj[[j]][[2]])
       } else { # Empirical basis (list)
         if (is.list(basisobj[[j]])) {
-          b_1 <- basisobj[[j]][[1]]
-          b_2 <- basisobj[[j]][[2]]
+          b_1 <- eval.empb(evalarg = u, basisobj = basisobj[[j]][[1]])
+          b_2 <- eval.empb(evalarg = v, basisobj = basisobj[[j]][[2]])
         } else { # Empirical basis (Kronecker product or SVD)
-          b_1 <- basisobj[[j]]
+          b_1 <- basisobj[[j]][, ]
           b_2 <- 1
         }
       }
       # Create the grid using u and v
       arg[[j]] <- cbind(rep(u, each = length(v)), rep(v, length(u)))
       B_mat[[j]] <- kronecker(b_1, b_2)
-
-      M_x <- length(u)
-      M_y <- length(v)
-      # # Reshape funts of Images from matrices to vectors
-      if (is.matrix(X[[j]])) X[[j]] <- array(X[[j]], dim = c(M_x, M_y, 1))
-      X[[j]] <- matrix(aperm(X[[j]], c(2, 1, 3)), nrow = M_x * M_y)
     }
     if (method == "data") {
       ### We should through an error if nrow(X), nrow(B) do not match in the empirical case ###
+      # # Reshape funts of Images from arrays to matrices
+      if (dimSupp[[j]] > 1) {
+        M_x <- length(u)
+        M_y <- length(v)
+        if (is.matrix(X[[j]])) X[[j]] <- array(X[[j]], dim = c(M_x, M_y, 1))
+        X[[j]] <- matrix(aperm(X[[j]], c(2, 1, 3)), nrow = M_x * M_y)
+      }
       # Estimate the coefficients of each funts variables.=========================================
       Coefs[[j]] <- solve(t(B_mat[[j]]) %*% B_mat[[j]]) %*% t(B_mat[[j]]) %*% X[[j]]
     } else { # method == "coefs"
