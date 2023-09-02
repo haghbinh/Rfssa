@@ -39,12 +39,12 @@ loadJambiData <- function() {
 #' @export
 loadMontanaData <- function() {
   # Check if the data file exists locally
-  if (file.exists("Jambi.RData")) {
-    load("Jambi.RData", envir = .GlobalEnv)
+  if (file.exists("Montana.RData")) {
+    load("Montana.RData", envir = .GlobalEnv)
   } else {
     # Download the data from GitHub
-    url <- "https://github.com/haghbinh/Rfssa/blob/master/data/Montana.RData"
-    download.file(url, "Jambi.RData")
+    url <- "https://github.com/haghbinh/Rfssa/raw/master/data/Montana.RData"
+    download.file(url, "Montana.RData")
     load("Montana.RData", envir = .GlobalEnv)
     save(Montana, file = "Montana.RData")
   }
