@@ -1,9 +1,9 @@
-#' Multivariate Functional Time Series (mfts) Class
+#' Functional Time Series (funts) Class
 #'
-#' The `mmfts` class is designed to encapsulate functional time series objects, both univariate (FTS) and multivariate (MFTS).
-#' It allows you to create `mfts` objects with specified basis systems. You can create an `mfts` object either by providing discrete
+#' The `funts` class is designed to encapsulate functional time series objects, both univariate (FTS) and multivariate (MFTS).
+#' It allows you to create `funts` objects with specified basis systems. You can create an `funts` object either by providing discrete
 #' observed samples of curves and applying smoothing using a basis method or by supplying the set of basis coefficients.
-#' `mfts` objects can handle two-dimensional functional data and different dimensions for multivariate FTS.
+#' `funts` objects can handle two-dimensional functional data and different dimensions for multivariate FTS.
 #'
 #' @param X A matrix, three-dimensional array, or a list containing matrix or array objects. When `method="data"`, it represents
 #' the set of curve values at discrete sampling points or argument values. When `method="coefs"`, `X` specifies the coefficients
@@ -33,7 +33,7 @@
 #' @note Refer to \code{\link{fssa}} for examples on how to use this function.
 #'
 #' @export
-mfts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = NULL) { # Constructor function for the mfts class
+funts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = NULL) { # Constructor function for the funts class
   # Check if X is a matrix, and if so, convert it to a list
   if (is.array(X)) {
     X <- list(X)
@@ -119,13 +119,13 @@ mfts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = N
 
       M_x <- length(u)
       M_y <- length(v)
-      # # Reshape mfts of Images from matrices to vectors
+      # # Reshape funts of Images from matrices to vectors
       if (is.matrix(X[[j]])) X[[j]] <- array(X[[j]], dim = c(M_x, M_y, 1))
       X[[j]] <- matrix(aperm(X[[j]], c(2, 1, 3)), nrow = M_x * M_y)
     }
     if (method == "data") {
       ### We should through an error if nrow(X), nrow(B) do not match in the empirical case ###
-      # Estimate the coefficients of each mfts variables.=========================================
+      # Estimate the coefficients of each funts variables.=========================================
       Coefs[[j]] <- solve(t(B_mat[[j]]) %*% B_mat[[j]]) %*% t(B_mat[[j]]) %*% X[[j]]
     } else { # method == "coefs"
       Coefs[[j]] <- X[[j]]
@@ -136,8 +136,8 @@ mfts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = N
   if (is.null(end)) end <- start + N - 1
   time <- seq(from = start, to = end, length.out = N)
 
-  # Create and return an instance of the mfts class=========================================
+  # Create and return an instance of the funts class=========================================
   out <- list(N = N, dimSupp = dimSupp, time = time, Coefs = Coefs, Basis = B_mat, argval = arg)
-  class(out) <- "mfts"
+  class(out) <- "funts"
   return(out)
 }

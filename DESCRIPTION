@@ -25,7 +25,6 @@ Imports: Rcpp,
          tibble,
          methods,
          RSpectra,
-         httr,
          markdown,
          rainbow,
          ftsa

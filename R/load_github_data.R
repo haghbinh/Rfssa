@@ -1,35 +1,44 @@
 #' Load Data from GitHub Repositories
 #'
-#' This function was found in
-#' https://stackoverflow.com/questions/24846120/importing-data-into-r-rdata-from-github and can be
-#' used to load .RData files from GitHub repositories. This function can be used to load the Callcenter,
-#' Jambi, and Montana datasets from the Rfssa package hosted by GitHub at https://github.com/haghbinh/Rfssa.
-#' It was found that hosting such datasets on GitHub and not including them in the Rfssa R package saved
+#' These functions are used to load .RData files from GitHub repositories. They can be used to load the
+#' Jambi and Montana datasets from the Rfssa package hosted on GitHub at https://github.com/haghbinh/Rfssa.
+#' Hosting datasets on GitHub instead of including them in the Rfssa R package saves
 #' a significant amount of space.
 #'
-#' @export load_github_data
+#' @docType package
 #'
-#' @return A dataset specified by a GitHub url.
-#' @param github_data_url The GitHub url of the dataset.
+#' @importFrom methods is new
+#'
 #' @examples
 #' \dontrun{
-#' # Loading different datasets from the Rfssa repository hosted by GitHub.
-#' load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Callcenter.RData")
-#' load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Jambi.RData")
-#' load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Montana.RData")
+#' loadJambiData()
+#' loadMontanaData()
 #' }
-#'
-#' @importFrom httr GET stop_for_status content timeout
-#'
 
-load_github_data <- function(github_data_url) {
-  url_len <- nchar(github_data_url)
-  if (substr(github_data_url, start = (url_len - 8), stop = url_len) != "?raw=true") github_data_url <- paste0(github_data_url, "?raw=true")
-  # based very closely on code for devtools::source_url
-  temp_file <- tempfile()
-  on.exit(unlink(temp_file))
-  request <- httr::GET(github_data_url, httr::timeout(30))
-  httr::stop_for_status(request)
-  writeBin(httr::content(request, type = "raw"), temp_file)
-  load(temp_file, envir = .GlobalEnv)
+#' @export
+loadJambiData <- function() {
+  # Check if the data file exists locally
+  if (file.exists("Jambi.RData")) {
+    load("Jambi.RData", envir = .GlobalEnv)
+  } else {
+    # Download the data from GitHub
+    url <- "https://github.com/haghbinh/Rfssa/raw/master/data/Jambi.RData"
+    download.file(url, "Jambi.RData")
+    load("Jambi.RData", envir = .GlobalEnv)
+    save(Jambi, file = "Jambi.RData")
+  }
+}
+
+#' @export
+loadMontanaData <- function() {
+  # Check if the data file exists locally
+  if (file.exists("Jambi.RData")) {
+    load("Jambi.RData", envir = .GlobalEnv)
+  } else {
+    # Download the data from GitHub
+    url <- "https://github.com/haghbinh/Rfssa/blob/master/data/Montana.RData"
+    download.file(url, "Jambi.RData")
+    load("Montana.RData", envir = .GlobalEnv)
+    save(Montana, file = "Montana.RData")
+  }
 }
