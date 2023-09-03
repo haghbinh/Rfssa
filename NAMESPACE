@@ -14,7 +14,11 @@ export(freconstruct)
 export(fssa)
 export(funts)
 export(fwcor)
+<<<<<<< HEAD
 export(is.funts)
+=======
+export(is.funfts)
+>>>>>>> 7551633c78ae9dba6b403d65fa72dcd5691d31de
 export(launchApp)
 export(loadJambiData)
 export(loadMontanaData)
