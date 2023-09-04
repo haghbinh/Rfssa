@@ -156,13 +156,14 @@ print.funts <- function(obj) {
 #'
 #' @export
 eval.funts <- function(argvals,obj){
+  if(!xor(is.numeric(argvals) ,is.list(argvals))) stop("Error: Incompatible grid points. It must be a list or numeric object.")
   if(!is.funts(obj))  stop("The obj argument must have class of funts.")
   dimSupp <- obj$dimSupp
   p <- length(dimSupp)
   basis <- obj$basis
   result <- list()
   for (j in 1:p) {
-    if (is.vector(argvals) || is.array(argvals)) argvals <- list(argvals)
+    if (is.numeric(argvals) || is.array(argvals)) argvals <- list(argvals)
     if (dimSupp[[j]]==1) {
       if (is.basis(basis[[j]])) {
         B <- eval.basis(evalarg = argvals[[j]], basisobj =basis[[j]])
@@ -171,20 +172,22 @@ eval.funts <- function(argvals,obj){
       }
       result[[j]] <- B%*%obj$coefs[[j]]
     } else { # dimSupp[[j]]==2
+      u <- argvals[[j]][[1]]
+      v <- argvals[[j]][[2]]
       if (all(sapply(basis[[j]], is.basis))) { # fd basis
-        b_1 <- eval.basis(evalarg = argvals[[j]][[1]], basisobj = basis[[j]][[1]])
-        b_2 <- eval.basis(evalarg = argvals[[j]][[2]], basisobj = basis[[j]][[2]])
+        b_1 <- eval.basis(evalarg = u, basisobj = basis[[j]][[1]])
+        b_2 <- eval.basis(evalarg = v, basisobj = basis[[j]][[2]])
       } else { # Empirical basis (list)
-        if (is.list(basisobj[[j]])) {
-          b_1 <- eval.empb(evalarg = argvals[[j]][[1]], basisobj = basis[[j]][[1]])
-          b_2 <- eval.empb(evalarg = argvals[[j]][[2]], basisobj = basis[[j]][[2]])
+        if (is.list(basis[[j]])) {
+          b_1 <- eval.empb(evalarg = u, basisobj = basis[[j]][[1]])
+          b_2 <- eval.empb(evalarg = v, basisobj = basis[[j]][[2]])
         } else { # Empirical basis (Kronecker product or SVD)
           b_1 <- basis[[j]][, ]
           b_2 <- 1
         }
       }
       B <- kronecker(b_1, b_2)
-      result[[j]] <- array(B%*%obj$coefs[[j]],dim=c(argvals[[j]][[1]],argvals[[j]][[2]],obj$N))
+      result[[j]] <- array(B%*%obj$coefs[[j]],dim=c(length(u),length(v),obj$N))
     }
   }
   return(result)
