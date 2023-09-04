@@ -197,7 +197,7 @@ init_basis_check <- function(B) {
       stop("All elements of the basis list must be `basisfd` objects.")
     }
   }
-  if(!is.basis(basis) & !is.list(basis)){
+  if (!is.basis(basis) & !is.list(basis)) {
     stop("The basis must be a `basisfd` object or list of `basisfd` objects.")
   }
 }

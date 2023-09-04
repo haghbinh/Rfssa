@@ -7,7 +7,7 @@
 length.funts <- function(obj) {
   return(obj$N)
 }
-#=======================================================================
+# =======================================================================
 #'
 #' Custom Print Method for Functional Time Series (funts) Objects
 #'
@@ -19,12 +19,12 @@ length.funts <- function(obj) {
 #'
 #' @export
 print.funts <- function(obj) {
-  cat('\nFunctional time series (funts) object:')
+  cat("\nFunctional time series (funts) object:")
   cat("\nlength N: ", obj$N)
-  cat("\nnumber of variables: ", length(obj$dimSupp),'\n')
-  cat(str(obj),'\n')
+  cat("\nnumber of variables: ", length(obj$dimSupp), "\n")
+  cat(str(obj), "\n")
 }
-#=======================================================================
+# =======================================================================
 #'
 #' Addition of Functional Time Series
 #'
@@ -55,12 +55,13 @@ print.funts <- function(obj) {
     if (!all.equal(obj1$time, obj2$time)) stop("Error: Incompatible Data Time index. Functional time series require data of the same Time index.")
     if (!all.equal(obj1$basis, obj2$basis)) stop("Error: Incompatible Data basis. Functional time series require the same basis functions.")
     if (!all.equal(obj1$dimSupp, obj2$dimSupp)) stop("Error: Incompatible Data dimension supports. Functional time series require the same dimSupps.")
-    coef <- obj1$coefs + obj2$coefs
+    coef <- list()
+    for (i in 1:length(obj1$coefs)) coef[[i]] <- obj1$coefs[[i]] + obj2$coefs[[i]]
   }
   obj1$coefs <- coef
   return(obj1)
 }
-#=======================================================================
+# =======================================================================
 #'
 #' Scalar Multiplication of a Functional Time Series (\code{\link{funts}}) Object
 #'
@@ -91,7 +92,7 @@ print.funts <- function(obj) {
   }
   return(obj1)
 }
-#=======================================================================
+# =======================================================================
 #'
 #' Subtract two `funts` objects or a `funts` object and a scalar
 #'
@@ -118,7 +119,7 @@ print.funts <- function(obj) {
     return(obj1 + (-1) * obj2)
   }
 }
-#=======================================================================
+# =======================================================================
 #'
 #' Indexing into Functional Time Series
 #'
@@ -142,11 +143,17 @@ print.funts <- function(obj) {
   arg <- obj$argval
   coefs <- obj$coefs
   p <- length(obj$dimSupp)
-  B_mat <- obj$B_mat # It should be checked by Mehdi
+  B_mat <- obj$B_mat
   for (j in 1:p) {
-    coefs[[j]] <- coefs[[j]][, i] # It should be checked by Mehdi
+    coefs[[j]] <- coefs[[j]][, i]
   }
   out <- list(N = length(i), dimSupp = dimSupp, time = time, coefs = coefs, basis = basisobj, B_mat = B_mat, argval = arg)
   class(out) <- "funts"
   return(out)
 }
+
+################## eval.funts #################################
+# Let "N" be the length of time series
+# eval.fts(vector.grid: n, uni-dim-uni-var) => matrix "n x N"
+# eval.fts(vector.grid: n_1,n_2, 2-dim-uni-var) => array "n_1 x n_2 x N"
+# eval.fts(list(vector: n, list(n_1, n_2))) => list(matrix "n x N", array "n_1 x n_2 x N")
