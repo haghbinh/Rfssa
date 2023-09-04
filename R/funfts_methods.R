@@ -153,6 +153,24 @@ print.funts <- function(obj) {
 }
 
 ################## eval.funts #################################
+
+eval.funts <- function(argvals,obj){
+  if(!is.funts(ob))  stop("The obj argument must have class of funts.")
+  dimSupp < obj$dimSupp
+  p <- length(dimSupp)
+  basis <- obj$basis
+  for (j in 1:p) {
+    if(dimSupp[[j]]==1){
+      if(is.basis(basis[[j]])){
+        #eval.basis(evalarg = argvals, basisobj =basis[[j]])
+      } else{# if(is.matrix(basis[[j]])))  #Empirical basis
+        #eval.empb(evalarg = argvals, basisobj =basis[[j]])
+    } else { #dimSupp[[j]]==@
+
+    }
+  }
+  }
+}
 # Let "N" be the length of time series
 # eval.fts(vector.grid: n, uni-dim-uni-var) => matrix "n x N"
 # eval.fts(vector.grid: n_1,n_2, 2-dim-uni-var) => array "n_1 x n_2 x N"
