@@ -27,14 +27,23 @@ specifying a natural time unit.}
 
 \item{end}{The time of the last observation, specified in the same way as `start`.}
 }
+\value{
+An instance of the `funts` class containing functional time series data.
+}
 \description{
 The `funts` class is designed to encapsulate functional time series objects, both univariate (FTS) and multivariate (MFTS).
 It allows you to create `funts` objects with specified basis systems. You can create an `funts` object either by providing discrete
 observed samples of curves and applying smoothing using a basis method or by supplying the set of basis coefficients.
 `funts` objects can handle two-dimensional functional data and different dimensions for multivariate FTS.
 }
-\note{
-Refer to \code{\link{fssa}} for examples on how to use this function.
+\examples{
+\dontrun{
+# Create an example funts object using data
+data_matrix <- matrix(1:100, ncol = 10)
+basis <- create_bspline_basis(c(0, 1), nbasis = 10)
+funts_obj <- funts(data_matrix, basis)
+}
+
 }
 \seealso{
 \code{\link{fssa}}

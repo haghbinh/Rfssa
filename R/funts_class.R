@@ -30,7 +30,15 @@
 #'
 #' @seealso \code{\link{fssa}}
 #'
-#' @note Refer to \code{\link{fssa}} for examples on how to use this function.
+#' @examples
+#' \dontrun{
+#' # Create an example funts object using data
+#' data_matrix <- matrix(1:100, ncol = 10)
+#' basis <- create_bspline_basis(c(0, 1), nbasis = 10)
+#' funts_obj <- funts(data_matrix, basis)
+#' }
+#'
+#' @return An instance of the `funts` class containing functional time series data.
 #'
 #' @export
 funts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = NULL) { # Constructor function for the funts class
@@ -47,7 +55,7 @@ funts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = 
   # Check if all elements of X are matrices
   if (!all(sapply(X, is.array))) stop("All elements of the list X must be numeric `matrix` objects.")
   p <- length(X)
-  dimSupp <- arg <- B_mat <- Coefs <- list()
+  dimSupp <- arg <- B_mat <- coefs <- list()
   n_def <- 100
   for (j in 1L:p) {
     # determine the dimension support of the variable j
@@ -161,9 +169,9 @@ funts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = 
         X[[j]] <- matrix(aperm(X[[j]], c(2, 1, 3)), nrow = M_x * M_y)
       }
       # Estimate the coefficients of each funts variables.=========================================
-      Coefs[[j]] <- solve(t(B_mat[[j]]) %*% B_mat[[j]]) %*% t(B_mat[[j]]) %*% X[[j]]
+      coefs[[j]] <- solve(t(B_mat[[j]]) %*% B_mat[[j]]) %*% t(B_mat[[j]]) %*% X[[j]]
     } else { # method == "coefs"
-      Coefs[[j]] <- X[[j]]
+      coefs[[j]] <- X[[j]]
     }
   }
   # Creating the time object ========================================
@@ -172,7 +180,7 @@ funts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = 
   time <- seq(from = start, to = end, length.out = N)
 
   # Create and return an instance of the funts class=========================================
-  out <- list(N = N, dimSupp = dimSupp, time = time, Coefs = Coefs, Basis = B_mat, argval = arg)
+  out <- list(N = N, dimSupp = dimSupp, time = time, coefs = coefs, basis = basisobj, B_mat = B_mat, argval = arg)
   class(out) <- "funts"
   return(out)
 }
