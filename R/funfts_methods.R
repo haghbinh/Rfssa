@@ -1,3 +1,4 @@
+#'
 #' Length of Functional Time Series
 #'
 #' Returns the length of a "funts" object.
@@ -7,7 +8,7 @@ length.funts <- function(obj) {
   return(obj$N)
 }
 #=======================================================================
-
+#'
 #' Custom Print Method for Functional Time Series (funts) Objects
 #'
 #' This function provides a custom print method for objects of the Functional Time Series (funts) class.
@@ -24,7 +25,7 @@ print.funts <- function(obj) {
   cat(str(obj),'\n')
 }
 #=======================================================================
-
+#'
 #' Addition of Functional Time Series
 #'
 #' A method for functional time series (\code{\link{funts}}) addition and funts-scalar addition. Note that if the funts is multivariate
@@ -60,7 +61,7 @@ print.funts <- function(obj) {
   return(obj1)
 }
 #=======================================================================
-
+#'
 #' Scalar Multiplication of a Functional Time Series (\code{\link{funts}}) Object
 #'
 #' Performs scalar multiplication of a Functional Time Series (funts) object by either another funts object or a scalar value.
@@ -119,6 +120,34 @@ print.funts <- function(obj) {
 }
 #=======================================================================
 #'
-
-
-
+#' Indexing into Functional Time Series
+#'
+#' An indexing method for functional time series (\code{\link{funts}}) objects.
+#'
+#' This function allows you to extract specific subsets of a functional time series
+#' based on the provided indices. You can specify which subsets you want to extract
+#' from the functional time series.
+#'
+#' @param obj An object of class \code{\link{funts}}.
+#' @param i An index or indices specifying the subsets to extract.
+#'
+#' @seealso \code{\link{funts}}
+#' @export
+"[.funts" <- function(obj, i = "index") {
+  if (is.null(i)) i <- 1:obj$N
+  if (max(i) > obj$N | min(i) < 1) stop(" subscript i out of bounds")
+  time <- obj$time[i]
+  dimSupp <- obj$dimSupp
+  basisobj <- obj$basis
+  arg <- obj$argval
+  coefs <- obj$coefs
+  p <- length(obj$dimSupp)
+  B_mat <- obj$B_mat # It should be checked by Mehdi
+  for (j in 1:p) {
+    coefs[[j]] <- coefs[[j]][, i] # It should be checked by Mehdi
+  }
+  # Create and return a new instance of the funts class
+  out <- list(N = length(i), dimSupp = dimSupp, time = time, coefs = coefs, basis = basisobj, B_mat = B_mat, argval = arg)
+  class(out) <- "funts"
+  return(out)
+}
