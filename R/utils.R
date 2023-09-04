@@ -187,7 +187,7 @@ eval.empb <- function(evalarg, basisobj) {
   b <- NULL
   for (i in 1:length(fun.b)) b <- cbind(b, fun.b[[i]](evalarg))
   attr(b, "rangeval") <- range(evalarg)
-  attr(Bs1, "grids") <- evalarg
+  attr(b, "grids") <- evalarg
   return(b)
 }
 

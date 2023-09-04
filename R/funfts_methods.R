@@ -157,13 +157,13 @@ print.funts <- function(obj) {
 #' @export
 eval.funts <- function(argvals,obj){
   if(!xor(is.numeric(argvals) ,is.list(argvals))) stop("Error: Incompatible grid points. It must be a list or numeric object.")
-  if(!is.funts(obj))  stop("The obj argument must have class of funts.")
+  if(!is.funts(obj)) stop("The obj argument must have class of funts.")
   dimSupp <- obj$dimSupp
   p <- length(dimSupp)
   basis <- obj$basis
   result <- list()
   for (j in 1:p) {
-    if (is.numeric(argvals) || is.array(argvals)) argvals <- list(argvals)
+    if (is.numeric(argvals) || is.array(argvals) || (p==1 && length(argvals)>1)) argvals <- list(argvals)
     if (dimSupp[[j]]==1) {
       if (is.basis(basis[[j]])) {
         B <- eval.basis(evalarg = argvals[[j]], basisobj =basis[[j]])
@@ -182,17 +182,14 @@ eval.funts <- function(argvals,obj){
           b_1 <- eval.empb(evalarg = u, basisobj = basis[[j]][[1]])
           b_2 <- eval.empb(evalarg = v, basisobj = basis[[j]][[2]])
         } else { # Empirical basis (Kronecker product or SVD)
+          print("Warning: This feature is under development for the basis defined over irregular grids. Results may not be accurate.")
           b_1 <- basis[[j]][, ]
           b_2 <- 1
         }
       }
       B <- kronecker(b_1, b_2)
-      result[[j]] <- array(B%*%obj$coefs[[j]],dim=c(length(u),length(v),obj$N))
+      result[[j]] <- aperm(array(B%*%obj$coefs[[j]],dim=c(length(v),length(u),obj$N)), c(2, 1, 3))
     }
   }
   return(result)
 }
-# Let "N" be the length of time series
-# eval.fts(vector.grid: n, uni-dim-uni-var) => matrix "n x N"
-# eval.fts(vector.grid: n_1,n_2, 2-dim-uni-var) => array "n_1 x n_2 x N"
-# eval.fts(list(vector: n, list(n_1, n_2))) => list(matrix "n x N", array "n_1 x n_2 x N")
