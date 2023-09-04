@@ -155,18 +155,33 @@ print.funts <- function(obj) {
 ################## eval.funts #################################
 
 eval.funts <- function(argvals,obj){
-  if(!is.funts(ob))  stop("The obj argument must have class of funts.")
+  if(!is.numeric(argvals) | !is.list(arvals)) stop("Error: Incompatible grid points. It must be a list or numeric object.")
+  if(!is.funts(ob))  stop("Error: Incompatible object. The `obj` argument must have class of funts.")
   dimSupp < obj$dimSupp
   p <- length(dimSupp)
   basis <- obj$basis
+  out <- list()
   for (j in 1:p) {
     if(dimSupp[[j]]==1){
+      u <- argval[[j]]
+      if(!is.numeric(u))  stop("The obj argument must have class of funts.")
       if(is.basis(basis[[j]])){
-        #eval.basis(evalarg = argvals, basisobj =basis[[j]])
-      } else{# if(is.matrix(basis[[j]])))  #Empirical basis
-        #eval.empb(evalarg = argvals, basisobj =basis[[j]])
-    } else { #dimSupp[[j]]==@
-
+        out[[j]] <- eval.basis(evalarg = u, basisobj =basis[[j]])
+      } else {    #  Empirical basis
+        out[[j]] <- eval.empb(evalarg = u, basisobj =basis[[j]])
+      }
+    } else { #dimSupp[[j]]==2
+      u <- argval[[j]][[1]]
+      v <- argval[[j]][[2]]
+      if(is.basis(basis[[j]])){
+        bs1 <- eval.basis(evalarg = u, basisobj =basis[[j]])
+        bs2 <- eval.basis(evalarg = v, basisobj =basis[[j]])
+        out[[j]] <-
+      } else {    #  2d Empirical basis
+        bs1 <- eval.empb(evalarg = u, basisobj =basis[[j]])
+        bs2 <- eval.empb(evalarg = v, basisobj =basis[[j]])
+        out[[j]] <-
+      }
     }
   }
   }
