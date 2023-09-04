@@ -172,7 +172,7 @@ funts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = 
   time <- seq(from = start, to = end, length.out = N)
 
   # Create and return an instance of the funts class=========================================
-  out <- list(N = N, dimSupp = dimSupp, time = time, Coefs = Coefs, Basis = B_mat, argval = arg)
+  out <- list(N = N, dimSupp = dimSupp, time = time, Coefs = Coefs, Basis = basisobj, B_mat = B_mat , argval = arg)
   class(out) <- "funts"
   return(out)
 }
