@@ -3,7 +3,6 @@
 S3method("*",funts)
 S3method("+",funts)
 S3method("-",funts)
-S3method("[",fts)
 S3method("[",funts)
 S3method(length,funts)
 S3method(plot,fssa)

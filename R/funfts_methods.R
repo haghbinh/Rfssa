@@ -146,7 +146,6 @@ print.funts <- function(obj) {
   for (j in 1:p) {
     coefs[[j]] <- coefs[[j]][, i] # It should be checked by Mehdi
   }
-  # Create and return a new instance of the funts class
   out <- list(N = length(i), dimSupp = dimSupp, time = time, coefs = coefs, basis = basisobj, B_mat = B_mat, argval = arg)
   class(out) <- "funts"
   return(out)
