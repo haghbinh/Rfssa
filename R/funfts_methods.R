@@ -3,6 +3,8 @@
 #'
 #' Returns the length of a "funts" object.
 #' @param obj
+#'
+#'
 #' @export
 length.funts <- function(obj) {
   return(obj$N)
@@ -16,6 +18,7 @@ length.funts <- function(obj) {
 #' and the structure of the object.
 #'
 #' @param obj An object of class "funts" to be printed.
+#'
 #'
 #' @export
 print.funts <- function(obj) {
@@ -35,7 +38,8 @@ print.funts <- function(obj) {
 #'
 #' @param Y1 An object of class \code{\link{funts}} or numeric.
 #' @param Y2 An object of class \code{\link{funts}} or numeric.
-
+#'
+#'
 #' @seealso \code{\link{funts}}
 #' @export
 "+.funts" <- function(obj1, obj2 = NULL) {
@@ -71,6 +75,7 @@ print.funts <- function(obj) {
 #' @param obj2 An object of class \code{\link{funts}} or a scalar value.
 #' @return An object of class \code{\link{funts}} representing the result of scalar multiplication.
 #'
+#'
 #' @details This function allows you to multiply a Functional Time Series (funts) object by either another funts object or a scalar value.
 #' The operation is element-wise when both objects are funts, and scalar multiplication when one object is a funts and the other is a scalar.
 #'
@@ -105,6 +110,11 @@ print.funts <- function(obj) {
 #'
 #' @seealso \code{\link{funts}}
 #'
+#' @examples
+#' data("Callcenter")
+#' y <- Callcenter
+#' print(1-y)
+#'
 #' @export
 "-.funts" <- function(obj1, obj2 = NULL) {
   # Check if at least one object must be an `funts`, and the other one can be a scalar
@@ -132,6 +142,7 @@ print.funts <- function(obj) {
 #' @param obj An object of class \code{\link{funts}}.
 #' @param i An index or indices specifying the subsets to extract.
 #'
+#'
 #' @seealso \code{\link{funts}}
 #' @export
 "[.funts" <- function(obj, i = "index") {
@@ -151,9 +162,39 @@ print.funts <- function(obj) {
   class(out) <- "funts"
   return(out)
 }
-
-################## eval.funts #################################
+# =======================================================================
 #'
+#' Evaluate a Functional Time Series (funts) Object on a Given Grid
+#'
+#' This function allows you to evaluate a Functional Time Series (funts) object
+#' on a specified grid of argument values. The result is a list of matrices, each
+#' matrix corresponding to one dimension of the functional data.
+#'
+#' @param argvals A list or numeric vector specifying the grid points at which
+#'   to evaluate the functional time series. For multivariate functional data,
+#'   provide a list of grids corresponding to each dimension.
+#' @param obj An object of class \code{\link{funts}} to be evaluated.
+#'
+#' @return A list of matrices, where each matrix represents the evaluated values
+#'   of the functional data on the specified grid.
+#'
+#' @details
+#' The \code{argvals} argument can be a list of grids for multivariate functional data.
+#' The function handles both functional basis and empirical basis cases for evaluation.
+#' For empirical basis with irregular grids, a warning is issued as this feature
+#' is under development.
+#'
+#' @seealso \code{\link{funts}}
+#'
+#' @examples
+#' \dontrun{
+#' data("Montana")
+#' y <- Montana
+#' u <- seq(0, 23, len = 4)
+#' v <- seq(1, 33, len = 3)
+#' grid=list(u, list(v, v))
+#' eval.funts(grid, y)
+#'}
 #' @export
 eval.funts <- function(argvals,obj){
   if(!xor(is.numeric(argvals) ,is.list(argvals))) stop("Error: Incompatible grid points. It must be a list or numeric object.")

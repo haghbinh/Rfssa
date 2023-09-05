@@ -32,10 +32,28 @@
 #'
 #' @examples
 #' \dontrun{
-#' # Create an example funts object using data
-#' data_matrix <- matrix(1:100, ncol = 10)
-#' basis <- create_bspline_basis(c(0, 1), nbasis = 10)
-#' funts_obj <- funts(data_matrix, basis)
+#' # 1D FTS example: Callcenter dataset
+#'
+#' loadCallcenterData()
+#' D <- matrix(sqrt(Callcenter$calls), nrow = 240)
+#' bs1 <- create.bspline.basis(c(0, 23), 22)
+#' u <- seq(0, 23, len = nrow(D))
+#' Y = funts(D, bs1, start = as.Date("1999-1-1"))
+#'
+#' # 2D Multivariate Example: Montana dataset
+#' # Temperature curves and smoothed images of vegetation
+#'
+#' loadMontanaData()
+#' Temp <- Montana$Temp
+#' NDVI <- Montana$NDVI
+#' Montana_Data <- list(Temp / sd(Temp), NDVI)
+#' bs1 <- create.bspline.basis(c(0, 23), 11)
+#' bs2 <- create.bspline.basis(c(0, 1), 13)
+#' bs2d <- list(bs2, bs2)
+#' bsmv <- list(bs1, bs2d)
+#' Y <- funts(X = Montana_Data, basisobj = bsmv,
+#'            start = as.Date("2008-01-01"),
+#'            end = as.Date("2013-09-30"))
 #' }
 #'
 #' @return An instance of the `funts` class containing functional time series data.

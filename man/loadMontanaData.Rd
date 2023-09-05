@@ -3,17 +3,50 @@
 \name{loadMontanaData}
 \alias{loadMontanaData}
 \title{Load Montana Data from GitHub Repository}
+\format{
+A list containing two components:
+\describe{
+  \item{Temperature Data}{A 24 by 133 matrix of discrete samplings of intraday hourly temperature curves.}
+  \item{NDVI Images}{An array with dimensions 33 by 33 by 133, where each 33 by 33 slice represents an NDVI image.}
+}
+}
 \usage{
 loadMontanaData()
 }
 \description{
-This function is used to load the Montana dataset from the Rfssa package hosted on GitHub at
-https://github.com/haghbinh/Rfssa. Hosting datasets on GitHub instead of including them
-in the Rfssa R package saves a significant amount of space.
+This function loads the Montana dataset from a GitHub repository hosted at
+https://github.com/haghbinh/dataset/Rfssa_dataset. By hosting datasets on GitHub
+instead of including them in the Rfssa R package, it saves a significant amount of space.
+}
+\details{
+The Montana dataset contains intraday hourly temperature curves measured in degrees Celsius
+and normalized difference vegetation index (NDVI) image data. Both types of data are recorded
+near Saint Mary, Montana, USA. The NDVI images cover a region located between longitudes of
+113.30 degrees West and 113.56 degrees West and latitudes of 48.71 degrees North and 48.78 degrees North.
+For each recorded intraday temperature curve, an NDVI image was captured on the same day every
+16 days, starting from January 1, 2008, and ending on September 30, 2013.
+The dataset is valuable for environmental analysis, especially in the context of studying the impact
+of temperature changes on vegetation. Combining both temperature and NDVI data can reveal more informative
+patterns and insights.
 }
 \examples{
 \dontrun{
-loadMontanaData()
+  loadMontanaData()
 }
 
+}
+\references{
+\enumerate{
+  \item Diamond, H. J., Karl, T., Palecki, M. A., Baker, C. B., Bell, J. E., Leeper, R. D.,
+     Easterling, D. R., Lawrimore, J. H., Meyers, T. P., Helfert, M. R., Goodge, G.,
+     and Thorne, P.W. (2013). U.S. climate reference network after one decade of operations:
+     status and assessment. [Read More](https://www.ncdc.noaa.gov/crn/qcdatasets.html).
+     Last accessed April 2020.
+  \item Tuck, S. L., Phillips, H. R., Hintzen, R. E., Scharlemann, J. P., Purvis, A., and
+     Hudson, L. N. (2014). MODISTools – downloading and processing MODIS
+     remotely sensed data in R. Ecology and Evolution, 4(24):4658–4668.
+}
+}
+\seealso{
+\code{\link{Montana}} - The dataset object loaded by this function.
 }

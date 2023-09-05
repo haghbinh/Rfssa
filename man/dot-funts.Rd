@@ -16,6 +16,12 @@ This function allows you to subtract two `funts` (functional time series) object
 subtract a `funts` object from a scalar. It returns the difference between the two
 objects.
 }
+\examples{
+data("Callcenter")
+y <- Callcenter
+print(1-y)
+
+}
 \seealso{
 \code{\link{funts}}
 }

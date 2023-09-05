@@ -6,6 +6,9 @@
 \usage{
 \method{length}{funts}(obj)
 }
+\arguments{
+\item{obj}{}
+}
 \description{
 Returns the length of a "funts" object.
 }

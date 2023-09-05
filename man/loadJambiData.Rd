@@ -2,19 +2,46 @@
 % Please edit documentation in R/load_github_data.R
 \name{loadJambiData}
 \alias{loadJambiData}
-\title{Load Jambi Data from GitHub Repository}
+\title{Load Jambi MODIS Data from GitHub Repository}
+\format{
+A list containing two arrays, each with dimensions 33 by 33 by 448. One array represents NDVI
+image data, and the other represents EVI image data. The list also contains a date vector of length 448,
+specifying the date of capture for each 33 by 33 image.
+}
+\source{
+[MODIS Product Information](https://lpdaac.usgs.gov/products/mod13q1v006/)
+}
 \usage{
 loadJambiData()
 }
 \description{
-This function is used to load the Jambi dataset from the Rfssa package hosted on GitHub at
-https://github.com/haghbinh/Rfssa. Hosting datasets on GitHub instead of including them
-in the Rfssa R package saves a significant amount of space.
+This function is used to load the Jambi dataset from a GitHub repository hosted at
+https://github.com/haghbinh/dataset/Rfssa_dataset. By hosting datasets on GitHub
+instead of including them in the Rfssa R package, it saves a significant amount of space.
+The Jambi dataset contains normalized difference vegetation index (NDVI) and enhanced vegetation
+index (EVI) image data from NASA’s MODerate-resolution Imaging Spectroradiometer (MODIS) with
+global coverage at 250 m^2 resolution. The dataset covers the Jambi Province, Indonesia,
+which is known for various forested land utilizations, including natural forests and plantations.
+Monitoring such land cover changes is essential, especially in the context of forest exploitation and
+conservation efforts. Seasonal variations play a significant role in long-term land cover changes.
+}
+\details{
+The data collection started on February 18, 2000, and continued until July 28, 2019, with data recorded
+every 16 days. This dataset is valuable for studying vegetative land cover changes in the region.
 }
 \examples{
 \dontrun{
-loadJambiData()
+  loadJambiData()
 }
 
-
+}
+\references{
+\enumerate{
+  \item Lambin, E., Geist, H., Lepers, E. (1999).
+  Dynamics of Land-Use and Land-Cover Change in Tropical Regions.
+  \emph{Annual Review of Environment and Resources}, 205-244.
+}
+}
+\seealso{
+\code{\link{Jambi}} - The dataset object loaded by this function.
 }
