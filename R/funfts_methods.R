@@ -4,7 +4,7 @@
 #' Returns the length of a "funts" object.
 #' @param obj
 #'
-#'
+#' @importFrom fda eval.basis is.basis
 #' @export
 length.funts <- function(obj) {
   return(obj$N)
@@ -187,14 +187,12 @@ print.funts <- function(obj) {
 #' @seealso \code{\link{funts}}
 #'
 #' @examples
-#' \dontrun{
 #' data("Montana")
 #' y <- Montana
 #' u <- seq(0, 23, len = 4)
 #' v <- seq(1, 33, len = 3)
 #' grid=list(u, list(v, v))
 #' eval.funts(grid, y)
-#'}
 #' @export
 eval.funts <- function(argvals,obj){
   if(!xor(is.numeric(argvals) ,is.list(argvals))) stop("Error: Incompatible grid points. It must be a list or numeric object.")
@@ -223,7 +221,7 @@ eval.funts <- function(argvals,obj){
           b_1 <- eval.empb(evalarg = u, basisobj = basis[[j]][[1]])
           b_2 <- eval.empb(evalarg = v, basisobj = basis[[j]][[2]])
         } else { # Empirical basis (Kronecker product or SVD)
-          print("Warning: This feature is under development for the basis defined over irregular grids. Results may not be accurate.")
+          warning("Warning: This feature is under development for the basis defined over irregular grids. Results may not be accurate.")
           b_1 <- basis[[j]][, ]
           b_2 <- 1
         }

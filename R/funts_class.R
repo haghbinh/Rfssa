@@ -25,7 +25,7 @@
 #'
 #' @param end The time of the last observation, specified in the same way as `start`.
 #'
-#' @importFrom fda eval.basis
+#' @importFrom fda eval.basis is.basis
 #' @importFrom methods is new
 #'
 #' @seealso \code{\link{fssa}}
