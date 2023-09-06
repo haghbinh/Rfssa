@@ -4,12 +4,17 @@
 \alias{[.funts}
 \title{Indexing into Functional Time Series}
 \usage{
-\method{[}{funts}(obj, i = "index")
+\method{[}{funts}(obj, i = NULL, j = NULL)
 }
 \arguments{
 \item{obj}{An object of class \code{\link{funts}}.}
 
-\item{i}{An index or indices specifying the subsets to extract.}
+\item{i}{An index or indices specifying the subsets of times to extract.}
+
+\item{j}{An index or indices specifying the subsets of variables to extract.}
+}
+\value{
+An `funts` object containing the specified subsets
 }
 \description{
 An indexing method for functional time series (\code{\link{funts}}) objects.

@@ -140,25 +140,27 @@ print.funts <- function(obj) {
 #' from the functional time series.
 #'
 #' @param obj An object of class \code{\link{funts}}.
-#' @param i An index or indices specifying the subsets to extract.
-#'
-#'
+#' @param i An index or indices specifying the subsets of times to extract.
+#' @param j An index or indices specifying the subsets of variables to extract.
+#' @return An `funts` object containing the specified subsets
 #' @seealso \code{\link{funts}}
 #' @export
-"[.funts" <- function(obj, i = "index") {
-  if (is.null(i)) i <- 1:obj$N
-  if (max(i) > obj$N | min(i) < 1) stop(" subscript i out of bounds")
-  time <- obj$time[i]
-  dimSupp <- obj$dimSupp
-  basisobj <- obj$basis
-  arg <- obj$argval
-  coefs <- obj$coefs
+"[.funts" <- function(obj, i = NULL, j = NULL) {
   p <- length(obj$dimSupp)
-  B_mat <- obj$B_mat
-  for (j in 1:p) {
-    coefs[[j]] <- coefs[[j]][, i]
+  if (is.null(i)) i <- 1:obj$N
+  if (is.null(j)) j <- 1:p
+  if (max(i) > obj$N | min(i) < 1) stop(" subscript i out of bounds")
+  if (max(j) > p | min(j) < 1) stop(" subscript j out of bounds")
+  out <- list(N = length(i), dimSupp = list(), time = obj$time[i], coefs = list(), basis = list(), B_mat = list(), argval = list())
+  count <- 0
+  for (k in j) {
+    count <- count + 1
+    out$dimSupp[[count]] <- obj$dimSupp[[k]]
+    out$basis[[count]] <- obj$basis[[k]]
+    out$B_mat[[count]] <- obj$B_mat[[k]]
+    out$argval[[count]] <- obj$argval[[k]]
+    out$coefs[[count]] <- obj$coefs[[k]][, i]
   }
-  out <- list(N = length(i), dimSupp = dimSupp, time = time, coefs = coefs, basis = basisobj, B_mat = B_mat, argval = arg)
   class(out) <- "funts"
   return(out)
 }
