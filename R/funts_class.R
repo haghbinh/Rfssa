@@ -73,7 +73,7 @@ funts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = 
   # Check if all elements of X are matrices
   if (!all(sapply(X, is.array))) stop("All elements of the list X must be numeric `matrix` objects.")
   p <- length(X)
-  dimSupp <- arg <- B_mat <- coefs <- list()
+  dimSupp <- supp <- arg <- B_mat <- coefs <- list()
   n_def <- 100
   for (j in 1L:p) {
     # determine the dimension support of the variable j
