@@ -34,7 +34,7 @@ plot.fssa <- function(x, d = length(x$values),
                       groups = as.list(1:d),
                       type = "values", vars = NULL, ylab = NA, main = NA,
                       color_palette = "RdYlBu", reverse_color_palette = FALSE, ...) {
-  p <- length(x$Y@C)
+  p <- length(x$Y$dimSupp)
   A <- ((x$values) / sum(x$values))
   pr <- round(A * 100L, 2L)
   idx <- sort(idx)
@@ -71,9 +71,9 @@ plot.fssa <- function(x, d = length(x$values),
     if (is.null(vars)) vars <- 1:p
 
     for (j in 1:length(vars)) {
-      if (type == "lheats" && ncol(x$Y@grid[[vars[j]]]) == 1) {
+      if (type == "lheats" && ncol(x$Y$argval[[vars[j]]]) == 1) {
         flag_1 <- 1
-        n <- nrow(x$Y@grid[[vars[j]]])
+        n <- nrow(x$Y$argval[[vars[j]]])
         z <- c(0)
         for (i in idx) {
           if (class(x[[i]])[[1]]!="list") {
@@ -115,7 +115,7 @@ plot.fssa <- function(x, d = length(x$values),
 
 
         graphics::plot(p1)
-      } else if (type == "lheats" && ncol(x$Y@grid[[vars[j]]]) == 2) {
+      } else if (type == "lheats" && ncol(x$Y$argval[[vars[j]]]) == 2) {
         flag_2 <- 1
         time <- NULL
         for (i in idx) {
@@ -130,11 +130,11 @@ plot.fssa <- function(x, d = length(x$values),
             temp_df$z = c(x[[i]][[vars[j]]])
             y <- tibble::as_tibble(temp_df)
           }
-          temp_1 = rev(rep(x$Y@grid[[vars[j]]][, 1], L))
-          temp_2 = rep(x$Y@grid[[vars[j]]][, 2], L)
+          temp_1 = rev(rep(x$Y$argval[[vars[j]]][, 1], L))
+          temp_2 = rep(x$Y$argval[[vars[j]]][, 2], L)
           y[,2] <- temp_2
           y[,3] <- temp_1
-          y$Time <- as.factor(rep(1:L, each = nrow(x$Y@grid[[vars[j]]])))
+          y$Time <- as.factor(rep(1:L, each = nrow(x$Y$argval[[vars[j]]])))
           direction <- 1
           if(isTRUE(reverse_color_palette)) direction <- -1;
          print(ggplotly(ggplot(y, aes_string("x", "y", fill = "z", frame = "Time")) +
@@ -147,7 +147,7 @@ plot.fssa <- function(x, d = length(x$values),
             ))
         }
 
-      } else if (type == "lcurves" && ncol(x$Y@grid[[vars[j]]]) == 1) {
+      } else if (type == "lcurves" && ncol(x$Y$argval[[vars[j]]]) == 1) {
         flag_1 <- 1
         col2 <- grDevices::rainbow(L)
         d1 <- floor(sqrt(d_idx))
@@ -167,7 +167,7 @@ plot.fssa <- function(x, d = length(x$values),
         for (i in 1:d_idx) {
           if (class(x[[i]])[[1]]!="list") {
 
-              graphics::matplot(x$Y@grid[[j]], x[[idx[i]]],
+              graphics::matplot(x$Y$argval[[j]], x[[idx[i]]],
                                 type = "l",
                                 lty = 1, xlab = "", ylim = range(x[[idx[i]]]),
                                 main = main1[i], ylab = "",
@@ -179,7 +179,7 @@ plot.fssa <- function(x, d = length(x$values),
             graphics::title(list(main,cex=2), outer = TRUE)
             main = NA
           } else {
-            graphics::matplot(x$Y@grid[[vars[j]]], x[[idx[i]]][[vars[j]]],
+            graphics::matplot(x$Y$argval[[vars[j]]], x[[idx[i]]][[vars[j]]],
               type = "l",
               lty = 1, xlab = "", ylim = range(x[[idx[i]]][[vars[j]]]),
               main = main1[i], ylab = "",
@@ -192,7 +192,7 @@ plot.fssa <- function(x, d = length(x$values),
         }
 
         graphics::par(mfrow = c(1, 1))
-      } else if (type == "lcurves" && ncol(x$Y@grid[[vars[j]]]) == 2) {
+      } else if (type == "lcurves" && ncol(x$Y$argval[[vars[j]]]) == 2) {
         flag_2 <- 1
         time <- NULL
         warning("\"lcurves\" plotting option defined only for variables observed over one-dimensional domains. Plotting variable singular functions using \"lheats\".")
@@ -208,11 +208,11 @@ plot.fssa <- function(x, d = length(x$values),
             temp_df$z = c(x[[i]][[vars[j]]])
             y <- tibble::as_tibble(temp_df)
           }
-          temp_1 = rev(rep(x$Y@grid[[vars[j]]][, 1], L))
-          temp_2 = rep(x$Y@grid[[vars[j]]][, 2], L)
+          temp_1 = rev(rep(x$Y$argval[[vars[j]]][, 1], L))
+          temp_2 = rep(x$Y$argval[[vars[j]]][, 2], L)
           y[,2] <- temp_2
           y[,3] <- temp_1
-          y$Time <- as.factor(rep(1:L, each = nrow(x$Y@grid[[vars[j]]])))
+          y$Time <- as.factor(rep(1:L, each = nrow(x$Y$argval[[vars[j]]])))
           direction <- 1
           if(isTRUE(reverse_color_palette)) direction <- -1;
          print(ggplotly(ggplot(y, aes_string("x", "y", fill = "z", frame = "Time")) +

@@ -43,22 +43,18 @@ uV <- function(U, d) {
   K <- N - L + 1L
   CX <- matrix(NA, nrow = K, ncol = d)
   basis <- Y$B_mat[[1]]
-  dimSupp <- Y$dimSupp
   grid <- as.matrix(Y$argval[[1]])
-  G <- ifelse(dimSupp[[1]] == 1,
-              onedG(A = basis, B = basis, grid = grid),
-              twodG(A = basis, B = basis, grid = grid))
-  # if (dimSupp[[1]] == 1) {
-  #   G <- onedG(A = basis, B = basis, grid = grid)
-  # } else {
-  #   G <- twodG(A = basis, B = basis, grid = grid)
-  # }
+  if (Y$dimSupp[[1]] == 1) {
+    G <- onedG(A = basis, B = basis, grid = grid)
+  } else {
+    G <- twodG(A = basis, B = basis, grid = grid)
+  }
   for (i in 1L:d) {
     u <- solve(t(basis) %*% basis) %*% t(basis) %*% U[[i]]
     lambd <- sqrt(U$values[i])
     for (k in 1L:K) {
       x <- lagvec_new(U$Y$coefs[[1]], L, k)
-      CX[k, i] <- Rfssa:::HLinprod(x, u, G) / lambd
+      CX[k, i] <- HLinprod(x, u, G) / lambd
     }
   }
   return(CX)
@@ -80,14 +76,11 @@ mV <- function(U, d) {
   for (i in 1L:p) {
     grid <- as.matrix(Y$argval[[i]])
     basis <- Y$B_mat[[i]]
-    G <- ifelse(Y$dimSupp[[i]] == 1,
-                onedG(A = basis, B = basis, grid = grid),
-                twodG(A = basis, B = basis, grid = grid))
-    # if (Y$dimSupp[[i]] == 1) {
-    #   G[[i]] <- onedG(A = Y@B[[i]], B = Y@B[[i]], grid = Y@grid[[i]])
-    # } else {
-    #   G[[i]] <- twodG(A = Y@B[[i]], B = Y@B[[i]], grid = Y@grid[[i]])
-    # }
+    if (Y$dimSupp[[i]] == 1) {
+      G[[i]] <- onedG(A = basis, B = basis, grid = grid)
+    } else {
+      G[[i]] <- twodG(A = basis, B = basis, grid = grid)
+    }
   }
   for (i in 1L:d) {
     element <- U[[i]]
@@ -123,9 +116,11 @@ mfproj <- function(U, i) {
     C[[j]] <- array(NA, dim = c(d, K, L))
     grid <- as.matrix(Y$argval[[i]])
     basis <- B[[j]]
-    G <- ifelse(Y$dimSupp[[i]] == 1,
-                onedG(A = basis, B = basis, grid = grid),
-                twodG(A = basis, B = basis, grid = grid))
+    if (Y$dimSupp[[i]] == 1) {
+      G[[i]] <- onedG(A = basis, B = basis, grid = grid)
+    } else {
+      G[[i]] <- twodG(A = basis, B = basis, grid = grid)
+    }
   }
   # define HpL lag vector
   for (k in 1:K) {
