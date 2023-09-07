@@ -1,66 +1,42 @@
-#' Plot Functional Time Series (FTS) with Plotly
+#--------------------------------------------------------------
+#' Functional Time Series Visualization Tools Using Plotly
 #'
-#' Visualize univariate or multivariate Functional Time Series (FTS) using Plotly-based plots.
+#' This is a plotting method for univariate or multivariate functional time series (\code{\link{fts}}). This method is designed to help the user visualize
+#' \code{\link{fts}} data using a variety of techniques that use plotly.
 #'
 #' @param x An object of class \code{\link{fts}}.
-#' @param vars Numeric specifying which variables in the FTS to plot (default: all).
-#' @param types Tuple of strings specifying plot types for each variable.
-#' @param subplot Logical for subplotting line plots.
-#' @param mains Titles for each plot.
-#' @param ylabels Y-axis titles.
-#' @param xlabels X-axis titles.
-#' @param tlabels Time-axis titles.
-#' @param zlabels Z-axis titles.
-#' @param xticklabels Tick labels for the domain of the functions.
-#' @param xticklocs Positions of tick labels for the domain of the functions.
-#' @param yticklabels Tick labels for the domain of the functions.
-#' @param yticklocs Positions of tick labels for the domain of the functions.
-#' @param color_palette Color palette for two-dimensional FTS plots.
-#' @param reverse_color_palette Reverse the color palette scale.
-#' @param ... Additional arguments to pass to Plotly methods.
-#'
-#' @details
-#' Supported plot types for one-dimensional domain variables:
-#'   - "line": Line plots (default).
-#'   - "heatmap": Heatmaps.
-#'   - "3Dsurface": 3D surface plots.
-#'   - "3Dline": 3D line plots.
-#'
-#' Supported plot type for two-dimensional domain variables:
-#'   - "heatmap"
-#'
-#' Each variable can be plotted multiple times with different types.
-#'
+#' @param vars A numeric specifying which variables in the fts to plot. The default is to plot all variables in succession. Note as well that variable indices may be repeated.
+#' @param types A tuple of strings specifying the types of plots to be displayed where possible types for fts variables observed over a one-dimensional domain are:
+#' \itemize{
+#' \item \code{"line"} - plot the \code{\link{fts}} elements in a line plot (default)
+#' \item \code{"heatmap"} - plot the \code{\link{fts}} elements in a heat map which can be used for variables observed over one or two-dimensional domains
+#' \item \code{"3Dsurface"} - plot the \code{\link{fts}} elements as a surface
+#' \item \code{"3Dline"} - plot the \code{\link{fts}} elements in a three-dimensional line plot.
+#' }
+#' The current plot type supported for fts variables observed over a two-dimensional domain is \code{"heatmap"}. Also note that
+#' the same variable may be plotted several times using many different type options.
+#' @param subplot A logical specifying whether or not line plots should be plotted in a subplot or not. The default is \code{TRUE} and if any other plot type is provided, the value is switched to \code{FALSE}.
+#' @param mains A tuple of strings providing the the main titles of each plot.
+#' @param ylabels A tuple of strings providing the the y-axis titles of each plot.
+#' @param xlabels A tuple of strings providing the the x-axis titles of each plot.
+#' @param tlabels A tuple of strings providing the the time-axis titles of each plot.
+#' @param zlabels A tuple of strings providing the the z-axis titles of each plot.
+#' @param xticklabels A list of character vectors where each entry specifies the tick labels for the domain of the functions.
+#' @param xticklocs A list of numerics where each entry specifies the position of the tick labels for the domain of the functions.
+#' @param yticklabels A list of character vectors where each entry specifies the tick labels for the domain of the functions.
+#' @param yticklocs A list of numerics where each entry specifies the position of the tick labels for the domain of the functions.
+#' @param color_palette A string specifying the color palette that is offered by the ggplot2 package to be used when plotting \code{\link{fts}} variables observed over two-dimensional domains.
+#' @param reverse_color_palette A boolean specifying if the color palette scale should be reversed.
+#' @param ... arguments to be passed to methods, such as graphical parameters.
 #' @importFrom plotly plot_ly add_lines layout subplot add_surface hide_colorbar ggplotly
 #' @importFrom ggplot2 ggplot aes_string unit geom_tile scale_fill_distiller xlab ylab labs ggtitle scale_y_continuous scale_x_continuous waiver theme element_line element_text element_blank
 #' @importFrom tibble as_tibble
 #' @import dplyr
 #'
-#' @seealso \code{\link{funts}}, \code{\link{Callcenter}}, \code{\link{Montana}}
-#'
-#' @examples
-#' data("Callcenter") # Univariate FTS example
-#' plotly_funts(Callcenter, mains = "Call Center Data Line Plot",
-#'              xlabels = "Time (6 minutes aggregated)",
-#'              ylabels = "Sqrt of Call Numbers", type = "line",
-#'              xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),
-#'              xticklocs = list(c(1,60,120,180,240)))
-#'
-#' data("Montana") # Multivariate FTS example
-#' plotly_funts(Montana[1:100],
-#'              xlabels = c("Time", "Longitude"),
-#'              ylabels = c("Normalized Temperature (\u00B0C)", "Latitude"),
-#'              zlabels = c("", "NDVI"),
-#'              mains = c("Temperature Curves", "NDVI Images"),
-#'              color_palette = "RdYlGn",
-#'              xticklabels = list(c("00:00","06:00","12:00","18:00","24:00"),
-#'                                 c("113.40\u00B0 W", "113.30\u00B0 W")),
-#'              xticklocs = list(c(1,6,12,18,24),c(1,33)),
-#'              yticklabels = list(NA,c("48.70\u00B0 N", "48.77\u00B0 N")),
-#'              yticklocs = list(NA,c(1,33))
-#' )
+#' @note For examples, see \code{\link{fssa}}
 #'
 #' @export
+#'
 plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, mains = NULL, ylabels = NULL, xlabels = NULL, tlabels = NULL,
                          zlabels = NULL, xticklabels = NULL, xticklocs = NULL, yticklabels = NULL, yticklocs = NULL,
                          color_palette = "RdYlBu", reverse_color_palette = FALSE, ...) {
