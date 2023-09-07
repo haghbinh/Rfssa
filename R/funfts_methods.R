@@ -234,3 +234,79 @@ eval.funts <- function(argvals,obj){
   }
   return(result)
 }
+# =======================================================================
+#'
+#' Plot Functional Time Series (funts) Data
+#'
+#' Create visualizations of Functional Time Series (funts) data. This function supports
+#' plotting funts data with one-dimensional or two-dimensional domains.
+#'
+#' @param obj An object of class \code{funts}.
+#' @param npts Number of grid points for the plots.
+#' @param obs Observation number (for two-dimensional domains).
+#' @param xlab X-axis label.
+#' @param ylab Y-axis label.
+#' @param main Main title for the plot.
+#' @param type Type of plot ("l" for line, "p" for points, etc.).
+#' @param lty Line type (1 for solid, 2 for dashed, etc.).
+#' @param ... Additional graphical parameters passed to plotting functions.
+#'
+#' @details
+#' The function allows plotting funts data with one-dimensional domains as line plots and funts data
+#' with two-dimensional domains as image plots.
+#'
+#' @importFrom graphics par image axis
+#'
+#' @examples
+#'
+#' data("Callcenter")  # Example with one-dimensional domain
+#' plot(Callcenter, npts = 100, xlab = "Time", ylab = "Log of Callcenter", main = "Callcenter data")
+#'
+#' data("Montana")  # Example with two-dimensional domain
+#' plot(Montana, xlab = "Longitude", ylab = "Latitude", main = "Montana data")
+#'
+#' @seealso \code{\link{funts}}, \code{\link{Callcenter}}, \code{\link{Montana}}
+#'
+#' @export
+plot.funts <- function(obj, npts = 100, obs = 1, xlab = NULL, ylab = NULL, main = NULL, type = "l", lty = 1, ...) {
+  dimSupp <- obj$dimSupp
+  p <- length(obj$dimSupp)
+  N <- obj$N
+  time <- obj$time
+  old <- par()
+  exclude_pars <- c("cin", "cra", "csi", "cxy", "din", "page")
+  ind <- which(!(names(old) %in% exclude_pars))
+  on.exit(par(old[ind]))
+  par(mfrow = c(p, 1))
+  if (is.null(ylab)) ylab <- paste("Variable ", 1:p)
+  if (is.null(xlab)) xlab <- rep("time", p)
+  for (j in 1:p) {
+    if (dimSupp[[j]] == 1) {
+      if (is.basis(obj$basis[[j]])) { # dim=1 and fd basis
+        rangeval <- obj$basis[[j]]$rangeval
+      } else { # dim=1 and empirical basis
+        rangeval <- attr(y$basis[[j]], "rangeval")
+      }
+      supp <- matrix(rangeval, nrow = 2)
+      x_grids <- seq(supp[1, 1], supp[2, 1], len = npts)
+      X <- eval.funts(x_grids, obj[, j])[[1]]
+      matplot(x_grids, X, type = type, lty = lty, xlab = xlab, ylab = ylab, main = main)
+    } else { # dim >1
+      if (is.basis(obj$basis[[j]][[1]])) { # dim=2 and fd basis
+        rangeval1 <- obj$basis[[j]][[1]]$rangeval
+        rangeval2 <- obj$basis[[j]][[1]]$rangeval
+      } else { # dim=2 and empirical basis
+        rangeval1 <- attr(y$basis[[j]][[1]], "rangeval")
+        rangeval2 <- attr(y$basis[[j]][[2]], "rangeval")
+      }
+      supp <- matrix(c(rangeval1, rangeval2), nrow = 2)
+      x_grids <- seq(supp[1, 1], supp[2, 1], len = npts)
+      y_grids <- seq(from = supp[1, 2], to = supp[2, 2], length.out = npts)
+      grids2d <- list(x_grids, y_grids)
+      X <- eval.funts(grids2d, obj[, j])[[1]]
+      image(X[, , obs], xlab = xlab, ylab = ylab, axes = FALSE, main = paste(main, " Observation:", obs))
+      axis(side = 1, at = seq(from = 0, to = 1, length.out = 10), labels = round(seq(supp[1, 1], supp[2, 1], len = 10), 1))
+      axis(side = 2, at = seq(from = 0, to = 1, length.out = 10), labels = round(seq(supp[1, 2], supp[2, 2], len = 10), 1))
+    }
+  }
+}
