@@ -260,7 +260,7 @@ eval.funts <- function(argvals,obj){
 #' @examples
 #' # Example with one-dimensional domain
 #' data("Callcenter")
-#'plot(Callcenter,lwd=2, npts = 200, col = "deepskyblue4",
+#' plot(Callcenter,lwd=2, npts = 200, col = "deepskyblue4",
 #'     main = "Call Center Data",
 #'     xlab = "Time (6 minutes aggregated)",
 #'     ylab = "Sqrt of Call Numbers")

@@ -44,13 +44,15 @@ The function allows plotting funts data with one-dimensional domains as line plo
 with two-dimensional domains as image plots.
 }
 \examples{
-data("Callcenter")  # Example with one-dimensional domain
+# Example with one-dimensional domain
+data("Callcenter")
 plot(Callcenter,lwd=2, npts = 200, col = "deepskyblue4",
     main = "Call Center Data",
     xlab = "Time (6 minutes aggregated)",
     ylab = "Sqrt of Call Numbers")
 
-data("Montana")  # Example with two-dimensional domain
+# Example with two-dimensional domain
+data("Montana")
 plot(Montana, obs = 2,
     main = c("Temperature Curves", "NDVI Images,"),
     xlab = c("Time", "Longitude"),

@@ -60,7 +60,10 @@ bsmv <- list(bs1, bs2d)
 Y <- funts(X = Montana_Data, basisobj = bsmv,
            start = as.Date("2008-01-01"),
            end = as.Date("2013-09-30"))
-
+plot(Y,lwd=2, npts = 200, col = "deepskyblue4",
+    main = "Call Center Data",
+    xlab = "Time (6 minutes aggregated)",
+    ylab = "Sqrt of Call Numbers")
 }
 
 }
