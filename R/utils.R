@@ -17,18 +17,18 @@ lagvec_new <- function(coefs, L, i) {
 # Projection of all lag vectors onto i-th functional eigen vector.
 ufproj <- function(U, i, d) {
   L <- U$L
-  K <- U$N - L + 1L
   Y <- U$Y
-  B <- U$Y@B[[1]]
+  N <- Y$N
+  K <- N - L + 1L
+  B <- Y$B_mat[[1]]
   u <- solve(t(B) %*% B) %*% t(B) %*% U[[i]]
-  if (ncol(Y@grid[[1]]) == 1) {
-    G <- onedG(A = B, B = B, grid = Y@grid[[1]])
-  } else {
-    G <- twodG(A = B, B = B, grid = Y@grid[[1]])
-  }
+  grid <- as.matrix(Y$argval[[1]])
+  G <- ifelse(Y$dimSupp[[1]] == 1,
+              onedG(A = basis, B = B, grid = grid),
+              twodG(A = basis, B = B, grid = grid))
   CX <- array(NA, dim = c(d, K, L))
   for (k in 1L:K) {
-    x <- lagvec_new(Y@C[[1]], L, k)
+    x <- lagvec_new(Y$coefs[[1]], L, k)
     CX[, k, ] <- HLinprod(x, u, G) * u
   }
   return(CX)
@@ -38,21 +38,27 @@ ufproj <- function(U, i, d) {
 # d is number of eigenfunctions
 uV <- function(U, d) {
   L <- U$L
-  N <- U$N
-  K <- N - L + 1
+  Y <- U$Y
+  N <- Y$N
+  K <- N - L + 1L
   CX <- matrix(NA, nrow = K, ncol = d)
-  basis <- U$Y@B[[1]]
-  if (ncol(U$Y@grid[[1]]) == 1) {
-    G <- onedG(A = basis, B = basis, grid = U$Y@grid[[1]])
-  } else {
-    G <- twodG(A = basis, B = basis, grid = U$Y@grid[[1]])
-  }
+  basis <- Y$B_mat[[1]]
+  dimSupp <- Y$dimSupp
+  grid <- as.matrix(Y$argval[[1]])
+  G <- ifelse(dimSupp[[1]] == 1,
+              onedG(A = basis, B = basis, grid = grid),
+              twodG(A = basis, B = basis, grid = grid))
+  # if (dimSupp[[1]] == 1) {
+  #   G <- onedG(A = basis, B = basis, grid = grid)
+  # } else {
+  #   G <- twodG(A = basis, B = basis, grid = grid)
+  # }
   for (i in 1L:d) {
     u <- solve(t(basis) %*% basis) %*% t(basis) %*% U[[i]]
     lambd <- sqrt(U$values[i])
     for (k in 1L:K) {
-      x <- lagvec_new(U$Y@C[[1]], L, k)
-      CX[k, i] <- HLinprod(x, u, G) / lambd
+      x <- lagvec_new(U$Y$coefs[[1]], L, k)
+      CX[k, i] <- Rfssa:::HLinprod(x, u, G) / lambd
     }
   }
   return(CX)
@@ -60,8 +66,8 @@ uV <- function(U, d) {
 # right singular vectors for the multivariate case
 mV <- function(U, d) {
   Y <- U$Y
-  N <- U$N
-  p <- length(U$Y@C)
+  N <- Y$N
+  p <- length(Y$dimSupp)
   L <- U$L
   K <- N - L + 1L
   V <- matrix(
@@ -72,11 +78,16 @@ mV <- function(U, d) {
   G <- list()
   # get inner product matrices
   for (i in 1L:p) {
-    if (ncol(Y@grid[[i]]) == 1) {
-      G[[i]] <- onedG(A = Y@B[[i]], B = Y@B[[i]], grid = Y@grid[[i]])
-    } else {
-      G[[i]] <- twodG(A = Y@B[[i]], B = Y@B[[i]], grid = Y@grid[[i]])
-    }
+    grid <- as.matrix(Y$argval[[i]])
+    basis <- Y$B_mat[[i]]
+    G <- ifelse(Y$dimSupp[[i]] == 1,
+                onedG(A = basis, B = basis, grid = grid),
+                twodG(A = basis, B = basis, grid = grid))
+    # if (Y$dimSupp[[i]] == 1) {
+    #   G[[i]] <- onedG(A = Y@B[[i]], B = Y@B[[i]], grid = Y@grid[[i]])
+    # } else {
+    #   G[[i]] <- twodG(A = Y@B[[i]], B = Y@B[[i]], grid = Y@grid[[i]])
+    # }
   }
   for (i in 1L:d) {
     element <- U[[i]]
@@ -84,8 +95,8 @@ mV <- function(U, d) {
     for (k in 1L:K) {
       x <- list()
       for (j in 1L:p) {
-        u[[j]] <- solve(t(U$Y@B[[j]]) %*% U$Y@B[[j]]) %*% t(U$Y@B[[j]]) %*% element[[j]]
-        x[[j]] <- lagvec_new(U$Y@C[[j]], L, k)
+        u[[j]] <- solve(t(U$Y$B_mat[[j]]) %*% U$Y$B_mat[[j]]) %*% t(U$Y$B_mat[[j]]) %*% element[[j]]
+        x[[j]] <- lagvec_new(U$Y$coefs[[j]], L, k)
       }
       V[k, i] <- HpLinprod(u, x, G, p) / sqrt(U$values[i])
     }
@@ -96,31 +107,31 @@ mV <- function(U, d) {
 # Rank one approximation
 mfproj <- function(U, i) {
   # defining pieces of multivariate rank one approximation
-  L <- U$L
-  K <- U$N - L + 1L
   Y <- U$Y
-  u <- list()
-  B <- U$Y@B
-  p <- length(U$Y@C)
+  N <- Y$N
+  p <- length(Y$dimSupp)
+  L <- U$L
+  K <- N - L + 1L
+  B <- Y$B_mat
   for (j in 1:p) {
     u[[j]] <- solve(t(B[[j]]) %*% B[[j]]) %*% t(B[[j]]) %*% U[[i]][[j]]
   }
   C <- list()
   G <- list()
   for (j in 1:p) {
-    d <- ncol(Y@B[[j]])
+    d <- ncol(B[[j]])
     C[[j]] <- array(NA, dim = c(d, K, L))
-    if (ncol(Y@grid[[j]]) == 1) {
-      G[[j]] <- t(onedG(A = Y@B[[j]], B = Y@B[[j]], grid = Y@grid[[j]]))
-    } else {
-      G[[j]] <- t(twodG(A = Y@B[[j]], B = Y@B[[j]], grid = Y@grid[[j]]))
-    }
+    grid <- as.matrix(Y$argval[[i]])
+    basis <- B[[j]]
+    G <- ifelse(Y$dimSupp[[i]] == 1,
+                onedG(A = basis, B = basis, grid = grid),
+                twodG(A = basis, B = basis, grid = grid))
   }
   # define HpL lag vector
   for (k in 1:K) {
     x <- list()
     for (j in 1:p) {
-      x[[j]] <- lagvec_new(Y@C[[j]], L, k)
+      x[[j]] <- lagvec_new(Y$coefs[[j]], L, k)
     }
     # build operator
     for (j in 1:p) {

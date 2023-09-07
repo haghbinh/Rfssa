@@ -174,15 +174,16 @@
 #' @useDynLib Rfssa
 #' @export
 fssa <- function(Y, L = NA, ntriples = 20, type = "ufssa") {
-  N <- ncol(Y@C[[1]])
+  N <- Y$N
   if (is.na(L)) L <- floor(N / 2L)
   if (ntriples > L){
     ntriples = L
     warning("\"ntriples\" must be less than or equal to \"L\". Setting \"ntriples\" = \"L\"")
   }
-  if (length(Y@C) == 1 && type == "ufssa") {
+  p <- length(Y$dimSupp)
+  if (p == 1 && type == "ufssa") {
     out <- ufssa(Y, L, ntriples)
-  } else if (length(Y@C) > 1 || type == "mfssa") {
+  } else if (p > 1 || type == "mfssa") {
     out <- mfssa(Y, L, ntriples)
   } else {
     stop("Error in type or dimension.")

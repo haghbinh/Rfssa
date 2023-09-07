@@ -9,12 +9,12 @@ plotly_funts(
   vars = NULL,
   types = NULL,
   subplot = TRUE,
-  mains = NULL,
-  ylabels = NULL,
-  xlabels = NULL,
-  tlabels = NULL,
-  zlabels = NULL,
-  xticklabels = NULL,
+  main = NULL,
+  ylab = NULL,
+  xlab = NULL,
+  tlab = NULL,
+  zlab = NULL,
+  xticklabel = NULL,
   xticklocs = NULL,
   yticklabels = NULL,
   yticklocs = NULL,
@@ -28,12 +28,12 @@ plotly_funts(
   vars = NULL,
   types = NULL,
   subplot = TRUE,
-  mains = NULL,
-  ylabels = NULL,
-  xlabels = NULL,
-  tlabels = NULL,
-  zlabels = NULL,
-  xticklabels = NULL,
+  main = NULL,
+  ylab = NULL,
+  xlab = NULL,
+  tlab = NULL,
+  zlab = NULL,
+  xticklabel = NULL,
   xticklocs = NULL,
   yticklabels = NULL,
   yticklocs = NULL,
@@ -51,17 +51,15 @@ plotly_funts(
 
 \item{subplot}{Logical for subplotting line plots.}
 
-\item{mains}{Titles for each plot.}
+\item{main}{Titles for each plot.}
 
-\item{ylabels}{Y-axis titles.}
+\item{ylab}{Y-axis titles.}
 
-\item{xlabels}{X-axis titles.}
+\item{xlab}{X-axis titles.}
 
-\item{tlabels}{Time-axis titles.}
+\item{tlab}{Time-axis titles.}
 
-\item{zlabels}{Z-axis titles.}
-
-\item{xticklabels}{Tick labels for the domain of the functions.}
+\item{zlab}{Z-axis titles.}
 
 \item{xticklocs}{Positions of tick labels for the domain of the functions.}
 
@@ -74,6 +72,18 @@ plotly_funts(
 \item{reverse_color_palette}{Reverse the color palette scale.}
 
 \item{...}{Additional arguments to pass to Plotly methods.}
+
+\item{mains}{A tuple of strings providing the the main titles of each plot.}
+
+\item{ylabels}{A tuple of strings providing the the y-axis titles of each plot.}
+
+\item{xlabels}{A tuple of strings providing the the x-axis titles of each plot.}
+
+\item{tlabels}{A tuple of strings providing the the time-axis titles of each plot.}
+
+\item{zlabels}{A tuple of strings providing the the z-axis titles of each plot.}
+
+\item{xticklabels}{Tick labels for the domain of the functions.}
 }
 \description{
 This is a plotting method for univariate or multivariate functional time series (\code{\link{fts}}). This method is designed to help the user visualize
@@ -98,18 +108,18 @@ For examples, see \code{\link{fssa}}
 }
 \examples{
 data("Callcenter") # Univariate FTS example
-plotly_funts(Callcenter, mains = "Call Center Data Line Plot",
-             xlabels = "Time (6 minutes aggregated)",
-             ylabels = "Sqrt of Call Numbers", type = "line",
+plotly_funts(Callcenter, main = "Call Center Data Line Plot",
+             xlab = "Time (6 minutes aggregated)",
+             ylab = "Sqrt of Call Numbers", type = "line",
              xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),
              xticklocs = list(c(1,60,120,180,240)))
 
 data("Montana") # Multivariate FTS example
 plotly_funts(Montana[1:100],
-             xlabels = c("Time", "Longitude"),
-             ylabels = c("Normalized Temperature (\u00B0C)", "Latitude"),
-             zlabels = c("", "NDVI"),
-             mains = c("Temperature Curves", "NDVI Images"),
+             xlab = c("Time", "Longitude"),
+             ylab = c("Normalized Temperature (\u00B0C)", "Latitude"),
+             zlab = c("", "NDVI"),
+             main = c("Temperature Curves", "NDVI Images"),
              color_palette = "RdYlGn",
              xticklabels = list(c("00:00","06:00","12:00","18:00","24:00"),
                                 c("113.40\u00B0 W", "113.30\u00B0 W")),

@@ -1,12 +1,15 @@
 # Reconstruction stage (including Hankelization) of univariate functional singular spectrum analysis
 
 ufreconstruct <- function(U, groups = as.list(1L:10L)) {
-  N <- ncol(U$Y@C[[1]])
   Y <- U$Y
-  d <- ncol(U$Y@B[[1]])
+  N <- Y$N
+  basisobj <- Y$basis
+  time_st <- Y$time[1]
+  time_en <- Y$time[N]
+  basis <- Y$B_mat[[1]]
+  d <- ncol(Y$B_mat[[1]])
   L <- U$L
   K <- N - L + 1L
-  basis <- Y@B[[1]]
   m <- length(groups)
   out <- list()
   for (i in 1L:m) {
@@ -27,18 +30,16 @@ ufreconstruct <- function(U, groups = as.list(1L:10L)) {
         for (i_1 in 1:length(x)) {
           for (i_2 in 1:length(y)) {
             recon_two_d[i_1, i_2, n] <- recon_out[count, n]
-            count <- count + 1
+            count <- count + 1L
           }
         }
       }
-
       recon_out <- recon_two_d
       new_grid <- list(x, y)
     } else {
-      new_grid <- Y@grid[[1]]
+      new_grid <- Y$argval[[1]]
     }
-    fts_out <- Rfssa::fts(list(recon_out), list(Y@B[[1]]), list(new_grid), time = colnames(U$Y@C[[1]]))
-    fts_out@basis_type = Y@basis_type
+    funts_out <- funts(X = recon_out, basisobj = basisobj, argval = new_grid, method = "coefs", start = time_st, end = time_en)
     out[[i]] <- fts_out
   }
   out$values <- sqrt(U$values)
