@@ -21,9 +21,9 @@ ufreconstruct <- function(U, groups = as.list(1L:10L)) {
     Cx[, 1L:L] <- S[, 1L, ]
     Cx[, L:N] <- S[, , L]
     recon_out <- basis %*% Cx
-    if (ncol(Y@grid[[1]]) == 2) {
-      x <- unique(Y@grid[[1]][, 1])
-      y <- unique(Y@grid[[1]][, 2])
+    if (Y$dimSupp[[1]] == 2) {
+      x <- unique(Y$argval[[1]][, 1])
+      y <- unique(Y$argval[[1]][, 2])
       recon_two_d <- array(data = NA, dim = c(length(x), length(y), N))
       for (n in 1:N) {
         count <- 1

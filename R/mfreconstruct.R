@@ -1,14 +1,17 @@
 # Reconstruction stage (including Hankelization) of multivariate functional singular spectrum analysis.
 mfreconstruct <- function(U, groups = as.list(1L:10L)) {
-  N <- U$N
   Y <- U$Y
-  p <- length(U$Y@C)
+  N <- Y$N
+  basisobj <- Y$basis
+  time_st <- Y$time[1]
+  time_en <- Y$time[N]
   L <- U$L
   K <- N - L + 1
-  basis <- U$Y@B
+  basis <- Y$B_mat
   m <- length(groups)
   recon_out <- list()
   new_grid <- list()
+
   # Loop over groups
   for (i in 1L:m) {
     recon_group <- list()
@@ -29,9 +32,9 @@ mfreconstruct <- function(U, groups = as.list(1L:10L)) {
       C_jx[, 1L:L] <- S_jx[, 1L, ]
       C_jx[, L:N] <- S_jx[, , L]
       recon_group[[j]] <- basis[[j]] %*% C_jx
-      if (ncol(Y@grid[[j]]) == 2) {
-        x <- unique(Y@grid[[j]][, 1])
-        y <- unique(Y@grid[[j]][, 2])
+      if (ncol(Y$argval[[j]]) == 2) {
+        x <- unique(Y$argval[[j]][, 1])
+        y <- unique(Y$argval[[j]][, 2])
         recon_two_d <- array(data = NA, dim = c(length(x), length(y), N))
         for (n in 1:N) {
           count <- 1
@@ -46,15 +49,12 @@ mfreconstruct <- function(U, groups = as.list(1L:10L)) {
         recon_group[[j]] <- recon_two_d
         new_grid[[j]] <- list(x, y)
       } else {
-        new_grid[[j]] <- Y@grid[[j]]
+        new_grid[[j]] <- Y$argval[[j]]
       }
     }
 
-
-
     # output the reconstructions
-    fts_out <- Rfssa::fts(X = recon_group, B = basis, grid = new_grid,time = colnames(U$Y@C[[1]]))
-    fts_out@basis_type <- Y@basis_type
+    funts_out <- funts(X = recon_group, basisobj = basisobj, argval = new_grid, method = "coefs", start = time_st, end = time_en)
     recon_out[[i]] <- fts_out
   }
   recon_out$values <- U$values

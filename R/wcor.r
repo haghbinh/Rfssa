@@ -9,11 +9,12 @@ ufwcor <- function(U, groups) {
   L <- U$L
   K <- N - L + 1L
   w <- 1L:N
-  basis <- U$Y@B[[1]]
-  if (ncol(U$Y@grid[[1]]) == 1) {
-    G <- onedG(A = basis, B = basis, grid = U$Y@grid[[1]])
+  basis <- U$Y$B_mat[[1]]
+  grid <-   as.matrix(U$Y$argval[[1]])
+  if (ncol(U$Y$dimSupp[[1]]) == 1) {
+    G <- onedG(A = basis, B = basis, grid = grid)
   } else {
-    G <- twodG(A = basis, B = basis, grid = U$Y@grid[[1]])
+    G <- twodG(A = basis, B = basis, grid = grid)
   }
   L1 <- min(L, K)
   K1 <- max(K, L)
@@ -22,7 +23,7 @@ ufwcor <- function(U, groups) {
   out <- matrix(1L, nrow = d, ncol = d)
   for (i in 1L:(d - 1)) {
     for (j in (i + 1L):d) {
-      out[i, j] <- winprod(Q[[i]]@C[[1]], Q[[j]]@C[[1]], w, G) / sqrt(winprod(Q[[i]]@C[[1]], Q[[i]]@C[[1]], w, G) * winprod(Q[[j]]@C[[1]], Q[[j]]@C[[1]], w, G))
+      out[i, j] <- winprod(Q[[i]]$coefs[[1]], Q[[j]]$coefs[[1]], w, G) / sqrt(winprod(Q[[i]]$coefs[[1]], Q[[i]]$coefs[[1]], w, G) * winprod(Q[[j]]$coefs[[1]], Q[[j]]$coefs[[1]], w, G))
     }
   }
   for (i in 2:d) for (j in 1:(i - 1)) out[i, j] <- out[j, i]
@@ -37,14 +38,15 @@ mfwcor <- function(U, groups) {
   L <- U$L
   K <- N - L + 1L
   w <- 1L:N
-  p <- length(U$Y@C)
+  p <- length(U$Y$coefs)
   Y <- U$Y
   G <- list()
   for (i in 1:p) {
-    if (ncol(Y@grid[[i]]) == 1) {
-      G[[i]] <- t(onedG(A = Y@B[[i]], B = Y@B[[i]], grid = Y@grid[[i]]))
+    if (Y$dimSupp[[i]] == 1) {
+      grid <- as.matrix(Y$argval[[i]])
+      G[[i]] <- t(onedG(A = Y$B_mat[[i]], B = Y$B_mat[[i]], grid = grid))
     } else {
-      G[[i]] <- t(twodG(A = Y@B[[i]], B = Y@B[[i]], grid = Y@grid[[i]]))
+      G[[i]] <- t(twodG(A = Y$B_mat[[i]], B = Y$B_mat[[i]], grid = grid))
     }
   }
   L1 <- min(L, K)
@@ -56,13 +58,13 @@ mfwcor <- function(U, groups) {
     Q_i <- Q[[i]]
     Q_i_l <- list()
     for (k in 1:p) {
-      Q_i_l[[k]] <- Q_i@C[[k]]
+      Q_i_l[[k]] <- Q_i$coefs[[k]]
     }
     for (j in (i + 1L):d) {
       Q_j <- Q[[j]]
       Q_j_l <- list()
       for (k in 1:p) {
-        Q_j_l[[k]] <- Q_j@C[[k]]
+        Q_j_l[[k]] <- Q_j$coefs[[k]]
       }
       wcor[i, j] <- mwinprod(Q_i_l, Q_j_l, w, G, p) / sqrt(mwinprod(Q_i_l, Q_i_l, w, G, p) * mwinprod(Q_j_l, Q_j_l, w, G, p))
     }
