@@ -271,6 +271,8 @@ eval.funts <- function(argvals,obj){
 plot.funts <- function(obj, npts = 100, obs = 1, xlab = NULL, ylab = NULL, main = NULL, type = "l", lty = 1, ...) {
   dimSupp <- obj$dimSupp
   p <- length(obj$dimSupp)
+  if(is.null(xlab)) xlab <- rep('Time',p)
+  if(is.null(ylab)) ylab <- rep(NULL,p)
   N <- obj$N
   time <- obj$time
   old <- par()
@@ -290,7 +292,7 @@ plot.funts <- function(obj, npts = 100, obs = 1, xlab = NULL, ylab = NULL, main 
       supp <- matrix(rangeval, nrow = 2)
       x_grids <- seq(supp[1, 1], supp[2, 1], len = npts)
       X <- eval.funts(x_grids, obj[, j])[[1]]
-      matplot(x_grids, X, type = type, lty = lty, xlab = xlab, ylab = ylab, main = main)
+      matplot(x_grids, X, type = type, lty = lty, xlab = xlab[j], ylab = ylab[j], main = main)
     } else { # dim >1
       if (is.basis(obj$basis[[j]][[1]])) { # dim=2 and fd basis
         rangeval1 <- obj$basis[[j]][[1]]$rangeval
@@ -304,7 +306,7 @@ plot.funts <- function(obj, npts = 100, obs = 1, xlab = NULL, ylab = NULL, main 
       y_grids <- seq(from = supp[1, 2], to = supp[2, 2], length.out = npts)
       grids2d <- list(x_grids, y_grids)
       X <- eval.funts(grids2d, obj[, j])[[1]]
-      image(X[, , obs], xlab = xlab, ylab = ylab, axes = FALSE, main = paste(main, " Observation:", obs))
+      image(X[, , obs], xlab = xlab[j], ylab = ylab[j], axes = FALSE, main = paste(main, " Observation:", obs))
       axis(side = 1, at = seq(from = 0, to = 1, length.out = 10), labels = round(seq(supp[1, 1], supp[2, 1], len = 10), 1))
       axis(side = 2, at = seq(from = 0, to = 1, length.out = 10), labels = round(seq(supp[1, 2], supp[2, 2], len = 10), 1))
     }
