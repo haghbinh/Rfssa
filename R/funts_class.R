@@ -54,6 +54,7 @@
 #' Y <- funts(X = Montana_Data, basisobj = bsmv,
 #'            start = as.Date("2008-01-01"),
 #'            end = as.Date("2013-09-30"))
+#'
 #' }
 #'
 #' @return An instance of the `funts` class containing functional time series data.
