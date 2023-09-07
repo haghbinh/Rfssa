@@ -6,11 +6,11 @@
 #' @param vars Numeric specifying which variables in the FTS to plot (default: all).
 #' @param types Tuple of strings specifying plot types for each variable.
 #' @param subplot Logical for subplotting line plots.
-#' @param mains Titles for each plot.
-#' @param ylabels Y-axis titles.
-#' @param xlabels X-axis titles.
-#' @param tlabels Time-axis titles.
-#' @param zlabels Z-axis titles.
+#' @param main Titles for each plot.
+#' @param ylab Y-axis titles.
+#' @param xlab X-axis titles.
+#' @param tlab Time-axis titles.
+#' @param zlab Z-axis titles.
 #' @param xticklabels Tick labels for the domain of the functions.
 #' @param xticklocs Positions of tick labels for the domain of the functions.
 #' @param yticklabels Tick labels for the domain of the functions.
@@ -40,18 +40,18 @@
 #'
 #' @examples
 #' data("Callcenter") # Univariate FTS example
-#' plotly_funts(Callcenter, mains = "Call Center Data Line Plot",
-#'              xlabels = "Time (6 minutes aggregated)",
-#'              ylabels = "Sqrt of Call Numbers", type = "line",
+#' plotly_funts(Callcenter, main = "Call Center Data Line Plot",
+#'              xlab = "Time (6 minutes aggregated)",
+#'              ylab = "Sqrt of Call Numbers", type = "line",
 #'              xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),
 #'              xticklocs = list(c(1,60,120,180,240)))
 #'
 #' data("Montana") # Multivariate FTS example
 #' plotly_funts(Montana[1:100],
-#'              xlabels = c("Time", "Longitude"),
-#'              ylabels = c("Normalized Temperature (\u00B0C)", "Latitude"),
-#'              zlabels = c("", "NDVI"),
-#'              mains = c("Temperature Curves", "NDVI Images"),
+#'              xlab = c("Time", "Longitude"),
+#'              ylab = c("Normalized Temperature (\u00B0C)", "Latitude"),
+#'              zlab = c("", "NDVI"),
+#'              main = c("Temperature Curves", "NDVI Images"),
 #'              color_palette = "RdYlGn",
 #'              xticklabels = list(c("00:00","06:00","12:00","18:00","24:00"),
 #'                                 c("113.40\u00B0 W", "113.30\u00B0 W")),
@@ -61,8 +61,8 @@
 #' )
 #'
 #' @export
-plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, mains = NULL, ylabels = NULL, xlabels = NULL, tlabels = NULL,
-                         zlabels = NULL, xticklabels = NULL, xticklocs = NULL, yticklabels = NULL, yticklocs = NULL,
+plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NULL, ylab = NULL, xlab = NULL, tlab = NULL,
+                         zlab = NULL, xticklabel = NULL, xticklocs = NULL, yticklabels = NULL, yticklocs = NULL,
                          color_palette = "RdYlBu", reverse_color_palette = FALSE, ...) {
   p <- length(x$dimSupp)
   N <- x$N
@@ -70,17 +70,17 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, mains = N
   count_twod <- 0
   Pl <- list()
   if (is.null(types)) types <- rep(NA, p)
-  if (is.null(ylabels)) ylabels <- rep(NA, p)
-  if (is.null(xlabels)) xlabels <- rep(NA, p)
-  if (is.null(tlabels)) tlabels <- rep(NA, p)
-  if (is.null(zlabels)) zlabels <- rep(NA, p)
+  if (is.null(ylab)) ylab <- rep(NA, p)
+  if (is.null(xlab)) xlab <- rep(NA, p)
+  if (is.null(tlab)) tlab <- rep(NA, p)
+  if (is.null(zlab)) zlab <- rep(NA, p)
   if (is.null(xticklabels)) xticklabels <- as.list(rep(NA, p))
   if (is.null(xticklocs)) xticklocs <- as.list(rep(NA, p))
   if (is.null(yticklabels)) yticklabels <- as.list(rep(NA, p))
   if (is.null(yticklocs)) yticklocs <- as.list(rep(NA, p))
-  if (is.null(zlabels)) zlabels <- rep(NA, p)
-  if (is.null(zlabels)) zlabels <- rep(NA, p)
-  if (is.null(mains)) mains <- rep(NA, p)
+  if (is.null(zlab)) zlab <- rep(NA, p)
+  if (is.null(zlab)) zlab <- rep(NA, p)
+  if (is.null(main)) main <- rep(NA, p)
   if (!is.null(vars) && length(types) != length(vars)) warning("\"vars\" and \"types\" are not the same length. Some plots might not appear as expected.")
   if (is.null(vars)) vars <- 1:p
   for (j in 1:length(vars)) {
@@ -90,9 +90,9 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, mains = N
     if ((is.na(yticklocs[[j]][1]) && !is.na(yticklabels[[j]][1])) || (!is.na(yticklocs[[j]][1]) && is.na(yticklabels[[j]][1]))) warning(paste0("Please provide vertical axis labels and label locations for variable ", as.character(j), "."))
     if (is.numeric(x$argval[[vars[j]]]) && !is.matrix(x$argval[[vars[j]]])) {
       if (is.na(types[j]) || types[j] == "line") {
-        if (is.na(ylabels[j])) ylabels[j] <- "y"
-        if (is.na(xlabels[j])) xlabels[j] <- "x"
-        if (is.na(mains[j])) mains[j] <- paste("Variable", vars[j])
+        if (is.na(ylab[j])) ylab[j] <- "y"
+        if (is.na(xlab[j])) xlab[j] <- "x"
+        if (is.na(main[j])) main[j] <- paste("Variable", vars[j])
         y <- tibble::as_tibble(data.frame(y = c(x$B_mat[[vars[j]]] %*% x$coefs[[vars[j]]])))
         y$time <- as.factor(rep(time, each = length(x$argval[[vars[j]]])))
         y$x <- rep(1:length(x$argval[[vars[j]]]), ncol(x$coefs[[vars[j]]]))
@@ -102,11 +102,11 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, mains = N
             plot_ly(x = ~x, y = ~y) %>%
             add_lines(color = ~time, colors = c("lightsteelblue", "royalblue4"), showlegend = FALSE) %>%
             layout(
-              title = paste("<b>", mains[j], "</b>"), font = list(size = 12), yaxis = list(
-                title = ylabels[j], ticktext = yticklabels[[j]], tickvals = yticklocs[[j]],
+              title = paste("<b>", main[j], "</b>"), font = list(size = 12), yaxis = list(
+                title = ylab[j], ticktext = yticklabels[[j]], tickvals = yticklocs[[j]],
                 range = list(yticklocs[[j]][1], yticklocs[[j]][length(yticklocs[[j]])])
               ),
-              xaxis = list(title = xlabels[j], ticktext = xticklabels[[j]], tickvals = xticklocs[[j]], range = list(xticklocs[[j]][1], xticklocs[[j]][length(xticklocs[[j]])]))
+              xaxis = list(title = xlab[j], ticktext = xticklabels[[j]], tickvals = xticklocs[[j]], range = list(xticklocs[[j]][1], xticklocs[[j]][length(xticklocs[[j]])]))
             )
         } else if ((!is.na(xticklabels[[j]][1]) && !is.na(xticklocs[[j]][1])) && (is.na(yticklabels[[j]][1]) || is.na(yticklocs[[j]][1]))) {
           Pl[[j]] <- y %>%
@@ -114,8 +114,8 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, mains = N
             plot_ly(x = ~x, y = ~y) %>%
             add_lines(color = ~time, colors = c("lightsteelblue", "royalblue4"), showlegend = FALSE) %>%
             layout(
-              title = paste("<b>", mains[j], "</b>"), font = list(size = 12), yaxis = list(title = ylabels[j]),
-              xaxis = list(title = xlabels[j], ticktext = xticklabels[[j]], tickvals = xticklocs[[j]], range = list(xticklocs[[j]][1], xticklocs[[j]][length(xticklocs[[j]])]))
+              title = paste("<b>", main[j], "</b>"), font = list(size = 12), yaxis = list(title = ylab[j]),
+              xaxis = list(title = xlab[j], ticktext = xticklabels[[j]], tickvals = xticklocs[[j]], range = list(xticklocs[[j]][1], xticklocs[[j]][length(xticklocs[[j]])]))
             )
         } else if ((is.na(xticklabels[[j]][1]) || is.na(xticklocs[[j]][1])) && (is.na(yticklabels[[j]][1]) == FALSE && is.na(yticklocs[[j]][1]) == FALSE)) {
           Pl[[j]] <- y %>%
@@ -123,11 +123,11 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, mains = N
             plot_ly(x = ~x, y = ~y) %>%
             add_lines(color = ~time, colors = c("lightsteelblue", "royalblue4"), showlegend = FALSE) %>%
             layout(
-              title = paste("<b>", mains[j], "</b>"), font = list(size = 12), yaxis = list(
-                title = ylabels[j], ticktext = yticklabels[[j]], tickvals = yticklocs[[j]],
+              title = paste("<b>", main[j], "</b>"), font = list(size = 12), yaxis = list(
+                title = ylab[j], ticktext = yticklabels[[j]], tickvals = yticklocs[[j]],
                 range = list(yticklocs[[j]][1], yticklocs[[j]][length(yticklocs[[j]])])
               ),
-              xaxis = list(title = xlabels[j])
+              xaxis = list(title = xlab[j])
             )
         } else {
           Pl[[j]] <- y %>%
@@ -135,32 +135,32 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, mains = N
             plot_ly(x = ~x, y = ~y) %>%
             add_lines(color = ~time, colors = c("lightsteelblue", "royalblue4"), showlegend = FALSE) %>%
             layout(
-              title = paste("<b>", mains[j], "</b>"), font = list(size = 12), yaxis = list(title = ylabels[j]),
-              xaxis = list(title = xlabels[j])
+              title = paste("<b>", main[j], "</b>"), font = list(size = 12), yaxis = list(title = ylab[j]),
+              xaxis = list(title = xlab[j])
             )
         }
       } else if (types[j] == "heatmap") {
         u <- seq(x$argval[[vars[j]]])
-        if (is.na(xlabels[j])) xlabels[j] <- "x"
-        if (is.na(tlabels[j])) tlabels[j] <- "t"
-        if (is.na(zlabels[j])) zlabels[j] <- "z"
-        if (is.na(mains[j])) mains[j] <- paste("Variable", vars[j])
+        if (is.na(xlab[j])) xlab[j] <- "x"
+        if (is.na(tlab[j])) tlab[j] <- "t"
+        if (is.na(zlab[j])) zlab[j] <- "z"
+        if (is.na(main[j])) main[j] <- paste("Variable", vars[j])
         z0 <- x$B_mat[[vars[j]]] %*% x$coefs[[vars[j]]]
         if (is.na(xticklabels[[j]][1]) || is.na(xticklocs[[j]][1])) {
           Pl[[j]] <- plot_ly(
             z = z0, x = time, y = u, type = "heatmap", colorscale = list(c(0, "#FFFFFAFF"), c(1, "#FF0000FF")),
-            showscale = FALSE, hovertemplate = paste0(zlabels[j], ":", " %{z}", "\n", tlabels[j], ":", " %{x}", "\n", xlabels[j], ":", " %{y}")
+            showscale = FALSE, hovertemplate = paste0(zlab[j], ":", " %{z}", "\n", tlab[j], ":", " %{x}", "\n", xlab[j], ":", " %{y}")
           ) %>%
             layout(
-              title = paste("<b>", mains[j], "</b>"), font = list(size = 12), yaxis = list(title = xlabels[j]),
-              xaxis = list(title = tlabels[j])
+              title = paste("<b>", main[j], "</b>"), font = list(size = 12), yaxis = list(title = xlab[j]),
+              xaxis = list(title = tlab[j])
             )
         } else {
           Pl[[j]] <- plot_ly(
             z = z0, x = time, y = u, type = "heatmap", colorscale = list(c(0, "#FFFFFAFF"), c(1, "#FF0000FF")),
-            showscale = FALSE, hovertemplate = paste0(zlabels[j], ":", " %{z}", "\n", tlabels[j], ":", " %{x}", "\n", xlabels[j], ":", " %{y}")
+            showscale = FALSE, hovertemplate = paste0(zlab[j], ":", " %{z}", "\n", tlab[j], ":", " %{x}", "\n", xlab[j], ":", " %{y}")
           ) %>%
-            layout(title = paste("<b>", mains[j], "</b>"), font = list(size = 12), yaxis = list(title = xlabels[j], ticktext = xticklabels[[j]], tickvals = xticklocs[[j]]), xaxis = list(title = tlabels[j]))
+            layout(title = paste("<b>", main[j], "</b>"), font = list(size = 12), yaxis = list(title = xlab[j], ticktext = xticklabels[[j]], tickvals = xticklocs[[j]]), xaxis = list(title = tlab[j]))
         }
       } else if (types[j] == "3Dsurface") {
         u <- x$argval[[vars[j]]]
@@ -169,9 +169,9 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, mains = N
           gridcolor = "rgb(180, 180, 180)",
           zerolinecolor = "rgb(255,255,255)"
         )
-        axx$title <- ifelse(is.na(tlabels[j]), "t", tlabels[j])
-        axy$title <- ifelse(is.na(xlabels[j]), "x", xlabels[j])
-        axz$title <- ifelse(is.na(zlabels[j]), paste("Variable", vars[j]), zlabels[j])
+        axx$title <- ifelse(is.na(tlab[j]), "t", tlab[j])
+        axy$title <- ifelse(is.na(xlab[j]), "x", xlab[j])
+        axz$title <- ifelse(is.na(zlab[j]), paste("Variable", vars[j]), zlab[j])
         if (is.na(xticklabels[[j]][1]) == FALSE || is.na(xticklocs[[j]][1]) == FALSE) {
           axy$ticktext <- xticklabels[[j]]
           axy$tickvals <- xticklocs[[j]]
@@ -191,9 +191,9 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, mains = N
           gridcolor = "rgb(180, 180, 180)",
           zerolinecolor = "rgb(255,255,255)"
         )
-        axx$title <- ifelse(is.na(tlabels[j]), "t", tlabels[j])
-        axy$title <- ifelse(is.na(xlabels[j]), "x", xlabels[j])
-        axz$title <- ifelse(is.na(zlabels[j]), paste("Variable", vars[j]), zlabels[j])
+        axx$title <- ifelse(is.na(tlab[j]), "t", tlab[j])
+        axy$title <- ifelse(is.na(xlab[j]), "x", xlab[j])
+        axz$title <- ifelse(is.na(zlab[j]), paste("Variable", vars[j]), zlab[j])
         if (is.na(xticklabels[[j]][1]) == FALSE || is.na(xticklocs[[j]][1]) == FALSE) {
           axy$ticktext <- xticklabels[[j]]
           axy$tickvals <- xticklocs[[j]]
@@ -209,18 +209,18 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, mains = N
           hide_colorbar()
       }
     } else {
-      if (is.na(types[j]) == FALSE && types[j] != "heatmap") warning("The only plotting option available for variables observed over two-dimensional domains is \"heatmap\". Other plotting options will be added for these types of variables in the future.")
+      if (is.na(types[j]) == FALSE && types[j] != "heatmap") warning("The only plotting option available for variables observed over two-dimensional domain is \"heatmap\". Other plotting options will be added for these types of variables in the future.")
       count_twod <- count_twod + 1
-      if (is.na(ylabels[j])) ylabels[j] <- "y"
-      if (is.na(xlabels[j])) xlabels[j] <- "x"
-      if (is.na(zlabels[j])) zlabels[j] <- "z"
-      if (is.na(mains[j])) mains[j] <- paste("Variable", vars[j])
+      if (is.na(ylab[j])) ylab[j] <- "y"
+      if (is.na(xlab[j])) xlab[j] <- "x"
+      if (is.na(zlab[j])) zlab[j] <- "z"
+      if (is.na(main[j])) main[j] <- paste("Variable", vars[j])
       if (is.na(xticklabels[[j]][[1]])) xticklabels[[j]] <- waiver()
       if (is.na(xticklocs[[j]][[1]])) xticklocs[[j]] <- waiver()
       if (is.na(yticklabels[[j]][[1]])) yticklabels[[j]] <- waiver()
       if (is.na(yticklocs[[j]][[1]])) yticklocs[[j]] <- waiver()
       temp_df <- data.frame(matrix(ncol = 3, nrow = ncol(x$coefs[[vars[j]]]) * nrow(x$argval[[vars[j]]])))
-      colnames(temp_df) <- c(zlabels[j], xlabels[j], ylabels[j])
+      colnames(temp_df) <- c(zlab[j], xlab[j], ylab[j])
       temp_df[, 1] <- c(x$B_mat[[vars[j]]] %*% x$coefs[[vars[j]]])
       temp_df[, 2] <- rep((x$argval[[vars[j]]][, 2]), ncol(x$coefs[[vars[j]]]))
       temp_df[, 3] <- rev(rep((x$argval[[vars[j]]][, 1]), ncol(x$coefs[[vars[j]]])))
@@ -230,21 +230,21 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, mains = N
       y$Time <- rep(time, each = nrow(x$argval[[vars[j]]]))
       direction <- 1
       if (isTRUE(reverse_color_palette)) direction <- -1
-      Pl[[j]] <- ggplotly(ggplot(y, aes_string(xlabels[j], ylabels[j], fill = zlabels[j], frame = "Time")) +
+      Pl[[j]] <- ggplotly(ggplot(y, aes_string(xlab[j], ylab[j], fill = zlab[j], frame = "Time")) +
         geom_tile() +
         theme(
           panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
           panel.background = element_blank(), axis.line = element_line(colour = "black")
         ) +
         scale_fill_distiller(palette = color_palette, direction = direction) +
-        labs(fill = zlabels[j]) +
-        ggtitle(mains[j]) +
+        labs(fill = zlab[j]) +
+        ggtitle(main[j]) +
         scale_y_continuous(
-          name = ylabels[j], breaks = yticklocs[[j]],
+          name = ylab[j], breaks = yticklocs[[j]],
           labels = yticklabels[[j]]
         ) +
         scale_x_continuous(
-          name = xlabels[j], breaks = xticklocs[[j]],
+          name = xlab[j], breaks = xticklocs[[j]],
           labels = xticklabels[[j]]
         ) +
         theme(text = element_text(size = 10))
