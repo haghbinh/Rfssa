@@ -2,7 +2,7 @@
 #'
 #' Visualize univariate or multivariate Functional Time Series (FTS) using Plotly-based plots.
 #'
-#' @param x An object of class \code{\link{fts}}.
+#' @param x An object of class \code{\link{funts}}.
 #' @param vars Numeric specifying which variables in the FTS to plot (default: all).
 #' @param types Tuple of strings specifying plot types for each variable.
 #' @param subplot Logical for subplotting line plots.
@@ -62,7 +62,7 @@
 #'
 #' @export
 plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NULL, ylab = NULL, xlab = NULL, tlab = NULL,
-                         zlab = NULL, xticklabel = NULL, xticklocs = NULL, yticklabels = NULL, yticklocs = NULL,
+                         zlab = NULL, xticklabels = NULL, xticklocs = NULL, yticklabels = NULL, yticklocs = NULL,
                          color_palette = "RdYlBu", reverse_color_palette = FALSE, ...) {
   p <- length(x$dimSupp)
   N <- x$N

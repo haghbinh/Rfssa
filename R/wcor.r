@@ -1,5 +1,32 @@
-# Univariate and multivariate weighted correlation used to find weighted correlation matrix for the grouping stage
-# of ufssa and mfssa.
+#' Weighted Correlation Matrix
+#'
+#' This function returns the weighted correlation (w-correlation) matrix for functional time series (\code{\link{funts}}) objects
+#' that were reconstructed from functional singular spectrum analysis (\code{\link{fssa}}) objects.
+#' @return A square matrix of w-correlation values for the reconstructed \code{\link{funts}} objects that were built from.
+#' \code{\link{fssa}} components
+#' @param U An object of class \code{\link{fssa}}.
+#' @param groups A list or vector of indices which determines the grouping used for the reconstruction
+#' in pairwise w-correlations matrix.
+#' @examples
+#' \dontrun{
+#' ## Univariate FSSA Example on Callcenter data
+#' ## Univariate functional singular spectrum analysis
+#' data("Callcenter")
+#' L <- 28
+#' U <- fssa(Callcenter, L)
+#' ufwcor <- fwcor(U = U, groups = list(1, 2, 3))
+#' wplot(W = ufwcor)
+#' }
+#'
+#' @seealso \code{\link{fssa}}, \code{\link{freconstruct}}, \code{\link{funts}}, \code{\link{wplot}}
+#' @export
+fwcor <- function(U, groups) {
+  if (class(U[[1]])[[1]] != "list") out <- ufwcor(U, groups) else out <- mfwcor(U, groups)
+  return(out)
+}
+
+
+# Univariate weighted correlation used to find weighted correlation matrix for the grouping stage of ufssa.
 
 ufwcor <- function(U, groups) {
   if (is.numeric(groups)) groups <- as.list(groups)
@@ -10,8 +37,8 @@ ufwcor <- function(U, groups) {
   K <- N - L + 1L
   w <- 1L:N
   basis <- U$Y$B_mat[[1]]
-  grid <-   as.matrix(U$Y$argval[[1]])
-  if (ncol(U$Y$dimSupp[[1]]) == 1) {
+  grid <- as.matrix(U$Y$argval[[1]])
+  if (U$Y$dimSupp[[1]] == 1) {
     G <- onedG(A = basis, B = basis, grid = grid)
   } else {
     G <- twodG(A = basis, B = basis, grid = grid)
@@ -30,6 +57,8 @@ ufwcor <- function(U, groups) {
   return(out)
 }
 
+# Multivariate weighted correlation used to find weighted correlation matrix for the grouping stage of mfssa.
+
 mfwcor <- function(U, groups) {
   if (is.numeric(groups)) groups <- as.list(groups)
   d <- length(groups)
@@ -42,8 +71,8 @@ mfwcor <- function(U, groups) {
   Y <- U$Y
   G <- list()
   for (i in 1:p) {
+    grid <- as.matrix(Y$argval[[i]])
     if (Y$dimSupp[[i]] == 1) {
-      grid <- as.matrix(Y$argval[[i]])
       G[[i]] <- t(onedG(A = Y$B_mat[[i]], B = Y$B_mat[[i]], grid = grid))
     } else {
       G[[i]] <- t(twodG(A = Y$B_mat[[i]], B = Y$B_mat[[i]], grid = grid))
@@ -71,70 +100,4 @@ mfwcor <- function(U, groups) {
   }
   for (i in 2:d) for (j in 1:(i - 1)) wcor[i, j] <- wcor[j, i]
   return(wcor)
-}
-
-#' Weighted Correlation Matrix
-#'
-#' This function returns the weighted correlation (w-correlation) matrix for functional time series (\code{\link{fts}}) objects
-#' that were reconstructed from functional singular spectrum analysis (\code{\link{fssa}}) objects.
-#' @return A square matrix of w-correlation values for the reconstructed \code{\link{fts}} objects that were built from.
-#' \code{\link{fssa}} components
-#' @param U An object of class \code{\link{fssa}}.
-#' @param groups A list or vector of indices which determines the grouping used for the reconstruction
-#' in pairwise w-correlations matrix.
-#' @examples
-#' \dontrun{
-#'
-#' ## Univariate FSSA Example on Callcenter data
-#' require(Rfssa)
-#' load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Callcenter.RData")
-#' ## Define functional objects
-#' D <- matrix(sqrt(Callcenter$calls), nrow = 240)
-#' N <- ncol(D)
-#' time <- substr(seq(ISOdate(1999, 1, 1), ISOdate(1999, 12, 31), by = "day"),1,10)
-#' K <- nrow(D)
-#' u <- seq(0, K, length.out = K)
-#' d <- 22 # Optimal Number of basis elements
-#' ## Define functional time series
-#' Y <- Rfssa::fts(list(D), list(list(d, "bspline")), list(u),time)
-#' Y
-#' plot(Y, mains = c("Sqrt of Call Center Data"))
-#' ## Univariate functional singular spectrum analysis
-#' L <- 28
-#' U <- fssa(Y, L)
-#' ufwcor <- fwcor(U = U, groups = list(1, 2, 3))
-#' wplot(W = ufwcor)
-#'
-#' ## Multivariate W-Correlation Example on Bivariate Satelite Image Data
-#' require(Rfssa)
-#' load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Jambi.RData")
-#' ## Raw image data
-#' NDVI <- Jambi$NDVI
-#' EVI <- Jambi$EVI
-#' time <- Jambi$Date
-#' ## Kernel density estimation of pixel intensity
-#' D0_NDVI <- matrix(NA, nrow = 512, ncol = 448)
-#' D0_EVI <- matrix(NA, nrow = 512, ncol = 448)
-#' for (i in 1:448) {
-#'   D0_NDVI[, i] <- density(NDVI[, , i], from = 0, to = 1)$y
-#'   D0_EVI[, i] <- density(EVI[, , i], from = 0, to = 1)$y
-#' }
-#' ## Define functional objects
-#' d <- 11
-#' D <- list(D0_NDVI, D0_EVI)
-#' B <- list(list(d, "bspline"), list(d + 4, "fourier"))
-#' U <- list(c(0, 1), c(0, 1))
-#' Y <- Rfssa::fts(D, B, U, time)
-#' plot(Y)
-#' U <- fssa(Y = Y, L = 45)
-#' L <- 45
-#' mfwcor <- fwcor(U = U, groups = list(1, 2, 3, 4))
-#' wplot(W = mfwcor)
-#' }
-#'
-#' @seealso \code{\link{fssa}}, \code{\link{freconstruct}}, \code{\link{fts}}, \code{\link{wplot}}
-#' @export
-fwcor <- function(U, groups) {
-  if (class(U[[1]])[[1]]!="list") out <- ufwcor(U, groups) else out <- mfwcor(U, groups)
-  return(out)
 }

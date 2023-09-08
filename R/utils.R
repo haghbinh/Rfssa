@@ -3,7 +3,7 @@
 # This function Hankelize a d*K*L array.
 fH <- function(C, d) {
   for (j in 1:d) {
-    C[j, , ] <- H(C[j, , ])
+    C[j, , ] <- Rfssa:::H(C[j, , ])
   }
   return(C)
 }
@@ -23,9 +23,12 @@ ufproj <- function(U, i, d) {
   B <- Y$B_mat[[1]]
   u <- solve(t(B) %*% B) %*% t(B) %*% U[[i]]
   grid <- as.matrix(Y$argval[[1]])
-  G <- ifelse(Y$dimSupp[[1]] == 1,
-              onedG(A = basis, B = B, grid = grid),
-              twodG(A = basis, B = B, grid = grid))
+  basis <- Y$B_mat[[1]]
+  if (Y$dimSupp[[1]] == 1) {
+    G <- onedG(A = basis, B = basis, grid = grid)
+  } else {
+    G <- twodG(A = basis, B = basis, grid = grid)
+  }
   CX <- array(NA, dim = c(d, K, L))
   for (k in 1L:K) {
     x <- lagvec_new(Y$coefs[[1]], L, k)
@@ -106,6 +109,7 @@ mfproj <- function(U, i) {
   L <- U$L
   K <- N - L + 1L
   B <- Y$B_mat
+  u <- list()
   for (j in 1:p) {
     u[[j]] <- solve(t(B[[j]]) %*% B[[j]]) %*% t(B[[j]]) %*% U[[i]][[j]]
   }
@@ -114,12 +118,12 @@ mfproj <- function(U, i) {
   for (j in 1:p) {
     d <- ncol(B[[j]])
     C[[j]] <- array(NA, dim = c(d, K, L))
-    grid <- as.matrix(Y$argval[[i]])
+    grid <- as.matrix(Y$argval[[j]])
     basis <- B[[j]]
-    if (Y$dimSupp[[i]] == 1) {
-      G[[i]] <- onedG(A = basis, B = basis, grid = grid)
+    if (Y$dimSupp[[j]] == 1) {
+      G[[j]] <- onedG(A = basis, B = basis, grid = grid)
     } else {
-      G[[i]] <- twodG(A = basis, B = basis, grid = grid)
+      G[[j]] <- twodG(A = basis, B = basis, grid = grid)
     }
   }
   # define HpL lag vector
@@ -131,7 +135,7 @@ mfproj <- function(U, i) {
     # build operator
     for (j in 1:p) {
       C_jx <- C[[j]]
-      C_jx[, k, ] <- HpLinprod(x, u, G, p) * u[[j]]
+      C_jx[, k, ] <- Rfssa:::HpLinprod(x, u, G, p) * u[[j]]
       C[[j]] <- C_jx
     }
   }
