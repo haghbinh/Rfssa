@@ -4,7 +4,7 @@
 \alias{fforecast}
 \title{Functional Singular Spectrum Analysis Recurrent Forecasting and Vector Forecasting}
 \usage{
-fforecast(U, groups = list(c(1)), h = 1, method = "recurrent", tol = 10^-3)
+fforecast(U, groups = list(1), h = 1, method = "recurrent", tol = 10^-3)
 }
 \arguments{
 \item{U}{An object of class \code{\link{fssa}} that holds the decomposition.}

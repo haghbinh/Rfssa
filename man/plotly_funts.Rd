@@ -24,7 +24,7 @@ plotly_funts(
 )
 }
 \arguments{
-\item{x}{An object of class \code{\link{fts}}.}
+\item{x}{An object of class \code{\link{funts}}.}
 
 \item{vars}{Numeric specifying which variables in the FTS to plot (default: all).}
 
