@@ -83,6 +83,7 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NU
   if (is.null(main)) main <- rep(NA, p)
   if (!is.null(vars) && length(types) != length(vars)) warning("\"vars\" and \"types\" are not the same length. Some plots might not appear as expected.")
   if (is.null(vars)) vars <- 1:p
+  cat("Plotting, please wait...\n")
   for (j in 1:length(vars)) {
     if (j > length(xticklocs) || j > length(xticklabels)) xticklocs[[j]] <- xticklabels[[j]] <- NA
     if (j > length(yticklocs) || j > length(yticklabels)) yticklocs[[j]] <- yticklabels[[j]] <- NA
@@ -268,9 +269,9 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NU
     }
   }
   if (p == 1 || "heatmap" %in% types || "3Dsurface" %in% types || "3Dline" %in% types || count_twod >= 1 || subplot == FALSE || length(vars) == 1) {
-    print(Pl)
+    for (i in 1:p) print(Pl[[i]])
   } else {
-    print(subplot(Pl, titleX = TRUE, titleY = TRUE) %>%
-      layout(title = ""))
+    print(subplot(Pl, titleX = TRUE, titleY = TRUE) %>% layout(title = ""))
   }
+  cat("Done.\n")
 }
