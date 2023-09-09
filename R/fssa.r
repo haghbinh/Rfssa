@@ -164,13 +164,25 @@ ufssa <- function(Y, L, ntriples) {
   # Returning results
   Q$values <- Re(Q$values)
   Q$vectors <- Re(Q$vectors)
-  out <- list(NA)
-  for (i in 1L:ntriples) out[[i]] <- Y$B_mat[[1]] %*% Cofmat(d, L, Q$vectors[, i])
+  out <- list()
+  Lsingf <- list()
+  for (i in 1L:ntriples) {
+    out[[i]] <- Y$B_mat[[1]] %*% Cofmat(d, L, Q$vectors[, i])
+    if(Y$dimSupp[[1]] == 1) {
+      X_mat <- out[[i]]
+    } else {
+      n1 <- unique(U1$Y$argval[[1]][,1])
+      n2 <- unique(U1$Y$argval[[1]][,2])
+      X_mat <- array(out[[j]], dim = c(n1,n2,L))
+    }
+    Lsingf[[i]] <- funts(X = X_mat, basisobj = Y$basis[[1]])
+  }
   out$values <- Q$values[1L:ntriples]
   out$L <- L
   out$N <- N
   out$Y <- Y
   out$RVectrs <- uV(out, ntriples)
+  out$Lsingf <- Lsingf
   return(out)
 }
 
@@ -220,11 +232,21 @@ mfssa <- function(Y, L, ntriples) {
   p_c <- list()
   values <- Q$values[1L:ntriples]
   out <- list()
+  Lsingf <- list()
   for (i in 1L:(ntriples)) {
-    my_pcs <- list(NA)
+    my_pcs <- list()
+    X_mat <- list()
     for (j in 1L:p) {
       my_pcs[[j]] <- Y$B_mat[[j]] %*% Cofmat((d[j + 1L] / L), L, coefs0[(shifter[1L, (j + 1L)]:shifter[2L, (j + 1L)]), i])
+      if(Y$dimSupp[[j]] == 1) {
+        X_mat[[j]] <- my_pcs[[j]]
+      } else {
+        n1 <- length(unique(U1$Y$argval[[j]][,1]))
+        n2 <- length(unique(U1$Y$argval[[j]][,2]))
+        X_mat[[j]] <- array(my_pcs[[j]], dim = c(n1,n2,L))
+      }
     }
+    Lsingf[[i]] <- funts(X = X_mat, basisobj = Y$basis)
     out[[i]] <- my_pcs
   }
   out$values <- values
@@ -232,5 +254,6 @@ mfssa <- function(Y, L, ntriples) {
   out$N <- N
   out$Y <- Y
   out$RVectrs <- mV(out, ntriples)
+  out$Lsingf <- Lsingf
   return(out)
 }
