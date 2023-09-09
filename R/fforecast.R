@@ -68,20 +68,20 @@ fforecast <- function(U, groups = list(1), h = 1, method = "recurrent", tol = 10
 ufforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol = 10^-3) {
   out <- list()
   Y <- U$Y
+  N <- Y$N
+  basis <- U$Y$B_mat[[1]]
+  d <- ncol(basis)
+  L <- U$L
+  K <- N - L + 1
+  G <- t(basis) %*% basis
+  G_inv <- solve(G)
   basisobj <- Y$basis[[1]]
   time_st <- Y$time[1]
   time_en <- Y$time[N]
   for (a in 1:length(groups)) {
     g <- groups[[a]]
     # Define prediction space
-    basis <- U$Y$B_mat[[1]]
-    N <- U$N
-    d <- ncol(basis)
-    L <- U$L
-    K <- N - L + 1
     k <- length(g)
-    G <- t(basis) %*% basis
-    G_inv <- solve(G)
     D <- matrix(data = NA, nrow = d, ncol = k)
     for (n in 1:k) D[, n] <- G_inv %*% t(basis) %*% U[[g[n]]][, L]
 
@@ -99,13 +99,11 @@ ufforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol 
     Neu <- NU[[1]]
     for (n in 2:l) Neu <- Neu + NU[[n]]
 
-
     if (method == "recurrent") {
       # FSSA R-forecasting
-
       # Reconstruct signal
       Q <- freconstruct(U, groups = list(g))
-      fssa_fore <- matrix(data = 0, nrow = d, ncol = h)
+      fore_r <- matrix(data = 0, nrow = d, ncol = h)
       for (m in 1:h) {
         for (j in 1:(L - 1)) {
           E_j <- matrix(data = NA, nrow = d, ncol = k)
@@ -113,11 +111,11 @@ ufforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol 
             E_j[, n] <- G_inv %*% t(basis) %*% U[[g[n]]][, j]
           }
           A_j <- Neu %*% D %*% t(E_j)
-          fssa_fore[, m] <- fssa_fore[, m] + A_j %*% as.matrix(Q[[1]]$coefs[[1]][, (N + j - L + m)])
+          fore_r[, m] <- fore_r[, m] + A_j %*% as.matrix(Q[[1]]$coefs[[1]][, (N + j - L + m)])
         }
-        Q[[1]]$coefs[[1]] <- cbind(Q[[1]]$coefs[[1]], fssa_fore[, m])
+        Q[[1]]$coefs[[1]] <- cbind(Q[[1]]$coefs[[1]], fore_r[, m])
       }
-      funts_out <- funts(X = (basis %*% fssa_fore), basisobj = basisobj, argval = Q[[1]]$argval[[1]], start = time_st, end = time_en)
+      funts_out <- funts(X = (basis %*% fore_r), basisobj = basisobj, argval = Y$argval[[1]], start = time_st, end = time_en)
       out[[a]] <- funts_out
     } else if (method == "vector") {
       # FSSA V-forecasting
@@ -149,8 +147,8 @@ ufforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol 
       }
 
       S <- fH(S, d)
-      predictions <- S[, (K + 1):(K + h), L]
-      funts_out <- funts(X = (basis %*% predictions), basisobj = basisobj, argval = U$Y$argval[[1]], start = time_st, end = time_en)
+      fore_v <- S[, (K + 1):(K + h), L]
+      funts_out <- funts(X = (basis %*% fore_v), basisobj = basisobj, argval = Y$argval[[1]], start = time_st, end = time_en)
       out[[a]] <- funts_out
     }
   }
@@ -164,25 +162,28 @@ ufforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol 
 
 mfforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol = 10^-3) {
   out <- list()
+  Y <- U$Y
+  N <- Y$N
+  basis <- U$Y$B_mat
+  G_inv <- sapply(basis, function(x) {solve(t(x)%*%x)})
+  d <- sapply(basis,ncol)
+  p <- length(Y$dimSupp)
+  L <- U$L
+  K <- N - L + 1
+  shifter <- matrix(data = 0, nrow = 2, ncol = (p+1))
+  for (j in 1:p) {
+    shifter[1, j+1] <- shifter[2, j] + 1
+    shifter[2, j+1] <- shifter[2, j] + ncol(U$Y$B_mat[[j]])
+  }
+  basisobj <- Y$basis
+  time_st <- Y$time[1]
+  time_en <- Y$time[N]
+
   for (a in 1:length(groups)) {
     g <- groups[[a]]
-    # Define prediction space
-    basis <- list()
-    G_inv <- list()
-    p <- length(U$Y$coefs)
-    d <- matrix(data = 0, nrow = 1, ncol = p)
-    N <- U$N
-    L <- U$L
-    K <- N - L + 1
-    shifter <- matrix(data = 0, nrow = 2, ncol = (p+1))
     k <- length(g)
     D <- matrix(data = NA, nrow = 1, ncol = k)
     for (j in 1:p) {
-      basis[[j]] <- U$Y$B_mat[[j]]
-      G_inv[[j]] <- solve(t(basis[[j]])%*%basis[[j]])
-      d[j] <- ncol(U$Y$B_mat[[j]])
-      shifter[1, j+1] <- shifter[2, j] + 1
-      shifter[2, j+1] <- shifter[2, j] + ncol(U$Y$B_mat[[j]])
       D_j <- matrix(data = NA, nrow = d[j], ncol = k)
       for (n in 1:k) D_j[, n] <- solve(t(basis[[j]]) %*% basis[[j]]) %*% t(basis[[j]]) %*% U[[g[n]]][[j]][, L]
       D <- rbind(D, D_j)
@@ -203,12 +204,11 @@ mfforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol 
     Neu <- NU[[1]]
     for (n in 2:l) Neu <- Neu + NU[[n]]
 
-
     if (method == "recurrent") {
       # MFSSA R-forecasting
       out_g <- list()
       Q <- freconstruct(U, groups = list(g))
-      fssa_fore <- matrix(data = 0, nrow = sum(d), ncol = h)
+      fore_r <- matrix(data = 0, nrow = sum(d), ncol = h)
       for (m in 1:h) {
         for (j in 1:(L - 1)) {
           my_obs <- matrix(data = 0, nrow = sum(d), ncol = 1)
@@ -220,16 +220,15 @@ mfforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol 
             my_obs[(shifter[1, (q+1)]:shifter[2, (q+1)]), 1] <- Q[[1]]$coefs[[q]][, (N + j - L + m)]
           }
           A_j <- Neu %*% D %*% t(E_j)
-          fssa_fore[, m] <- fssa_fore[, m] + A_j %*% my_obs
+          fore_r[, m] <- fore_r[, m] + A_j %*% my_obs
         }
-        for(q in 1:p) Q[[1]]$coefs[[q]] <- cbind(Q[[1]]$coefs[[q]], fssa_fore[(shifter[1, (q+1)]:shifter[2, (q+1)]), m]);
+        for(q in 1:p) Q[[1]]$coefs[[q]] <- cbind(Q[[1]]$coefs[[q]], fore_r[(shifter[1, (q+1)]:shifter[2, (q+1)]), m]);
       }
       for (q in 1:p) {
-        out_g[[q]] <- basis[[q]] %*% fssa_fore[(shifter[1, (q+1)]:shifter[2, (q+1)]), ]
+        out_g[[q]] <- basis[[q]] %*% fore_r[(shifter[1, (q+1)]:shifter[2, (q+1)]), ]
       }
-      fts_out <- Rfssa::fts(out_g, basis, U$Y$argval)
-      fts_out$B_matasis_type <- U$Y$B_matasis_type
-      out[[a]] <- fts_out
+      funts_out <- funts(X = out_g, basisobj = basisobj, argval = Y$argval, start = time_st, end = time_en)
+      out[[a]] <- funts_out
     } else if (method == "vector") {
       # MFSSA V-forecasting
       out_g <- list()
@@ -279,10 +278,9 @@ mfforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol 
         S[[q]] <- fH(S[[q]], d[q])
         out_g[[q]] <- basis[[q]] %*% S[[q]][, (K + 1):(K + h), L]
       }
-
-      fts_out <- Rfssa::fts(out_g, basis, U$Y$argval)
-      fts_out$B_matasis_type <- U$Y$B_matasis_type
-      out[[a]] <- fts_out
+      funts_out <- funts(X = out_g, basisobj = basisobj, argval = U$Y$argval, start = time_st, end = time_en)
+      out[[a]] <- funts_out
+      out[[a]] <- funts_out
     }
   }
 

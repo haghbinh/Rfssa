@@ -11,29 +11,30 @@
   idy = idx + 1,
   contrib = TRUE,
   groups = as.list(1:d),
+  lwd = 2,
   type = "values",
   vars = NULL,
   ylab = NA,
   main = NA,
-  color_palette = "RdYlBu",
-  reverse_color_palette = FALSE,
   ...
 )
 }
 \arguments{
-\item{x}{An object of class \code{\link{fssa}}.}
+\item{x}{an object of class \code{\link{fssa}}.}
 
-\item{d}{An integer which is the number of elementary components in the plot.}
+\item{d}{an integer which is the number of elementary components in the plot.}
 
-\item{idx}{A vector of indices of eigen elements to plot.}
+\item{idx}{a vector of indices of eigen elements to plot.}
 
-\item{idy}{A second vector of indices of eigen elements to plot (for \code{type="paired"}).}
+\item{idy}{a second vector of indices of eigen elements to plot (for \code{type="paired"}).}
 
-\item{contrib}{A logical where if the value is \code{TRUE} (the default), the contribution of the component to the total variance is displayed.}
+\item{contrib}{a logical where if the value is \code{TRUE} (the default), the contribution of the component to the total variance is displayed.}
 
-\item{groups}{A list or vector of indices determines grouping used for the decomposition(for \code{type="wcor"}).}
+\item{groups}{a list or vector of indices determines grouping used for the decomposition(for \code{type="wcor"}).}
 
-\item{type}{The type of plot to be displayed where possible types are:
+\item{lwd}{a vector of line widths.}
+
+\item{type}{the type of plot to be displayed where possible types are:
 \itemize{
 \item \code{"values"} - plot the square-root of singular values (default)
 \item \code{"paired"} - plot the pairs of eigenfunction's coefficients (useful for the detection of periodic components)
@@ -44,17 +45,13 @@
 \item \code{"periodogram"} - periodogram plot (useful for the detecting the frequencies of oscillations in functional data).
 }}
 
-\item{vars}{A numeric specifying the variable number (can be used in plotting MFSSA \code{"lheats"} or \code{"lcurves"}).}
+\item{vars}{a numeric specifying the variable number (can be used in plotting MFSSA \code{"lheats"} or \code{"lcurves"}).}
 
-\item{ylab}{The character vector of name of variables.}
+\item{ylab}{the character vector of name of variables.}
 
-\item{main}{The main plot title}
+\item{main}{the main plot title}
 
-\item{color_palette}{A string specifying the color palette that is offered by the ggplot2 package to be used when plotting left singular functions corresponding with \code{\link{fts}} variables observed over two-dimensional domains.}
-
-\item{reverse_color_palette}{A boolean specifying if the color palette scale should be reversed.}
-
-\item{...}{Arguments to be passed to methods, such as graphical parameters.}
+\item{...}{arguments to be passed to methods, such as graphical parameters.}
 }
 \description{
 This is a plotting method for objects of class functional singular spectrum analysis (\code{\link{fssa}}). The method is designed to help the user make decisions

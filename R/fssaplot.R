@@ -4,13 +4,14 @@
 #'  This is a plotting method for objects of class functional singular spectrum analysis (\code{\link{fssa}}). The method is designed to help the user make decisions
 #'  on how to do the grouping stage of univariate or multivariate functional singular spectrum analysis.
 #'
-#' @param x An object of class \code{\link{fssa}}.
-#' @param d An integer which is the number of elementary components in the plot.
-#' @param idx A vector of indices of eigen elements to plot.
-#' @param idy A second vector of indices of eigen elements to plot (for \code{type="paired"}).
-#' @param groups A list or vector of indices determines grouping used for the decomposition(for \code{type="wcor"}).
-#' @param contrib A logical where if the value is \code{TRUE} (the default), the contribution of the component to the total variance is displayed.
-#' @param type The type of plot to be displayed where possible types are:
+#' @param x an object of class \code{\link{fssa}}.
+#' @param d an integer which is the number of elementary components in the plot.
+#' @param idx a vector of indices of eigen elements to plot.
+#' @param idy a second vector of indices of eigen elements to plot (for \code{type="paired"}).
+#' @param groups a list or vector of indices determines grouping used for the decomposition(for \code{type="wcor"}).
+#' @param lwd a vector of line widths.
+#' @param contrib a logical where if the value is \code{TRUE} (the default), the contribution of the component to the total variance is displayed.
+#' @param type the type of plot to be displayed where possible types are:
 #' \itemize{
 #' \item \code{"values"} - plot the square-root of singular values (default)
 #' \item \code{"paired"} - plot the pairs of eigenfunction's coefficients (useful for the detection of periodic components)
@@ -20,20 +21,17 @@
 #' \item \code{"lheats"} - heatmap plot of the eigenfunctions which can be used for \code{\link{fts}} variables observed over one or two-dimensional domains (useful for the detection of meaningful patterns)
 #' \item \code{"periodogram"} - periodogram plot (useful for the detecting the frequencies of oscillations in functional data).
 #' }
-#' @param vars A numeric specifying the variable number (can be used in plotting MFSSA \code{"lheats"} or \code{"lcurves"}).
-#' @param ylab The character vector of name of variables.
-#' @param main The main plot title
-#' @param color_palette A string specifying the color palette that is offered by the ggplot2 package to be used when plotting left singular functions corresponding with \code{\link{fts}} variables observed over two-dimensional domains.
-#' @param reverse_color_palette A boolean specifying if the color palette scale should be reversed.
-#' @param ... Arguments to be passed to methods, such as graphical parameters.
+#' @param vars a numeric specifying the variable number (can be used in plotting MFSSA \code{"lheats"} or \code{"lcurves"}).
+#' @param ylab the character vector of name of variables.
+#' @param main the main plot title
+#' @param ... arguments to be passed to methods, such as graphical parameters.
 #' @seealso \code{\link{fssa}}, \code{\link{plotly_funts}}
 #' @note See \code{\link{funts}} examples.
 #' @export
 plot.fssa <- function(x, d = length(x$values),
                       idx = 1:d, idy = idx + 1, contrib = TRUE,
-                      groups = as.list(1:d),
-                      type = "values", vars = NULL, ylab = NA, main = NA,
-                      color_palette = "RdYlBu", reverse_color_palette = FALSE, ...) {
+                      groups = as.list(1:d), lwd = 2,
+                      type = "values", vars = NULL, ylab = NA, main = NA, ...) {
   p <- length(x$Y$dimSupp)
   A <- ((x$values) / sum(x$values))
   pr <- round(A * 100L, 2L)
@@ -57,7 +55,7 @@ plot.fssa <- function(x, d = length(x$values),
     val <- sqrt(x$values)[idx]
     data_df <- data.frame(idx, val)
     p1 <- lattice::xyplot(val ~ idx,
-      data = data_df, type = "o", lwd = 2, col = "dodgerblue3", pch = 19, cex=1.2,
+      data = data_df, type = "o", lwd = lwd, col = "dodgerblue3", pch = 19, cex=1.2,
       scales = list(cex.axis = 1.7, cex.main = 2, cex.lab = 1.8, cex = 0.8),
       main = main, xlab = "Components", ylab = "norms", grid = TRUE
     )
@@ -115,7 +113,6 @@ plot.fssa <- function(x, d = length(x$values),
         main <- NA
         graphics::plot(p1)
       } else if (type == "lcurves" && x$Y$dimSupp[[vars[j]]] == 1) {
-        # col2 <- grDevices::rainbow(L)
         z <- NULL
         for (i in idx) {
           if (class(x[[i]])[[1]] != "list") {
@@ -137,7 +134,7 @@ plot.fssa <- function(x, d = length(x$values),
         D0$curves <- rep(as.character(1:L), each = n)
         D0$groups <- factor(rep(main1, each = L * n), levels = main1)
         p1 <- lattice::xyplot(z ~ x | groups,
-          group = curves, lwd = 2,
+          group = curves, lwd = lwd,
           type = "l", data = D0, par.strip.text = list(cex = 1.2),
           cuts = 50L, xlab = "", ylab = "",
           scales = list(
@@ -149,8 +146,7 @@ plot.fssa <- function(x, d = length(x$values),
             )
           ),
           as.table = TRUE,
-          main = list(main, cex = 1.5), col.regions = grDevices::heat.colors(100)
-        , ...)
+          main = list(main, cex = 1.5), ...)
 
         graphics::plot(p1)
       } else if (type == "lcurves" && x$Y$dimSupp[[vars[j]]] == 2) {
@@ -170,7 +166,7 @@ plot.fssa <- function(x, d = length(x$values),
     p1 <- lattice::xyplot(
       x ~ time |
         groups,
-      lwd = 2, par.strip.text = list(cex = 1.5),
+      lwd = lwd, par.strip.text = list(cex = 1.5),
       data = D0, xlab = "",
       ylab = "", main = list(main, cex = 2),
       scales = list(
@@ -194,7 +190,7 @@ plot.fssa <- function(x, d = length(x$values),
     main3 <- paste(as.character(idx[1]:idx[(d_idx - 1)]), "vs", as.character(idy[1]:idy[(d_idy - 1)]))
     D0$groups <- factor(rep(main3, each = K), levels = main3)
     p1 <- lattice::xyplot(x ~ y | groups,
-      data = D0, xlab = "", par.strip.text = list(cex = 1.4), lwd = 2,
+      data = D0, xlab = "", par.strip.text = list(cex = 1.4), lwd = lwd,
       ylab = "", main = list(main, cex = 2.0),
       scales = list(
         x = list(cex = c(1.4, 1.4)),
@@ -225,7 +221,7 @@ plot.fssa <- function(x, d = length(x$values),
     p1 <- lattice::xyplot(
       x ~ time |
         groups,
-      data = D0, xlab = "", lwd = 2,
+      data = D0, xlab = "", lwd = lwd,
       ylab = "", main = main,
       scales = list(y = list(at = NULL, relation = "same")),
       as.table = TRUE, type = "l"
