@@ -2,7 +2,7 @@
 % Please edit documentation in R/fpredinterval.R
 \name{fpredinterval}
 \alias{fpredinterval}
-\title{Functional Singular Spectrum Analysis Forecasting Bootstrap Prediction Interval}
+\title{FSSA Forecasting Bootstrap Prediction Interval}
 \usage{
 fpredinterval(
   Y,
@@ -17,7 +17,7 @@ fpredinterval(
 )
 }
 \arguments{
-\item{Y}{An object of class \code{\link{fts}}.}
+\item{Y}{An object of class \code{\link{funts}}.}
 
 \item{O}{A positive integer specifying the training set size.}
 
@@ -39,31 +39,15 @@ fpredinterval(
 A list of numeric vectors where the first vector contains the discretely sampled point forecast, the second contains the discretely sampled lower bound of the prediction interval, and the third contains the discretely sampled upper bound of the prediction interval.
 }
 \description{
-This function calculates the bootstrap prediction interval for functional singular spectrum analysis (FSSA) forecasting predictions of univariate functional time series (\code{\link{fts}}) observed over a one-dimensional domain.
+This function calculates the bootstrap prediction interval for functional singular spectrum analysis (FSSA) forecasting predictions of univariate functional time series (\code{\link{funts}}) observed over a one-dimensional domain.
 }
 \examples{
 \dontrun{
-require(Rfssa)
-if(!("ggplot2" \%in\% base::rownames(utils::installed.packages()))==TRUE){utils::install.packages("ggplot2")}
 require(ggplot2)
-load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Callcenter.RData")
-## Define functional objects
-D <- matrix(sqrt(Callcenter$calls), nrow = 240)
-N <- ncol(D)
-time <- substr(seq(ISOdate(1999, 1, 1), ISOdate(1999, 12, 31), by = "day"),1,10)
-K <- nrow(D)
-u <- seq(0, K, length.out = K)
-d <- 22
-## Define functional time series
-Y <- Rfssa::fts(list(D), list(list(d, "bspline")), list(u),time)
-plot(Y, mains = c("Call Center Data Line Plot"),
-     xlabels = "Time (6 minutes aggregated)",
-     ylabels = "Sqrt of Call Numbers",type="line",
-     xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
-       list(c(1,60,120,180,240)))
+data("Callcenter")
 # Calculate prediction intervals
 
-pred_interval <- fpredinterval(Y = Y, O = 310, L = 28, ntriples = 7, Bt = 10000, h=3, alpha = 0.05, method = "recurrent")
+pred_interval <- fpredinterval(Y = Callcenter, O = 310, L = 28, ntriples = 7, Bt = 10000, h=3, alpha = 0.05, method = "recurrent")
 
 # Plot the forecast and prediction interval using ggplot
 

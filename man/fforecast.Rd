@@ -25,130 +25,38 @@ This function performs functional singular spectrum analysis (FSSA) recurrent fo
 }
 \examples{
 \dontrun{
-# FSSA Forecasting
-require(Rfssa)
-load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Callcenter.RData")
-## Define functional objects
-D <- matrix(sqrt(Callcenter$calls), nrow = 240)
-N <- ncol(D)
-time <- substr(seq(ISOdate(1999, 1, 1), ISOdate(1999, 12, 31), by = "day"),1,10)
-K <- nrow(D)
-u <- seq(0, K, length.out = K)
-d <- 22
-## Define functional time series
-Y <- Rfssa::fts(list(D), list(list(d, "bspline")), list(u),time)
-plot(Y, mains = c("Call Center Data Line Plot"),
-xlabels = "Time (6 minutes aggregated)",
-ylabels = "Sqrt of Call Numbers",type="line",
-xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
- list(c(1,60,120,180,240)))
-## Perform FSSA decomposition
+data("Callcenter")
 L <- 28
-U <- fssa(Y, L)
-groups <- list(1, 2:3, 4:5, 6:7, 1:7)
-## Perform FSSA R-forecast and FSSA V-forecast
-pr_R <- fforecast(U = U, groups = groups, h = 30,
-method = "recurrent", tol = 10^-3)
-plot(pr_R[[1]], mains = "Call Center Mean Component Forecast",
-xlabels = "Time (6 minutes aggregated)",
-     ylabels = "Sqrt of Call Numbers",type="line",
-     xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
-       list(c(1,60,120,180,240)))
-plot(pr_R[[2]], mains = "Call Center First Periodic Component Forecast",
-xlabels = "Time (6 minutes aggregated)",
-     ylabels = "Sqrt of Call Numbers",type="line",
-     xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
-       list(c(1,60,120,180,240)))
-plot(pr_R[[3]], mains = "Call Center Second Periodic Component Forecast",
-xlabels = "Time (6 minutes aggregated)",
-     ylabels = "Sqrt of Call Numbers",type="line",
-     xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
-       list(c(1,60,120,180,240)))
-plot(pr_R[[4]], mains = "Call Center Third Periodic Component Forecast",
-xlabels = "Time (6 minutes aggregated)",
-     ylabels = "Sqrt of Call Numbers",type="line",
-     xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
-       list(c(1,60,120,180,240)))
-plot(Y, mains = c("Call Center Data Line Plot"),
-xlabels = "Time (6 minutes aggregated)",
-     ylabels = "Sqrt of Call Numbers",type="line",
-     xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
-       list(c(1,60,120,180,240)))
-plot(pr_R[[5]], mains = "Call Center Extracted Signal Forecast",
-xlabels = "Time (6 minutes aggregated)",
-     ylabels = "Sqrt of Call Numbers",type="line",
-     xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
-       list(c(1,60,120,180,240)))
+U <- fssa(Callcenter, L)
+groups <- list(1,1:7)
+## Perform FSSA R-forecast
+pr_R <- fforecast(U = U, groups = groups, h = 30, method = "recurrent")
 
+plotly_funts(pr_R[[1]], main = "Call Center Mean Component Recurrent Forecast",
+             xlab = "Time (6 minutes aggregated)",
+             ylab = "Sqrt of Call Numbers",type="line",
+             xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
+               list(c(1,60,120,180,240)))
+plotly_funts(pr_R[[2]], main = "Call Center Recurrent Forecast from 7'th first components",
+             xlab = "Time (6 minutes aggregated)",
+             ylab = "Sqrt of Call Numbers",type="line",
+             xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
+               list(c(1,60,120,180,240)))
+
+
+## Perform FSSA V-forecast
 pr_V <- fforecast(U = U, groups = groups, h = 30, method = "vector", tol = 10^-3)
-plot(pr_V[[1]], mains = "Call Center Mean Component Forecast",
-xlabels = "Time (6 minutes aggregated)",
-     ylabels = "Sqrt of Call Numbers",type="line",
-     xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
-       list(c(1,60,120,180,240)))
-plot(pr_V[[2]], mains = "Call Center First Periodic Component Forecast",
-xlabels = "Time (6 minutes aggregated)",
-     ylabels = "Sqrt of Call Numbers",type="line",
-     xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
-       list(c(1,60,120,180,240)))
-plot(pr_V[[3]], mains = "Call Center Second Periodic Component Forecast",
-xlabels = "Time (6 minutes aggregated)",
-     ylabels = "Sqrt of Call Numbers",type="line",
-     xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
-       list(c(1,60,120,180,240)))
-plot(pr_V[[4]], mains = "Call Center Third Periodic Component Forecast",
-xlabels = "Time (6 minutes aggregated)",
-     ylabels = "Sqrt of Call Numbers",type="line",
-     xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
-       list(c(1,60,120,180,240)))
-plot(Y, mains = c("Call Center Data Line Plot"),
-xlabels = "Time (6 minutes aggregated)",
-     ylabels = "Sqrt of Call Numbers",type="line",
-     xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
-       list(c(1,60,120,180,240)))
-plot(pr_V[[5]], mains = "Call Center Extracted Signal Forecast",
-xlabels = "Time (6 minutes aggregated)",
-     ylabels = "Sqrt of Call Numbers",type="line",
-     xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
-       list(c(1,60,120,180,240)))
 
-# MFSSA Forecasting
-require(Rfssa)
-load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Jambi.RData")
-## Raw image data
-NDVI <- Jambi$NDVI
-EVI <- Jambi$EVI
-time <- Jambi$Date
-## Kernel density estimation of pixel intensity
-D0_NDVI <- matrix(NA, nrow = 512, ncol = 448)
-D0_EVI <- matrix(NA, nrow = 512, ncol = 448)
-for (i in 1:448) {
-  D0_NDVI[, i] <- density(NDVI[, , i], from = 0, to = 1)$y
-  D0_EVI[, i] <- density(EVI[, , i], from = 0, to = 1)$y
-}
-## Define functional objects
-d <- 11
-D <- list(D0_NDVI, D0_EVI)
-B <- list(list(d, "bspline"),list(d + 4, "fourier"))
-U <- list(c(0, 1), c(0, 1))
-Y <- Rfssa::fts(D, B, U,time)
-plot(Y,mains = c("NDVI","EVI"),xlabels = c("NDVI","EVI"),
-     ylabels = c("NDVI Density","EVI Density"),type="line",
-     xticklabels = list(c("0","1"),c("0","1")),xticklocs =
-       list(c(0,512),c(0,512)))
-U <- fssa(Y = Y, L = 45)
-groups <- list(c(1:4), c(1), c(2:3), c(4))
-pr_R <- fforecast(U = U, groups = groups, h = 1, method = "recurrent")
-plot(pr_R[[1]])
-plot(pr_R[[2]])
-plot(pr_R[[3]])
-plot(pr_R[[4]])
-
-pr_V <- fforecast(U = U, groups = groups, h = 1, method = "vector")
-plot(pr_V[[1]])
-plot(pr_V[[2]])
-plot(pr_V[[3]])
-plot(pr_V[[4]])
+plot(pr_V[[1]], mains = "Call Center Mean Component Vector Forecast",
+     xlabels = "Time (6 minutes aggregated)",
+     ylabels = "Sqrt of Call Numbers",type="line",
+     xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
+       list(c(1,60,120,180,240)))
+plot(pr_V[[2]], mains = "Call Center Vector Forecast from 7'th first components",
+     xlabels = "Time (6 minutes aggregated)",
+     ylabels = "Sqrt of Call Numbers",type="line",
+     xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
+       list(c(1,60,120,180,240)))
 }
 
 }

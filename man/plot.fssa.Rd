@@ -61,8 +61,8 @@ This is a plotting method for objects of class functional singular spectrum anal
  on how to do the grouping stage of univariate or multivariate functional singular spectrum analysis.
 }
 \note{
-See \code{\link{fssa}} examples.
+See \code{\link{funts}} examples.
 }
 \seealso{
-\code{\link{fssa}}, \code{\link{plot.fts}}
+\code{\link{fssa}}, \code{\link{plotly_funts}}
 }
