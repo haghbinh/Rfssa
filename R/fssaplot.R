@@ -26,8 +26,8 @@
 #' @param color_palette A string specifying the color palette that is offered by the ggplot2 package to be used when plotting left singular functions corresponding with \code{\link{fts}} variables observed over two-dimensional domains.
 #' @param reverse_color_palette A boolean specifying if the color palette scale should be reversed.
 #' @param ... Arguments to be passed to methods, such as graphical parameters.
-#' @seealso \code{\link{fssa}}, \code{\link{plot.fts}}
-#' @note See \code{\link{fssa}} examples.
+#' @seealso \code{\link{fssa}}, \code{\link{plotly_funts}}
+#' @note See \code{\link{funts}} examples.
 #' @export
 plot.fssa <- function(x, d = length(x$values),
                       idx = 1:d, idy = idx + 1, contrib = TRUE,
