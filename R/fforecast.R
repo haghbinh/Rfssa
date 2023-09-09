@@ -32,12 +32,12 @@
 #' ## Perform FSSA V-forecast
 #' pr_V <- fforecast(U = U, groups = groups, h = 30, method = "vector", tol = 10^-3)
 #'
-#' plot(pr_V[[1]], mains = "Call Center Mean Component Vector Forecast",
+#' plotly_funts(pr_V[[1]], mains = "Call Center Mean Component Vector Forecast",
 #'      xlabels = "Time (6 minutes aggregated)",
 #'      ylabels = "Sqrt of Call Numbers",type="line",
 #'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
 #'        list(c(1,60,120,180,240)))
-#' plot(pr_V[[2]], mains = "Call Center Vector Forecast from 7'th first components",
+#' plotly_funts(pr_V[[2]], mains = "Call Center Vector Forecast from 7'th first components",
 #'      xlabels = "Time (6 minutes aggregated)",
 #'      ylabels = "Sqrt of Call Numbers",type="line",
 #'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
