@@ -51,13 +51,13 @@ fforecast <- function(U, groups = list(1), h = 1, method = "recurrent", tol = 10
       stop("Current forecasting routines only support fts whose variables are observed over one-dimensional domains. Forecasting of fts variables whose domains have dimension greater than one is under development.")
     }
   }
-
+  cat("Running, please wait...\n")
   if (class(U[[1]])[[1]] != "list") {
     out <- ufforecast(U = U, groups = groups, h = h, method = method, tol = tol)
   } else {
     out <- mfforecast(U = U, groups = groups, h = h, method = method, tol = tol)
   }
-
+  cat("Done.\n")
   return(out)
 }
 

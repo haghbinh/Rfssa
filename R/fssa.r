@@ -121,6 +121,7 @@ fssa <- function(Y, L = NA, ntriples = 20, type = "ufssa") {
     ntriples = L
     warning("\"ntriples\" must be less than or equal to \"L\". Setting \"ntriples\" = \"L\"")
   }
+  cat("Running, please wait...\n")
   p <- length(Y$dimSupp)
   if (p == 1 && type == "ufssa") {
     out <- ufssa(Y, L, ntriples)
@@ -129,6 +130,7 @@ fssa <- function(Y, L = NA, ntriples = 20, type = "ufssa") {
   } else {
     stop("Error in type or dimension.")
   }
+  cat("Done.\n")
   class(out) <- "fssa"
   return(out)
 }
