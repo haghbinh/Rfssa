@@ -108,8 +108,7 @@ plot.fssa <- function(x, d = length(x$values),
               alternating = 1, # axes labels left/bottom
               tck = c(1, 0)
             )
-          ),
-          aspect = "xy", as.table = TRUE,
+          ), as.table = TRUE,
           main = list(main, cex = 1.5),
           col.regions = grDevices::heat.colors(100)
           , ...)
