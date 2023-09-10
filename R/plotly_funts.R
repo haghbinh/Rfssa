@@ -34,7 +34,7 @@
 #' @importFrom plotly plot_ly add_lines layout subplot add_surface hide_colorbar ggplotly
 #' @importFrom ggplot2 ggplot aes_string unit geom_tile scale_fill_distiller xlab ylab labs ggtitle scale_y_continuous scale_x_continuous waiver theme element_line element_text element_blank
 #' @importFrom tibble as_tibble
-#'
+#' @importFrom dplyr "%>%" group_by
 #' @seealso \code{\link{funts}}, \code{\link{Callcenter}}, \code{\link{Montana}}
 #'
 #' @examples
