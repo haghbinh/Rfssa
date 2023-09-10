@@ -55,7 +55,7 @@ fpredinterval <- function(Y, O, L, ntriples, Bt, h = 1, alpha = 0.05, method = "
     basisobj <- basisobj[[1]]
     argval <- argval[[1]]
   }
-  M <- O + h
+  M <- O + h - 1
   g <- 1:ntriples
   basis <- Y$B_mat[[1]]
   grid <- Y$argval[[1]]
