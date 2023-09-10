@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotly_funts.R
 \name{plotly_funts}
 \alias{plotly_funts}
-\title{Plot Functional Time Series (FTS) with Plotly}
+\title{Plot Functional Time Series (funts) with Plotly}
 \usage{
 plotly_funts(
   x,
@@ -57,7 +57,7 @@ plotly_funts(
 \item{...}{Additional arguments to pass to Plotly methods.}
 }
 \description{
-Visualize univariate or multivariate Functional Time Series (FTS) using Plotly-based plots.
+Visualize univariate or multivariate Functional Time Series (funts) using Plotly-based plots.
 }
 \details{
 Supported plot types for one-dimensional domain variables:

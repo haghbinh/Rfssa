@@ -42,6 +42,51 @@
 #'      ylabels = "Sqrt of Call Numbers",type="line",
 #'      xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
 #'        list(c(1,60,120,180,240)))
+#'
+#' # Multivariate forecasting example:
+#' data("Montana")
+#' L <- 45
+#' time <- Montana$time
+#' grid <- list(0:23, list(1:33, 1:33))
+#' montana <- eval.funts(Montana, argvals = grid)
+#' montana[[2]] <- array(
+#'   scale(montana[[2]][, , ],
+#'     center = min(montana[[2]][, , ]),
+#'     scale = max(montana[[2]][, , ]) - min(montana[[2]][, , ])
+#'   ),
+#'   dim = c(33, 33, 133)
+#' )
+#' ## Kernel density estimation of pixel intensity
+#' NDVI <- matrix(NA, nrow = 512, ncol = 133)
+#' for (i in 1:133) NDVI[, i] <- (density(montana[[2]][, , i], from = 0, to = 1)$y)
+#'
+#' ## Define functional objects
+#' bs1 <- Montana$basis[[1]]
+#'
+#' require(fda)
+#' bs2 <- create.bspline.basis(nbasis = 15)
+#' Y <- funts(X = list(montana[[1]], NDVI), basisobj = list(bs1, bs2))
+#'
+#' plotly_funts(Y,
+#'   main = c("Temperature", "NDVI"),
+#'   xlab = c("Temperature", "NDVI"),
+#'   ylab = c("Temperature", "NDVI Density"),
+#'   xticklocs = list(c(0, 6, 12, 18, 23), seq(1, 512, len = 9)),
+#'   xticklabels = list(c(0, 6, 12, 18, 23), seq(0, 1, len = 9))
+#' )
+#'
+#' U <- fssa(Y = Y, L = 45)
+#' plotly_funts(U$Lsingf[[1]])
+#' plot(U$Lsingf[[2]])
+#'
+#' groups <- list(1, 1:3)
+#' pr_R <- fforecast(U = U, groups = groups, h = 10, method = "recurrent")
+#' plotly_funts(pr_R[[1]])
+#' plotly_funts(pr_R[[2]])
+#'
+#' pr_V <- fforecast(U = U, groups = groups, h = 10, method = "vector")
+#' plot(pr_V[[1]])
+#' plot(pr_V[[2]])
 #' }
 #'
 #' @export

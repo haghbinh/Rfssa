@@ -6,7 +6,7 @@
 #' @param cuts An integer that is the number of levels the range of w-correlation values will be divided into.
 #' @param main A character that is the main title of the plot.
 #' @note Refer to \code{\link{fwcor}} for an example on how to run this function starting from a w-correlation matrix.
-#' @seealso \code{\link{fssa}}, \code{\link{freconstruct}}, \code{\link{fts}}, \code{\link{fwcor}}
+#' @seealso \code{\link{fssa}}, \code{\link{freconstruct}}, \code{\link{funts}}, \code{\link{fwcor}}
 
 #' @export
 wplot <- function(W, cuts = 20,main = NA) {

@@ -43,30 +43,29 @@ This function calculates the bootstrap prediction interval for functional singul
 }
 \examples{
 \dontrun{
-require(ggplot2)
+
 data("Callcenter")
 # Calculate prediction intervals
-
 pred_interval <- fpredinterval(Y = Callcenter, O = 310, L = 28, ntriples = 7, Bt = 10000, h=3, alpha = 0.05, method = "recurrent")
 
 # Plot the forecast and prediction interval using ggplot
-
-fssa_forecast <- pred_interval$forecast
-fssa_forecast_lower <- pred_interval$lower
-fssa_forecast_upper <- pred_interval$upper
-ggplot(data = data.frame(cbind(fssa_forecast,fssa_forecast_lower,fssa_forecast_upper)),aes(1:K,fssa_forecast))+theme_bw()+
-geom_ribbon(aes(ymin=fssa_forecast_lower,ymax=fssa_forecast_upper),fill="grey90")+
-  geom_line(aes(1:K,fssa_forecast_upper),color="black",size=0.5)+
-  geom_line(aes(1:K,fssa_forecast_lower),color="black",size=0.5)+
-  geom_line(aes(1:K,fssa_forecast),color="red2",size=1)+
-  scale_x_continuous(name = "Time (6 minutes aggregated)", breaks=c(1,60,120,180,240),
+df <- data.frame(
+  x = 1:240,
+  y = pred_interval$forecast,
+  lower = pred_interval$lower,
+  upper = pred_interval$upper
+)
+require(ggplot2)
+# Create the ggplot
+ggplot(df, aes(x = x, y = y)) +
+  geom_line(size = 1.2) +
+  scale_x_continuous(name = "Time (6 minutes aggregated)",
+                     breaks=c(1,60,120,180,240),
                      labels = c("00:00","06:00","12:00","18:00","24:00"),)+
   scale_y_continuous(name="Sqrt of Call Numbers")+
-  theme(axis.text.x=element_text(size=15),
-        axis.title.x=element_text(size=18))+
-  theme(axis.text.y=element_text(size=15),
-        axis.title.y=element_text(size=18))+ggtitle("Prediction Intervals for Jan. 3, 2000")+
-  theme(plot.title = element_text(hjust = 0.5,size=20))
+  ggtitle("Prediction Intervals for Jan. 3, 2000")+
+  geom_ribbon(aes(ymin = lower, ymax = upper), fill = "darkolivegreen3", alpha = 0.3) +
+  theme_minimal()
 }
 
 }

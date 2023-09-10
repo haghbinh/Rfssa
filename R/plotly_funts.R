@@ -1,6 +1,6 @@
-#' Plot Functional Time Series (FTS) with Plotly
+#' Plot Functional Time Series (funts) with Plotly
 #'
-#' Visualize univariate or multivariate Functional Time Series (FTS) using Plotly-based plots.
+#' Visualize univariate or multivariate Functional Time Series (funts) using Plotly-based plots.
 #'
 #' @param x An object of class \code{\link{funts}}.
 #' @param vars Numeric specifying which variables in the FTS to plot (default: all).
@@ -34,7 +34,6 @@
 #' @importFrom plotly plot_ly add_lines layout subplot add_surface hide_colorbar ggplotly
 #' @importFrom ggplot2 ggplot aes_string unit geom_tile scale_fill_distiller xlab ylab labs ggtitle scale_y_continuous scale_x_continuous waiver theme element_line element_text element_blank
 #' @importFrom tibble as_tibble
-#' @import dplyr
 #'
 #' @seealso \code{\link{funts}}, \code{\link{Callcenter}}, \code{\link{Montana}}
 #'

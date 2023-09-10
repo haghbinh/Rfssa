@@ -41,6 +41,9 @@
 #' plot(U, type = "lheats", d = 4)
 #' plot(U, type = "wcor", d = 10)
 #'
+#' plotly_funts(U$Lsingf[[1]])
+#' plot(U$Lsingf[[2]])
+#'
 #' # FSSA Reconstruction step:
 #' gr <- list(1, 2:3, 4:5, 6:7, 1:7)
 #' Q <- freconstruct(U, gr)
@@ -82,6 +85,9 @@
 #' plot(U, type = "paired", d = 6)
 #' plot(U, type = "periodogram", d = 4)
 #' plot(U, type = "wcor", d = 10)
+#'
+#' plotly_funts(U$Lsingf[[1]])
+#' plot(U$Lsingf[[2]])
 #'
 #' # MFSSA Reconstruction step:
 #' Q <- freconstruct(U = U, groups = list(1, 2, 3))
@@ -171,8 +177,8 @@ ufssa <- function(Y, L, ntriples) {
     if(Y$dimSupp[[1]] == 1) {
       X_mat <- out[[i]]
     } else {
-      n1 <- unique(U1$Y$argval[[1]][,1])
-      n2 <- unique(U1$Y$argval[[1]][,2])
+      n1 <- length(unique(Y$argval[[1]][,1]))
+      n2 <- length(unique(Y$argval[[1]][,2]))
       X_mat <- array(out[[j]], dim = c(n1,n2,L))
     }
     Lsingf[[i]] <- funts(X = X_mat, basisobj = Y$basis[[1]])
@@ -241,8 +247,8 @@ mfssa <- function(Y, L, ntriples) {
       if(Y$dimSupp[[j]] == 1) {
         X_mat[[j]] <- my_pcs[[j]]
       } else {
-        n1 <- length(unique(U1$Y$argval[[j]][,1]))
-        n2 <- length(unique(U1$Y$argval[[j]][,2]))
+        n1 <- length(unique(Y$argval[[j]][,1]))
+        n2 <- length(unique(Y$argval[[j]][,2]))
         X_mat[[j]] <- array(my_pcs[[j]], dim = c(n1,n2,L))
       }
     }

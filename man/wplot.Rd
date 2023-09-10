@@ -21,5 +21,5 @@ from functional singular spectrum analysis (\code{\link{fssa}}) objects.
 Refer to \code{\link{fwcor}} for an example on how to run this function starting from a w-correlation matrix.
 }
 \seealso{
-\code{\link{fssa}}, \code{\link{freconstruct}}, \code{\link{fts}}, \code{\link{fwcor}}
+\code{\link{fssa}}, \code{\link{freconstruct}}, \code{\link{funts}}, \code{\link{fwcor}}
 }
