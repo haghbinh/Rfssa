@@ -159,7 +159,7 @@ print.funts <- function(obj) {
     out$basis[[count]] <- obj$basis[[k]]
     out$B_mat[[count]] <- obj$B_mat[[k]]
     out$argval[[count]] <- obj$argval[[k]]
-    out$coefs[[count]] <- obj$coefs[[k]][, i]
+    out$coefs[[count]] <- as.matrix(obj$coefs[[k]])[, i]
   }
   class(out) <- "funts"
   return(out)
@@ -291,24 +291,13 @@ plot.funts <- function(obj, npts = 100, obs = 1, xlab = NULL, ylab = NULL, main 
   if (is.null(xlab)) xlab <- rep("time", p)
   for (j in 1:p) {
     if (dimSupp[[j]] == 1) {
-      if (is.basis(obj$basis[[j]])) { # dim=1 and fd basis
-        rangeval <- obj$basis[[j]]$rangeval
-      } else { # dim=1 and empirical basis
-        rangeval <- attr(y$basis[[j]], "rangeval")
-      }
-      supp <- matrix(rangeval, nrow = 2)
+      supp <- matrix(range(obj$argval[[j]]), nrow = 2)
       x_grids <- seq(supp[1, 1], supp[2, 1], len = npts)
       X <- eval.funts(x_grids, obj[, j])[[1]]
       matplot(x_grids, X, type = type, lty = lty, xlab = xlab[j], ylab = ylab[j], main = main[j],...)
     } else { # dim >1
-      if (is.basis(obj$basis[[j]][[1]])) { # dim=2 and fd basis
-        rangeval1 <- obj$basis[[j]][[1]]$rangeval
-        rangeval2 <- obj$basis[[j]][[1]]$rangeval
-      } else { # dim=2 and empirical basis
-        rangeval1 <- attr(y$basis[[j]][[1]], "rangeval")
-        rangeval2 <- attr(y$basis[[j]][[2]], "rangeval")
-      }
-      supp <- matrix(c(rangeval1, rangeval2), nrow = 2)
+      rangeval <- apply(obj$argval[[j]],2,range)
+      supp <- matrix(c(rangeval[,1], rangeval[,2]), nrow = 2)
       x_grids <- seq(supp[1, 1], supp[2, 1], len = npts)
       y_grids <- seq(from = supp[1, 2], to = supp[2, 2], length.out = npts)
       grids2d <- list(x_grids, y_grids)

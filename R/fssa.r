@@ -179,7 +179,7 @@ ufssa <- function(Y, L, ntriples) {
     } else {
       n1 <- length(unique(Y$argval[[1]][,1]))
       n2 <- length(unique(Y$argval[[1]][,2]))
-      X_mat <- array(out[[j]], dim = c(n1,n2,L))
+      X_mat <- array(out[[i]], dim = c(n1,n2,L))
     }
     Lsingf[[i]] <- funts(X = X_mat, basisobj = Y$basis[[1]])
   }

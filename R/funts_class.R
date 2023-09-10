@@ -137,7 +137,7 @@ funts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = 
           } else if (!is.null(attr(basisobj[[j]][[1]], "rangeval"))) {
             rangeval1 <- attr(basisobj[[j]][[1]], "rangeval")
           } else {
-            rangeval <- c(0, 1)
+            rangeval1 <- c(0, 1)
           }
           if (!is.null(attr(basisobj[[j]][[2]], "grids"))) {
             rangeval2 <- range(attr(basisobj[[j]][[2]], "grids"))
