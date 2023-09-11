@@ -273,4 +273,5 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NU
     print(subplot(Pl, titleX = TRUE, titleY = TRUE) %>% layout(title = ""))
   }
   cat("Done.\n")
+  return(Pl)
 }

@@ -238,7 +238,7 @@ server.fssa <- function(input, output, clientData, session) {
         bas.fssa <- fda::create.fourier.basis(c(0, 1), nbasis = input$xdf)
       }
       tau <- seq(0, 1, length = nrow(iTs()))
-      Uf <- fssa(Rfssa::fts(X = list(iTs()), B = list(eval.basis(tau, bas.fssa)), grid = list(tau)), input$fssaL)
+      Uf <- fssa(funts(X = iTs(), basisobj = bas.fssa), input$fssaL)
       Us <- ssa(t(iTs()), input$mssaL, kind = "mssa")
       return(list(Uf = Uf, Us = Us, tau = tau, bas.fssa = bas.fssa))
     })
@@ -267,8 +267,8 @@ server.fssa <- function(input, output, clientData, session) {
     }
     # if (!length(iXs())) {load(system.file("shiny/data", "servshiny.rda", package = "Rfssa")); iXs(Xs[-6])}
     if (!length(iXs())) {
-      load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Callcenter.RData")
-      load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Jambi.RData")
+      load_github_data("https://github.com/haghbinh/Rfssa/blob/Ver-2.5.0/data/Callcenter.RData")
+      load_github_data("https://github.com/haghbinh/Rfssa/blob/Ver-2.5.0/data/Jambi.RData")
       Callcenter <- get("Callcenter", envir = .GlobalEnv)
       Jambi <- get("Jambi", envir = .GlobalEnv)
       Xs <- list()
@@ -633,12 +633,12 @@ server.fssa <- function(input, output, clientData, session) {
       isolate(sr$Qs <- reconstruct(sr$Us, groups = input.g))
       isolate(sr$Qf <- freconstruct(sr$Uf, input.g))
       Qf <- sr$Qf[[1]]
-      Qf@C[[1]][, ] <- 0
+      Qf$coefs[[1]][, ] <- 0
       for (i in input$sg[1]:input$sg[2]) {
         Qs <- Qs + t(sr$Qs[[i]])
-        Qf@C[[1]] <- Qf@C[[1]] + sr$Qf[[i]]@C[[1]]
+        Qf$coefs[[1]] <- Qf$coefs[[1]] + sr$Qf[[i]]$coefs[[1]]
       }
-      Q <- Qf@B[[1]] %*% Qf@C[[1]]
+      Q <- Qf$B_mat[[1]] %*% Qf$coefs[[1]]
     }
     if ("fpca" %in% input$s.plot || "dfpca" %in% input$s.plot) {
       f.pca <- run_fpca()
@@ -767,19 +767,19 @@ server.fssa <- function(input, output, clientData, session) {
     input.g <- eval(parse(text = paste0("list(", input$g, ")")))
     if (input$desc == "fssa.reconst") {
       isolate(sr$Qf <- freconstruct(sr$Uf, input.g))
-      Qf <- 0
+      Qf <-  funts(X = matrix(0, nrow = nrow(iTs()), ncol = ncol(iTs())), basisobj = sr$bas.fssa, argval = sr$tau)
       for (i in input$sg[1]:input$sg[2]) {
         Qf <- Qf + sr$Qf[[i]]
       }
-      myplot <- plot(Qf, type = input$rec.type)
+      myplot <- plotly_funts(Qf, type = input$rec.type)
     } else {
       isolate(sr$Qs <- reconstruct(sr$Us, groups = input.g))
       Qs <- matrix(0, nrow = nrow(iTs()), ncol = ncol(iTs()))
       for (i in input$sg[1]:input$sg[2]) {
         Qs <- Qs + t(sr$Qs[[i]])
       }
-      Qs <- Rfssa::fts(X = list(Qs), B = list(eval.basis(sr$tau, sr$bas.fssa)), grid = list(sr$tau))
-      myplot <- plot(Qs, type = input$rec.type)
+      Qs <- funts(X = Qs, basisobj = sr$bas.fssa, argval = sr$tau)
+      myplot <- plotly_funts(Qs, type = input$rec.type)
     }
     print(myplot[[1]])
   })
@@ -828,12 +828,13 @@ server.fssa <- function(input, output, clientData, session) {
       return()
     }
     fc <- run_fcast()
-    Qf <- 0
+    Qf <- fc[[1]][[1]]
+    Qf$coefs[[1]][,] <- 0
     if (length(fc) == 1) i <- 1 else i <- as.numeric(input$fcast.select)
     for (j in input$sg[1]:input$sg[2]) {
       Qf <- Qf + fc[[i]][[j]]
     }
-    myplot <- plot(Qf, type = input$fcast.type)
+    myplot <- plotly_funts(Qf, type = input$fcast.type)
     print(myplot[[1]])
   })
 }
