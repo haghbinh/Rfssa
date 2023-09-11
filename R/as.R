@@ -8,7 +8,6 @@
 #' @return An object of class \code{\link{funts}}.
 #'
 #' @importFrom fda is.fd create.bspline.basis
-#' @importFrom ftsa is.fts
 #'
 #' @examples
 #' require(rainbow)
@@ -40,14 +39,18 @@
 as.funts <- function(obj, basis = NULL) {
   if (is.fd(obj)) {
     x_funts <- funts(X = obj$coefs, basisobj = obj$basis, method = "coefs")
-  } else if (is.fts(obj)) {
+  } else if (inherits(obj, c( "fds", "fts" ))) {
     argval <- obj$x
     m1 <- min(argval)
     m2 <- max(argval)
     X <- obj$y
     N <- ncol(X)
-    time_st <- obj$time[1]
-    time_en <- obj$time[N]
+    time_st <- 1
+    time_en <- NULL
+    if (inherits(obj, "fts")){
+      time_st <- obj$time[1]
+      time_en <- obj$time[N]
+    }
     d <- floor(min(dim(X)) / 2)
     if (is.null(basis)) basisobj <- create.bspline.basis(c(m1, m2), nbasis = d)
     x_funts <- funts(X = X, basisobj = basisobj, argval = argval, start = time_st, end = time_en)
