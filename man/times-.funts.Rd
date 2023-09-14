@@ -7,9 +7,9 @@
 \method{*}{funts}(obj1, obj2)
 }
 \arguments{
-\item{obj1}{An object of class \code{\link{funts}} or a scalar value.}
+\item{obj1}{an object of class \code{\link{funts}} or a scalar value.}
 
-\item{obj2}{An object of class \code{\link{funts}} or a scalar value.}
+\item{obj2}{an object of class \code{\link{funts}} or a scalar value.}
 }
 \value{
 An object of class \code{\link{funts}} representing the result of scalar multiplication.

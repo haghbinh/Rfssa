@@ -7,9 +7,9 @@
 \method{-}{funts}(obj1, obj2 = NULL)
 }
 \arguments{
-\item{obj1}{An object of class `funts`. This represents the first `funts` object.}
+\item{obj1}{an object of class `funts`. This represents the first `funts` object.}
 
-\item{obj2}{An object of class `funts` or a scalar.}
+\item{obj2}{an object of class `funts` or a scalar.}
 }
 \description{
 This function allows you to subtract two `funts` (functional time series) objects or

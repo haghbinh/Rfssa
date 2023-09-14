@@ -4,7 +4,7 @@
 \alias{fforecast}
 \title{Functional Singular Spectrum Analysis Recurrent Forecasting and Vector Forecasting}
 \usage{
-fforecast(U, groups = list(1), h = 1, method = "recurrent", tol = 10^-3)
+fforecast(U, groups = list(1:5), h = 1, method = "recurrent", tol = 10^-3)
 }
 \arguments{
 \item{U}{An object of class \code{\link{fssa}} that holds the decomposition.}
@@ -29,34 +29,32 @@ data("Callcenter")
 L <- 28
 U <- fssa(Callcenter, L)
 groups <- list(1,1:7)
+
 ## Perform FSSA R-forecast
-pr_R <- fforecast(U = U, groups = groups, h = 30, method = "recurrent")
+pr_R <- fforecast(U = U, groups = groups,
+                  h = 30, method = "recurrent")
 
-plotly_funts(pr_R[[1]], main = "Call Center Mean Component Recurrent Forecast",
-             xlab = "Time (6 minutes aggregated)",
-             ylab = "Sqrt of Call Numbers",type="line",
-             xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
-               list(c(1,60,120,180,240)))
-plotly_funts(pr_R[[2]], main = "Call Center Recurrent Forecast from 7'th first components",
-             xlab = "Time (6 minutes aggregated)",
-             ylab = "Sqrt of Call Numbers",type="line",
-             xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
-               list(c(1,60,120,180,240)))
+plot(pr_R,
+     group = 1,
+     xlab = "Time (6 minutes aggregated)",
+     ylab = "Sqrt of Call Numbers",type="line")
 
+
+plotly_funts(pr_R[[2]],
+             xlab = "Time (6 minutes aggregated)",
+             ylab = "Sqrt of Call Numbers",type="line")
 
 ## Perform FSSA V-forecast
 pr_V <- fforecast(U = U, groups = groups, h = 30, method = "vector", tol = 10^-3)
 
-plotly_funts(pr_V[[1]], mains = "Call Center Mean Component Vector Forecast",
+plot(pr_V,
+     group = 1,
      xlabels = "Time (6 minutes aggregated)",
-     ylabels = "Sqrt of Call Numbers",type="line",
-     xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
-       list(c(1,60,120,180,240)))
-plotly_funts(pr_V[[2]], mains = "Call Center Vector Forecast from 7'th first components",
+     ylabels = "Sqrt of Call Numbers")
+
+plotly_funts(pr_V[[2]],
      xlabels = "Time (6 minutes aggregated)",
-     ylabels = "Sqrt of Call Numbers",type="line",
-     xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),xticklocs =
-       list(c(1,60,120,180,240)))
+     ylabels = "Sqrt of Call Numbers",type="3Dlines")
 
 # Multivariate forecasting example:
 data("Montana")
@@ -96,12 +94,12 @@ plot(U$Lsingf[[2]])
 
 groups <- list(1, 1:3)
 pr_R <- fforecast(U = U, groups = groups, h = 10, method = "recurrent")
-plotly_funts(pr_R[[1]])
+plot(pr_R, group = 1)
 plotly_funts(pr_R[[2]])
 
 pr_V <- fforecast(U = U, groups = groups, h = 10, method = "vector")
-plot(pr_V[[1]])
-plot(pr_V[[2]])
+plot(pr_V, group = 1)
+plotly_funts(pr_V[[2]])
 }
 
 }

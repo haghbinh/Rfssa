@@ -7,9 +7,9 @@
 \method{+}{funts}(obj1, obj2 = NULL)
 }
 \arguments{
-\item{Y1}{An object of class \code{\link{funts}} or numeric.}
+\item{Y1}{an object of class \code{\link{funts}} or numeric.}
 
-\item{Y2}{An object of class \code{\link{funts}} or numeric.}
+\item{Y2}{an object of class \code{\link{funts}} or numeric.}
 }
 \value{
 An object of class \code{\link{funts}}.

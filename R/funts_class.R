@@ -20,7 +20,7 @@
 #'
 #' @param method Determines the type of the `X` matrix: "coefs" or "data."
 #'
-#' @param start The time of the first observation. It can be a single number or an object of classes `Date`, `POSIXct`, or `POSIXt`,
+#' @param start The time of the first observation. It can be a single positive integer or an object of classes `Date`, `POSIXct`, or `POSIXt`,
 #' specifying a natural time unit.
 #'
 #' @param end The time of the last observation, specified in the same way as `start`.
@@ -33,7 +33,7 @@
 #' @examples
 #' \dontrun{
 #' # 1D FTS example: Callcenter dataset
-#'
+#' require(fda)
 #' loadCallcenterData()
 #' D <- matrix(sqrt(Callcenter$calls), nrow = 240)
 #' bs1 <- create.bspline.basis(c(0, 23), 22)

@@ -7,7 +7,7 @@
 \method{length}{funts}(obj)
 }
 \arguments{
-\item{obj}{}
+\item{obj}{an object of class "funts" .}
 }
 \description{
 Returns the length of a "funts" object.

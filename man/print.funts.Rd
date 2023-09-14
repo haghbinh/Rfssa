@@ -7,7 +7,7 @@
 \method{print}{funts}(obj)
 }
 \arguments{
-\item{obj}{An object of class "funts" to be printed.}
+\item{obj}{an object of class "funts" to be printed.}
 }
 \description{
 This function provides a custom print method for objects of the Functional Time Series (funts) class.

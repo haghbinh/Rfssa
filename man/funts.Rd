@@ -22,7 +22,7 @@ elements, depending on the dimension of the domain the variable is observed over
 
 \item{method}{Determines the type of the `X` matrix: "coefs" or "data."}
 
-\item{start}{The time of the first observation. It can be a single number or an object of classes `Date`, `POSIXct`, or `POSIXt`,
+\item{start}{The time of the first observation. It can be a single positive integer or an object of classes `Date`, `POSIXct`, or `POSIXt`,
 specifying a natural time unit.}
 
 \item{end}{The time of the last observation, specified in the same way as `start`.}
@@ -39,7 +39,7 @@ observed samples of curves and applying smoothing using a basis method or by sup
 \examples{
 \dontrun{
 # 1D FTS example: Callcenter dataset
-
+require(fda)
 loadCallcenterData()
 D <- matrix(sqrt(Callcenter$calls), nrow = 240)
 bs1 <- create.bspline.basis(c(0, 23), 22)

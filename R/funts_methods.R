@@ -2,7 +2,7 @@
 #' Length of Functional Time Series
 #'
 #' Returns the length of a "funts" object.
-#' @param obj
+#' @param obj an object of class "funts" .
 #'
 #' @importFrom fda eval.basis is.basis
 #' @export
@@ -17,7 +17,7 @@ length.funts <- function(obj) {
 #' It displays information about the funts object, including its length (N), the number of variables,
 #' and the structure of the object.
 #'
-#' @param obj An object of class "funts" to be printed.
+#' @param obj an object of class "funts" to be printed.
 #'
 #'
 #' @export
@@ -36,8 +36,8 @@ print.funts <- function(obj) {
 #' follows the form of \code{Y+c(1,2)} if \code{Y} is a bivariate FTS.
 #' @return An object of class \code{\link{funts}}.
 #'
-#' @param Y1 An object of class \code{\link{funts}} or numeric.
-#' @param Y2 An object of class \code{\link{funts}} or numeric.
+#' @param Y1 an object of class \code{\link{funts}} or numeric.
+#' @param Y2 an object of class \code{\link{funts}} or numeric.
 #'
 #'
 #' @seealso \code{\link{funts}}
@@ -71,8 +71,8 @@ print.funts <- function(obj) {
 #'
 #' Performs scalar multiplication of a Functional Time Series (funts) object by either another funts object or a scalar value.
 #'
-#' @param obj1 An object of class \code{\link{funts}} or a scalar value.
-#' @param obj2 An object of class \code{\link{funts}} or a scalar value.
+#' @param obj1 an object of class \code{\link{funts}} or a scalar value.
+#' @param obj2 an object of class \code{\link{funts}} or a scalar value.
 #' @return An object of class \code{\link{funts}} representing the result of scalar multiplication.
 #'
 #'
@@ -105,8 +105,8 @@ print.funts <- function(obj) {
 #' subtract a `funts` object from a scalar. It returns the difference between the two
 #' objects.
 #'
-#' @param obj1 An object of class `funts`. This represents the first `funts` object.
-#' @param obj2 An object of class `funts` or a scalar.
+#' @param obj1 an object of class `funts`. This represents the first `funts` object.
+#' @param obj2 an object of class `funts` or a scalar.
 #'
 #' @seealso \code{\link{funts}}
 #'
@@ -139,10 +139,10 @@ print.funts <- function(obj) {
 #' based on the provided indices. You can specify which subsets you want to extract
 #' from the functional time series.
 #'
-#' @param obj An object of class \code{\link{funts}}.
-#' @param i An index or indices specifying the subsets of times to extract.
-#' @param j An index or indices specifying the subsets of variables to extract.
-#' @return An `funts` object containing the specified subsets
+#' @param obj an object of class \code{\link{funts}}.
+#' @param i an index or indices specifying the subsets of times to extract.
+#' @param j an index or indices specifying the subsets of variables to extract.
+#' @return an `funts` object containing the specified subsets
 #' @seealso \code{\link{funts}}
 #' @export
 "[.funts" <- function(obj, i = NULL, j = NULL) {
@@ -172,10 +172,10 @@ print.funts <- function(obj) {
 #' on a specified grid of argument values. The result is a list of matrices, each
 #' matrix corresponding to one dimension of the functional data.
 #'
-#' @param argvals A list or numeric vector specifying the grid points at which
+#' @param argvals a list or numeric vector specifying the grid points at which
 #'   to evaluate the functional time series. For multivariate functional data,
 #'   provide a list of grids corresponding to each dimension.
-#' @param obj An object of class \code{\link{funts}} to be evaluated.
+#' @param obj an object of class \code{\link{funts}} to be evaluated.
 #'
 #' @return A list of matrices, where each matrix represents the evaluated values
 #'   of the functional data on the specified grid.
@@ -241,15 +241,15 @@ eval.funts <- function(argvals,obj){
 #' Create visualizations of Functional Time Series (funts) data. This function supports
 #' plotting funts data with one-dimensional or two-dimensional domains.
 #'
-#' @param obj An object of class \code{funts}.
-#' @param npts Number of grid points for the plots.
-#' @param obs Observation number (for two-dimensional domains).
-#' @param xlab X-axis label.
-#' @param ylab Y-axis label.
-#' @param main Main title for the plot.
-#' @param type Type of plot ("l" for line, "p" for points, etc.).
-#' @param lty Line type (1 for solid, 2 for dashed, etc.).
-#' @param ... Additional graphical parameters passed to plotting functions.
+#' @param obj an object of class \code{funts}.
+#' @param npts number of grid points for the plots.
+#' @param obs observation number (for two-dimensional domains).
+#' @param xlab x-axis label.
+#' @param ylab y-axis label.
+#' @param main main title for the plot.
+#' @param type type of plot ("l" for line, "p" for points, etc.).
+#' @param lty line type (1 for solid, 2 for dashed, etc.).
+#' @param ... additional graphical parameters passed to plotting functions.
 #'
 #' @details
 #' The function allows plotting funts data with one-dimensional domains as line plots and funts data

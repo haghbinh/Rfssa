@@ -7,11 +7,11 @@
 eval.funts(argvals, obj)
 }
 \arguments{
-\item{argvals}{A list or numeric vector specifying the grid points at which
+\item{argvals}{a list or numeric vector specifying the grid points at which
 to evaluate the functional time series. For multivariate functional data,
 provide a list of grids corresponding to each dimension.}
 
-\item{obj}{An object of class \code{\link{funts}} to be evaluated.}
+\item{obj}{an object of class \code{\link{funts}} to be evaluated.}
 }
 \value{
 A list of matrices, where each matrix represents the evaluated values

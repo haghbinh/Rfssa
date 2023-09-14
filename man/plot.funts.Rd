@@ -17,23 +17,23 @@
 )
 }
 \arguments{
-\item{obj}{An object of class \code{funts}.}
+\item{obj}{an object of class \code{funts}.}
 
-\item{npts}{Number of grid points for the plots.}
+\item{npts}{number of grid points for the plots.}
 
-\item{obs}{Observation number (for two-dimensional domains).}
+\item{obs}{observation number (for two-dimensional domains).}
 
-\item{xlab}{X-axis label.}
+\item{xlab}{x-axis label.}
 
-\item{ylab}{Y-axis label.}
+\item{ylab}{y-axis label.}
 
-\item{main}{Main title for the plot.}
+\item{main}{main title for the plot.}
 
-\item{type}{Type of plot ("l" for line, "p" for points, etc.).}
+\item{type}{type of plot ("l" for line, "p" for points, etc.).}
 
-\item{lty}{Line type (1 for solid, 2 for dashed, etc.).}
+\item{lty}{line type (1 for solid, 2 for dashed, etc.).}
 
-\item{...}{Additional graphical parameters passed to plotting functions.}
+\item{...}{additional graphical parameters passed to plotting functions.}
 }
 \description{
 Create visualizations of Functional Time Series (funts) data. This function supports
