@@ -12,8 +12,7 @@
 #' @examples
 #' require(rainbow)
 #' fts_obj=fts(x = 15:49,
-#'             y = Australiasmoothfertility$y[,1:60],
-#'             xname = "Age", yname = "Fertility rate")
+#'             y = Australiasmoothfertility$y[,1:60])
 #'
 #' x_funts1 <- as.funts(fts_obj)
 #' plot(x_funts1,
