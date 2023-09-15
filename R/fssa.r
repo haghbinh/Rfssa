@@ -1,19 +1,22 @@
-#' Functional Singular Spectrum Analysis
+# --------------------------------------------------------------
+#' Functional Singular Spectrum Analysis (FSSA)
 #'
-#' This is a function which performs the decomposition (including embedding
-#'  and  functional SVD steps) stage for univariate functional singular spectrum analysis (ufssa)
-#'  or multivariate functional singular spectrum analysis (mfssa). The algorithm (ufssa or mfssa) is chosen based on
-#'  whether the supplied input is a univariate or
-#'  multivariate functional time series (\code{\link{fts}}) object. The \code{type} parameter can also be set to \code{"mfssa"} if the user wishes to perform ufssa of a univariate \code{\link{fts}} object using the mfssa code. Also note that the variables of the \code{\link{fts}} maybe observed over different dimensional domains where the maximum dimension currently supported is two.
-#' @return An object of class \code{fssa}, which is a list of functional objects and the following components:
-#' \item{values}{A numeric vector of eigenvalues.}
-#' \item{L}{The specified window length.}
-#' \item{N}{The length of the functional time series.}
-#' \item{Y}{The original functional time series.}
-#' @param Y An object of class \code{\link{fts}}.
-#' @param L A positive integer giving the window length.
-#' @param ntriples A positive integer specifying the number of eigentriples to calculate in the decomposition.
-#' @param type A string indicating which type of fssa to perform. Use \code{type="ufssa"} to perform univariate fssa (default for univariate fts). Use \code{type="mfssa"} to perform multivariate fssa (default for multivariate fts).
+#' This function performs the decomposition (embedding and functional SVD steps)
+#' for univariate (ufssa) or multivariate (mfssa) functional singular spectrum
+#' analysis based on the input data type. The input can be a univariate or
+#' multivariate functional time series (\code{\link{funts}}) object.
+#'
+#' @param Y an object of class \code{\link{funts}}.
+#' @param L a positive integer, the window length.
+#' @param ntriples a positive integer, the number of eigentriples for the
+#' decomposition.
+#' @param type a string indicating the type of FSSA: "ufssa" (default for
+#' univariate FTS) or "mfssa" (default for multivariate FTS).
+#'
+#' @return An object of class \code{fssa}, containing functional objects,
+#' eigenvalues, window length, and original data.
+
+
 #' @importFrom RSpectra eigs
 #' @examples
 #' \dontrun{

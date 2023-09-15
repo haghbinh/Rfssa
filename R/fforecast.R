@@ -1,13 +1,25 @@
 #--------------------------------------------------------------
-#' Functional Singular Spectrum Analysis Recurrent Forecasting and Vector Forecasting
+#' Functional Singular Spectrum Analysis Recurrent and Vector Forecasting
 #'
-#' This function performs functional singular spectrum analysis (FSSA) recurrent forecasting (FSSA R-forecasting) or vector forecasting (FSSA V-forecasting) of univariate or multivariate functional time series (\code{\link{fts}}) observed over a one-dimensional domain.
-#' @return a list of objects of class \code{\link{fts}} where each fts corresponds to a forecasted group.
-#' @param U an object of class \code{\link{fssa}} that holds the decomposition.
-#' @param groups A list of numeric vectors where each vector includes indices of elementary components of a group used for reconstruction and forecasting.
-#' @param h an integer that specifies the forecast horizon.
-#' @param method a character string specifying the type of forecasting to perform either \code{"recurrent"} or \code{"vector"}.
-#' @param tol a double specifying the amount of tolerated error in the approximation of the matrix that corresponds with the operator formed using a Neumann series leveraged in both forecasting algorithms.
+#' Perform functional singular spectrum analysis (FSSA) recurrent forecasting
+#' (FSSA R-forecasting) or vector forecasting (FSSA V-forecasting) on univariate
+#' or multivariate functional time series (\code{\link{funts}}) observed over a
+#' one-dimensional domain.
+#'
+#' @param U an object of class \code{\link{fssa}} holding the decomposition.
+#' @param groups a list of numeric vectors where each vector includes indices
+#'               of elementary components of a group used for reconstruction and
+#'               forecasting.
+#' @param h an integer specifying the forecast horizon.
+#' @param method a character string specifying the type of forecasting to perform:
+#'              - "recurrent" for FSSA R-forecasting.
+#'              - "vector" for FSSA V-forecasting.
+#' @param tol a double specifying the tolerated error in the approximation of
+#'            the matrix used in forecasting algorithms.
+#'
+#' @return An object of class `fforecast` which is a list of objects of class
+#'         \code{\link{funts}}, where each one corresponds to a forecasted group.
+#'
 #' @examples
 #' \dontrun{
 #' data("Callcenter")

@@ -1,17 +1,21 @@
 #--------------------------------------------------------------
 #' FSSA Forecasting Bootstrap Prediction Interval
 #'
-#' This function calculates the bootstrap prediction interval for functional singular spectrum analysis (FSSA) forecasting predictions of univariate functional time series (\code{\link{funts}}) observed over a one-dimensional domain.
-#' @return A list of numeric vectors where the first vector contains the discretely sampled point forecast, the second contains the discretely sampled lower bound of the prediction interval, and the third contains the discretely sampled upper bound of the prediction interval.
-#' @param Y An object of class \code{\link{funts}}.
-#' @param O A positive integer specifying the training set size.
-#' @param L A positive integer specifying the window length.
-#' @param ntriples The number of eigentriples to use to perform the forecasts.
-#' @param Bt A positive integer specifying the number of bootstrap samples.
-#' @param h An integer that specifies the forecast horizon.
-#' @param alpha A double between zero and one specifying the significance level.
-#' @param method A character string specifying the type of forecasting to perform either \code{"recurrent"} or \code{"vector"}.
-#' @param tol A double specifying the amount of tolerated error in the approximation of the matrix that corresponds with the operator formed using a Neumann series leveraged in both forecasting algorithms.
+#' Calculate the bootstrap prediction interval for functional singular
+#' spectrum analysis (FSSA) forecasting predictions of univariate functional
+#' time series (\code{\link{funts}}) observed over a one-dimensional domain.
+#' @param Y an object of class \code{\link{funts}}.
+#' @param O a positive integer specifying the training set size.
+#' @param L a positive integer specifying the window length.
+#' @param ntriples the number of eigentriples to use for forecasts.
+#' @param Bt a positive integer specifying the number of bootstrap samples.
+#' @param h an integer specifying the forecast horizon.
+#' @param alpha a double (0 < alpha < 1) specifying the significance level.
+#' @param method a character string: "recurrent" or "vector" forecasting.
+#' @param tol a double specifying tolerated error in the approximation.
+#' @return a list of numeric vectors: point forecast, lower, and upper bounds.
+
+
 #' @importFrom rainbow fts
 #' @importFrom ftsa quantile.fts
 #' @examples
