@@ -224,7 +224,7 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NU
         Pl[[j]] <- D0 %>%
           group_by(time) %>%
           plot_ly(
-            x = ~time, z = ~z, y = ~x, type = "scatter3d", mode = "lines", color = ~z,
+            x = ~as.character(time), z = ~z, y = ~x, type = "scatter3d", mode = "lines", color = ~z,
             line = list(width = 4), colors = c("#FFFFFAFF", "#FF0000FF"), hovertemplate = paste0(axz$title[j], ":", " %{z}", "\n", axx$title[j], ":", " %{x}", "\n", axy$title[j], ":", " %{y}")
           ) %>%
           layout(scene = list(xaxis = axx, yaxis = axy, zaxis = axz)) %>%
@@ -289,11 +289,11 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NU
         ))
     }
   }
-  if (p == 1 || "heatmap" %in% types || "3Dsurface" %in% types || "3Dline" %in% types || count_twod >= 1 || subplot == FALSE || length(vars) == 1) {
-    for (i in 1:p) print(Pl[[i]])
-  } else {
-    print(subplot(Pl, titleX = TRUE, titleY = TRUE) %>% layout(title = ""))
-  }
+#  if (p == 1 || "heatmap" %in% types || "3Dsurface" %in% types || "3Dline" %in% types || count_twod >= 1 || subplot == FALSE || length(vars) == 1) {
+#    for (i in 1:p) print(Pl[[i]])
+#  } else {
+#    print(subplot(Pl, titleX = TRUE, titleY = TRUE) %>% layout(title = ""))
+#  }
   cat("Done.\n")
   return(Pl)
 }
