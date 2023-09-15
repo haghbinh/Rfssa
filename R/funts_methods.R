@@ -23,9 +23,11 @@ length.funts <- function(obj) {
 #' @export
 print.funts <- function(obj) {
   cat("\nFunctional time series (funts) object:")
-  cat("\nlength N: ", obj$N)
-  cat("\nnumber of variables: ", length(obj$dimSupp), "\n")
-  cat(str(obj), "\n")
+  cat("\nStart: ", obj$time[1])
+  cat("\nEnd: ", obj$time[obj$N])
+  cat("\nLenght: ", obj$N)
+  cat("\nNumber of variables: ", length(obj$dimSupp), "\n")
+  cat("\nTime: ", str(obj$time), "\n")
 }
 # =======================================================================
 #'

@@ -7,18 +7,18 @@
 fforecast(U, groups = list(1:5), h = 1, method = "recurrent", tol = 10^-3)
 }
 \arguments{
-\item{U}{An object of class \code{\link{fssa}} that holds the decomposition.}
+\item{U}{an object of class \code{\link{fssa}} that holds the decomposition.}
 
 \item{groups}{A list of numeric vectors where each vector includes indices of elementary components of a group used for reconstruction and forecasting.}
 
-\item{h}{An integer that specifies the forecast horizon.}
+\item{h}{an integer that specifies the forecast horizon.}
 
-\item{method}{A character string specifying the type of forecasting to perform either \code{"recurrent"} or \code{"vector"}.}
+\item{method}{a character string specifying the type of forecasting to perform either \code{"recurrent"} or \code{"vector"}.}
 
-\item{tol}{A double specifying the amount of tolerated error in the approximation of the matrix that corresponds with the operator formed using a Neumann series leveraged in both forecasting algorithms.}
+\item{tol}{a double specifying the amount of tolerated error in the approximation of the matrix that corresponds with the operator formed using a Neumann series leveraged in both forecasting algorithms.}
 }
 \value{
-A list of objects of class \code{\link{fts}} where each fts corresponds to a forecasted group.
+a list of objects of class \code{\link{fts}} where each fts corresponds to a forecasted group.
 }
 \description{
 This function performs functional singular spectrum analysis (FSSA) recurrent forecasting (FSSA R-forecasting) or vector forecasting (FSSA V-forecasting) of univariate or multivariate functional time series (\code{\link{fts}}) observed over a one-dimensional domain.

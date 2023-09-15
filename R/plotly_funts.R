@@ -79,6 +79,12 @@
 plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NULL, ylab = NULL, xlab = NULL, tlab = NULL,
                          zlab = NULL, xticklabels = NULL, xticklocs = NULL, yticklabels = NULL, yticklocs = NULL,
                          color_palette = "RdYlBu", reverse_color_palette = FALSE, ...) {
+  if (inherits(x, c( "fds", "fts" ))) {
+    if(is.null(xlab)) xlab <- x$xname
+    if(is.null(ylab)) zlab <- x$yname
+    x <- as.funts(x)
+  }
+  if (inherits(x, "fda"))   x <- as.funts(x)
   p <- length(x$dimSupp)
   N <- x$N
   time <- x$time
