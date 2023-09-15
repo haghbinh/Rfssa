@@ -6,10 +6,10 @@
 \format{
 A functional time series object of class `funts` with the following fields:
 \describe{
-  \item{time}{The time index indicating when the calls occurred.}
-  \item{coefs}{The coefficients corresponding to the B-spline basis functions.}
-  \item{basisobj}{The basis functions used for the functional representation.}
-  \item{dimSupp}{The dimension support of the functional data.}
+  \item{time}{the time index indicating when the calls occurred.}
+  \item{coefs}{the coefficients corresponding to the B-spline basis functions.}
+  \item{basisobj}{the basis functions used for the functional representation.}
+  \item{dimSupp}{the dimension support of the functional data.}
 }
 }
 \description{

@@ -7,9 +7,9 @@
 as.funts(obj, basis = NULL)
 }
 \arguments{
-\item{obj}{The object to be converted. It can be an object of class \code{\link{fd}} (functional data) of the package `fda`, \code{\link{fts}} (functional time series) of the package `rainow`types.}
+\item{obj}{the object to be converted. It can be an object of class \code{\link{fd}} (functional data) of the package `fda`, \code{\link{fts}} (functional time series) of the package `rainow`types.}
 
-\item{basis}{An optional argument specifying the basis to be used for the resulting \code{\link{funts}} object when converting from \code{\link{fts}} objects. If not provided, a B-spline basis will be created by default.}
+\item{basis}{an optional argument specifying the basis to be used for the resulting \code{\link{funts}} object when converting from \code{\link{fts}} objects. If not provided, a B-spline basis will be created by default.}
 }
 \value{
 An object of class \code{\link{funts}}.

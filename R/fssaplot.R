@@ -18,7 +18,7 @@
 #' \item \code{"wcor"} - plot the W-correlation matrix for the reconstructed objects
 #' \item \code{"vectors"} - plot the eigenfunction's coefficients (useful for the detection of period length)
 #' \item \code{"lcurves"} - plot of the eigenfunctions (useful for the detection of period length)
-#' \item \code{"lheats"} - heatmap plot of the eigenfunctions which can be used for \code{\link{fts}} variables observed over one or two-dimensional domains (useful for the detection of meaningful patterns)
+#' \item \code{"lheats"} - heatmap plot of the eigenfunctions which can be used for \code{\link{funts}} variables observed over one or two-dimensional domains (useful for the detection of meaningful patterns)
 #' \item \code{"periodogram"} - periodogram plot (useful for the detecting the frequencies of oscillations in functional data).
 #' }
 #' @param vars a numeric specifying the variable number (can be used in plotting MFSSA \code{"lheats"} or \code{"lcurves"}).

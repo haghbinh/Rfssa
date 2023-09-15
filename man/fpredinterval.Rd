@@ -17,29 +17,31 @@ fpredinterval(
 )
 }
 \arguments{
-\item{Y}{An object of class \code{\link{funts}}.}
+\item{Y}{an object of class \code{\link{funts}}.}
 
-\item{O}{A positive integer specifying the training set size.}
+\item{O}{a positive integer specifying the training set size.}
 
-\item{L}{A positive integer specifying the window length.}
+\item{L}{a positive integer specifying the window length.}
 
-\item{ntriples}{The number of eigentriples to use to perform the forecasts.}
+\item{ntriples}{the number of eigentriples to use for forecasts.}
 
-\item{Bt}{A positive integer specifying the number of bootstrap samples.}
+\item{Bt}{a positive integer specifying the number of bootstrap samples.}
 
-\item{h}{An integer that specifies the forecast horizon.}
+\item{h}{an integer specifying the forecast horizon.}
 
-\item{alpha}{A double between zero and one specifying the significance level.}
+\item{alpha}{a double (0 < alpha < 1) specifying the significance level.}
 
-\item{method}{A character string specifying the type of forecasting to perform either \code{"recurrent"} or \code{"vector"}.}
+\item{method}{a character string: "recurrent" or "vector" forecasting.}
 
-\item{tol}{A double specifying the amount of tolerated error in the approximation of the matrix that corresponds with the operator formed using a Neumann series leveraged in both forecasting algorithms.}
+\item{tol}{a double specifying tolerated error in the approximation.}
 }
 \value{
-A list of numeric vectors where the first vector contains the discretely sampled point forecast, the second contains the discretely sampled lower bound of the prediction interval, and the third contains the discretely sampled upper bound of the prediction interval.
+a list of numeric vectors: point forecast, lower, and upper bounds.
 }
 \description{
-This function calculates the bootstrap prediction interval for functional singular spectrum analysis (FSSA) forecasting predictions of univariate functional time series (\code{\link{funts}}) observed over a one-dimensional domain.
+Calculate the bootstrap prediction interval for functional singular
+spectrum analysis (FSSA) forecasting predictions of univariate functional
+time series (\code{\link{funts}}) observed over a one-dimensional domain.
 }
 \examples{
 \dontrun{

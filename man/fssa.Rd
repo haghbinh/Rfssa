@@ -2,32 +2,30 @@
 % Please edit documentation in R/fssa.r
 \name{fssa}
 \alias{fssa}
-\title{Functional Singular Spectrum Analysis}
+\title{Functional Singular Spectrum Analysis (FSSA)}
 \usage{
 fssa(Y, L = NA, ntriples = 20, type = "ufssa")
 }
 \arguments{
-\item{Y}{An object of class \code{\link{fts}}.}
+\item{Y}{an object of class \code{\link{funts}}.}
 
-\item{L}{A positive integer giving the window length.}
+\item{L}{a positive integer, the window length.}
 
-\item{ntriples}{A positive integer specifying the number of eigentriples to calculate in the decomposition.}
+\item{ntriples}{a positive integer, the number of eigentriples for the
+decomposition.}
 
-\item{type}{A string indicating which type of fssa to perform. Use \code{type="ufssa"} to perform univariate fssa (default for univariate fts). Use \code{type="mfssa"} to perform multivariate fssa (default for multivariate fts).}
+\item{type}{a string indicating the type of FSSA: "ufssa" (default for
+univariate FTS) or "mfssa" (default for multivariate FTS).}
 }
 \value{
-An object of class \code{fssa}, which is a list of functional objects and the following components:
-\item{values}{A numeric vector of eigenvalues.}
-\item{L}{The specified window length.}
-\item{N}{The length of the functional time series.}
-\item{Y}{The original functional time series.}
+An object of class \code{fssa}, containing functional objects,
+eigenvalues, window length, and original data.
 }
 \description{
-This is a function which performs the decomposition (including embedding
- and  functional SVD steps) stage for univariate functional singular spectrum analysis (ufssa)
- or multivariate functional singular spectrum analysis (mfssa). The algorithm (ufssa or mfssa) is chosen based on
- whether the supplied input is a univariate or
- multivariate functional time series (\code{\link{fts}}) object. The \code{type} parameter can also be set to \code{"mfssa"} if the user wishes to perform ufssa of a univariate \code{\link{fts}} object using the mfssa code. Also note that the variables of the \code{\link{fts}} maybe observed over different dimensional domains where the maximum dimension currently supported is two.
+This function performs the decomposition (embedding and functional SVD steps)
+for univariate (ufssa) or multivariate (mfssa) functional singular spectrum
+analysis based on the input data type. The input can be a univariate or
+multivariate functional time series (\code{\link{funts}}) object.
 }
 \examples{
 \dontrun{
