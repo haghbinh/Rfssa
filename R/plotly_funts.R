@@ -249,7 +249,7 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NU
       y <- tibble::as_tibble(temp_df)
       # The next line is to help alleviate a bug in ggplot2
       if (time[1] %in% as.character(1:ncol(x$coefs[[vars[j]]]))) time <- as.numeric(time)
-      y$Time <- rep(time, each = nrow(x$argval[[vars[j]]]))
+      y$Time <- rep(as.character(time), each = nrow(x$argval[[vars[j]]]))
       direction <- 1
       if (isTRUE(reverse_color_palette)) direction <- -1
       Pl[[j]] <- ggplotly(ggplot(y, aes_string(xlab[j], ylab[j], fill = zlab[j], frame = "Time")) +
@@ -289,11 +289,10 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NU
         ))
     }
   }
-#  if (p == 1 || "heatmap" %in% types || "3Dsurface" %in% types || "3Dline" %in% types || count_twod >= 1 || subplot == FALSE || length(vars) == 1) {
-#    for (i in 1:p) print(Pl[[i]])
-#  } else {
-#    print(subplot(Pl, titleX = TRUE, titleY = TRUE) %>% layout(title = ""))
-#  }
+  if (p == 1) Pl <- Pl[[1]]
+  if (p > 1 && subplot == TRUE && (is.na(unique(types)) || unique(types) == "line") && max(unlist(x$dimSupp)) == 1) {
+    Pl <- subplot(Pl, titleX = TRUE, titleY = TRUE) %>% layout(title = "")
+  }
   cat("Done.\n")
   return(Pl)
 }
