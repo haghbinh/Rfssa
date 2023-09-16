@@ -243,11 +243,10 @@ server.mfssa <- function(input, output, clientData, session) {
       uUf <- list()
       if ("uf" %in% input$dmd.uf) {
         for (i in 1:length(iTs())) {
-          uUf[[i]] <- fssa(Rfssa::fts(X = list(iTs()[[i]]), B = list(eval.basis(tau, bas.fssa)), grid = list(tau)), input$fssaL)
+          uUf[[i]] <- fssa(funts(X = iTs()[[i]], basisobj = bas.fssa), input$fssaL)
         }
       }
-      fts.Y <- Rfssa::fts(X = iTs(), B = rep(list(eval.basis(tau, bas.fssa)), length(iTs())), grid = rep(list(tau), length(iTs())))
-      mUf <- fssa(fts.Y, input$fssaL)
+      mUf <- fssa(funts(X = iTs(), basisobj = rep(list(bas.fssa), length(iTs()))), input$fssaL)
       Ys <- NULL
       for (i in 1:length(iTs())) {
         Ys <- cbind(Ys, t(iTs()[[i]]))
@@ -280,8 +279,8 @@ server.mfssa <- function(input, output, clientData, session) {
     }
     # if (!length(iXs())) {load(system.file("shiny/data", "servshiny.rda", package = "Rfssa")); iXs(Xs)}
     if (!length(iXs())) {
-      load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Callcenter.RData")
-      load_github_data("https://github.com/haghbinh/Rfssa/blob/master/data/Jambi.RData")
+      load_github_data("https://github.com/haghbinh/Rfssa/blob/Ver-2.5.0/data/Callcenter.RData")
+      load_github_data("https://github.com/haghbinh/Rfssa/blob/Ver-2.5.0/data/Jambi.RData")
       Callcenter <- get("Callcenter", envir = .GlobalEnv)
       Jambi <- get("Jambi", envir = .GlobalEnv)
 
@@ -690,19 +689,19 @@ server.mfssa <- function(input, output, clientData, session) {
       if ("uf" %in% input$dmd.uf) {
         isolate(sr$uQf <- freconstruct(sr$uUf[[var.which]], input.g))
         uQf <- sr$uQf[[1]]
-        uQf@C[[1]][, ] <- 0
+        uQf$coefs[[1]][, ] <- 0
       }
       isolate(sr$mQf <- freconstruct(sr$mUf, input.g))
       mQf <- uQf
       for (i in input$sg[1]:input$sg[2]) {
         Qs <- Qs + t(sr$Qs[[i]][, ((var.which - 1) * nrow(Ts) + 1):(var.which * nrow(Ts))])
         if ("uf" %in% input$dmd.uf) {
-          uQf@C[[1]] <- uQf@C[[1]] + sr$uQf[[i]]@C[[1]]
+          uQf$coefs[[1]] <- uQf$coefs[[1]] + sr$uQf[[i]]$coefs[[1]]
         }
-        mQf@C[[1]] <- mQf@C[[1]] + sr$mQf[[i]]@C[[var.which]]
+        mQf$coefs[[1]] <- mQf$coefs[[1]] + sr$mQf[[i]]$coefs[[var.which]]
       }
-      if ("uf" %in% input$dmd.uf) uQ <- uQf@B[[1]] %*% uQf@C[[1]]
-      mQ <- mQf@B[[1]] %*% mQf@C[[1]]
+      if ("uf" %in% input$dmd.uf) uQ <- uQf$B_mat[[1]] %*% uQf$coefs[[1]]
+      mQ <- mQf$B_mat[[1]] %*% mQf$coefs[[1]]
     }
     if ("fpca" %in% input$s.plot || "dfpca" %in% input$s.plot) {
       f.pca <- run_fpca()
@@ -835,11 +834,12 @@ server.mfssa <- function(input, output, clientData, session) {
     input.g <- eval(parse(text = paste0("list(", input$g, ")")))
     if (input$desc == "mfssa.reconst") {
       isolate(sr$mQf <- freconstruct(sr$mUf, input.g))
-      mQf <- 0
+      mQf <- sr$mQf[[1]]
+      for (i in 1:length(mQf$dimSupp)) mQf$coefs[[i]][,] <- 0
       if (input$var.which == "all" || is.null(input$var.which)) {
         var.which <- NULL
-        types <- rep(input$rec.type, length(sr$mQf[[1]]@C))
-        vars <- 1:length(sr$mQf[[1]]@C)
+        types <- rep(input$rec.type, length(mQf$dimSupp))
+        vars <- 1:length(mQf$dimSupp)
       } else {
         var.which <- as.numeric(input$var.which)
         types <- input$rec.type
@@ -848,7 +848,7 @@ server.mfssa <- function(input, output, clientData, session) {
       for (i in input$sg[1]:input$sg[2]) {
         mQf <- mQf + sr$mQf[[i]]
       }
-      myplot <- plot(mQf, types = types, vars = vars)
+      myplot <- plotly_funts(mQf[,vars], types = types)
     } else {
       if (is.null(input$var.which)) var.which <- 1 else var.which <- as.numeric(input$var.which)
       isolate(sr$Qs <- reconstruct(sr$Us, groups = input.g))
@@ -856,8 +856,7 @@ server.mfssa <- function(input, output, clientData, session) {
       for (i in input$sg[1]:input$sg[2]) {
         Qs <- Qs + t(sr$Qs[[i]][, ((var.which - 1) * nrow(iTs()[[1]]) + 1):(var.which * nrow(iTs()[[1]]))])
       }
-      Qs <- Rfssa::fts(X = list(Qs), B = list(eval.basis(sr$tau, sr$bas.fssa)), grid = list(sr$tau))
-      myplot <- plot(Qs, type = input$rec.type)
+      myplot <- plotly_funts(funts(X = Qs, basisobj = sr$bas.fssa), type = input$rec.type)
     }
     print(myplot[[1]])
   })
@@ -916,11 +915,12 @@ server.mfssa <- function(input, output, clientData, session) {
       return()
     }
     fc <- run_fcast()
-    mQf <- 0
     if (length(fc) == 1) i <- 1 else i <- as.numeric(input$fcast.select)
+    mQf <- fc[[i]][[1]]
+    mQf$coefs[[1]][,] <- 0
     if (input$fcast.var == "all" || is.null(input$fcast.var)) {
-      types <- rep(input$fcast.type, length(fc[[1]][[1]]@C))
-      vars <- 1:length(fc[[1]][[1]]@C)
+      types <- rep(input$fcast.type, length(fc[[1]][[1]]$coefs))
+      vars <- 1:length(fc[[1]][[1]]$coefs)
     } else {
       types <- input$fcast.type
       vars <- as.numeric(input$fcast.var)
@@ -928,7 +928,7 @@ server.mfssa <- function(input, output, clientData, session) {
     for (j in input$sg[1]:input$sg[2]) {
       mQf <- mQf + fc[[i]][[j]]
     }
-    myplot <- plot(mQf, types = types, vars = vars)
+    myplot <- plotly_funts(mQf[,vars], types = types)
     print(myplot[[1]])
   })
 }

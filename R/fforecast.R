@@ -224,7 +224,7 @@ mfforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol 
   Y <- U$Y
   N <- Y$N
   basis <- U$Y$B_mat
-  G_inv <- sapply(basis, function(x) {solve(t(x)%*%x)})
+  G_inv <- lapply(basis, function(x) {solve(t(x)%*%x)})
   d <- sapply(basis,ncol)
   p <- length(Y$dimSupp)
   L <- U$L
