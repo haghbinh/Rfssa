@@ -15,6 +15,7 @@ length.funts <- function(obj) {
 #' This custom print method is designed for objects of the Functional Time Series (funts) class.
 #' It provides a summary of the funts object, including its length (N), the number of variables,
 #' and its structure.
+#' @importFrom utils download.file str tail
 #'
 #' @param obj an object of class "funts" to be printed.
 #'
@@ -35,8 +36,8 @@ print.funts <- function(obj) {
 #' A method for functional time series (\code{\link{funts}}) addition and funts-scalar addition.
 #' @return an object of class \code{\link{funts}}.
 #'
-#' @param Y1 an object of class \code{\link{funts}} or numeric.
-#' @param Y2 an object of class \code{\link{funts}} or numeric.
+#' @param obj1 an object of class \code{\link{funts}} or numeric.
+#' @param obj2 an object of class \code{\link{funts}} or numeric.
 #'
 #'
 #' @seealso \code{\link{funts}}
@@ -268,6 +269,7 @@ eval.funts <- function(argvals,obj){
 #'     ylab = c("Normalized Temperature (\u00B0C)", "Latitude"))
 #'
 #' @seealso \code{\link{funts}}, \code{\link{Callcenter}}, \code{\link{Montana}}
+#' @importFrom graphics matplot
 #'
 #' @export
 plot.funts <- function(obj, npts = 100, obs = 1, xlab = NULL, ylab = NULL, main = NULL, type = "l", lty = 1, ...) {

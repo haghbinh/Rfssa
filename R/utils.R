@@ -3,7 +3,7 @@
 # This function Hankelize a d*K*L array.
 fH <- function(C, d) {
   for (j in 1:d) {
-    C[j, , ] <- Rfssa:::H(C[j, , ])
+    C[j, , ] <- H(C[j, , ])
   }
   return(C)
 }
@@ -135,7 +135,7 @@ mfproj <- function(U, i) {
     # build operator
     for (j in 1:p) {
       C_jx <- C[[j]]
-      C_jx[, k, ] <- Rfssa:::HpLinprod(x, u, G, p) * u[[j]]
+      C_jx[, k, ] <- HpLinprod(x, u, G, p) * u[[j]]
       C[[j]] <- C_jx
     }
   }
@@ -182,6 +182,8 @@ twodG <- function(A, B, grid, method = "trapezoidal") {
 
   return(G)
 }
+
+#' @importFrom stats approxfun
 
 # A very Simple Function that evaluates Empirical Basis in any grid points by linear approximation.
 eval.empb <- function(evalarg, basisobj) {

@@ -93,7 +93,7 @@ loadCallcenterData <- function() {
 #'   loadJambiData()
 #' }
 #'
-#' @seealso \code{\link{Jambi}} - The dataset object loaded by this function.
+#' @seealso  - The dataset object loaded by this function.
 #'
 #' @export
 loadJambiData <- function() {

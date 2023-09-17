@@ -45,10 +45,9 @@ time series (\code{\link{funts}}) observed over a one-dimensional domain.
 }
 \examples{
 \dontrun{
-
 data("Callcenter")
-# Calculate prediction intervals
-pred_interval <- fpredinterval(Y = Callcenter, O = 310, L = 28, ntriples = 7, Bt = 10000, h=3, alpha = 0.05, method = "recurrent")
+pred_interval <- fpredinterval(Y = Callcenter, O = 310,
+                    L = 28, ntriples = 7, Bt = 10000, h=3)
 
 # Plot the forecast and prediction interval using ggplot
 df <- data.frame(
@@ -61,7 +60,7 @@ require(ggplot2)
 # Create the ggplot
 ggplot(df, aes(x = x, y = y)) +
   geom_line(size = 1.2) +
-  scale_x_continuous(name = "Time (6 minutes aggregated)",
+  scale_x_continuous(name = "Time",
                      breaks=c(1,60,120,180,240),
                      labels = c("00:00","06:00","12:00","18:00","24:00"),)+
   scale_y_continuous(name="Sqrt of Call Numbers")+

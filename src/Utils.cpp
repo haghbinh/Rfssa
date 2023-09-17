@@ -10,12 +10,12 @@ using namespace Rcpp;
 //' @useDynLib Rfssa, .registration = TRUE
 NumericVector mod(int i, int L) {
   NumericVector out(2);
-  if( i%L == 0L) {
-    out[1]=(int)i/L;
+  if( i % L == 0L) {
+    out[1] = (int)i/L;
   } else {
-    out[1]= (int)i/L+1L;
+    out[1] = (int)i/L+1L;
   }
-  out[0]=i-(out[1]-1)*L;
+  out[0] = i-(out[1]-1)*L;
   return out;
 }
 
@@ -26,8 +26,8 @@ NumericVector mod(int i, int L) {
 // [[Rcpp::export]]
 NumericMatrix Cofmat (int d,int L, NumericVector cx)
 { NumericMatrix S(d,L);
-  for(int j=0 ; j < d; j++){
-    for(int i=0; i < L; i++) {
+  for(int j = 0 ; j < d; j++){
+    for(int i = 0; i < L; i++) {
       S(j,i) = cx(j* L + i);
     }
   }
@@ -64,12 +64,12 @@ double Csij(int i, int j, int K, int L, NumericMatrix B){
   NumericVector a1, a2 ;
   int i1,i2,j1,j2;
   double out(0);
-  a1=mod(i,L);
-  a2=mod(j,L);
-  i1=a1[0];
-  i2=a2[0];
-  j1=a1[1];
-  j2=a2[1];
+  a1 = mod(i,L);
+  a2 = mod(j,L);
+  i1 = a1[0];
+  i2 = a2[0];
+  j1 = a1[1];
+  j2 = a2[1];
   for(int ii = 0 ; ii< (K); ii++) {
     out += B(i1+ii-1,(j1-1))*B(i2+ii-1,(j2-1));
   }
@@ -82,9 +82,9 @@ double Csij(int i, int j, int K, int L, NumericMatrix B){
 // [[Rcpp::export]]
 NumericMatrix SS (int K,int L, NumericMatrix B, int d)
 { NumericMatrix S(L*d,L*d);
-  for(int i=0 ; i < (L*d); i++){
-    for(int j=0; j < (L*d); j++) {
-      S(j,i)=Csij(i+1,j+1,K,L,B);
+  for(int i = 0 ; i < (L*d); i++){
+    for(int j = 0; j < (L*d); j++) {
+      S(j,i) = Csij(i+1,j+1,K,L,B);
     }
   }
   return S;
@@ -98,20 +98,20 @@ NumericMatrix SS (int K,int L, NumericMatrix B, int d)
 NumericMatrix Gram (int K,int L, NumericMatrix A, int d)
 {
   NumericMatrix G(L*d,L*d);
-  for(int i=0 ; i < (L*d); i++){
-    for(int j=0; j < (L*d); j++) {
+  for(int i = 0 ; i < (L*d); i++){
+    for(int j = 0; j < (L*d); j++) {
       NumericVector a1, a2 ;
       int ri, rj, qi, qj ;
-      a1=mod(i+1,L);
-      a2=mod(j+1,L);
-      ri=a1[0];
-      rj=a2[0];
-      qi=a1[1];
-      qj=a2[1];
+      a1 = mod(i+1,L);
+      a2 = mod(j+1,L);
+      ri =a1[0];
+      rj = a2[0];
+      qi = a1[1];
+      qj = a2[1];
       if (ri == rj) {
-        G(i,j)=A(qi-1,qj-1);
+        G(i,j) = A(qi-1,qj-1);
       } else{
-        G(i,j)=0;
+        G(i,j) = 0;
       }
     }
   }
@@ -126,12 +126,12 @@ double Csmik(int k, int i, int d_j_k, int d_j_i, int K, int L, NumericMatrix B_j
   NumericVector k_vec, i_vec;
   int r_k,q_k,r_i,q_i;
   double out(0);
-  k_vec=mod((k-d_j_k),L);
-  i_vec=mod((i-d_j_i),L);
-  r_k=k_vec[0];
-  q_k=k_vec[1];
-  r_i=i_vec[0];
-  q_i=i_vec[1];
+  k_vec = mod((k-d_j_k),L);
+  i_vec = mod((i-d_j_i),L);
+  r_k = k_vec[0];
+  q_k = k_vec[1];
+  r_i = i_vec[0];
+  q_i = i_vec[1];
 	for(int m = 0 ; m < (K); m++) {
 		out += B_j_k(r_k+m-1,(q_k-1))*B_j_i(r_i+m-1,(q_i-1));
 	}
@@ -209,19 +209,19 @@ NumericMatrix SSM (int K, int L, int d_tilde, int p, std::vector<NumericMatrix> 
   NumericMatrix S(L*d_tilde,L*d_tilde);
   for(int k=0; k<(L*d_tilde); k++){
 
-		B_j_k=findsubmat(k, p, B, shifter);
+		B_j_k = findsubmat(k, p, B, shifter);
 
-		d_j_k=findshift(k, p, shifter);
+		d_j_k = findshift(k, p, shifter);
 
-	  for(int i=0; i<(L*d_tilde); i++){
-
-
-				B_j_i=findsubmat(i, p, B, shifter);
-
-				d_j_i=findshift(i, p, shifter);
+	  for(int i = 0; i<(L*d_tilde); i++){
 
 
-				S(k,i)=Csmik((k+1), (i+1), d_j_k, d_j_i, K, L, B_j_k, B_j_i);
+				B_j_i = findsubmat(i, p, B, shifter);
+
+				d_j_i = findshift(i, p, shifter);
+
+
+				S(k,i) = Csmik((k+1), (i+1), d_j_k, d_j_i, K, L, B_j_k, B_j_i);
 
 		}
 

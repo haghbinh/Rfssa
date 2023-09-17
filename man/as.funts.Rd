@@ -43,5 +43,5 @@ plotly_funts(x_funts,
 
 }
 \seealso{
-\code{\link{funts}}, \code{\link{create.bspline.basis}}, \code{\link{create.fts}}
+\code{\link{funts}}, \code{\link{create.bspline.basis}}
 }

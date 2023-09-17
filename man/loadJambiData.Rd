@@ -44,5 +44,5 @@ every 16 days. This dataset is valuable for studying vegetative land cover chang
 }
 }
 \seealso{
-\code{\link{Jambi}} - The dataset object loaded by this function.
+- The dataset object loaded by this function.
 }

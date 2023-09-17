@@ -10,15 +10,15 @@ double mwinprod(std::vector<arma::mat> X, std::vector<arma::mat> Y,arma::vec w,s
   arma::mat x;
   arma::mat y;
   arma::mat g;
-  for(int j=0; j<p; j++)
+  for(int j=0; j < p; j++)
   {
 
-      x=X[j];
-      y=Y[j];
-      g=G[j];
+      x = X[j];
+      y = Y[j];
+      g = G[j];
       int N = x.n_cols;
       arma::vec xi(x.n_rows),yi(y.n_rows);
-      for(int i=0; i<N; i++ )
+      for(int i=0; i < N; i++ )
       {
         xi = x.col(i);
         yi = y.col(i);

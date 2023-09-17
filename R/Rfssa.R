@@ -19,7 +19,7 @@
 #' @seealso
 #'  \code{\link{fssa}}, \code{\link{freconstruct}}, \code{\link{fforecast}}
 #'  \code{\link{fwcor}}, \code{\link{wplot}}, \code{\link{funts}}, \code{\link{plot.funts}}, \code{\link{plot.fssa}},
-#'  \code{\link{cor.funts}}, \code{\link{launchApp}}
+#'  \code{\link{launchApp}}
 #'
 #'
 #' @references
