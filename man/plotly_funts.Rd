@@ -24,45 +24,45 @@ plotly_funts(
 )
 }
 \arguments{
-\item{x}{An object of class \code{\link{funts}}.}
+\item{x}{an object of class \code{\link{funts}}.}
 
-\item{vars}{Numeric specifying which variables in the FTS to plot (default: all).}
+\item{vars}{numeric vector specifying which variables in the FTS to plot (default: all).}
 
-\item{types}{Tuple of strings specifying plot types for each variable.}
+\item{types}{tuple of strings specifying plot types for each variable.}
 
-\item{subplot}{Logical for subplotting line plots.}
+\item{subplot}{logical for subplotting line plots.}
 
-\item{main}{Titles for each plot.}
+\item{main}{titles for each plot.}
 
-\item{ylab}{Y-axis titles.}
+\item{ylab}{y-axis titles.}
 
-\item{xlab}{X-axis titles.}
+\item{xlab}{x-axis titles.}
 
-\item{tlab}{Time-axis titles.}
+\item{tlab}{time-axis titles.}
 
-\item{zlab}{Z-axis titles.}
+\item{zlab}{z-axis titles.}
 
-\item{xticklabels}{Tick labels for the domain of the functions.}
+\item{xticklabels}{tick labels for the domain of the functions.}
 
-\item{xticklocs}{Positions of tick labels for the domain of the functions.}
+\item{xticklocs}{positions of tick labels for the domain of the functions.}
 
-\item{yticklabels}{Tick labels for the domain of the functions.}
+\item{yticklabels}{tick labels for the domain of the functions.}
 
-\item{yticklocs}{Positions of tick labels for the domain of the functions.}
+\item{yticklocs}{positions of tick labels for the domain of the functions.}
 
-\item{color_palette}{Color palette for two-dimensional FTS plots.}
+\item{color_palette}{color palette for two-dimensional FTS plots.}
 
-\item{reverse_color_palette}{Reverse the color palette scale.}
+\item{reverse_color_palette}{reverse the color palette scale.}
 
-\item{...}{Additional arguments to pass to Plotly methods.}
+\item{...}{additional arguments to pass to Plotly methods.}
 }
 \description{
 Visualize univariate or multivariate Functional Time Series (funts) using Plotly-based plots.
 }
 \details{
 Supported plot types for one-dimensional domain variables:
-  - "line": Line plots (default).
-  - "heatmap": Heatmaps.
+  - "line": line plots (default).
+  - "heatmap": heatmaps.
   - "3Dsurface": 3D surface plots.
   - "3Dline": 3D line plots.
 

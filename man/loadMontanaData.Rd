@@ -15,8 +15,8 @@ loadMontanaData()
 }
 \description{
 This function loads the Montana dataset from a GitHub repository hosted at
-https://github.com/haghbinh/dataset/Rfssa_dataset. By hosting datasets on GitHub
-instead of including them in the Rfssa R package, it saves a significant amount of space.
+https://github.com/haghbinh/dataset/Rfssa_dataset. Hosting datasets on GitHub
+rather than including them in the Rfssa R package conserves storage space.
 }
 \details{
 The Montana dataset contains intraday hourly temperature curves measured in degrees Celsius

@@ -2,27 +2,27 @@
 #'
 #' Visualize univariate or multivariate Functional Time Series (funts) using Plotly-based plots.
 #'
-#' @param x An object of class \code{\link{funts}}.
-#' @param vars Numeric specifying which variables in the FTS to plot (default: all).
-#' @param types Tuple of strings specifying plot types for each variable.
-#' @param subplot Logical for subplotting line plots.
-#' @param main Titles for each plot.
-#' @param ylab Y-axis titles.
-#' @param xlab X-axis titles.
-#' @param tlab Time-axis titles.
-#' @param zlab Z-axis titles.
-#' @param xticklabels Tick labels for the domain of the functions.
-#' @param xticklocs Positions of tick labels for the domain of the functions.
-#' @param yticklabels Tick labels for the domain of the functions.
-#' @param yticklocs Positions of tick labels for the domain of the functions.
-#' @param color_palette Color palette for two-dimensional FTS plots.
-#' @param reverse_color_palette Reverse the color palette scale.
-#' @param ... Additional arguments to pass to Plotly methods.
+#' @param x an object of class \code{\link{funts}}.
+#' @param vars numeric vector specifying which variables in the FTS to plot (default: all).
+#' @param types tuple of strings specifying plot types for each variable.
+#' @param subplot logical for subplotting line plots.
+#' @param main titles for each plot.
+#' @param ylab y-axis titles.
+#' @param xlab x-axis titles.
+#' @param tlab time-axis titles.
+#' @param zlab z-axis titles.
+#' @param xticklabels tick labels for the domain of the functions.
+#' @param xticklocs positions of tick labels for the domain of the functions.
+#' @param yticklabels tick labels for the domain of the functions.
+#' @param yticklocs positions of tick labels for the domain of the functions.
+#' @param color_palette color palette for two-dimensional FTS plots.
+#' @param reverse_color_palette reverse the color palette scale.
+#' @param ... additional arguments to pass to Plotly methods.
 #'
 #' @details
 #' Supported plot types for one-dimensional domain variables:
-#'   - "line": Line plots (default).
-#'   - "heatmap": Heatmaps.
+#'   - "line": line plots (default).
+#'   - "heatmap": heatmaps.
 #'   - "3Dsurface": 3D surface plots.
 #'   - "3Dline": 3D line plots.
 #'

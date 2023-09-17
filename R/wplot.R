@@ -1,13 +1,14 @@
 #' Weighted-Correlations Plot
 #'
-#' This function displays a plot of the weighted-correlation (w-correlation) matrix of functional time series (\code{\link{fts}}) objects that were reconstructed
-#' from functional singular spectrum analysis (\code{\link{fssa}}) objects.
-#' @param W A w-correlation matrix.
-#' @param cuts An integer that is the number of levels the range of w-correlation values will be divided into.
-#' @param main A character that is the main title of the plot.
-#' @note Refer to \code{\link{fwcor}} for an example on how to run this function starting from a w-correlation matrix.
+#' This function generates a plot displaying the weighted-correlation (w-correlation) matrix of functional time series (\code{\link{fts}}) objects reconstructed from functional singular spectrum analysis (\code{\link{fssa}}) objects.
+#'
+#' @param W a w-correlation matrix.
+#' @param cuts an integer specifying the number of levels for dividing the range of w-correlation values.
+#' @param main a character string for the main title of the plot.
+#'
+#' @note For an example of how to use this function with a w-correlation matrix, refer to \code{\link{fwcor}}.
+#'
 #' @seealso \code{\link{fssa}}, \code{\link{freconstruct}}, \code{\link{funts}}, \code{\link{fwcor}}
-
 #' @export
 wplot <- function(W, cuts = 20,main = NA) {
   at <- pretty(c(0, 1), n = cuts)

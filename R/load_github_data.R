@@ -1,21 +1,21 @@
 #' Load Callcenter Data from GitHub Repository
 #'
-#' This function loads the Callcenter dataset from the Rfssa_dataset repository hosted on GitHub
-#' (https://github.com/haghbinh/dataset/Rfssa_dataset). Hosting datasets on GitHub instead of
-#' including them in the Rfssa R package saves a significant amount of space.
-#' The Callcenter dataset represents a small call center for an anonymous bank, providing the exact time
-#' of calls connected to the center from January 1 to December 31 in the year 1999. The data is aggregated
-#' into time intervals, with each element of the data matrix representing call volume during a specific
-#' 6-minute interval on a particular day.
+#' This function loads the Callcenter dataset from the Rfssa_dataset repository on GitHub
+#' (https://github.com/haghbinh/dataset/Rfssa_dataset). By hosting datasets on GitHub rather than
+#' including them in the Rfssa R package, storage space is conserved.
 #'
-#' @format A dataframe with 87,600 rows and 5 variables:
+#' The Callcenter dataset represents a small call center for an anonymous bank. It provides precise call
+#' timing data from January 1 to December 31, 1999. The data is aggregated into 6-minute intervals on each day.
+#'
+#' @format a dataframe with 87,600 rows and 5 variables:
 #' \describe{
-#'   \item{calls}{The number of calls in a 6-minute aggregated interval.}
-#'   \item{u}{A numeric vector indicating the aggregated interval.}
-#'   \item{Date}{Date and time when the call counts were recorded.}
-#'   \item{Day}{Weekday associated with Date.}
-#'   \item{Month}{Month associated with Date.}
+#'   \item{calls}{number of calls in a 6-minute aggregated interval.}
+#'   \item{u}{numeric vector indicating the aggregated interval.}
+#'   \item{Date}{date and time of call count recording.}
+#'   \item{Day}{weekday associated with Date.}
+#'   \item{Month}{month associated with Date.}
 #' }
+
 #'
 #' @references
 #' \enumerate{
@@ -61,22 +61,23 @@ loadCallcenterData <- function() {
 #'
 #' Load Jambi MODIS Data from GitHub Repository
 #'
-#' This function is used to load the Jambi dataset from a GitHub repository hosted at
-#' https://github.com/haghbinh/dataset/Rfssa_dataset. By hosting datasets on GitHub
-#' instead of including them in the Rfssa R package, it saves a significant amount of space.
+#' This function loads the Jambi dataset from a GitHub repository hosted at
+#' https://github.com/haghbinh/dataset/Rfssa_dataset. Hosting datasets on GitHub
+#' rather than including them in the Rfssa R package conserves storage space.
+#'
 #' The Jambi dataset contains normalized difference vegetation index (NDVI) and enhanced vegetation
 #' index (EVI) image data from NASA’s MODerate-resolution Imaging Spectroradiometer (MODIS) with
-#' global coverage at 250 m^2 resolution. The dataset covers the Jambi Province, Indonesia,
-#' which is known for various forested land utilizations, including natural forests and plantations.
-#' Monitoring such land cover changes is essential, especially in the context of forest exploitation and
-#' conservation efforts. Seasonal variations play a significant role in long-term land cover changes.
+#' global coverage at a 250 m^2 resolution. The dataset covers the Jambi Province, Indonesia,
+#' known for various forested land uses, including natural forests and plantations.
+#' Monitoring land cover changes is crucial, especially in the context of forest exploitation and
+#' conservation efforts. Seasonal variations significantly impact long-term land cover changes.
 #'
-#' The data collection started on February 18, 2000, and continued until July 28, 2019, with data recorded
+#' Data collection began on February 18, 2000, and continued until July 28, 2019, with data recorded
 #' every 16 days. This dataset is valuable for studying vegetative land cover changes in the region.
 #'
 #' @format A list containing two arrays, each with dimensions 33 by 33 by 448. One array represents NDVI
 #' image data, and the other represents EVI image data. The list also contains a date vector of length 448,
-#' specifying the date of capture for each 33 by 33 image.
+#' specifying the capture date for each 33 by 33 image.
 #'
 #' @references
 #' \enumerate{
@@ -112,8 +113,8 @@ loadJambiData <- function() {
 #' Load Montana Data from GitHub Repository
 #'
 #' This function loads the Montana dataset from a GitHub repository hosted at
-#' https://github.com/haghbinh/dataset/Rfssa_dataset. By hosting datasets on GitHub
-#' instead of including them in the Rfssa R package, it saves a significant amount of space.
+#' https://github.com/haghbinh/dataset/Rfssa_dataset. Hosting datasets on GitHub
+#' rather than including them in the Rfssa R package conserves storage space.
 #'
 #' The Montana dataset contains intraday hourly temperature curves measured in degrees Celsius
 #' and normalized difference vegetation index (NDVI) image data. Both types of data are recorded

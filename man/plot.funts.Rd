@@ -17,36 +17,36 @@
 )
 }
 \arguments{
-\item{obj}{an object of class \code{funts}.}
+\item{obj}{An object of class \code{funts}.}
 
-\item{npts}{number of grid points for the plots.}
+\item{npts}{Number of grid points for the plots.}
 
-\item{obs}{observation number (for two-dimensional domains).}
+\item{obs}{Observation number (for two-dimensional domains).}
 
-\item{xlab}{x-axis label.}
+\item{xlab}{X-axis label.}
 
-\item{ylab}{y-axis label.}
+\item{ylab}{Y-axis label.}
 
-\item{main}{main title for the plot.}
+\item{main}{Main title for the plot.}
 
-\item{type}{type of plot ("l" for line, "p" for points, etc.).}
+\item{type}{Type of plot ("l" for line, "p" for points, etc.).}
 
-\item{lty}{line type (1 for solid, 2 for dashed, etc.).}
+\item{lty}{Line type (1 for solid, 2 for dashed, etc.).}
 
-\item{...}{additional graphical parameters passed to plotting functions.}
+\item{...}{Additional graphical parameters passed to plotting functions.}
 }
 \description{
-Create visualizations of Functional Time Series (funts) data. This function supports
-plotting funts data with one-dimensional or two-dimensional domains.
+Create visualizations of Functional Time Series (funts) data, supporting both one-dimensional and two-dimensional domains.
 }
 \details{
-The function allows plotting funts data with one-dimensional domains as line plots and funts data
-with two-dimensional domains as image plots.
+This function enables the creation of visualizations for Functional Time Series (funts) data. It supports both one-dimensional and two-dimensional domains.
+
+For one-dimensional domains, line plots are used, while for two-dimensional domains, image plots are employed.
 }
 \examples{
 # Example with one-dimensional domain
 data("Callcenter")
-plot(Callcenter,lwd=2, npts = 200, col = "deepskyblue4",
+plot(Callcenter,lwd=2, col = "deepskyblue4",
     main = "Call Center Data",
     xlab = "Time (6 minutes aggregated)",
     ylab = "Sqrt of Call Numbers")

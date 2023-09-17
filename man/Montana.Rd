@@ -4,13 +4,14 @@
 \alias{Montana}
 \title{Montana Intraday Temperature Curves and NDVI Images Data Set}
 \description{
-This dataset contains intraday hourly temperature curves measured in degrees Celsius and normalized difference vegetation index (NDVI) image data. The data were recorded near Saint Mary, Montana, USA. NDVI images cover a region between longitudes of 113.30 degrees West and 113.56 degrees West and latitudes of 48.71 degrees North and 48.78 degrees North. Intraday temperature curves are sourced from Diamond et al. (2013), while NDVI images were obtained from resources provided by Tuck et al. (2014).
+This dataset includes intraday hourly temperature curves measured in degrees Celsius and normalized difference vegetation index (NDVI) image data. The observations were recorded near Saint Mary, Montana, USA. The NDVI images cover a geographical region with longitudes ranging from 113.30 degrees West to 113.56 degrees West and latitudes from 48.71 degrees North to 48.78 degrees North.
+The intraday temperature curves are sourced from Diamond et al. (2013), while the NDVI images were obtained from resources provided by Tuck et al. (2014).
 For each recorded intraday temperature curve, an NDVI image was captured on the same day every 16 days. Data collection started on January 1, 2008, and concluded on September 30, 2013.
-The study's goal was to analyze temperature trends and investigate how temperature changes affect vegetation in the region. A multivariate analysis leveraging both temperature and NDVI variables revealed more informative patterns and a stronger signal extraction result.
-The data is hosted on GitHub, and you can load it using the function \code{\link{loadMontanaData}}.
-}
-\details{
-The dataset has been converted into a multivariate functional time series using two B-spline basis function systems with 11 and 13 members. The resulting dataset is stored as a functional time series object of class `funts`. You can load the raw data using the function \code{\link{loadMontanaData}}. See \code{\link{funts}} for more details.
+The primary goal of this dataset is to facilitate the analysis of temperature trends and investigate how temperature changes impact vegetation in the region. A multivariate analysis leveraging both temperature and NDVI variables can reveal more informative patterns and yield stronger signal extraction results.
+The dataset is hosted on GitHub, and you can load it using the function \code{\link{loadMontanaData}}.
+The dataset has been converted into a multivariate functional time series using two B-spline basis function systems with 11 and 13 members, respectively. The resulting dataset is stored as a functional time series object of class `funts`.
+You can load the raw data using the function \code{\link{loadMontanaData}}.
+See \code{\link{funts}} for more details.
 }
 \references{
 \enumerate{

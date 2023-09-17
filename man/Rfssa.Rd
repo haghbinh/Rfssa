@@ -5,63 +5,34 @@
 \alias{Rfssa}
 \title{Rfssa: A Package for Functional Singular Spectrum Analysis and Related Methods.}
 \description{
-The Rfssa package provides the collection of necessary functions to
-implement functional singular spectrum analysis (FSSA)-based methods for
-analyzing univariate and multivariate functional time series (FTS).
-Univariate and multivariate FSSA are novel, non-parametric methods used to
-perform decomposition and reconstruction of univariate and multivariate FTS
-respectively. In addition, the FSSA-based routines may be performed on FTS
-whose variables are observed over a one or two-dimensional domain. Finally,
-one may perform FSSA recurrent or FSSA vector forecasting of univariate or
-multivariate FTS observed over one-dimensional domains. Forecasting of FTS
-whose variables are observed over domains of dimension greater than one is
-under development.
+The Rfssa package provides essential functions for implementing functional singular spectrum analysis (FSSA) methods. It supports the analysis of univariate and multivariate functional time series (FTS). FSSA, both univariate and multivariate, is a non-parametric approach for decomposing and reconstructing FTS. This package allows you to work with FTS variables observed over one or two-dimensional domains.
 }
 \details{
-The use of the package begins by defining an \code{\link{fts}} object by providing the constructor with the raw data, basis specifications, and grid specifications.
-We note that the FTS object may be univariate or multivariate and variables may be observed
-over one (curves) or two-dimensional (images) domains. Validity checking of the S4 object
-constructor inputs is included to help guide the user. The user may
-leverage the \code{\link{plot.fts}} method to visualize the \code{\link{fts}} object. A variety
-of plotting options are available for variables observed over a one-dimensional domain and a visuanimation is offered
-for variables observed over a two-dimensional domain. Next, the user provides the \code{\link{fts}} object
-and a chosen lag parameter to the FSSA routine (\code{\link{fssa}}) to obtain the decomposition. We note that the
-decomposition function leverages the RSpectra and RcppEigen R packages,
-and the Eigen C++ package to speed up the routine. The \code{\link{plot.fssa}} method may be used to visualize the results of
-the decomposition and to choose an appropriate grouping of the eigentriples for reconstruction (\code{\link{freconstruct}}) or
-forecasting (\code{\link{fforecast}}). The \code{\link{freconstruct}} routine can be used to reconstruct a list of \code{\link{fts}} objects
-specified by the grouping while the \code{\link{fforecast}} function returns a list of \code{\link{fts}} objects that contain predictions of the signals specified by the grouping. The user may also calculate the bootstrapped prediction interval for forecasts using the \code{\link{fpredinterval}} function.
-We note that when forecasting is performed,
-usually the user specifies one group that captures the assumed deterministic, extracted signal that is found within the FTS and all other modes of variation are excluded.
-We also note that currently, forecasting only supports FTS whose variables are observed over a one-dimensional domain with two-dimensional domain forecasting to be added in the future.
+To use this package, start by creating a \code{\link{funts}} object. You can define it by providing raw data, basis specifications, and grid specifications. The FTS object can be univariate or multivariate, and the variables can be observed over one-dimensional curves or two-dimensional images. The package includes input validity checks to guide you.
 
-Other functionalities offered by the package include:
-\itemize{
-\item FTS arithmetic - Allows the user to perform FTS-FTS arithmetic and FTS-scalar arithmetic (such as addition, subtraction, etc.).
-\item \code{\link{eval.fts}} - Allows the user to evaluate the FTS object over a new specified grid.
-\item \code{\link{load_github_data}} - Allows the user to load any .RData file hosted on GitHub including the \code{\link{Callcenter}}, \code{\link{Jambi}},
-and \code{\link{Montana}} datasets.
-\item \code{\link{fwcor}} - Returns the weighted correlation matrix corresponding to the decomposition of an FTS.
-\item \code{\link{cor.fts}} - Returns the correlation between two \code{\link{fts}} objects.
-\item \code{\link{launchApp}} - Launches the built-in R Shiny app that can be used to interactively explore the FSSA-based routines on various datasets.
-}
+Use the \code{\link{plot.funts}} method to visualize the \code{\link{funts}} object. It offers various plotting options for one-dimensional domain variables and animations for two-dimensional domains.
 
-The update we include in this version of the Rfssa R package, is the \code{\link{fpredinterval}} function used to calculate prediction intervals for FSSA-based forecasts using a bootstrap approach of the residuals.
+Next, apply the FSSA routine (\code{\link{fssa}}) to the \code{\link{funts}} object with a chosen lag parameter to obtain the decomposition. The decomposition function utilizes RSpectra and RcppEigen R packages, along with the Eigen C++ package, for efficient processing.
+
+Visualize the decomposition results using the \code{\link{plot.fssa}} method to help choose the grouping of eigentriples for reconstruction (\code{\link{freconstruct}}) or forecasting (\code{\link{fforecast}}). The \code{\link{freconstruct}} function reconstructs a list of \code{\link{funts}} objects specified by the grouping, while \code{\link{fforecast}} provides predictions of the signals specified by the grouping. Calculate bootstrapped prediction intervals for forecasts using the \code{\link{fpredinterval}} function.
+
+When performing forecasting, typically specify one group that captures the assumed deterministic, extracted signal within the FTS, while excluding all other modes of variation. Currently, forecasting supports FTS with one-dimensional domains, with two-dimensional domain forecasting planned for future updates.
+
+This version of the Rfssa R package introduces the \code{\link{fpredinterval}} function, which calculates prediction intervals for FSSA-based forecasts using a bootstrap approach for the residuals.
 }
 \references{
-Haghbin, H., Morteza Najibi, S., Mahmoudvand, R., Trinka, J., and Maadooliat, M. (2021). Functional
-  singular spectrum analysis. Stat. e330 STAT-20-0240.R1.
+Haghbin, H., Najibi, S. M., Mahmoudvand, R., Trinka, J., Maadooliat, M. (2021). Functional singular spectrum analysis. Stat, 10(1), e330.
 
   Trinka J., Haghbin H., Maadooliat M. (Accepted) Multivariate Functional Singular Spectrum Analysis: A Nonparametric Approach for Analyzing Multivariate Functional Time Series. In: Bekker A., Ferreira, J., Arashi M., Chen D. (eds) Innovations in Multivariate Statistical Modeling: Navigating Theoretical and Multidisciplinary Domains. Emerging Topics in Statistics and Biostatistics. Springer, Cham.
 
   Trinka J. (2021) Functional Singular Spectrum Analysis: Nonparametric Decomposition and Forecasting Approaches for Functional Time Series [Doctoral dissertation, Marquette University]. ProQuest Dissertations Publishing.
 
-  Trinka, J., Haghbin, H., and Maadooliat, M. (2021). Functional time series forecasting: Functional
-  singular spectrum analysis approaches. Version 4 retrieved from https://arxiv.org/abs/2011.
-  13077.
+  Trinka, J., Haghbin, H.,  Maadooliat, M. (2022). Multivariate Functional Singular Spectrum Analysis: A Nonparametric Approach for Analyzing Multivariate Functional Time Series. In Innovations in Multivariate Statistical Modeling: Navigating Theoretical and Multidisciplinary Domains (pp. 187-221). Cham: Springer International Publishing.
+
+  Trinka, J., Haghbin, H., Shang, H., Maadooliat, M. (2023). Functional Time Series Forecasting: Functional Singular Spectrum Analysis Approaches. Stat, DOI: 10.1002/sta4.621
 }
 \seealso{
 \code{\link{fssa}}, \code{\link{freconstruct}}, \code{\link{fforecast}}
- \code{\link{fwcor}}, \code{\link{wplot}}, \code{\link{fts}}, \code{\link{plot.fts}}, \code{\link{plot.fssa}},
- \code{\link{cor.fts}}, \code{\link{launchApp}}
+ \code{\link{fwcor}}, \code{\link{wplot}}, \code{\link{funts}}, \code{\link{plot.funts}}, \code{\link{plot.fssa}},
+ \code{\link{cor.funts}}, \code{\link{launchApp}}
 }

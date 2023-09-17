@@ -12,12 +12,10 @@
 \item{Y2}{an object of class \code{\link{funts}} or numeric.}
 }
 \value{
-An object of class \code{\link{funts}}.
+an object of class \code{\link{funts}}.
 }
 \description{
-A method for functional time series (\code{\link{funts}}) addition and funts-scalar addition. Note that if the funts is multivariate
-then a vector of numerics may be provided allowing for addition of different scalars to different variables. For example, multivariate funts-numeric addition
-follows the form of \code{Y+c(1,2)} if \code{Y} is a bivariate FTS.
+A method for functional time series (\code{\link{funts}}) addition and funts-scalar addition.
 }
 \seealso{
 \code{\link{funts}}

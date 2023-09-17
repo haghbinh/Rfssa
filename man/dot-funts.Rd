@@ -2,19 +2,18 @@
 % Please edit documentation in R/funts_methods.R
 \name{-.funts}
 \alias{-.funts}
-\title{Subtract two `funts` objects or a `funts` object and a scalar}
+\title{Subtract `funts` Objects or a `funts` Object and a Scalar}
 \usage{
 \method{-}{funts}(obj1, obj2 = NULL)
 }
 \arguments{
-\item{obj1}{an object of class `funts`. This represents the first `funts` object.}
+\item{obj1}{an object of class `funts`, representing the first `funts` object.}
 
 \item{obj2}{an object of class `funts` or a scalar.}
 }
 \description{
-This function allows you to subtract two `funts` (functional time series) objects or
-subtract a `funts` object from a scalar. It returns the difference between the two
-objects.
+This function allows subtraction between two `funts` (functional time series) objects or
+between a `funts` object and a scalar. It returns the resulting difference.
 }
 \examples{
 data("Callcenter")

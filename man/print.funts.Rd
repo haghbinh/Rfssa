@@ -10,7 +10,7 @@
 \item{obj}{an object of class "funts" to be printed.}
 }
 \description{
-This function provides a custom print method for objects of the Functional Time Series (funts) class.
-It displays information about the funts object, including its length (N), the number of variables,
-and the structure of the object.
+This custom print method is designed for objects of the Functional Time Series (funts) class.
+It provides a summary of the funts object, including its length (N), the number of variables,
+and its structure.
 }

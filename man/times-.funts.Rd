@@ -2,7 +2,7 @@
 % Please edit documentation in R/funts_methods.R
 \name{*.funts}
 \alias{*.funts}
-\title{Scalar Multiplication of a Functional Time Series (\code{\link{funts}}) Object}
+\title{Scalar Multiplication of Functional Time Series (funts)}
 \usage{
 \method{*}{funts}(obj1, obj2)
 }
@@ -15,11 +15,10 @@
 An object of class \code{\link{funts}} representing the result of scalar multiplication.
 }
 \description{
-Performs scalar multiplication of a Functional Time Series (funts) object by either another funts object or a scalar value.
+Perform scalar multiplication of a Functional Time Series (funts) object by either another funts object or a scalar value.
 }
 \details{
-This function allows you to multiply a Functional Time Series (funts) object by either another funts object or a scalar value.
-The operation is element-wise when both objects are funts, and scalar multiplication when one object is a funts and the other is a scalar.
+This function allows element-wise multiplication of a Functional Time Series (funts) object by another funts object or scalar value.
 }
 \seealso{
 \code{\link{funts}}

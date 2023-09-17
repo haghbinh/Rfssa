@@ -4,26 +4,26 @@
 \alias{loadCallcenterData}
 \title{Load Callcenter Data from GitHub Repository}
 \format{
-A dataframe with 87,600 rows and 5 variables:
+a dataframe with 87,600 rows and 5 variables:
 \describe{
-  \item{calls}{The number of calls in a 6-minute aggregated interval.}
-  \item{u}{A numeric vector indicating the aggregated interval.}
-  \item{Date}{Date and time when the call counts were recorded.}
-  \item{Day}{Weekday associated with Date.}
-  \item{Month}{Month associated with Date.}
+  \item{calls}{number of calls in a 6-minute aggregated interval.}
+  \item{u}{numeric vector indicating the aggregated interval.}
+  \item{Date}{date and time of call count recording.}
+  \item{Day}{weekday associated with Date.}
+  \item{Month}{month associated with Date.}
 }
 }
 \usage{
 loadCallcenterData()
 }
 \description{
-This function loads the Callcenter dataset from the Rfssa_dataset repository hosted on GitHub
-(https://github.com/haghbinh/dataset/Rfssa_dataset). Hosting datasets on GitHub instead of
-including them in the Rfssa R package saves a significant amount of space.
-The Callcenter dataset represents a small call center for an anonymous bank, providing the exact time
-of calls connected to the center from January 1 to December 31 in the year 1999. The data is aggregated
-into time intervals, with each element of the data matrix representing call volume during a specific
-6-minute interval on a particular day.
+This function loads the Callcenter dataset from the Rfssa_dataset repository on GitHub
+(https://github.com/haghbinh/dataset/Rfssa_dataset). By hosting datasets on GitHub rather than
+including them in the Rfssa R package, storage space is conserved.
+}
+\details{
+The Callcenter dataset represents a small call center for an anonymous bank. It provides precise call
+timing data from January 1 to December 31, 1999. The data is aggregated into 6-minute intervals on each day.
 }
 \examples{
 \dontrun{
