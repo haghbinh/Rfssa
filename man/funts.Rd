@@ -7,18 +7,19 @@
 funts(X, basisobj, argval = NULL, method = "data", start = 1, end = NULL)
 }
 \arguments{
-\item{X}{A matrix, three-dimensional array, or a list containing matrix or array objects. When `method="data"`, it represents
-the set of curve values at discrete sampling points or argument values. When `method="coefs"`, `X` specifies the coefficients
-corresponding to the basis system defined in 'basisobj'. If `X` is a list, it defines a multivariate FTS, with each element
-being a matrix or three-dimensional array object. In matrix objects, rows correspond to argument values, and columns correspond
-to the length of the FTS. In three-dimensional array objects, the first and second dimensions correspond to argument values,
-and the third dimension to the length of the FTS.}
+\item{X}{A matrix, three-dimensional array, or a list of matrix or array objects.
+When `method="data"`, it represents the observed curve values at discrete
+sampling points or argument values. When `method="coefs"`, `X` specifies the coefficients
+corresponding to the basis system defined in 'basisobj'. If `X` is a list, it defines a multivariate FTS,
+with each element being a matrix or three-dimensional array object. In matrix objects, rows correspond to argument values,
+and columns correspond to the length of the FTS. In three-dimensional array objects, the first and second dimensions correspond
+to argument values, and the third dimension to the length of the FTS.}
 
 \item{basisobj}{An object of class `basisfd`, a matrix of empirical basis, or a list of `basisfd` or empirical basis objects.
 For empirical basis, rows correspond to basis functions, and columns correspond to grid points.}
 
-\item{argval}{A vector list of length `p`. Each entry in the list should either be a numeric value or a list of numeric
-elements, depending on the dimension of the domain the variable is observed over.}
+\item{argval}{A vector list of length `p`. Each entry in the list should either be a numeric value or a list of numeric elements, depending on the dimension of the domain
+the variable is observed over.}
 
 \item{method}{Determines the type of the `X` matrix: "coefs" or "data."}
 
@@ -29,12 +30,13 @@ specifying a natural time unit.}
 }
 \value{
 An instance of the `funts` class containing functional time series data.
+#' @importFrom fda eval.basis is.basis
+
+An instance of the `funts` class containing functional time series data.
 }
 \description{
-The `funts` class is designed to encapsulate functional time series objects, both univariate (FTS) and multivariate (MFTS).
-It allows you to create `funts` objects with specified basis systems. You can create an `funts` object either by providing discrete
-observed samples of curves and applying smoothing using a basis method or by supplying the set of basis coefficients.
-`funts` objects can handle two-dimensional functional data and different dimensions for multivariate FTS.
+The `funts` class is designed to encapsulate functional time series objects, including both univariate (FTS) and multivariate (MFTS) forms.
+It provides a versatile framework for creating and manipulating `funts` objects, accommodating various basis systems and dimensions.
 }
 \examples{
 \dontrun{

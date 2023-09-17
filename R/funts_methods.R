@@ -10,15 +10,13 @@ length.funts <- function(obj) {
   return(obj$N)
 }
 # =======================================================================
-#'
 #' Custom Print Method for Functional Time Series (funts) Objects
 #'
-#' This function provides a custom print method for objects of the Functional Time Series (funts) class.
-#' It displays information about the funts object, including its length (N), the number of variables,
-#' and the structure of the object.
+#' This custom print method is designed for objects of the Functional Time Series (funts) class.
+#' It provides a summary of the funts object, including its length (N), the number of variables,
+#' and its structure.
 #'
 #' @param obj an object of class "funts" to be printed.
-#'
 #'
 #' @export
 print.funts <- function(obj) {
@@ -26,17 +24,16 @@ print.funts <- function(obj) {
   cat("\nStart: ", obj$time[1])
   cat("\nEnd: ", obj$time[obj$N])
   cat("\nLenght: ", obj$N)
-  cat("\nNumber of variables: ", length(obj$dimSupp), "\n")
-  cat("\nTime: ", str(obj$time), "\n")
+  cat("\nNumber of variables: ", length(obj$dimSupp))
+  cat("\nTime: ")
+  cat(str(obj$time))
 }
 # =======================================================================
 #'
 #' Addition of Functional Time Series
 #'
-#' A method for functional time series (\code{\link{funts}}) addition and funts-scalar addition. Note that if the funts is multivariate
-#' then a vector of numerics may be provided allowing for addition of different scalars to different variables. For example, multivariate funts-numeric addition
-#' follows the form of \code{Y+c(1,2)} if \code{Y} is a bivariate FTS.
-#' @return An object of class \code{\link{funts}}.
+#' A method for functional time series (\code{\link{funts}}) addition and funts-scalar addition.
+#' @return an object of class \code{\link{funts}}.
 #'
 #' @param Y1 an object of class \code{\link{funts}} or numeric.
 #' @param Y2 an object of class \code{\link{funts}} or numeric.
@@ -68,18 +65,15 @@ print.funts <- function(obj) {
   return(obj1)
 }
 # =======================================================================
+#' Scalar Multiplication of Functional Time Series (funts)
 #'
-#' Scalar Multiplication of a Functional Time Series (\code{\link{funts}}) Object
-#'
-#' Performs scalar multiplication of a Functional Time Series (funts) object by either another funts object or a scalar value.
+#' Perform scalar multiplication of a Functional Time Series (funts) object by either another funts object or a scalar value.
 #'
 #' @param obj1 an object of class \code{\link{funts}} or a scalar value.
 #' @param obj2 an object of class \code{\link{funts}} or a scalar value.
 #' @return An object of class \code{\link{funts}} representing the result of scalar multiplication.
 #'
-#'
-#' @details This function allows you to multiply a Functional Time Series (funts) object by either another funts object or a scalar value.
-#' The operation is element-wise when both objects are funts, and scalar multiplication when one object is a funts and the other is a scalar.
+#' @details This function allows element-wise multiplication of a Functional Time Series (funts) object by another funts object or scalar value.
 #'
 #' @seealso \code{\link{funts}}
 #'
@@ -101,13 +95,12 @@ print.funts <- function(obj) {
 }
 # =======================================================================
 #'
-#' Subtract two `funts` objects or a `funts` object and a scalar
+#' Subtract `funts` Objects or a `funts` Object and a Scalar
 #'
-#' This function allows you to subtract two `funts` (functional time series) objects or
-#' subtract a `funts` object from a scalar. It returns the difference between the two
-#' objects.
+#' This function allows subtraction between two `funts` (functional time series) objects or
+#' between a `funts` object and a scalar. It returns the resulting difference.
 #'
-#' @param obj1 an object of class `funts`. This represents the first `funts` object.
+#' @param obj1 an object of class `funts`, representing the first `funts` object.
 #' @param obj2 an object of class `funts` or a scalar.
 #'
 #' @seealso \code{\link{funts}}
@@ -237,32 +230,32 @@ eval.funts <- function(argvals,obj){
   return(result)
 }
 # =======================================================================
-#'
 #' Plot Functional Time Series (funts) Data
 #'
-#' Create visualizations of Functional Time Series (funts) data. This function supports
-#' plotting funts data with one-dimensional or two-dimensional domains.
+#' Create visualizations of Functional Time Series (funts) data, supporting both one-dimensional and two-dimensional domains.
 #'
-#' @param obj an object of class \code{funts}.
-#' @param npts number of grid points for the plots.
-#' @param obs observation number (for two-dimensional domains).
-#' @param xlab x-axis label.
-#' @param ylab y-axis label.
-#' @param main main title for the plot.
-#' @param type type of plot ("l" for line, "p" for points, etc.).
-#' @param lty line type (1 for solid, 2 for dashed, etc.).
-#' @param ... additional graphical parameters passed to plotting functions.
+#' @param obj An object of class \code{funts}.
+#' @param npts Number of grid points for the plots.
+#' @param obs Observation number (for two-dimensional domains).
+#' @param xlab X-axis label.
+#' @param ylab Y-axis label.
+#' @param main Main title for the plot.
+#' @param type Type of plot ("l" for line, "p" for points, etc.).
+#' @param lty Line type (1 for solid, 2 for dashed, etc.).
+#' @param ... Additional graphical parameters passed to plotting functions.
 #'
 #' @details
-#' The function allows plotting funts data with one-dimensional domains as line plots and funts data
-#' with two-dimensional domains as image plots.
+#' This function enables the creation of visualizations for Functional Time Series (funts) data. It supports both one-dimensional and two-dimensional domains.
+#'
+#' For one-dimensional domains, line plots are used, while for two-dimensional domains, image plots are employed.
+#'
 #'
 #' @importFrom graphics par image axis
 #'
 #' @examples
 #' # Example with one-dimensional domain
 #' data("Callcenter")
-#' plot(Callcenter,lwd=2, npts = 200, col = "deepskyblue4",
+#' plot(Callcenter,lwd=2, col = "deepskyblue4",
 #'     main = "Call Center Data",
 #'     xlab = "Time (6 minutes aggregated)",
 #'     ylab = "Sqrt of Call Numbers")

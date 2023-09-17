@@ -20,42 +20,42 @@
 )
 }
 \arguments{
-\item{x}{an object of class \code{\link{fssa}}.}
+\item{x}{An object of class \code{\link{fssa}}.}
 
-\item{d}{an integer which is the number of elementary components in the plot.}
+\item{d}{An integer representing the number of elementary components to plot.}
 
-\item{idx}{a vector of indices of eigen elements to plot.}
+\item{idx}{A vector of indices specifying which eigen elements to plot.}
 
-\item{idy}{a second vector of indices of eigen elements to plot (for \code{type="paired"}).}
+\item{idy}{A second vector of indices of eigen elements to plot (for \code{type="paired"}).}
 
-\item{contrib}{a logical where if the value is \code{TRUE} (the default), the contribution of the component to the total variance is displayed.}
+\item{contrib}{A logical value. If \code{TRUE} (default), it displays the component's contribution to the total variance.}
 
-\item{groups}{a list or vector of indices determines grouping used for the decomposition(for \code{type="wcor"}).}
+\item{groups}{A list or vector of indices determining the grouping used for decomposition (for \code{type="wcor"}).}
 
-\item{lwd}{a vector of line widths.}
+\item{lwd}{A vector of line widths.}
 
-\item{type}{the type of plot to be displayed where possible types are:
+\item{type}{The type of plot to be displayed. Possible types include:
 \itemize{
-\item \code{"values"} - plot the square-root of singular values (default)
-\item \code{"paired"} - plot the pairs of eigenfunction's coefficients (useful for the detection of periodic components)
-\item \code{"wcor"} - plot the W-correlation matrix for the reconstructed objects
-\item \code{"vectors"} - plot the eigenfunction's coefficients (useful for the detection of period length)
-\item \code{"lcurves"} - plot of the eigenfunctions (useful for the detection of period length)
-\item \code{"lheats"} - heatmap plot of the eigenfunctions which can be used for \code{\link{funts}} variables observed over one or two-dimensional domains (useful for the detection of meaningful patterns)
-\item \code{"periodogram"} - periodogram plot (useful for the detecting the frequencies of oscillations in functional data).
+  \item \code{"values"} - Plot the square-root of singular values (default).
+  \item \code{"paired"} - Plot pairs of eigenfunction's coefficients (useful for detecting periodic components).
+  \item \code{"wcor"} - Plot the W-correlation matrix for the reconstructed objects.
+  \item \code{"vectors"} - Plot the eigenfunction's coefficients (useful for detecting period length).
+  \item \code{"lcurves"} - Plot eigenfunctions (useful for detecting period length).
+  \item \code{"lheats"} - Heatmap plot of eigenfunctions, usable for \code{\link{funts}} variables observed over one or two-dimensional domains (useful for detecting meaningful patterns).
+  \item \code{"periodogram"} - Periodogram plot (useful for detecting the frequencies of oscillations in functional data).
 }}
 
-\item{vars}{a numeric specifying the variable number (can be used in plotting MFSSA \code{"lheats"} or \code{"lcurves"}).}
+\item{vars}{A numeric value specifying the variable number (used in plotting MFSSA \code{"lheats"} or \code{"lcurves"}).}
 
-\item{ylab}{the character vector of name of variables.}
+\item{ylab}{A character vector representing the names of variables.}
 
-\item{main}{the main plot title}
+\item{main}{The main plot title.}
 
-\item{...}{arguments to be passed to methods, such as graphical parameters.}
+\item{...}{Additional arguments to be passed to methods, such as graphical parameters.}
 }
 \description{
-This is a plotting method for objects of class functional singular spectrum analysis (\code{\link{fssa}}). The method is designed to help the user make decisions
- on how to do the grouping stage of univariate or multivariate functional singular spectrum analysis.
+This function is a plotting method for objects of class functional singular spectrum analysis (\code{\link{fssa}}).
+It aids users in making decisions during the grouping stage of univariate or multivariate functional singular spectrum analysis.
 }
 \note{
 See \code{\link{funts}} examples.
