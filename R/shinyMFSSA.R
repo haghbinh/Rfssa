@@ -63,6 +63,7 @@ server.mfssa <- function(input, output, clientData, session) {
   iTrs <- reactiveVal(list())
   iXs <- reactiveVal(list())
   itmp <- reactiveVal(0)
+  previous_s.plot <- reactiveVal(0)
   df <- 100
   vf <- 20
   T <- 100
@@ -185,6 +186,10 @@ server.mfssa <- function(input, output, clientData, session) {
     updateTabsetPanel(session, "Panel", selected = "Data")
     updateCheckboxGroupInput(session, "s.plot", selected = "")
   })
+  observeEvent(input$s.plot, {
+    if (previous_s.plot() == 0 && (sum(c("mfssa", "fssa", "ssa") %in% input$s.plot))) previous_s.plot(1)
+    if (previous_s.plot() == 1 && !(sum(c("mfssa", "fssa", "ssa") %in% input$s.plot))) previous_s.plot(0)
+  })
   observeEvent(input$run.ssa, {
     showTab(inputId = "Panel", target = "Forecasting")
   })
@@ -232,29 +237,35 @@ server.mfssa <- function(input, output, clientData, session) {
     actionButton("run.fpca", paste("run (D)FPCA"))
   })
 
-  run_ssa <- eventReactive(input$run.ssa, {
-    withProgress(message = "MSSA.MFSSA: Running", value = 0, {
-      if (input$bs.fr == "B-spline") {
-        bas.fssa <- fda::create.bspline.basis(c(0, 1), nbasis = input$xdf, norder = input$xdeg + 1)
-      } else {
-        bas.fssa <- fda::create.fourier.basis(c(0, 1), nbasis = input$xdf)
-      }
-      tau <- seq(0, 1, length = nrow(iTs()[[1]]))
-      uUf <- list()
-      if ("uf" %in% input$dmd.uf) {
-        for (i in 1:length(iTs())) {
-          uUf[[i]] <- fssa(funts(X = iTs()[[i]], basisobj = bas.fssa), input$fssaL)
+  run_ssa <- eventReactive(
+    {
+      input$run.ssa
+      previous_s.plot()
+    },
+    {
+      withProgress(message = "MSSA.MFSSA: Running", value = 0, {
+        if (input$bs.fr == "B-spline") {
+          bas.fssa <- fda::create.bspline.basis(c(0, 1), nbasis = input$xdf, norder = input$xdeg + 1)
+        } else {
+          bas.fssa <- fda::create.fourier.basis(c(0, 1), nbasis = input$xdf)
         }
-      }
-      mUf <- fssa(funts(X = iTs(), basisobj = rep(list(bas.fssa), length(iTs()))), input$fssaL)
-      Ys <- NULL
-      for (i in 1:length(iTs())) {
-        Ys <- cbind(Ys, t(iTs()[[i]]))
-      }
-      Us <- ssa(Ys, input$mssaL, kind = "mssa")
-      return(list(Us = Us, mUf = mUf, uUf = uUf, tau = tau, bas.fssa = bas.fssa))
-    })
-  })
+        tau <- seq(0, 1, length = nrow(iTs()[[1]]))
+        uUf <- list()
+        if ("uf" %in% input$dmd.uf) {
+          for (i in 1:length(iTs())) {
+            uUf[[i]] <- fssa(funts(X = iTs()[[i]], basisobj = bas.fssa), input$fssaL)
+          }
+        }
+        mUf <- fssa(funts(X = iTs(), basisobj = rep(list(bas.fssa), length(iTs()))), input$fssaL)
+        Ys <- NULL
+        for (i in 1:length(iTs())) {
+          Ys <- cbind(Ys, t(iTs()[[i]]))
+        }
+        Us <- ssa(Ys, input$mssaL, kind = "mssa")
+        return(list(Us = Us, mUf = mUf, uUf = uUf, tau = tau, bas.fssa = bas.fssa))
+      })
+    }
+  )
 
   run_fpca <- function() { # eventReactive(input$run.fpca, {
     withProgress(message = "(D)FPCA: Running", value = 0, {

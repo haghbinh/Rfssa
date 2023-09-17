@@ -5,10 +5,13 @@ ui.fssa <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       width = 3, tags$head(tags$style(type = "text/css", ".well { max-width: 300px; }")),
-      radioButtons("bs.fr", "Choose Basis:", choices = c("B-spline", "Fourier"), selected = "B-spline", inline = TRUE),
-      uiOutput("xdeg", width = "250px"), uiOutput("xdf", width = "250px"),
+      tags$div(title = "Pick your functional basis", radioButtons("bs.fr", "Choose Basis:", choices = c("B-spline", "Fourier"), selected = "B-spline", inline = TRUE)),
+      tags$div(title = "Pick the degree of polynomial for the B-spline", uiOutput("xdeg", width = "250px")),
+      tags$div(title = "Pick the number of basis", uiOutput("xdf", width = "250px")),
       tags$hr(style = "border-color: red;", width = "150px"),
-      column(6, uiOutput("g")), column(6, uiOutput("sg")), column(6, uiOutput("d")), column(6, uiOutput("dmd")),
+      column(6, textInput("g", "Groups", value = "1:2") %>% tags$a(href="https://www.rdocumentation.org/packages/Rfssa/versions/2.0.1/topics/freconstruct")),
+      tags$div(title = "Pick the groups fo reconstruction", column(6, uiOutput("sg"))),
+      column(6, uiOutput("d")), column(6, uiOutput("dmd")),
       sliderInput("mssaL", HTML("Win.L. (MSSA):"), min = 1, max = 50, value = 50, step = 1, width = "210px"),
       sliderInput("fssaL", HTML("Win.L. (FSSA):"), min = 1, max = 50, value = 20, step = 1, width = "210px"),
       column(6, uiOutput("run.fpca")), column(6, uiOutput("run.ssa"))
@@ -64,10 +67,12 @@ ui.fssa <- fluidPage(
 # Define server logic required to draw a histogram
 
 server.fssa <- function(input, output, clientData, session) {
+#  shinyhelper::observe_helpers()
   iTs <- reactiveVal(list())
   iTrs <- reactiveVal(list())
   iXs <- reactiveVal(list())
   itmp <- reactiveVal(0)
+  previous_s.plot <- reactiveVal(0)
   df <- 100
   vf <- 20
   T <- 100
@@ -76,7 +81,6 @@ server.fssa <- function(input, output, clientData, session) {
   outputOptions(output, "flag_plotly", suspendWhenHidden = FALSE)
   outputOptions(output, "flag_plot", suspendWhenHidden = FALSE)
   hideTab(inputId = "Panel", target = "Forecasting")
-
 
   rfar <- function(N, norm, psi, Eps, basis) {
     # Create Corresponding matrix of an integral (kernel) operator
@@ -183,6 +187,10 @@ server.fssa <- function(input, output, clientData, session) {
     updateTabsetPanel(session, "Panel", selected = "Data")
     updateCheckboxGroupInput(session, "s.plot", selected = "")
   })
+  observeEvent(input$s.plot, {
+    if (previous_s.plot() == 0 && (sum(c("ssa","fssa") %in% input$s.plot))) previous_s.plot(1)
+    if (previous_s.plot() == 1 && !(sum(c("ssa","fssa") %in% input$s.plot))) previous_s.plot(0)
+  })
   observeEvent(input$run.ssa, {
     showTab(inputId = "Panel", target = "Forecasting")
   })
@@ -196,10 +204,6 @@ server.fssa <- function(input, output, clientData, session) {
 
   output$xdf <- renderUI({
     sliderInput("xdf", paste("Deg. of freedom of", input$bs.fr, "Basis:"), min = ifelse(input$bs.fr == "B-spline", input$xdeg + 1, 3), max = df, value = vf, step = ifelse(input$bs.fr == "B-spline", 1, 2), width = "250px")
-  })
-
-  output$g <- renderUI({
-    textInput("g", "Groups", value = "1:2")
   })
 
   output$sg <- renderUI({
@@ -230,19 +234,25 @@ server.fssa <- function(input, output, clientData, session) {
     actionButton("run.fpca", paste("run (D)FPCA"))
   })
 
-  run_ssa <- eventReactive(input$run.ssa, {
-    withProgress(message = "SSA.FSSA: Running", value = 0, {
-      if (input$bs.fr == "B-spline") {
-        bas.fssa <- fda::create.bspline.basis(c(0, 1), nbasis = input$xdf, norder = input$xdeg + 1)
-      } else {
-        bas.fssa <- fda::create.fourier.basis(c(0, 1), nbasis = input$xdf)
-      }
-      tau <- seq(0, 1, length = nrow(iTs()))
-      Uf <- fssa(funts(X = iTs(), basisobj = bas.fssa), input$fssaL)
-      Us <- ssa(t(iTs()), input$mssaL, kind = "mssa")
-      return(list(Uf = Uf, Us = Us, tau = tau, bas.fssa = bas.fssa))
-    })
-  })
+  run_ssa <- eventReactive(
+    {
+      input$run.ssa
+      previous_s.plot()
+    },
+    {
+      withProgress(message = "SSA.FSSA: Running", value = 0, {
+        if (input$bs.fr == "B-spline") {
+          bas.fssa <- fda::create.bspline.basis(c(0, 1), nbasis = input$xdf, norder = input$xdeg + 1)
+        } else {
+          bas.fssa <- fda::create.fourier.basis(c(0, 1), nbasis = input$xdf)
+        }
+        tau <- seq(0, 1, length = nrow(iTs()))
+        Uf <- fssa(funts(X = iTs(), basisobj = bas.fssa), input$fssaL)
+        Us <- ssa(t(iTs()), input$mssaL, kind = "mssa")
+        return(list(Uf = Uf, Us = Us, tau = tau, bas.fssa = bas.fssa))
+      })
+    }
+  )
 
   run_fpca <- function() { # eventReactive(input$run.fpca, {
     withProgress(message = "(D)FPCA: Running", value = 0, {
@@ -310,7 +320,7 @@ server.fssa <- function(input, output, clientData, session) {
     if (input$f.choice != "sim") {
       return()
     }
-    choices <- c("f(tau)" = "f1", "g(tau)" = "f2", "f(tau) + g(tau)" = "f12")
+    choices <- c("f(\u03C4)" = "f1", "g(\u03C4)" = "f2", "f(\u03C4) + g(\u03C4)" = "f12")
     radioButtons("model", "Model:", choices = choices, selected = "f1", inline = TRUE, width = "250px")
   })
 
