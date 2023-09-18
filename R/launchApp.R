@@ -20,9 +20,14 @@
 #' launchApp()
 #' }
 #'
+#' @importFrom plotly renderPlotly plotlyOutput
+#' @importFrom fda pca.fd eval.fd
+#' @importFrom graphics abline axis par plot points polygon
+#' @importFrom stats fft integrate rnorm sd ts.plot density
+#' @importFrom utils head read.table
+#' @import Rssa
 #' @import shiny
 #'
-
 
 # wrapper for shiny::shinyApp()
 launchApp <- function(type = "ufssa") {

@@ -55,9 +55,7 @@ ui.mfssa <- fluidPage(
   )
 )
 
-
-# Define server logic required to draw a histogram
-
+# Define server logic required to run mfssa
 server.mfssa <- function(input, output, clientData, session) {
   iTs <- reactiveVal(list())
   iTrs <- reactiveVal(list())
@@ -290,8 +288,8 @@ server.mfssa <- function(input, output, clientData, session) {
     }
     # if (!length(iXs())) {load(system.file("shiny/data", "servshiny.rda", package = "Rfssa")); iXs(Xs)}
     if (!length(iXs())) {
-      load_github_data("https://github.com/haghbinh/Rfssa/blob/Ver-2.5.0/data/Callcenter.RData")
-      load_github_data("https://github.com/haghbinh/Rfssa/blob/Ver-2.5.0/data/Jambi.RData")
+      loadCallcenterData()
+      loadJambiData()
       Callcenter <- get("Callcenter", envir = .GlobalEnv)
       Jambi <- get("Jambi", envir = .GlobalEnv)
 
@@ -336,7 +334,7 @@ server.mfssa <- function(input, output, clientData, session) {
     if (input$f.choice != "sim") {
       return()
     }
-    choices <- c("A.1t(w1,l) F1 +" = "f1", "A.2t(w2) F2" = "f2")
+    choices <- c("A.1t(\u03C91,\u2113) F1 +" = "f1", "A.2t(\u03C92) F2" = "f2")
     checkboxGroupInput("model", "Model:", choices = choices, selected = "f1", inline = TRUE, width = "250px")
   })
 
@@ -426,7 +424,7 @@ server.mfssa <- function(input, output, clientData, session) {
       for (i in 1:length(Ts)) colnames(Ts[[i]]) <- paste("fn", 1:ncol(Ts[[i]]))
     }
     if ("dmd" %in% input$dmd.uf) {
-      for (i in length(Ts)) {
+      for (i in 1:length(Ts)) {
         Ts[[i]] <- Ts[[i]] - mean(Ts[[i]])
         if (input$f.choice == "sim") simul$Trs[[i]] <- simul$Trs[[i]] - mean(simul$Trs[[i]])
       }
@@ -512,7 +510,7 @@ server.mfssa <- function(input, output, clientData, session) {
     if ((input$f.choice == "upload" && is.null(input$file)) || (input$f.choice == "sim" && !length(input$model))) {
       return()
     }
-    if (((input$desc == "ts" && input$as.choice != "all")) && !(input$s.plot == "bf" && length(input$s.plot) == 1) && length(input$s.plot)) {
+    if (((input$desc == "ts" && input$as.choice != "all")) && !("bf" %in% input$s.plot && length(input$s.plot) == 1) && length(input$s.plot)) {
       if (input$as.choice == "single") {
         sliderInput("sts.choice", "Choose function:", min = 1, max = ncol(iTs()[[1]]), value = ifelse(is.null(input$sts.choice), 1, input$sts.choice), step = 1, width = "400px")
       } else {
@@ -543,7 +541,7 @@ server.mfssa <- function(input, output, clientData, session) {
     if ((input$f.choice == "upload" && is.null(input$file)) || (input$f.choice == "sim" && !length(input$model))) {
       return()
     }
-    if (((input$desc == "ts" && input$as.choice == "mult")) && !(input$s.plot == "bf" && length(input$s.plot) == 1) && length(input$s.plot)) {
+    if (((input$desc == "ts" && input$as.choice == "mult")) && !("bf" %in% input$s.plot && length(input$s.plot) == 1) && length(input$s.plot)) {
       sliderInput("freq", "Period:", min = 1, max = trunc(ncol(iTs()[[1]]) / 2), value = ifelse(is.null(input$freq), 1, input$freq), step = 1, width = "200px")
     }
   })
@@ -570,10 +568,10 @@ server.mfssa <- function(input, output, clientData, session) {
     } else if (input$desc != "ts") {
       return()
     }
-    choices <- c("Time Series" = "ts", "True Functions" = "tf", "Basis Func." = "bf", "Smoothing" = "bss", "Functional PCA" = "fpca", "Multivariate SSA" = "ssa", "Multivariate FSSA" = "mfssa") # , "Dyn. Func. PCA" = "dfpca"
+    choices <- c("Time Series (Raw Data)" = "ts", "True Functions" = "tf", "Multivariate FSSA" = "mfssa", "Multivariate SSA" = "ssa", "Functional PCA" = "fpca", "Basis Function" = "bf", "Smoothing" = "bss") # , "Dyn. Func. PCA" = "dfpca"
     if ("uf" %in% input$dmd.uf) {
-      choices <- append(choices, "fssa", 6)
-      names(choices)[7] <- "Functional SSA"
+      choices <- append(choices, "fssa", 3)
+      names(choices)[4] <- "Functional SSA"
     }
     if (input$f.choice != "sim") {
       choices <- choices[-2]
@@ -867,7 +865,7 @@ server.mfssa <- function(input, output, clientData, session) {
       for (i in input$sg[1]:input$sg[2]) {
         Qs <- Qs + t(sr$Qs[[i]][, ((var.which - 1) * nrow(iTs()[[1]]) + 1):(var.which * nrow(iTs()[[1]]))])
       }
-      myplot <- plotly_funts(funts(X = Qs, basisobj = sr$bas.fssa), type = input$rec.type)
+      myplot <- plotly_funts(funts(X = Qs, basisobj = sr$bas.fssa), types = input$rec.type)
     }
     print(myplot[[1]])
   })
