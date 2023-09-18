@@ -5,7 +5,7 @@
 \title{Plot Functional Time Series (funts) Data}
 \usage{
 \method{plot}{funts}(
-  obj,
+  x,
   npts = 100,
   obs = 1,
   xlab = NULL,
@@ -17,7 +17,7 @@
 )
 }
 \arguments{
-\item{obj}{An object of class \code{funts}.}
+\item{x}{An object of class \code{funts}.}
 
 \item{npts}{Number of grid points for the plots.}
 

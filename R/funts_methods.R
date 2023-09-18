@@ -2,12 +2,12 @@
 #' Length of Functional Time Series
 #'
 #' Returns the length of a "funts" object.
-#' @param obj an object of class "funts" .
+#' @param x an object of class "funts" .
 #'
 #' @importFrom fda eval.basis is.basis
 #' @export
-length.funts <- function(obj) {
-  return(obj$N)
+length.funts <- function(x) {
+  return(x$N)
 }
 # =======================================================================
 #' Custom Print Method for Functional Time Series (funts) Objects
@@ -17,17 +17,18 @@ length.funts <- function(obj) {
 #' and its structure.
 #' @importFrom utils download.file str tail
 #'
-#' @param obj an object of class "funts" to be printed.
+#' @param x an object of class "funts" to be printed.
+#' @param ...	further arguments passed to or from other methods.
 #'
 #' @export
-print.funts <- function(obj) {
+print.funts <- function(x, ...) {
   cat("\nFunctional time series (funts) object:")
-  cat("\nStart: ", obj$time[1])
-  cat("\nEnd: ", obj$time[obj$N])
-  cat("\nLenght: ", obj$N)
-  cat("\nNumber of variables: ", length(obj$dimSupp))
+  cat("\nStart: ", x$time[1])
+  cat("\nEnd: ", x$time[x$N])
+  cat("\nLenght: ", x$N)
+  cat("\nNumber of variables: ", length(x$dimSupp))
   cat("\nTime: ")
-  cat(str(obj$time))
+  cat(str(x$time))
 }
 # =======================================================================
 #'
@@ -235,7 +236,7 @@ eval.funts <- function(argvals,obj){
 #'
 #' Create visualizations of Functional Time Series (funts) data, supporting both one-dimensional and two-dimensional domains.
 #'
-#' @param obj An object of class \code{funts}.
+#' @param x An object of class \code{funts}.
 #' @param npts Number of grid points for the plots.
 #' @param obs Observation number (for two-dimensional domains).
 #' @param xlab X-axis label.
@@ -272,13 +273,13 @@ eval.funts <- function(argvals,obj){
 #' @importFrom graphics matplot
 #'
 #' @export
-plot.funts <- function(obj, npts = 100, obs = 1, xlab = NULL, ylab = NULL, main = NULL, type = "l", lty = 1, ...) {
-  dimSupp <- obj$dimSupp
-  p <- length(obj$dimSupp)
+plot.funts <- function(x, npts = 100, obs = 1, xlab = NULL, ylab = NULL, main = NULL, type = "l", lty = 1, ...) {
+  dimSupp <- x$dimSupp
+  p <- length(x$dimSupp)
   if(is.null(xlab)) xlab <- rep('Time',p)
   if(is.null(ylab)) ylab <- rep(NULL,p)
-  N <- obj$N
-  time <- obj$time
+  N <- x$N
+  time <- x$time
   old <- par()
   exclude_pars <- c("cin", "cra", "csi", "cxy", "din", "page")
   ind <- which(!(names(old) %in% exclude_pars))
@@ -288,18 +289,18 @@ plot.funts <- function(obj, npts = 100, obs = 1, xlab = NULL, ylab = NULL, main 
   if (is.null(xlab)) xlab <- rep("time", p)
   for (j in 1:p) {
     if (dimSupp[[j]] == 1) {
-      supp <- matrix(range(obj$argval[[j]]), nrow = 2)
+      supp <- matrix(range(x$argval[[j]]), nrow = 2)
       x_grids <- seq(supp[1, 1], supp[2, 1], len = npts)
-      X <- eval.funts(x_grids, obj[, j])[[1]]
+      X <- eval.funts(x_grids, x[, j])[[1]]
       matplot(x_grids, X, type = type, lty = lty, xlab = xlab[j], ylab = ylab[j], main = main[j],...)
     } else { # dim >1
-      rangeval <- apply(obj$argval[[j]],2,range)
+      rangeval <- apply(x$argval[[j]],2,range)
       supp <- matrix(c(rangeval[,1], rangeval[,2]), nrow = 2)
       x_grids <- seq(supp[1, 1], supp[2, 1], len = npts)
       y_grids <- seq(from = supp[1, 2], to = supp[2, 2], length.out = npts)
       grids2d <- list(x_grids, y_grids)
-      X <- eval.funts(grids2d, obj[, j])[[1]]
-      image(X[, , obs], xlab = xlab[j], ylab = ylab[j], axes = FALSE, main = paste(main[j], " Observation:", obs),...)
+      X <- eval.funts(grids2d, x[, j])[[1]]
+      image(X[, , obs], xlab = xlab[j], ylab = ylab[j], axes = FALSE, main = paste(main[j], " Observation:", obs), ...)
       axis(side = 1, at = seq(from = 0, to = 1, length.out = 10), labels = round(seq(supp[1, 1], supp[2, 1], len = 10), 1))
       axis(side = 2, at = seq(from = 0, to = 1, length.out = 10), labels = round(seq(supp[1, 2], supp[2, 2], len = 10), 1))
     }

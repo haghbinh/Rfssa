@@ -5,7 +5,7 @@
 #' Create visualizations of FSSA Forecast (fforecast) class. This function supports
 #' plotting `fforecast` data with one-dimensional or two-dimensional domains.
 #'
-#' @param fobj an object of class \code{fforecast}.
+#' @param x an object of class \code{fforecast}.
 #' @param group an integer specify the group index for plot.
 #' @param npts number of grid points for the plots.
 #' @param obs observation number (for two-dimensional domains).
@@ -19,7 +19,7 @@
 #' @seealso \code{\link{fforecast}}
 #'
 #' @export
-plot.fforecast <- function(fobj, group = 1, npts = 100, obs = 1, xlab = NULL, ylab = NULL, main = NULL, type = "l", lty = 1, ...) {
-  obj <- fobj[[group]]
+plot.fforecast <- function(x, group = 1, npts = 100, obs = 1, xlab = NULL, ylab = NULL, main = NULL, type = "l", lty = 1, ...) {
+  obj <- x[[group]]
   plot(obj, npts, obs, xlab, ylab, main, type, lty, ...)
 }

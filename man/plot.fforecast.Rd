@@ -5,7 +5,7 @@
 \title{Plot method for FSSA Forecast (fforecast) class}
 \usage{
 \method{plot}{fforecast}(
-  fobj,
+  x,
   group = 1,
   npts = 100,
   obs = 1,
@@ -18,7 +18,7 @@
 )
 }
 \arguments{
-\item{fobj}{an object of class \code{fforecast}.}
+\item{x}{an object of class \code{fforecast}.}
 
 \item{group}{an integer specify the group index for plot.}
 

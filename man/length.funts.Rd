@@ -4,10 +4,10 @@
 \alias{length.funts}
 \title{Length of Functional Time Series}
 \usage{
-\method{length}{funts}(obj)
+\method{length}{funts}(x)
 }
 \arguments{
-\item{obj}{an object of class "funts" .}
+\item{x}{an object of class "funts" .}
 }
 \description{
 Returns the length of a "funts" object.

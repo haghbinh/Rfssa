@@ -4,10 +4,12 @@
 \alias{print.funts}
 \title{Custom Print Method for Functional Time Series (funts) Objects}
 \usage{
-\method{print}{funts}(obj)
+\method{print}{funts}(x, ...)
 }
 \arguments{
-\item{obj}{an object of class "funts" to be printed.}
+\item{x}{an object of class "funts" to be printed.}
+
+\item{...}{further arguments passed to or from other methods.}
 }
 \description{
 This custom print method is designed for objects of the Functional Time Series (funts) class.
