@@ -90,7 +90,7 @@ print.funts <- function(obj) {
     }
     obj1$coefs <- lapply(obj1$coefs, function(x) x * obj2)
   } else {
-    stop("One object must be an funts, and the other one a scalar")
+    stop("One object must be an funts, and the other one a scalar.")
   }
   return(obj1)
 }
