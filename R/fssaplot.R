@@ -135,7 +135,7 @@ plot.fssa <- function(x, d = length(x$values),
         D0$curves <- rep(as.character(1:L), each = n)
         D0$groups <- factor(rep(main1, each = L * n), levels = main1)
         p1 <- lattice::xyplot(z ~ x | groups,
-          group = curves, lwd = lwd,
+          group = D0$curves, lwd = lwd,
           type = "l", data = D0, par.strip.text = list(cex = 1.2),
           cuts = 50L, xlab = "", ylab = "",
           scales = list(

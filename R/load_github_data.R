@@ -50,6 +50,7 @@ loadCallcenterData <- function() {
   if (file.exists("Callcenter.RData")) {
     load("Callcenter.RData", envir = .GlobalEnv)
   } else {
+    Callcenter <- NULL
     # Download the data from GitHub
     url <- "https://github.com/haghbinh/dataset/raw/main/Rfssa_dataset/Callcenter.RData"
     download.file(url, "Callcenter.RData")
@@ -101,6 +102,7 @@ loadJambiData <- function() {
   if (file.exists("Jambi.RData")) {
     load("Jambi.RData", envir = .GlobalEnv)
   } else {
+    Jambi <- NULL
     # Download the data from GitHub
     url <- "https://github.com/haghbinh/dataset/raw/main/Rfssa_dataset/Jambi.RData"
     download.file(url, "Jambi.RData")
@@ -157,6 +159,7 @@ loadMontanaData <- function() {
   if (file.exists("Montana.RData")) {
     load("Montana.RData", envir = .GlobalEnv)
   } else {
+    Montana <- NULL
     # Download the data from GitHub
     url <- "https://github.com/haghbinh/dataset/raw/main/Rfssa_dataset/Montana.RData"
     download.file(url, "Montana.RData")
