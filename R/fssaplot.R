@@ -229,6 +229,6 @@ plot.fssa <- function(x, d = length(x$values),
       , ...)
     graphics::plot(p1)
   } else {
-    stop("Unsupported type of fssa plot!")
+    stop("Unsupported type of fssa plot!!")
   }
 }
