@@ -30,17 +30,6 @@ multivariate functional time series (\code{\link{funts}}) object.
 \examples{
 \dontrun{
 data("Callcenter")
-plot(Callcenter,lwd=2, npts = 200, col = "deepskyblue4",
-     main = "Call Center Data",
-     xlab = "Time (6 minutes aggregated)",
-     ylab = "Sqrt of Call Numbers")
-
-plotly_funts(Callcenter,
-             main = "Call Center Data Line Plot",
-             xlab = "Time (6 minutes aggregated)",
-             ylab = "Sqrt of Call Numbers",type="line",
-            xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),
-             xticklocs = list(c(1,60,120,180,240)))
 
 # FSSA Decomposition step:
 L <- 28
@@ -51,41 +40,12 @@ plot(U, type = "paired", d = 6)
 plot(U, type = "lcurves", d = 4, vars = 1)
 plot(U, type = "lheats", d = 4)
 plot(U, type = "wcor", d = 10)
-
 plotly_funts(U$Lsingf[[1]])
 plot(U$Lsingf[[2]])
-
-# FSSA Reconstruction step:
-gr <- list(1, 2:3, 4:5, 6:7, 1:7)
-Q <- freconstruct(U, gr)
-plotly_funts(Q[[1]], mains = "Call Center Mean Component",
-             xlab = "Time (6 minutes aggregated)",
-             ylab = "Sqrt of Call Numbers",type="line",
-             xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),
-             xticklocs = list(c(1,60,120,180,240)))
-plot(Q[[2]], main = "Call Center First Periodic Component",
-     xlab = "Time (6 minutes aggregated)",
-     ylab = "Sqrt of Call Numbers")
 
 #--------------- Multivariate FSSA Example on bivariate -----------------------------
 ## temperature curves and smoothed images of vegetation
 data("Montana")
-plot(Montana, obs = 2,
-     main = c("Temperature Curves", "NDVI Images,"),
-     xlab = c("Time", "Longitude"),
-     ylab = c("Normalized Temperature (\u00B0C)", "Latitude"))
-
-plotly_funts(Montana[1:100],
-             xlab = c("Time", "Longitude"),
-             ylab = c("Normalized Temperature (\u00B0C)", "Latitude"),
-             zlab = c("", "NDVI"),
-             main = c("Temperature Curves", "NDVI Images"),
-             color_palette = "RdYlGn",
-             xticklabels = list(c("00:00","06:00","12:00","18:00","24:00"),
-             c("113.40\u00B0 W", "113.30\u00B0 W")),
-             xticklocs =list(c(1,6,12,18,24),c(1,33)),
-             yticklabels = list(NA,c("48.70\u00B0 N", "48.77\u00B0 N")),
-             yticklocs =list(NA,c(1,33)))
 
 # MFSSA Decomposition step:
 L <- 45
@@ -97,39 +57,8 @@ plot(U, type = "lcurves", d = 4, vars = 1)
 plot(U, type = "paired", d = 6)
 plot(U, type = "periodogram", d = 4)
 plot(U, type = "wcor", d = 10)
-
 plotly_funts(U$Lsingf[[1]])
 plot(U$Lsingf[[2]])
 
-# MFSSA Reconstruction step:
-Q <- freconstruct(U = U, groups = list(1, 2, 3))
-plotly_funts(Q[[1]],
-             xlab = c("Time", "Longitude"),
-             ylab = c("Normalized Temperature (\u00B0C)", "Latitude"),
-             zlab = c("", "NDVI"),
-             main = c("Temperature Curves Mean", "NDVI Images Mean"),
-             color_palette = "RdYlGn",
-             xticklabels = list(c("00:00","06:00","12:00","18:00","24:00"),
-                                c("113.40\u00B0 W", "113.30\u00B0 W")),
-                                xticklocs = list(c(1,6,12,18,24),c(1,33)),
-             yticklabels = list(NA,c("48.70\u00B0 N", "48.77\u00B0 N")),
-             yticklocs = list(NA,c(1,33))) # mean
-
-plotly_funts(Q[[2]],
-             xlab = c("Time", "Longitude"),
-             ylab = c("Normalized Temperature (\u00B0C)", "Latitude"),
-             zlab = c("", "NDVI"),
-             main = c("Temperature Curves Periodic", "NDVI Images Periodic"),
-              color_palette = "RdYlGn",
-              xticklabels = list(c("00:00","06:00","12:00","18:00","24:00"),
-              c("113.40\u00B0 W", "113.30\u00B0 W")),
-              xticklocs = list(c(1,6,12,18,24),c(1,33)),
-             yticklabels = list(NA,c("48.70\u00B0 N", "48.77\u00B0 N")),
-             yticklocs = list(NA,c(1,33))) # periodic
-
-plot(Q[[3]], obs = 3,
-     xlab = c("Time", "Longitude"),
-     ylab = c("Normalized Temperature (\u00B0C)", "Latitude"),
-     main = c("Temperature Curves Trend", "NDVI Images Trend,")) # trend
 }
 }

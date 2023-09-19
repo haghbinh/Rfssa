@@ -37,33 +37,39 @@ one-dimensional domain.
 data("Callcenter")
 L <- 28
 U <- fssa(Callcenter, L)
-groups <- list(1,1:7)
+groups <- list(1, 1:7)
 
 ## Perform FSSA R-forecast
-pr_R <- fforecast(U = U, groups = groups,
-                  h = 30, method = "recurrent")
+pr_R <- fforecast(
+  U = U, groups = groups,
+  h = 30, method = "recurrent"
+)
 
 plot(pr_R,
-     group = 1,
-     xlab = "Time (6 minutes aggregated)",
-     ylab = "Sqrt of Call Numbers",type="line")
+  group = 1,
+  xlab = "Time (6 minutes aggregated)",
+  ylab = "Sqrt of Call Numbers", type = "line"
+)
 
 
 plotly_funts(pr_R[[2]],
-             xlab = "Time (6 minutes aggregated)",
-             ylab = "Sqrt of Call Numbers",type="line")
+  xlab = "Time (6 minutes aggregated)",
+  ylab = "Sqrt of Call Numbers", type = "line"
+)
 
 ## Perform FSSA V-forecast
 pr_V <- fforecast(U = U, groups = groups, h = 30, method = "vector", tol = 10^-3)
 
 plot(pr_V,
-     group = 1,
-     xlabels = "Time (6 minutes aggregated)",
-     ylabels = "Sqrt of Call Numbers")
+  group = 1,
+  xlabels = "Time (6 minutes aggregated)",
+  ylabels = "Sqrt of Call Numbers"
+)
 
 plotly_funts(pr_V[[2]],
-     xlabels = "Time (6 minutes aggregated)",
-     ylabels = "Sqrt of Call Numbers",type="3Dlines")
+  xlabels = "Time (6 minutes aggregated)",
+  ylabels = "Sqrt of Call Numbers", type = "3Dlines"
+)
 
 # Multivariate forecasting example:
 data("Montana")

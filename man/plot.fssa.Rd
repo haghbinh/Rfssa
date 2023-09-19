@@ -57,9 +57,19 @@
 This function is a plotting method for objects of class functional singular spectrum analysis (\code{\link{fssa}}).
 It aids users in making decisions during the grouping stage of univariate or multivariate functional singular spectrum analysis.
 }
-\note{
-See \code{\link{funts}} examples.
-}
 \seealso{
 \code{\link{fssa}}, \code{\link{plotly_funts}}
+
+\dontrun{
+data("Callcenter")
+L <- 28
+U <- fssa(Callcenter, L)
+plot(U, type = "values", d = 10)
+plot(U, type = "vectors", d = 4)
+plot(U, type = "paired", d = 6)
+plot(U, type = "lcurves", d = 4, vars = 1)
+plot(U, type = "lheats", d = 4)
+plot(U, type = "wcor", d = 10)
+
+}
 }

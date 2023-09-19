@@ -5,6 +5,10 @@
 #' @param x an object of class "funts" .
 #'
 #' @importFrom fda eval.basis is.basis
+#' @examples
+#' data("Callcenter")
+#' length(Callcenter)
+#'
 #' @export
 length.funts <- function(x) {
   return(x$N)
@@ -19,6 +23,9 @@ length.funts <- function(x) {
 #'
 #' @param x an object of class "funts" to be printed.
 #' @param ...	further arguments passed to or from other methods.
+#' @examples
+#' data("Callcenter")
+#' print(Callcenter)
 #'
 #' @export
 print.funts <- function(x, ...) {

@@ -16,3 +16,8 @@ This custom print method is designed for objects of the Functional Time Series (
 It provides a summary of the funts object, including its length (N), the number of variables,
 and its structure.
 }
+\examples{
+data("Callcenter")
+print(Callcenter)
+
+}

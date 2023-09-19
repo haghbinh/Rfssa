@@ -31,7 +31,7 @@ patterns and insights.
 }
 \examples{
 \dontrun{
-  loadMontanaData()
+loadMontanaData()
 }
 
 }

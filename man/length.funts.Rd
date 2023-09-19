@@ -12,3 +12,8 @@
 \description{
 Returns the length of a "funts" object.
 }
+\examples{
+data("Callcenter")
+length(Callcenter)
+
+}

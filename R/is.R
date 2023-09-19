@@ -2,6 +2,11 @@
 #'
 #' @param obj The object to check.
 #' @return TRUE if the object is of class 'funts', FALSE otherwise.
+#'
+#' @examples
+#' data("Callcenter")
+#' is.funts(Callcenter)
+#'
 #' @export
 is.funts <- function(obj) {
   inherits(obj, "funts")

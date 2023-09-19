@@ -46,7 +46,7 @@ loadCallcenterData()
 D <- matrix(sqrt(Callcenter$calls), nrow = 240)
 bs1 <- create.bspline.basis(c(0, 23), 22)
 u <- seq(0, 23, len = nrow(D))
-Y = funts(D, bs1, start = as.Date("1999-1-1"))
+Y <- funts(D, bs1, start = as.Date("1999-1-1"))
 
 # 2D Multivariate Example: Montana dataset
 # Temperature curves and smoothed images of vegetation
@@ -59,13 +59,17 @@ bs1 <- create.bspline.basis(c(0, 23), 11)
 bs2 <- create.bspline.basis(c(0, 1), 13)
 bs2d <- list(bs2, bs2)
 bsmv <- list(bs1, bs2d)
-Y <- funts(X = Montana_Data, basisobj = bsmv,
-           start = as.Date("2008-01-01"),
-           end = as.Date("2013-09-30"))
-plot(Y,lwd=2, npts = 200, col = "deepskyblue4",
-    main = "Call Center Data",
-    xlab = "Time (6 minutes aggregated)",
-    ylab = "Sqrt of Call Numbers")
+Y <- funts(
+  X = Montana_Data, basisobj = bsmv,
+  start = as.Date("2008-01-01"),
+  end = as.Date("2013-09-30")
+)
+plot(Y,
+  lwd = 2, npts = 200, col = "deepskyblue4",
+  main = "Call Center Data",
+  xlab = "Time (6 minutes aggregated)",
+  ylab = "Sqrt of Call Numbers"
+)
 }
 
 }

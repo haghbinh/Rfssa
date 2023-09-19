@@ -15,3 +15,8 @@ TRUE if the object is of class 'funts', FALSE otherwise.
 \description{
 Check if an object is of class 'funts'
 }
+\examples{
+data("Callcenter")
+is.funts(Callcenter)
+
+}

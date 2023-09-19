@@ -18,7 +18,7 @@ between a `funts` object and a scalar. It returns the resulting difference.
 \examples{
 data("Callcenter")
 y <- Callcenter
-print(1-y)
+print(1 - y)
 
 }
 \seealso{

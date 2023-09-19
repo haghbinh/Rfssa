@@ -26,8 +26,19 @@
 #' @param ... Additional arguments to be passed to methods, such as graphical parameters.
 #' @importFrom lattice xyplot levelplot
 #' @seealso \code{\link{fssa}}, \code{\link{plotly_funts}}
-#' @note See \code{\link{funts}} examples.
 #'
+#' \dontrun{
+#' data("Callcenter")
+#' L <- 28
+#' U <- fssa(Callcenter, L)
+#' plot(U, type = "values", d = 10)
+#' plot(U, type = "vectors", d = 4)
+#' plot(U, type = "paired", d = 6)
+#' plot(U, type = "lcurves", d = 4, vars = 1)
+#' plot(U, type = "lheats", d = 4)
+#' plot(U, type = "wcor", d = 10)
+#'
+#' }
 #' @export
 plot.fssa <- function(x, d = length(x$values),
                       idx = 1:d, idy = idx + 1, contrib = TRUE,

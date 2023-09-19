@@ -22,24 +22,28 @@ Only objects of class \code{\link{fd}} (functional data) and \code{\link{fts}} (
 }
 \examples{
 require(rainbow)
-fts_obj=fts(x = 15:49,
-            y = Australiasmoothfertility$y[,1:60])
+fts_obj <- fts(
+  x = 15:49,
+  y = Australiasmoothfertility$y[, 1:60]
+)
 
 x_funts1 <- as.funts(fts_obj)
 plot(x_funts1,
-     main = "Australians Fertility",
-     ylab = "Fertility rate",
-     xlab = "Age")
+  main = "Australians Fertility",
+  ylab = "Fertility rate",
+  xlab = "Age"
+)
 
 require(fda)
-bs <- create.bspline.basis(rangeval = c(15,49),nbasis = 13)
-fd_obj <- smooth.basis(argvals = fts_obj$x,fts_obj$y,bs)$fd
+bs <- create.bspline.basis(rangeval = c(15, 49), nbasis = 13)
+fd_obj <- smooth.basis(argvals = fts_obj$x, fts_obj$y, bs)$fd
 
 x_funts <- as.funts(fd_obj)
 plotly_funts(x_funts,
-             main = "Australians Fertility",
-             ylab = "Fertility rate",
-             xlab = "Age")
+  main = "Australians Fertility",
+  ylab = "Fertility rate",
+  xlab = "Age"
+)
 
 }
 \seealso{

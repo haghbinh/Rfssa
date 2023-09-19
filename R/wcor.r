@@ -1,25 +1,6 @@
-#' Weighted Correlation Matrix
-#'
-#' This function returns the weighted correlation (w-correlation) matrix for functional time series (\code{\link{funts}}) objects
-#' that were reconstructed from functional singular spectrum analysis (\code{\link{fssa}}) objects.
-#' @return A square matrix of w-correlation values for the reconstructed \code{\link{funts}} objects that were built from.
-#' \code{\link{fssa}} components
-#' @param U An object of class \code{\link{fssa}}.
-#' @param groups A list or vector of indices which determines the grouping used for the reconstruction
-#' in pairwise w-correlations matrix.
-#' @examples
-#' \dontrun{
-#' ## Univariate FSSA Example on Callcenter data
-#' ## Univariate functional singular spectrum analysis
-#' data("Callcenter")
-#' L <- 28
-#' U <- fssa(Callcenter, L)
-#' ufwcor <- fwcor(U = U, groups = list(1, 2, 3))
-#' wplot(W = ufwcor)
-#' }
-#'
-#' @seealso \code{\link{fssa}}, \code{\link{freconstruct}}, \code{\link{funts}}, \code{\link{wplot}}
-#' @export
+# Weighted Correlation Matrix
+# This function returns the weighted correlation (w-correlation) matrix for functional time series
+
 fwcor <- function(U, groups) {
   if (class(U[[1]])[[1]] != "list") out <- ufwcor(U, groups) else out <- mfwcor(U, groups)
   return(out)
@@ -100,4 +81,38 @@ mfwcor <- function(U, groups) {
   }
   for (i in 2:d) for (j in 1:(i - 1)) wcor[i, j] <- wcor[j, i]
   return(wcor)
+}
+
+
+
+# Weighted-Correlations Plot
+# This function generates a plot displaying the weighted-correlation (w-correlation)
+
+wplot <- function(W, cuts = 20, main = NA) {
+  at <- pretty(c(0, 1), n = cuts)
+  d <- nrow(W)
+  W0 <- abs(W)
+  a <- min(W0)
+  b <- max(W0 - diag(1, d))
+  s <- sd(W0 - diag(1, d))
+  diag(W0) <- min(1, b + 3 * s)
+  xylabels <- paste0("F", 1:d)
+  if (is.na(main)) main <- "W-correlation matrix"
+  p1 <- levelplot(1 - W0,
+                           xlab = "", at = at,
+                           ylab = "", colorkey = NULL,
+                           main = list(main, cex = 2),
+                           scales = list(
+                             x = list(
+                               at = 1:d,
+                               lab = xylabels, cex = 0.9
+                             ),
+                             y = list(
+                               at = 1:d,
+                               lab = xylabels, cex = 0.9
+                             )
+                           ),
+                           col.regions = grDevices::gray(seq(0, 1, length = 100))
+  )
+  plot(p1)
 }

@@ -32,7 +32,7 @@ every 16 days. This dataset is valuable for studying vegetative land cover chang
 }
 \examples{
 \dontrun{
-  loadJambiData()
+loadJambiData()
 }
 
 }
