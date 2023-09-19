@@ -26,7 +26,6 @@
 #'
 #' @return An instance of the `funts` class containing functional time series data.
 #'#' @importFrom fda eval.basis is.basis
-#' @importFrom methods is new
 #'
 #' @seealso \code{\link{fssa}}
 #'

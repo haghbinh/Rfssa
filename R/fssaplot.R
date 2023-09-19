@@ -24,7 +24,7 @@
 #' @param ylab A character vector representing the names of variables.
 #' @param main The main plot title.
 #' @param ... Additional arguments to be passed to methods, such as graphical parameters.
-#'
+#' @importFrom lattice xyplot levelplot
 #' @seealso \code{\link{fssa}}, \code{\link{plotly_funts}}
 #' @note See \code{\link{funts}} examples.
 #'
@@ -55,7 +55,7 @@ plot.fssa <- function(x, d = length(x$values),
     if (is.na(main)) main <- "Singular Values"
     val <- sqrt(x$values)[idx]
     data_df <- data.frame(idx, val)
-    p1 <- lattice::xyplot(val ~ idx,
+    p1 <- xyplot(val ~ idx,
       data = data_df, type = "o", lwd = lwd, col = "dodgerblue3", pch = 19, cex=1.2,
       scales = list(cex.axis = 1.7, cex.main = 2, cex.lab = 1.8, cex = 0.8),
       main = main, xlab = "Components", ylab = "norms", grid = TRUE
@@ -94,7 +94,7 @@ plot.fssa <- function(x, d = length(x$values),
             ifelse(is.na(ylab), vars[j], ylab)
           )
         }
-        p1 <- lattice::levelplot(
+        p1 <- levelplot(
           z ~ x *
             y | groups,
           data = D0, par.strip.text = list(cex = 1.2),
@@ -134,7 +134,7 @@ plot.fssa <- function(x, d = length(x$values),
         D0 <- data.frame(z = z, x = 1:n)
         D0$curves <- rep(as.character(1:L), each = n)
         D0$groups <- factor(rep(main1, each = L * n), levels = main1)
-        p1 <- lattice::xyplot(z ~ x | groups,
+        p1 <- xyplot(z ~ x | groups,
           group = D0$curves, lwd = lwd,
           type = "l", data = D0, par.strip.text = list(cex = 1.2),
           cuts = 50L, xlab = "", ylab = "",
@@ -164,7 +164,7 @@ plot.fssa <- function(x, d = length(x$values),
     D0$groups <- factor(rep(main1,
       each = K
     ), levels = main1)
-    p1 <- lattice::xyplot(
+    p1 <- xyplot(
       x ~ time |
         groups,
       lwd = lwd, par.strip.text = list(cex = 1.5),
@@ -190,7 +190,7 @@ plot.fssa <- function(x, d = length(x$values),
     D0 <- data.frame(x = x0, y = y0)
     main3 <- paste(as.character(idx[1]:idx[(d_idx - 1)]), "vs", as.character(idy[1]:idy[(d_idy - 1)]))
     D0$groups <- factor(rep(main3, each = K), levels = main3)
-    p1 <- lattice::xyplot(x ~ y | groups,
+    p1 <- xyplot(x ~ y | groups,
       data = D0, xlab = "", par.strip.text = list(cex = 1.4), lwd = lwd,
       ylab = "", main = list(main, cex = 2.0),
       scales = list(
@@ -219,7 +219,7 @@ plot.fssa <- function(x, d = length(x$values),
     D0$groups <- factor(rep(main1,
       each = (floor(K / 2) + 1)
     ), levels = main1)
-    p1 <- lattice::xyplot(
+    p1 <- xyplot(
       x ~ time |
         groups,
       data = D0, xlab = "", lwd = lwd,
