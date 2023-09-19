@@ -2,7 +2,7 @@
 % Please edit documentation in R/launchApp.R
 \name{launchApp}
 \alias{launchApp}
-\title{Launch the Shiny Application Demonstration}
+\title{Launch Shiny Application for FSSA Demonstration}
 \usage{
 launchApp(type = "ufssa")
 }
@@ -13,14 +13,15 @@ launchApp(type = "ufssa")
 A shiny application object.
 }
 \description{
-This function launches an app that can be used to help an individual better understand univariate or multivariate functional
-singular spectrum analysis (\code{\link{fssa}}). The app allows the user to run univariate or multivariate functional singular spectrum analysis (depending on
-the entered type of parameter)
-on a variety of data types including simulated and real data available through the server. The app also has functionality
-that allows the user to upload their own data. The app allows the user to compare different methods simultaneously such as
-multivariate singular spectrum analysis versus univariate functional singular spectrum analysis. It also allows the user to choose
-the number and types of basis elements used to estimate functional time series (\code{\link{fts}}) objects. The app supports \code{\link{fts}} plots and \code{\link{fssa}}
-plots.
+This function launches a Shiny app to facilitate the understanding of univariate
+or multivariate Functional Singular Spectrum Analysis (\code{\link{fssa}}). The app
+enables users to perform univariate or multivariate FSSA on various data types,
+including simulated and real data provided by the server. Users can also upload
+their own data. The app supports simultaneous comparisons of different methods,
+such as multivariate vs. univariate FSSA, and allows users to select the number
+and types of basis elements used for estimating Functional Time Series
+(\code{\link{funts}}) objects. It offers plotting capabilities for both
+ \code{\link{funts}} and \code{\link{fssa}}.
 }
 \examples{
 \dontrun{
