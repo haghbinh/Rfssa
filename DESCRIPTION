@@ -28,7 +28,8 @@ Imports: Rcpp,
          RSpectra,
          rainbow,
          ftsa,
-         dplyr
+         dplyr,
+         markdown
 LinkingTo: Rcpp,
            RcppArmadillo,
            RcppEigen,
