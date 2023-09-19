@@ -388,6 +388,7 @@ server.fssa <- function(input, output, clientData, session) {
     updateSliderInput(session, "fssaL", max = min(120, trunc(ncol(Ts) / 2)))
     updateSelectInput(session, "desc", selected = "ts")
     updateSliderInput(session, "dimn", max = min(10, ncol(Ts)), value = min(2, ncol(Ts)))
+    text <- mark("test")
     text <- paste("<b>", ncol(Ts), "Time series of length", nrow(Ts), "</b>")
     if (input$f.choice == "sim") iTrs(simul$Trs)
     iTs(Ts)
