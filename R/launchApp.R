@@ -25,7 +25,8 @@
 #' @importFrom graphics abline axis par plot points polygon
 #' @importFrom stats fft integrate rnorm sd ts.plot density
 #' @importFrom utils head read.table
-#' @import Rssa
+#' @importFrom markdown mark
+#' @importFrom Rssa ssa reconstruct
 #' @import shiny
 #'
 
