@@ -6,7 +6,7 @@
 #'
 #' To use this package, start by creating a \code{\link{funts}} object. You can define it by providing raw data, basis specifications, and grid specifications. The FTS object can be univariate or multivariate, and the variables can be observed over one-dimensional curves or two-dimensional images. The package includes input validity checks to guide you.
 #'
-#' Use the \code{\link{plot.funts}} method to visualize the \code{\link{funts}} object. It offers various plotting options for one-dimensional domain variables and animations for two-dimensional domains.
+#' Use the \code{\link{plot}} method to visualize the \code{\link{funts}} object. It offers various plotting options for one-dimensional domain variables and animations for two-dimensional domains.
 #'
 #' Next, apply the FSSA routine (\code{\link{fssa}}) to the \code{\link{funts}} object with a chosen lag parameter to obtain the decomposition. The decomposition function utilizes RSpectra and RcppEigen R packages, along with the Eigen C++ package, for efficient processing.
 #'
@@ -18,8 +18,7 @@
 #'
 #' @seealso
 #'  \code{\link{fssa}}, \code{\link{freconstruct}}, \code{\link{fforecast}}
-#'  \code{\link{fwcor}}, \code{\link{wplot}}, \code{\link{funts}}, \code{\link{plot.funts}}, \code{\link{plot.fssa}},
-#'  \code{\link{launchApp}}
+#'  \code{\link{funts}}, \code{\link{launchApp}}
 #'
 #'
 #' @references
