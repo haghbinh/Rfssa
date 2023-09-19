@@ -9,7 +9,7 @@ ui.fssa <- fluidPage(
       tags$div(title = "Pick the degree of polynomial for the B-spline", uiOutput("xdeg", width = "250px")),
       tags$div(title = "Pick the number of basis", uiOutput("xdf", width = "250px")),
       tags$hr(style = "border-color: red;", width = "150px"),
-      column(6, textInput("g", "Groups", value = "1:2") %>% tags$a(href="https://www.rdocumentation.org/packages/Rfssa/versions/2.0.1/topics/freconstruct")),
+      column(6, textInput("g", "Groups", value = "1:2") %>% tags$a(href = "https://www.rdocumentation.org/packages/Rfssa/versions/2.0.1/topics/freconstruct")),
       tags$div(title = "Pick the groups fo reconstruction", column(6, uiOutput("sg"))),
       column(6, uiOutput("d")), column(6, uiOutput("dmd")),
       sliderInput("mssaL", HTML("Win.L. (MSSA):"), min = 1, max = 50, value = 50, step = 1, width = "210px"),
@@ -60,7 +60,7 @@ ui.fssa <- fluidPage(
 
 # Define server logic required to run fssa
 server.fssa <- function(input, output, clientData, session) {
-#  shinyhelper::observe_helpers()
+  #  shinyhelper::observe_helpers()
   iTs <- reactiveVal(list())
   iTrs <- reactiveVal(list())
   iXs <- reactiveVal(list())
@@ -181,8 +181,8 @@ server.fssa <- function(input, output, clientData, session) {
     updateCheckboxGroupInput(session, "s.plot", selected = "")
   })
   observeEvent(input$s.plot, {
-    if (previous_s.plot() == 0 && (sum(c("ssa","fssa") %in% input$s.plot))) previous_s.plot(1)
-    if (previous_s.plot() == 1 && !(sum(c("ssa","fssa") %in% input$s.plot))) previous_s.plot(0)
+    if (previous_s.plot() == 0 && (sum(c("ssa", "fssa") %in% input$s.plot))) previous_s.plot(1)
+    if (previous_s.plot() == 1 && !(sum(c("ssa", "fssa") %in% input$s.plot))) previous_s.plot(0)
   })
   observeEvent(input$run.ssa, {
     showTab(inputId = "Panel", target = "Forecasting")
@@ -771,7 +771,7 @@ server.fssa <- function(input, output, clientData, session) {
     input.g <- eval(parse(text = paste0("list(", input$g, ")")))
     if (input$desc == "fssa.reconst") {
       isolate(sr$Qf <- freconstruct(sr$Uf, input.g))
-      Qf <-  funts(X = matrix(0, nrow = nrow(iTs()), ncol = ncol(iTs())), basisobj = sr$bas.fssa, argval = sr$tau)
+      Qf <- funts(X = matrix(0, nrow = nrow(iTs()), ncol = ncol(iTs())), basisobj = sr$bas.fssa, argval = sr$tau)
       for (i in input$sg[1]:input$sg[2]) {
         Qf <- Qf + sr$Qf[[i]]
       }
@@ -833,7 +833,7 @@ server.fssa <- function(input, output, clientData, session) {
     }
     fc <- run_fcast()
     Qf <- fc[[1]][[1]]
-    Qf$coefs[[1]][,] <- 0
+    Qf$coefs[[1]][, ] <- 0
     if (length(fc) == 1) i <- 1 else i <- as.numeric(input$fcast.select)
     for (j in input$sg[1]:input$sg[2]) {
       Qf <- Qf + fc[[i]][[j]]

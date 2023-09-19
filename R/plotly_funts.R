@@ -40,51 +40,63 @@
 #' @examples
 #' data("Callcenter") # Univariate FTS example
 #'
-#' plotly_funts(Callcenter, xlab = "Time (6 minutes aggregated)",
-#'              ylab = "Sqrt of Call Numbers")
+#' plotly_funts(Callcenter,
+#'   xlab = "Time (6 minutes aggregated)",
+#'   ylab = "Sqrt of Call Numbers"
+#' )
 #'
-#' plotly_funts(Callcenter, main = "Call Center Data Line Plot",
-#'              xlab = "Time (6 minutes aggregated)",
-#'              ylab = "Sqrt of Call Numbers", type = "line",
-#'              xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),
-#'              xticklocs = list(c(1,60,120,180,240)))
+#' plotly_funts(Callcenter,
+#'   main = "Call Center Data Line Plot",
+#'   xlab = "Time (6 minutes aggregated)",
+#'   ylab = "Sqrt of Call Numbers", type = "line",
+#'   xticklabels = list(c("00:00", "06:00", "12:00", "18:00", "24:00")),
+#'   xticklocs = list(c(1, 60, 120, 180, 240))
+#' )
 #'
-#' plotly_funts(Callcenter, xlab = "Time (6 minutes aggregated)",
-#'              ylab = "Sqrt of Call Numbers",
-#'              type = "3Dline")
+#' plotly_funts(Callcenter,
+#'   xlab = "Time (6 minutes aggregated)",
+#'   ylab = "Sqrt of Call Numbers",
+#'   type = "3Dline"
+#' )
 #'
-#' plotly_funts(Callcenter, xlab = "Time (6 minutes aggregated)",
-#'              ylab = "Sqrt of Call Numbers",
-#'              type = "3Dsurface")
+#' plotly_funts(Callcenter,
+#'   xlab = "Time (6 minutes aggregated)",
+#'   ylab = "Sqrt of Call Numbers",
+#'   type = "3Dsurface"
+#' )
 #'
-#' plotly_funts(Callcenter, xlab = "Time (6 minutes aggregated)",
-#'              ylab = "Sqrt of Call Numbers",
-#'              type = "heatmap")
+#' plotly_funts(Callcenter,
+#'   xlab = "Time (6 minutes aggregated)",
+#'   ylab = "Sqrt of Call Numbers",
+#'   type = "heatmap"
+#' )
 #'
 #' data("Montana") # Multivariate FTS example
 #' plotly_funts(Montana[1:100],
-#'              xlab = c("Time", "Longitude"),
-#'              ylab = c("Normalized Temperature (\u00B0C)", "Latitude"),
-#'              zlab = c("", "NDVI"),
-#'              main = c("Temperature Curves", "NDVI Images"),
-#'              color_palette = "RdYlGn",
-#'              xticklabels = list(c("00:00","06:00","12:00","18:00","24:00"),
-#'                                 c("113.40\u00B0 W", "113.30\u00B0 W")),
-#'              xticklocs = list(c(1,6,12,18,24),c(1,33)),
-#'              yticklabels = list(NA,c("48.70\u00B0 N", "48.77\u00B0 N")),
-#'              yticklocs = list(NA,c(1,33))
+#'   xlab = c("Time", "Longitude"),
+#'   ylab = c("Normalized Temperature (\u00B0C)", "Latitude"),
+#'   zlab = c("", "NDVI"),
+#'   main = c("Temperature Curves", "NDVI Images"),
+#'   color_palette = "RdYlGn",
+#'   xticklabels = list(
+#'     c("00:00", "06:00", "12:00", "18:00", "24:00"),
+#'     c("113.40\u00B0 W", "113.30\u00B0 W")
+#'   ),
+#'   xticklocs = list(c(1, 6, 12, 18, 24), c(1, 33)),
+#'   yticklabels = list(NA, c("48.70\u00B0 N", "48.77\u00B0 N")),
+#'   yticklocs = list(NA, c(1, 33))
 #' )
 #'
 #' @export
 plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NULL, ylab = NULL, xlab = NULL, tlab = NULL,
                          zlab = NULL, xticklabels = NULL, xticklocs = NULL, yticklabels = NULL, yticklocs = NULL,
                          color_palette = "RdYlBu", reverse_color_palette = FALSE, ...) {
-  if (inherits(x, c( "fds", "fts" ))) {
-    if(is.null(xlab)) xlab <- x$xname
-    if(is.null(ylab)) zlab <- x$yname
+  if (inherits(x, c("fds", "fts"))) {
+    if (is.null(xlab)) xlab <- x$xname
+    if (is.null(ylab)) zlab <- x$yname
     x <- as.funts(x)
   }
-  if (inherits(x, "fda"))   x <- as.funts(x)
+  if (inherits(x, "fda")) x <- as.funts(x)
   p <- length(x$dimSupp)
   N <- x$N
   time <- x$time
@@ -224,7 +236,7 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NU
         Pl[[j]] <- D0 %>%
           group_by(time) %>%
           plot_ly(
-            x = ~as.character(time), z = ~z, y = ~x, type = "scatter3d", mode = "lines", color = ~z,
+            x = ~ as.character(time), z = ~z, y = ~x, type = "scatter3d", mode = "lines", color = ~z,
             line = list(width = 4), colors = c("#FFFFFAFF", "#FF0000FF"), hovertemplate = paste0(axz$title[j], ":", " %{z}", "\n", axx$title[j], ":", " %{x}", "\n", axy$title[j], ":", " %{y}")
           ) %>%
           layout(scene = list(xaxis = axx, yaxis = axy, zaxis = axz)) %>%

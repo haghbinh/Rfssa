@@ -25,33 +25,39 @@
 #' data("Callcenter")
 #' L <- 28
 #' U <- fssa(Callcenter, L)
-#' groups <- list(1,1:7)
+#' groups <- list(1, 1:7)
 #'
 #' ## Perform FSSA R-forecast
-#' pr_R <- fforecast(U = U, groups = groups,
-#'                   h = 30, method = "recurrent")
+#' pr_R <- fforecast(
+#'   U = U, groups = groups,
+#'   h = 30, method = "recurrent"
+#' )
 #'
 #' plot(pr_R,
-#'      group = 1,
-#'      xlab = "Time (6 minutes aggregated)",
-#'      ylab = "Sqrt of Call Numbers",type="line")
+#'   group = 1,
+#'   xlab = "Time (6 minutes aggregated)",
+#'   ylab = "Sqrt of Call Numbers", type = "line"
+#' )
 #'
 #'
 #' plotly_funts(pr_R[[2]],
-#'              xlab = "Time (6 minutes aggregated)",
-#'              ylab = "Sqrt of Call Numbers",type="line")
+#'   xlab = "Time (6 minutes aggregated)",
+#'   ylab = "Sqrt of Call Numbers", type = "line"
+#' )
 #'
 #' ## Perform FSSA V-forecast
 #' pr_V <- fforecast(U = U, groups = groups, h = 30, method = "vector", tol = 10^-3)
 #'
 #' plot(pr_V,
-#'      group = 1,
-#'      xlabels = "Time (6 minutes aggregated)",
-#'      ylabels = "Sqrt of Call Numbers")
+#'   group = 1,
+#'   xlabels = "Time (6 minutes aggregated)",
+#'   ylabels = "Sqrt of Call Numbers"
+#' )
 #'
 #' plotly_funts(pr_V[[2]],
-#'      xlabels = "Time (6 minutes aggregated)",
-#'      ylabels = "Sqrt of Call Numbers",type="3Dlines")
+#'   xlabels = "Time (6 minutes aggregated)",
+#'   ylabels = "Sqrt of Call Numbers", type = "3Dlines"
+#' )
 #'
 #' # Multivariate forecasting example:
 #' data("Montana")
@@ -224,15 +230,17 @@ mfforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol 
   Y <- U$Y
   N <- Y$N
   basis <- U$Y$B_mat
-  G_inv <- lapply(basis, function(x) {solve(t(x)%*%x)})
-  d <- sapply(basis,ncol)
+  G_inv <- lapply(basis, function(x) {
+    solve(t(x) %*% x)
+  })
+  d <- sapply(basis, ncol)
   p <- length(Y$dimSupp)
   L <- U$L
   K <- N - L + 1
-  shifter <- matrix(data = 0, nrow = 2, ncol = (p+1))
+  shifter <- matrix(data = 0, nrow = 2, ncol = (p + 1))
   for (j in 1:p) {
-    shifter[1, j+1] <- shifter[2, j] + 1
-    shifter[2, j+1] <- shifter[2, j] + ncol(U$Y$B_mat[[j]])
+    shifter[1, j + 1] <- shifter[2, j] + 1
+    shifter[2, j + 1] <- shifter[2, j] + ncol(U$Y$B_mat[[j]])
   }
   basisobj <- Y$basis
   time_st <- Y$time[1]
@@ -274,17 +282,17 @@ mfforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol 
           E_j <- matrix(data = NA, nrow = sum(d), ncol = k)
           for (q in 1:p) {
             for (n in 1:k) {
-              E_j[(shifter[1, (q+1)]:shifter[2, (q+1)]), n] <- G_inv[[q]] %*% t(basis[[q]]) %*% U[[g[n]]][[q]][, j]
+              E_j[(shifter[1, (q + 1)]:shifter[2, (q + 1)]), n] <- G_inv[[q]] %*% t(basis[[q]]) %*% U[[g[n]]][[q]][, j]
             }
-            my_obs[(shifter[1, (q+1)]:shifter[2, (q+1)]), 1] <- Q[[1]]$coefs[[q]][, (N + j - L + m)]
+            my_obs[(shifter[1, (q + 1)]:shifter[2, (q + 1)]), 1] <- Q[[1]]$coefs[[q]][, (N + j - L + m)]
           }
           A_j <- Neu %*% D %*% t(E_j)
           fore_r[, m] <- fore_r[, m] + A_j %*% my_obs
         }
-        for(q in 1:p) Q[[1]]$coefs[[q]] <- cbind(Q[[1]]$coefs[[q]], fore_r[(shifter[1, (q+1)]:shifter[2, (q+1)]), m]);
+        for (q in 1:p) Q[[1]]$coefs[[q]] <- cbind(Q[[1]]$coefs[[q]], fore_r[(shifter[1, (q + 1)]:shifter[2, (q + 1)]), m])
       }
       for (q in 1:p) {
-        out_g[[q]] <- basis[[q]] %*% fore_r[(shifter[1, (q+1)]:shifter[2, (q+1)]), ]
+        out_g[[q]] <- basis[[q]] %*% fore_r[(shifter[1, (q + 1)]:shifter[2, (q + 1)]), ]
       }
       funts_out <- funts(X = out_g, basisobj = basisobj, argval = Y$argval, start = time_st, end = time_en)
       out[[a]] <- funts_out
@@ -292,17 +300,17 @@ mfforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol 
       # MFSSA V-forecasting
       out_g <- list()
       Y <- matrix(data = NA, nrow = ((L - 1) * sum(d)), ncol = k)
-      Lshifter <- matrix(data = 0, nrow = 2, ncol = (p+1))
+      Lshifter <- matrix(data = 0, nrow = 2, ncol = (p + 1))
       for (j in 1:p) {
-        Lshifter[1, (j+1)] <- Lshifter[2, j] + 1
-        Lshifter[2, (j+1)] <- Lshifter[2, j] + (L-1)*ncol(U$Y$B_mat[[j]])
+        Lshifter[1, (j + 1)] <- Lshifter[2, j] + 1
+        Lshifter[2, (j + 1)] <- Lshifter[2, j] + (L - 1) * ncol(U$Y$B_mat[[j]])
         for (n in 1:k) {
-          Y[(Lshifter[1, (j+1)]:Lshifter[2, (j+1)]), n] <- matrix(data = G_inv[[j]] %*% t(basis[[j]]) %*% U[[g[n]]][[j]][, 1:(L - 1)], nrow = ((L - 1) * d[j]), ncol = 1)
+          Y[(Lshifter[1, (j + 1)]:Lshifter[2, (j + 1)]), n] <- matrix(data = G_inv[[j]] %*% t(basis[[j]]) %*% U[[g[n]]][[j]][, 1:(L - 1)], nrow = ((L - 1) * d[j]), ncol = 1)
         }
       }
       P <- Y %*% t(Y) + Y %*% t(D) %*% Neu %*% D %*% t(Y)
       S <- list()
-      for(j in 1:p) S[[j]] <- array(data = 0, dim = c(d[j], (K + h), L));
+      for (j in 1:p) S[[j]] <- array(data = 0, dim = c(d[j], (K + h), L))
       for (k in 1L:length(g)) {
         projection <- mfproj(U, g[k])
         for (j in 1:p) {
@@ -312,7 +320,7 @@ mfforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol 
       for (m in 1:h) {
         obs <- matrix(data = NA, nrow = ((L - 1) * sum(d)), ncol = 1)
         for (j in 1:p) {
-          obs[(Lshifter[1, (j+1)]:Lshifter[2, (j+1)]), 1] <- matrix(data = S[[j]][, (K + (m - 1)), 2:L], nrow = ((L - 1) * d[j]), ncol = 1)
+          obs[(Lshifter[1, (j + 1)]:Lshifter[2, (j + 1)]), 1] <- matrix(data = S[[j]][, (K + (m - 1)), 2:L], nrow = ((L - 1) * d[j]), ncol = 1)
         }
         pr <- P %*% obs
         pr_mat <- matrix(data = NA, nrow = sum(d), ncol = L - 1)
@@ -321,16 +329,16 @@ mfforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol 
           my_obs <- matrix(data = 0, nrow = sum(d), ncol = 1)
           E_j <- matrix(data = NA, nrow = sum(d), ncol = k)
           for (q in 1:p) {
-            pr_mat[(shifter[1, (q+1)]:shifter[2, (q+1)]), ] <- pr[(Lshifter[1, (q+1)]:Lshifter[2, (q+1)]), 1]
+            pr_mat[(shifter[1, (q + 1)]:shifter[2, (q + 1)]), ] <- pr[(Lshifter[1, (q + 1)]:Lshifter[2, (q + 1)]), 1]
             for (n in 1:k) {
-              E_j[(shifter[1, (q+1)]:shifter[2, (q+1)]), n] <- G_inv[[q]] %*% t(basis[[q]]) %*% U[[g[n]]][[q]][, j]
+              E_j[(shifter[1, (q + 1)]:shifter[2, (q + 1)]), n] <- G_inv[[q]] %*% t(basis[[q]]) %*% U[[g[n]]][[q]][, j]
             }
             my_obs <- pr_mat[, j]
           }
           A_j <- Neu %*% D %*% t(E_j)
           pr_1 <- pr_1 + A_j %*% my_obs
         }
-        for(q in 1:p) S[[q]][, (K + m), ] <- matrix(data = cbind(pr_mat, pr_1)[(shifter[1, (q+1)]:shifter[2, (q+1)]), ], nrow = d[q], ncol = L);
+        for (q in 1:p) S[[q]][, (K + m), ] <- matrix(data = cbind(pr_mat, pr_1)[(shifter[1, (q + 1)]:shifter[2, (q + 1)]), ], nrow = d[q], ncol = L)
       }
 
       for (q in 1:p) {

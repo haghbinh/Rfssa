@@ -56,7 +56,7 @@ plot.fssa <- function(x, d = length(x$values),
     val <- sqrt(x$values)[idx]
     data_df <- data.frame(idx, val)
     p1 <- xyplot(val ~ idx,
-      data = data_df, type = "o", lwd = lwd, col = "dodgerblue3", pch = 19, cex=1.2,
+      data = data_df, type = "o", lwd = lwd, col = "dodgerblue3", pch = 19, cex = 1.2,
       scales = list(cex.axis = 1.7, cex.main = 2, cex.lab = 1.8, cex = 0.8),
       main = main, xlab = "Components", ylab = "norms", grid = TRUE
     )
@@ -109,8 +109,9 @@ plot.fssa <- function(x, d = length(x$values),
             )
           ), as.table = TRUE,
           main = list(main, cex = 1.5),
-          col.regions = grDevices::heat.colors(100)
-          , ...)
+          col.regions = grDevices::heat.colors(100),
+          ...
+        )
         main <- NA
         graphics::plot(p1)
       } else if (type == "lcurves" && x$Y$dimSupp[[vars[j]]] == 1) {
@@ -147,7 +148,8 @@ plot.fssa <- function(x, d = length(x$values),
             )
           ),
           as.table = TRUE,
-          main = list(main, cex = 1.5), ...)
+          main = list(main, cex = 1.5), ...
+        )
 
         graphics::plot(p1)
       } else if (type == "lcurves" && x$Y$dimSupp[[vars[j]]] == 2) {
@@ -178,8 +180,9 @@ plot.fssa <- function(x, d = length(x$values),
           tck = c(1, 0)
         )
       ),
-      as.table = TRUE, type = "l"
-      , ...)
+      as.table = TRUE, type = "l",
+      ...
+    )
     graphics::plot(p1)
   } else if (type == "paired") {
     if (is.na(main)) main <- "Paired Plot of Right Singular Vectors"
@@ -201,8 +204,9 @@ plot.fssa <- function(x, d = length(x$values),
           tck = c(1, 0)
         )
       ),
-      as.table = TRUE, type = "l"
-      , ...)
+      as.table = TRUE, type = "l",
+      ...
+    )
     graphics::plot(p1)
   } else if (type == "periodogram") {
     if (is.na(main)) main <- "Periodogram"
@@ -225,8 +229,9 @@ plot.fssa <- function(x, d = length(x$values),
       data = D0, xlab = "", lwd = lwd,
       ylab = "", main = main,
       scales = list(y = list(at = NULL, relation = "same")),
-      as.table = TRUE, type = "l"
-      , ...)
+      as.table = TRUE, type = "l",
+      ...
+    )
     graphics::plot(p1)
   } else {
     stop("Unsupported type of fssa plot!!")

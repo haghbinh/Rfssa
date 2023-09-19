@@ -91,7 +91,7 @@ loadCallcenterData <- function() {
 #'
 #' @examples
 #' \dontrun{
-#'   loadJambiData()
+#' loadJambiData()
 #' }
 #'
 #' @seealso  - The dataset object loaded by this function.
@@ -148,7 +148,7 @@ loadJambiData <- function() {
 #'
 #' @examples
 #' \dontrun{
-#'   loadMontanaData()
+#' loadMontanaData()
 #' }
 #'
 #' @seealso \code{\link{Montana}} - The dataset object loaded by this function.

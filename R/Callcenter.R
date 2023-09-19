@@ -34,4 +34,3 @@
 #' data("Callcenter")
 #' }
 NULL
-

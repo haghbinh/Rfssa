@@ -10,7 +10,7 @@
 #'
 #' @seealso \code{\link{fssa}}, \code{\link{freconstruct}}, \code{\link{funts}}, \code{\link{fwcor}}
 #' @export
-wplot <- function(W, cuts = 20,main = NA) {
+wplot <- function(W, cuts = 20, main = NA) {
   at <- pretty(c(0, 1), n = cuts)
   d <- nrow(W)
   W0 <- abs(W)
@@ -19,11 +19,11 @@ wplot <- function(W, cuts = 20,main = NA) {
   s <- stats::sd(W0 - diag(1, d))
   diag(W0) <- min(1, b + 3 * s)
   xylabels <- paste0("F", 1:d)
-  if(is.na(main)) main = "W-correlation matrix"
+  if (is.na(main)) main <- "W-correlation matrix"
   p1 <- lattice::levelplot(1 - W0,
     xlab = "", at = at,
     ylab = "", colorkey = NULL,
-    main = list(main,cex=2),
+    main = list(main, cex = 2),
     scales = list(
       x = list(
         at = 1:d,

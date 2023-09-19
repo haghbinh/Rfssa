@@ -21,17 +21,20 @@
 #' @examples
 #' \dontrun{
 #' data("Callcenter")
-#' plot(Callcenter,lwd=2, npts = 200, col = "deepskyblue4",
-#'      main = "Call Center Data",
-#'      xlab = "Time (6 minutes aggregated)",
-#'      ylab = "Sqrt of Call Numbers")
+#' plot(Callcenter,
+#'   lwd = 2, npts = 200, col = "deepskyblue4",
+#'   main = "Call Center Data",
+#'   xlab = "Time (6 minutes aggregated)",
+#'   ylab = "Sqrt of Call Numbers"
+#' )
 #'
 #' plotly_funts(Callcenter,
-#'              main = "Call Center Data Line Plot",
-#'              xlab = "Time (6 minutes aggregated)",
-#'              ylab = "Sqrt of Call Numbers",type="line",
-#'             xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),
-#'              xticklocs = list(c(1,60,120,180,240)))
+#'   main = "Call Center Data Line Plot",
+#'   xlab = "Time (6 minutes aggregated)",
+#'   ylab = "Sqrt of Call Numbers", type = "line",
+#'   xticklabels = list(c("00:00", "06:00", "12:00", "18:00", "24:00")),
+#'   xticklocs = list(c(1, 60, 120, 180, 240))
+#' )
 #'
 #' # FSSA Decomposition step:
 #' L <- 28
@@ -49,34 +52,43 @@
 #' # FSSA Reconstruction step:
 #' gr <- list(1, 2:3, 4:5, 6:7, 1:7)
 #' Q <- freconstruct(U, gr)
-#' plotly_funts(Q[[1]], mains = "Call Center Mean Component",
-#'              xlab = "Time (6 minutes aggregated)",
-#'              ylab = "Sqrt of Call Numbers",type="line",
-#'              xticklabels = list(c("00:00","06:00","12:00","18:00","24:00")),
-#'              xticklocs = list(c(1,60,120,180,240)))
-#' plot(Q[[2]], main = "Call Center First Periodic Component",
-#'      xlab = "Time (6 minutes aggregated)",
-#'      ylab = "Sqrt of Call Numbers")
+#' plotly_funts(Q[[1]],
+#'   mains = "Call Center Mean Component",
+#'   xlab = "Time (6 minutes aggregated)",
+#'   ylab = "Sqrt of Call Numbers", type = "line",
+#'   xticklabels = list(c("00:00", "06:00", "12:00", "18:00", "24:00")),
+#'   xticklocs = list(c(1, 60, 120, 180, 240))
+#' )
+#' plot(Q[[2]],
+#'   main = "Call Center First Periodic Component",
+#'   xlab = "Time (6 minutes aggregated)",
+#'   ylab = "Sqrt of Call Numbers"
+#' )
 #'
 #' #--------------- Multivariate FSSA Example on bivariate -----------------------------
 #' ## temperature curves and smoothed images of vegetation
 #' data("Montana")
-#' plot(Montana, obs = 2,
-#'      main = c("Temperature Curves", "NDVI Images,"),
-#'      xlab = c("Time", "Longitude"),
-#'      ylab = c("Normalized Temperature (\u00B0C)", "Latitude"))
+#' plot(Montana,
+#'   obs = 2,
+#'   main = c("Temperature Curves", "NDVI Images,"),
+#'   xlab = c("Time", "Longitude"),
+#'   ylab = c("Normalized Temperature (\u00B0C)", "Latitude")
+#' )
 #'
 #' plotly_funts(Montana[1:100],
-#'              xlab = c("Time", "Longitude"),
-#'              ylab = c("Normalized Temperature (\u00B0C)", "Latitude"),
-#'              zlab = c("", "NDVI"),
-#'              main = c("Temperature Curves", "NDVI Images"),
-#'              color_palette = "RdYlGn",
-#'              xticklabels = list(c("00:00","06:00","12:00","18:00","24:00"),
-#'              c("113.40\u00B0 W", "113.30\u00B0 W")),
-#'              xticklocs =list(c(1,6,12,18,24),c(1,33)),
-#'              yticklabels = list(NA,c("48.70\u00B0 N", "48.77\u00B0 N")),
-#'              yticklocs =list(NA,c(1,33)))
+#'   xlab = c("Time", "Longitude"),
+#'   ylab = c("Normalized Temperature (\u00B0C)", "Latitude"),
+#'   zlab = c("", "NDVI"),
+#'   main = c("Temperature Curves", "NDVI Images"),
+#'   color_palette = "RdYlGn",
+#'   xticklabels = list(
+#'     c("00:00", "06:00", "12:00", "18:00", "24:00"),
+#'     c("113.40\u00B0 W", "113.30\u00B0 W")
+#'   ),
+#'   xticklocs = list(c(1, 6, 12, 18, 24), c(1, 33)),
+#'   yticklabels = list(NA, c("48.70\u00B0 N", "48.77\u00B0 N")),
+#'   yticklocs = list(NA, c(1, 33))
+#' )
 #'
 #' # MFSSA Decomposition step:
 #' L <- 45
@@ -95,41 +107,49 @@
 #' # MFSSA Reconstruction step:
 #' Q <- freconstruct(U = U, groups = list(1, 2, 3))
 #' plotly_funts(Q[[1]],
-#'              xlab = c("Time", "Longitude"),
-#'              ylab = c("Normalized Temperature (\u00B0C)", "Latitude"),
-#'              zlab = c("", "NDVI"),
-#'              main = c("Temperature Curves Mean", "NDVI Images Mean"),
-#'              color_palette = "RdYlGn",
-#'              xticklabels = list(c("00:00","06:00","12:00","18:00","24:00"),
-#'                                 c("113.40\u00B0 W", "113.30\u00B0 W")),
-#'                                 xticklocs = list(c(1,6,12,18,24),c(1,33)),
-#'              yticklabels = list(NA,c("48.70\u00B0 N", "48.77\u00B0 N")),
-#'              yticklocs = list(NA,c(1,33))) # mean
+#'   xlab = c("Time", "Longitude"),
+#'   ylab = c("Normalized Temperature (\u00B0C)", "Latitude"),
+#'   zlab = c("", "NDVI"),
+#'   main = c("Temperature Curves Mean", "NDVI Images Mean"),
+#'   color_palette = "RdYlGn",
+#'   xticklabels = list(
+#'     c("00:00", "06:00", "12:00", "18:00", "24:00"),
+#'     c("113.40\u00B0 W", "113.30\u00B0 W")
+#'   ),
+#'   xticklocs = list(c(1, 6, 12, 18, 24), c(1, 33)),
+#'   yticklabels = list(NA, c("48.70\u00B0 N", "48.77\u00B0 N")),
+#'   yticklocs = list(NA, c(1, 33))
+#' ) # mean
 #'
 #' plotly_funts(Q[[2]],
-#'              xlab = c("Time", "Longitude"),
-#'              ylab = c("Normalized Temperature (\u00B0C)", "Latitude"),
-#'              zlab = c("", "NDVI"),
-#'              main = c("Temperature Curves Periodic", "NDVI Images Periodic"),
-#'               color_palette = "RdYlGn",
-#'               xticklabels = list(c("00:00","06:00","12:00","18:00","24:00"),
-#'               c("113.40\u00B0 W", "113.30\u00B0 W")),
-#'               xticklocs = list(c(1,6,12,18,24),c(1,33)),
-#'              yticklabels = list(NA,c("48.70\u00B0 N", "48.77\u00B0 N")),
-#'              yticklocs = list(NA,c(1,33))) # periodic
+#'   xlab = c("Time", "Longitude"),
+#'   ylab = c("Normalized Temperature (\u00B0C)", "Latitude"),
+#'   zlab = c("", "NDVI"),
+#'   main = c("Temperature Curves Periodic", "NDVI Images Periodic"),
+#'   color_palette = "RdYlGn",
+#'   xticklabels = list(
+#'     c("00:00", "06:00", "12:00", "18:00", "24:00"),
+#'     c("113.40\u00B0 W", "113.30\u00B0 W")
+#'   ),
+#'   xticklocs = list(c(1, 6, 12, 18, 24), c(1, 33)),
+#'   yticklabels = list(NA, c("48.70\u00B0 N", "48.77\u00B0 N")),
+#'   yticklocs = list(NA, c(1, 33))
+#' ) # periodic
 #'
-#' plot(Q[[3]], obs = 3,
-#'      xlab = c("Time", "Longitude"),
-#'      ylab = c("Normalized Temperature (\u00B0C)", "Latitude"),
-#'      main = c("Temperature Curves Trend", "NDVI Images Trend,")) # trend
+#' plot(Q[[3]],
+#'   obs = 3,
+#'   xlab = c("Time", "Longitude"),
+#'   ylab = c("Normalized Temperature (\u00B0C)", "Latitude"),
+#'   main = c("Temperature Curves Trend", "NDVI Images Trend,")
+#' ) # trend
 #' }
 #' @useDynLib Rfssa
 #' @export
 fssa <- function(Y, L = NA, ntriples = 20, type = "ufssa") {
   N <- Y$N
   if (is.na(L)) L <- floor(N / 2L)
-  if (ntriples > L){
-    ntriples = L
+  if (ntriples > L) {
+    ntriples <- L
     warning("\"ntriples\" must be less than or equal to \"L\". Setting \"ntriples\" = \"L\"")
   }
   cat("Running, please wait...\n")
@@ -179,12 +199,12 @@ ufssa <- function(Y, L, ntriples) {
   Lsingf <- list()
   for (i in 1L:ntriples) {
     out[[i]] <- Y$B_mat[[1]] %*% Cofmat(d, L, Q$vectors[, i])
-    if(Y$dimSupp[[1]] == 1) {
+    if (Y$dimSupp[[1]] == 1) {
       X_mat <- out[[i]]
     } else {
-      n1 <- length(unique(Y$argval[[1]][,1]))
-      n2 <- length(unique(Y$argval[[1]][,2]))
-      X_mat <- array(out[[i]], dim = c(n1,n2,L))
+      n1 <- length(unique(Y$argval[[1]][, 1]))
+      n2 <- length(unique(Y$argval[[1]][, 2]))
+      X_mat <- array(out[[i]], dim = c(n1, n2, L))
     }
     Lsingf[[i]] <- funts(X = X_mat, basisobj = Y$basis[[1]])
   }
@@ -223,10 +243,10 @@ mfssa <- function(Y, L, ntriples) {
       G_1[[j]] <- t(twodG(A = Y$B_mat[[j]], B = Y$B_mat[[j]], grid = grid))
     }
     shifter[1L, j + 1L] <- shifter[2L, j] + 1L
-    shifter[2L, j + 1L] <- shifter[2L, j] + L*ncol(Y$B_mat[[j]])
-    Y_d[1,j] = ncol(Y$B_mat[[j]])
+    shifter[2L, j + 1L] <- shifter[2L, j] + L * ncol(Y$B_mat[[j]])
+    Y_d[1, j] <- ncol(Y$B_mat[[j]])
   }
-  d <- cbind(0,Y_d*L)
+  d <- cbind(0, Y_d * L)
   # Find the proper inner product matrices for j_k variables
   d_tilde <- sum(d) / L
   K <- N - L + 1L
@@ -249,12 +269,12 @@ mfssa <- function(Y, L, ntriples) {
     X_mat <- list()
     for (j in 1L:p) {
       my_pcs[[j]] <- Y$B_mat[[j]] %*% Cofmat((d[j + 1L] / L), L, coefs0[(shifter[1L, (j + 1L)]:shifter[2L, (j + 1L)]), i])
-      if(Y$dimSupp[[j]] == 1) {
+      if (Y$dimSupp[[j]] == 1) {
         X_mat[[j]] <- my_pcs[[j]]
       } else {
-        n1 <- length(unique(Y$argval[[j]][,1]))
-        n2 <- length(unique(Y$argval[[j]][,2]))
-        X_mat[[j]] <- array(my_pcs[[j]], dim = c(n1,n2,L))
+        n1 <- length(unique(Y$argval[[j]][, 1]))
+        n2 <- length(unique(Y$argval[[j]][, 2]))
+        X_mat[[j]] <- array(my_pcs[[j]], dim = c(n1, n2, L))
       }
     }
     Lsingf[[i]] <- funts(X = X_mat, basisobj = Y$basis)

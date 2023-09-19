@@ -11,24 +11,28 @@
 #'
 #' @examples
 #' require(rainbow)
-#' fts_obj=fts(x = 15:49,
-#'             y = Australiasmoothfertility$y[,1:60])
+#' fts_obj <- fts(
+#'   x = 15:49,
+#'   y = Australiasmoothfertility$y[, 1:60]
+#' )
 #'
 #' x_funts1 <- as.funts(fts_obj)
 #' plot(x_funts1,
-#'      main = "Australians Fertility",
-#'      ylab = "Fertility rate",
-#'      xlab = "Age")
+#'   main = "Australians Fertility",
+#'   ylab = "Fertility rate",
+#'   xlab = "Age"
+#' )
 #'
 #' require(fda)
-#' bs <- create.bspline.basis(rangeval = c(15,49),nbasis = 13)
-#' fd_obj <- smooth.basis(argvals = fts_obj$x,fts_obj$y,bs)$fd
+#' bs <- create.bspline.basis(rangeval = c(15, 49), nbasis = 13)
+#' fd_obj <- smooth.basis(argvals = fts_obj$x, fts_obj$y, bs)$fd
 #'
 #' x_funts <- as.funts(fd_obj)
 #' plotly_funts(x_funts,
-#'              main = "Australians Fertility",
-#'              ylab = "Fertility rate",
-#'              xlab = "Age")
+#'   main = "Australians Fertility",
+#'   ylab = "Fertility rate",
+#'   xlab = "Age"
+#' )
 #'
 #' @seealso \code{\link{funts}}, \code{\link{create.bspline.basis}}
 #'
@@ -38,7 +42,7 @@
 as.funts <- function(obj, basis = NULL) {
   if (is.fd(obj)) {
     x_funts <- funts(X = obj$coefs, basisobj = obj$basis, method = "coefs")
-  } else if (inherits(obj, c( "fds", "fts" ))) {
+  } else if (inherits(obj, c("fds", "fts"))) {
     argval <- obj$x
     m1 <- min(argval)
     m2 <- max(argval)
@@ -46,7 +50,7 @@ as.funts <- function(obj, basis = NULL) {
     N <- ncol(X)
     time_st <- 1
     time_en <- NULL
-    if (inherits(obj, "fts")){
+    if (inherits(obj, "fts")) {
       time_st <- obj$time[1]
       time_en <- obj$time[N]
     }

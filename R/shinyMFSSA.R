@@ -844,7 +844,7 @@ server.mfssa <- function(input, output, clientData, session) {
     if (input$desc == "mfssa.reconst") {
       isolate(sr$mQf <- freconstruct(sr$mUf, input.g))
       mQf <- sr$mQf[[1]]
-      for (i in 1:length(mQf$dimSupp)) mQf$coefs[[i]][,] <- 0
+      for (i in 1:length(mQf$dimSupp)) mQf$coefs[[i]][, ] <- 0
       if (input$var.which == "all" || is.null(input$var.which)) {
         var.which <- NULL
         types <- rep(input$rec.type, length(mQf$dimSupp))
@@ -857,7 +857,7 @@ server.mfssa <- function(input, output, clientData, session) {
       for (i in input$sg[1]:input$sg[2]) {
         mQf <- mQf + sr$mQf[[i]]
       }
-      myplot <- plotly_funts(mQf[,vars], types = types)
+      myplot <- plotly_funts(mQf[, vars], types = types)
     } else {
       if (is.null(input$var.which)) var.which <- 1 else var.which <- as.numeric(input$var.which)
       isolate(sr$Qs <- reconstruct(sr$Us, groups = input.g))
@@ -926,7 +926,7 @@ server.mfssa <- function(input, output, clientData, session) {
     fc <- run_fcast()
     if (length(fc) == 1) i <- 1 else i <- as.numeric(input$fcast.select)
     mQf <- fc[[i]][[1]]
-    mQf$coefs[[1]][,] <- 0
+    mQf$coefs[[1]][, ] <- 0
     if (input$fcast.var == "all" || is.null(input$fcast.var)) {
       types <- rep(input$fcast.type, length(fc[[1]][[1]]$coefs))
       vars <- 1:length(fc[[1]][[1]]$coefs)
@@ -937,7 +937,7 @@ server.mfssa <- function(input, output, clientData, session) {
     for (j in input$sg[1]:input$sg[2]) {
       mQf <- mQf + fc[[i]][[j]]
     }
-    myplot <- plotly_funts(mQf[,vars], types = types)
+    myplot <- plotly_funts(mQf[, vars], types = types)
     print(myplot[[1]])
   })
 }

@@ -213,5 +213,3 @@ eval.empb <- function(evalarg, basisobj) {
 #     stop("The basis must be a `basisfd` object or list of `basisfd` objects.")
 #   }
 # }
-
-

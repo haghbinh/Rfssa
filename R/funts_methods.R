@@ -110,7 +110,7 @@ print.funts <- function(x, ...) {
 #' @examples
 #' data("Callcenter")
 #' y <- Callcenter
-#' print(1-y)
+#' print(1 - y)
 #'
 #' @export
 "-.funts" <- function(obj1, obj2 = NULL) {
@@ -190,25 +190,25 @@ print.funts <- function(x, ...) {
 #' y <- Montana
 #' u <- seq(0, 23, len = 4)
 #' v <- seq(1, 33, len = 3)
-#' grid=list(u, list(v, v))
+#' grid <- list(u, list(v, v))
 #' eval.funts(grid, y)
 #' @export
-eval.funts <- function(argvals,obj){
-  if(!xor(is.numeric(argvals) ,is.list(argvals))) stop("Error: Incompatible grid points. It must be a list or numeric object.")
-  if(!is.funts(obj)) stop("The obj argument must have class of funts.")
+eval.funts <- function(argvals, obj) {
+  if (!xor(is.numeric(argvals), is.list(argvals))) stop("Error: Incompatible grid points. It must be a list or numeric object.")
+  if (!is.funts(obj)) stop("The obj argument must have class of funts.")
   dimSupp <- obj$dimSupp
   p <- length(dimSupp)
   basis <- obj$basis
   result <- list()
   for (j in 1:p) {
-    if (is.numeric(argvals) || is.array(argvals) || (p==1 && length(argvals)>1)) argvals <- list(argvals)
-    if (dimSupp[[j]]==1) {
+    if (is.numeric(argvals) || is.array(argvals) || (p == 1 && length(argvals) > 1)) argvals <- list(argvals)
+    if (dimSupp[[j]] == 1) {
       if (is.basis(basis[[j]])) {
-        B <- eval.basis(evalarg = argvals[[j]], basisobj =basis[[j]])
-      } else{# if(is.matrix(basis[[j]])))  #Empirical basis
+        B <- eval.basis(evalarg = argvals[[j]], basisobj = basis[[j]])
+      } else { # if(is.matrix(basis[[j]])))  #Empirical basis
         B <- eval.empb(evalarg = argvals[[j]], basisobj = basis[[j]])
       }
-      result[[j]] <- B%*%obj$coefs[[j]]
+      result[[j]] <- B %*% obj$coefs[[j]]
     } else { # dimSupp[[j]]==2
       u <- argvals[[j]][[1]]
       v <- argvals[[j]][[2]]
@@ -226,7 +226,7 @@ eval.funts <- function(argvals,obj){
         }
       }
       B <- kronecker(b_1, b_2)
-      result[[j]] <- aperm(array(B%*%obj$coefs[[j]],dim=c(length(v),length(u),obj$N)), c(2, 1, 3))
+      result[[j]] <- aperm(array(B %*% obj$coefs[[j]], dim = c(length(v), length(u), obj$N)), c(2, 1, 3))
     }
   }
   return(result)
@@ -257,17 +257,21 @@ eval.funts <- function(argvals,obj){
 #' @examples
 #' # Example with one-dimensional domain
 #' data("Callcenter")
-#' plot(Callcenter,lwd=2, col = "deepskyblue4",
-#'     main = "Call Center Data",
-#'     xlab = "Time (6 minutes aggregated)",
-#'     ylab = "Sqrt of Call Numbers")
+#' plot(Callcenter,
+#'   lwd = 2, col = "deepskyblue4",
+#'   main = "Call Center Data",
+#'   xlab = "Time (6 minutes aggregated)",
+#'   ylab = "Sqrt of Call Numbers"
+#' )
 #'
 #' # Example with two-dimensional domain
 #' data("Montana")
-#' plot(Montana, obs = 2,
-#'     main = c("Temperature Curves", "NDVI Images,"),
-#'     xlab = c("Time", "Longitude"),
-#'     ylab = c("Normalized Temperature (\u00B0C)", "Latitude"))
+#' plot(Montana,
+#'   obs = 2,
+#'   main = c("Temperature Curves", "NDVI Images,"),
+#'   xlab = c("Time", "Longitude"),
+#'   ylab = c("Normalized Temperature (\u00B0C)", "Latitude")
+#' )
 #'
 #' @seealso \code{\link{funts}}, \code{\link{Callcenter}}, \code{\link{Montana}}
 #' @importFrom graphics matplot
@@ -276,8 +280,8 @@ eval.funts <- function(argvals,obj){
 plot.funts <- function(x, npts = 100, obs = 1, xlab = NULL, ylab = NULL, main = NULL, type = "l", lty = 1, ...) {
   dimSupp <- x$dimSupp
   p <- length(x$dimSupp)
-  if(is.null(xlab)) xlab <- rep('Time',p)
-  if(is.null(ylab)) ylab <- rep(NULL,p)
+  if (is.null(xlab)) xlab <- rep("Time", p)
+  if (is.null(ylab)) ylab <- rep(NULL, p)
   N <- x$N
   time <- x$time
   old <- par()
@@ -292,10 +296,10 @@ plot.funts <- function(x, npts = 100, obs = 1, xlab = NULL, ylab = NULL, main = 
       supp <- matrix(range(x$argval[[j]]), nrow = 2)
       x_grids <- seq(supp[1, 1], supp[2, 1], len = npts)
       X <- eval.funts(x_grids, x[, j])[[1]]
-      matplot(x_grids, X, type = type, lty = lty, xlab = xlab[j], ylab = ylab[j], main = main[j],...)
+      matplot(x_grids, X, type = type, lty = lty, xlab = xlab[j], ylab = ylab[j], main = main[j], ...)
     } else { # dim >1
-      rangeval <- apply(x$argval[[j]],2,range)
-      supp <- matrix(c(rangeval[,1], rangeval[,2]), nrow = 2)
+      rangeval <- apply(x$argval[[j]], 2, range)
+      supp <- matrix(c(rangeval[, 1], rangeval[, 2]), nrow = 2)
       x_grids <- seq(supp[1, 1], supp[2, 1], len = npts)
       y_grids <- seq(from = supp[1, 2], to = supp[2, 2], length.out = npts)
       grids2d <- list(x_grids, y_grids)

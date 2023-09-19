@@ -108,7 +108,7 @@ mfreconstruct <- function(U, groups = as.list(1L:10L)) {
       d <- ncol(basis[[j]])
       C[[j]] <- matrix(NA, nrow = d, ncol = N)
       S[[j]] <- 0L
-      for(k in 1L:length(g)){
+      for (k in 1L:length(g)) {
         S[[j]] <- S[[j]] + mfproj(U, g[k])[[j]]
       }
       S[[j]] <- fH(S[[j]], d)
@@ -145,4 +145,3 @@ mfreconstruct <- function(U, groups = as.list(1L:10L)) {
   recon_out$values <- U$values
   return(recon_out)
 }
-
