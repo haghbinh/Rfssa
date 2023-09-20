@@ -24,13 +24,11 @@
 #' @references
 #'   Haghbin, H., Najibi, S. M., Mahmoudvand, R., Trinka, J., Maadooliat, M. (2021). Functional singular spectrum analysis. Stat, 10(1), e330.
 #'
-#'   Trinka J., Haghbin H., Maadooliat M. (Accepted) Multivariate Functional Singular Spectrum Analysis: A Nonparametric Approach for Analyzing Multivariate Functional Time Series. In: Bekker A., Ferreira, J., Arashi M., Chen D. (eds) Innovations in Multivariate Statistical Modeling: Navigating Theoretical and Multidisciplinary Domains. Emerging Topics in Statistics and Biostatistics. Springer, Cham.
-#'
 #'   Trinka J. (2021) Functional Singular Spectrum Analysis: Nonparametric Decomposition and Forecasting Approaches for Functional Time Series [Doctoral dissertation, Marquette University]. ProQuest Dissertations Publishing.
 #'
 #'   Trinka, J., Haghbin, H.,  Maadooliat, M. (2022). Multivariate Functional Singular Spectrum Analysis: A Nonparametric Approach for Analyzing Multivariate Functional Time Series. In Innovations in Multivariate Statistical Modeling: Navigating Theoretical and Multidisciplinary Domains (pp. 187-221). Cham: Springer International Publishing.
 #'
-#'   Trinka, J., Haghbin, H., Shang, H., Maadooliat, M. (2023). Functional Time Series Forecasting: Functional Singular Spectrum Analysis Approaches. Stat, DOI: 10.1002/sta4.621
+#'   Trinka, J., Haghbin, H., Shang, H., Maadooliat, M. (2023). Functional Time Series Forecasting: Functional Singular Spectrum Analysis Approaches. Stat, e621.
 #'
 #' @docType package
 #' @name Rfssa

@@ -9,10 +9,10 @@ ui.fssa <- fluidPage(
       tags$div(title = "Pick the degree of polynomial for the B-spline", uiOutput("xdeg", width = "250px")),
       tags$div(title = "Pick the number of basis", uiOutput("xdf", width = "250px")),
       tags$hr(style = "border-color: red;", width = "150px"),
-      column(6, textInput("g", "Groups", value = "1:2") %>% tags$a(href = "https://www.rdocumentation.org/packages/Rfssa/versions/2.0.1/topics/freconstruct")),
+      column(6, tags$div(title = "Grouping used for the SSA algorithms", textInput("g", "Groups", value = "1:2"))),
       tags$div(title = "Pick the groups fo reconstruction", column(6, uiOutput("sg"))),
-      column(6, uiOutput("d")), column(6, uiOutput("dmd")),
-      sliderInput("mssaL", HTML("Win.L. (MSSA):"), min = 1, max = 50, value = 50, step = 1, width = "210px"),
+      column(6, tags$div(title = "The dimensions used in FPCA, SSA and FSSA", uiOutput("d"))), column(6, tags$div(title = "See Manual", uiOutput("dmd"))),
+      tags$div(title = "Window length parameter used in SSA and FSSA", sliderInput("mssaL", HTML("Win.L. (MSSA):"), min = 1, max = 50, value = 50, step = 1, width = "210px")),
       sliderInput("fssaL", HTML("Win.L. (FSSA):"), min = 1, max = 50, value = 20, step = 1, width = "210px"),
       column(6, uiOutput("run.fpca")), column(6, uiOutput("run.ssa"))
     ),
@@ -21,7 +21,7 @@ ui.fssa <- fluidPage(
       tabsetPanel(
         id = "Panel", type = "tabs",
         tabPanel(
-          title = "Data", value = "Data",
+          title = "Input Data", value = "Data",
           column(12, uiOutput("ts.selected", align = "center"), style = "color:red;"),
           fluidRow(
             column(4, radioButtons("f.choice", "Choose from:", c("Server" = "server", "Upload" = "upload", "Simulate" = "sim"), selected = "sim", inline = TRUE, width = "250px")),
@@ -36,7 +36,7 @@ ui.fssa <- fluidPage(
           column(8, plotOutput("basis.desc", height = 600, width = 600)), column(4, uiOutput("basis.n", width = "300px"))
         ),
         tabPanel(
-          "Data Description (SSA Summary)",
+          "Data Analysis",
           column(4, uiOutput("desc", width = "250px")), column(4, uiOutput("as.choice", width = "400px"), uiOutput("run.fda.gcv", width = "200px"), uiOutput("rec.type", width = "300px")), column(2, uiOutput("freq")), column(2, uiOutput("sts.choice")),
           fluidRow(
             column(
@@ -74,6 +74,7 @@ server.fssa <- function(input, output, clientData, session) {
   outputOptions(output, "flag_plotly", suspendWhenHidden = FALSE)
   outputOptions(output, "flag_plot", suspendWhenHidden = FALSE)
   hideTab(inputId = "Panel", target = "Forecasting")
+  updateTabsetPanel(session, "Panel", selected = "Manual")
 
   rfar <- function(N, norm, psi, Eps, basis) {
     # Create Corresponding matrix of an integral (kernel) operator
@@ -449,7 +450,7 @@ server.fssa <- function(input, output, clientData, session) {
       FSSA = c("Scree" = "fssa.scree", "W.Correlation" = "fssa.wcor", "Paired" = "fssa.pair", "Singular Vectors" = "fssa.singV", "Periodogram" = "fssa.perGr", "Singular Functions" = "fssa.singF", "Reconstruction" = "fssa.reconst"),
       SSA = c("Scree" = "ssa.scree", "W.Correlation" = "ssa.wcor", "Paired" = "ssa.pair", "Singular Vectors" = "ssa.vec", "Functions" = "ssa.funs", "Reconstruction" = "ssa.reconst")
     )
-    selectInput("desc", "Select", choices = choices, width = "250px")
+    selectInput("desc", "Select Plot Type", choices = choices, width = "250px")
   })
 
   output$as.choice <- renderUI({

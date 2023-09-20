@@ -6,8 +6,8 @@ output: html_document
 runtime: shiny
 ---
 
-# Side Bar Panel
-Contains the inputs that will be used in different `sub-panels`. The following inputs will be used in sub-panels **Basis Functions** (to generate the basis functions), **Data Description** (for Smoothing, FPCA, SSA and FSSA):
+# Options and Parameters defined in the Side Bar Panel
+Contains the inputs that will be used in different `sub-panels`. The following inputs will be used in sub-panels **Basis Functions** (to generate the basis functions), **Data Description** (for Smoothing, FPCA, SSA and FSSA), and **Forecasting**:
 
 * [Degree](https://en.wikipedia.org/wiki/Degree_of_a_polynomial) of B-spline Basis  
 * [Deg. of freedom](https://en.wikipedia.org/wiki/Degrees_of_freedom) of B-spline or Fourier Basis  
@@ -21,8 +21,10 @@ Contains the inputs that will be used in different `sub-panels`. The following i
 * **run (F)SSA** button is used to run SSA and FSSA using the specified parameters for the given dataset.
 The top inputs (above red line) are mostly to describe the *basis functions*. The bottom inputs (below red line) are used to specify *SSA* and *FSSA* parameters.
 
-# Main Panel
-## Data
+For more details on the option and parameters we refer the readers to the References given in the end of the page.
+
+# Options in the Main Panel
+## 1. Input Data
 One can either use the files posted in Server
 
 * *Callcenter*: used in the *FSSA paper (package)*
@@ -32,28 +34,28 @@ or simulate FTS (see *FSSA* paper for more details),
 
 or upload any FTS to be analyzed.
 
-## Basis Functions
+## 2. Basis Functions
 * Using a visualization technique, we illustrate the B-spline (or Fourier) basis that is used in the algorithm.
 
-## Data Description (SSA Summary)
+## 3. Data Analysis
 **Summary** of the data:
 
-* Functional Time Series: Provide a lot of visualizations to describe the data.
+* Functional Time Series: Provide a variety of visualizations to describe the data.
   + _Plot Choices_:
     + _All_: Cobmines all _FTS_
     + _Multiple_: Combine _FTS_ at different _Period(frequency)_ together and the combined _clusters_ can be tracked by the end user
     + _Single_: Track _FTS_ individually
   + _Plots_:
-    + _Time Series_: provides the observed _FTS_
+    + _Time Series (Raw Data)_: provides the observed _FTS_
     + _True Functions_: provides the TRUE _FTS_ (in the case of simulation)
-    + _Basis Functions_: embeddes th basis functions on top of _FTS_
+    + _Functional SSA_: provides _FSSA_ results from the _Rfssa_ package
+    + _Multivariate SSA_: provides _MSSA_ results from the _Rssa_ package
+    + _Functional PCA_: provides _FPCA_ results from the _fda_ package
+    + _Basis Functions_: embeds the basis functions on top of _FTS_
     + _Smoothing_: provides the results of smoothing via basis functions
-    + _Functional PCA_: provides _FPCA_ resuls from the _fda_ package
-    + _Multivariate SSA_: provides _MSSA_ resuls from the _Rssa_ package
-    + _Functional SSA_: provides _FSSA_ resuls from the _Rfssa_ package
 * How many basis? (GCV): provides the optimal number of basis based on _GCV_ criteria.
 
-In this panel we can also select outputs under **SSA** and **FSSA**:
+In this panel we can also select plots (outputs) under **SSA** and **FSSA**:
 
 * _Scree_ plot: based on the _trajectory_ matrix
 * _W.Correlation_ plot: w-correlation plot
@@ -63,8 +65,15 @@ In this panel we can also select outputs under **SSA** and **FSSA**:
 * _Singular Functions_ (Heat or Regular plots)
 * _Reconstruction_ of FTS using different _Type_ of plots (Heat, Regular, 3D(line) and 3D(surface))
 
-## Forecasting
+## 4. Forecasting
 This sub-panel would be accessible after user runs the **FSSA** procedure, and it includes the functionalities of _R-forecasting_ and _V-forecasting algorithms_.
 
-## Manual
+## 5. Manual
 The sub-panel that contains this _instruction manual_.
+
+# References
+- Haghbin, H., Najibi, S. M., Mahmoudvand, R., Trinka, J., Maadooliat, M. (2021). Functional singular spectrum analysis. Stat, 10(1), e330.
+- Trinka J. (2021) Functional Singular Spectrum Analysis: Nonparametric Decomposition and Forecasting Approaches for Functional Time Series [Doctoral dissertation, Marquette University]. ProQuest Dissertations Publishing.
+- Trinka, J., Haghbin, H.,  Maadooliat, M. (2022). Multivariate Functional Singular Spectrum Analysis: A Nonparametric Approach for Analyzing Multivariate Functional Time Series. In Innovations in Multivariate Statistical Modeling: Navigating Theoretical and Multidisciplinary Domains (pp. 187-221). Cham: Springer International Publishing.
+- Trinka, J., Haghbin, H., Shang, H., Maadooliat, M. (2023). Functional Time Series Forecasting: Functional Singular Spectrum Analysis Approaches. Stat, e621.
+
