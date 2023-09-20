@@ -18,8 +18,12 @@ to argument values, and the third dimension to the length of the FTS.}
 \item{basisobj}{An object of class `basisfd`, a matrix of empirical basis, or a list of `basisfd` or empirical basis objects.
 For empirical basis, rows correspond to basis functions, and columns correspond to grid points.}
 
-\item{argval}{A vector list of length `p`. Each entry in the list should either be a numeric value or a list of numeric elements, depending on the dimension of the domain
-the variable is observed over.}
+\item{argval}{A vector list of length `p` which is a set of argument values
+corresponding to the observations in X. Each entry in this list should either
+be a numeric value or a list of numeric elements, depending on the dimension of the domain
+the variable is observed over. It can even vary from one variable to another,
+If it be NULL, the default value for argval are the integers 1 to n, where n
+is the size of the first dimension in argument X.?}
 
 \item{method}{Determines the type of the `X` matrix: "coefs" or "data."}
 
