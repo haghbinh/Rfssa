@@ -12,7 +12,7 @@ ui.mfssa <- fluidPage(
       column(6, tags$div(title = "Grouping used for the SSA algorithms", textInput("g", "Groups", value = "1:2"))),
       column(6, tags$div(title = "Pick the groups fo reconstruction", uiOutput("sg"))),
       column(6, tags$div(title = "The dimensions used in FPCA, SSA and FSSA", uiOutput("d"))),
-      column(6, tags$div(title = "See Manual", checkboxGroupInput("dmd.uf", "Functions", choices = c("Demean" = "dmd", "Dbl Range" = "dbl", "Univ. FSSA" = "uf"), selected = "uf"))),
+      column(6, tags$div(title = "See Manual", checkboxGroupInput("dmd.uf", "Functions", choices = c("Demean" = "dmd", "Dbl Range" = "dbl", "Univ. FSSA" = "uf")))),
       tags$div(title = "Window length parameter used in SSA and FSSA", sliderInput("ssaL", HTML("Win.L. (SSA):"), min = 1, max = 50, value = 20, step = 1, width = "210px")),
       column(6, uiOutput("run.ssa"))
     ),
@@ -74,7 +74,6 @@ server.mfssa <- function(input, output, clientData, session) {
   outputOptions(output, "flag_plot", suspendWhenHidden = FALSE)
   hideTab(inputId = "Panel", target = "Forecasting")
   updateTabsetPanel(session, "Panel", selected = "Manual")
-
 
   rfar <- function(N, norm, psi, Eps, basis) {
     # Create Corresponding matrix of an integral (kernel) operator
