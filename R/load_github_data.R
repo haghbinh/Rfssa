@@ -46,16 +46,17 @@
 #'
 #' @export
 loadCallcenterData <- function() {
+  callcenter <<- NULL
   # Check if the data file exists locally
   if (file.exists("Callcenter.RData")) {
     load("Callcenter.RData", envir = .GlobalEnv)
   } else {
-    Callcenter <- NULL
+    # Callcenter <- NULL
     # Download the data from GitHub
     url <- "https://github.com/haghbinh/dataset/raw/main/Rfssa_dataset/Callcenter.RData"
-    download.file(url, "Callcenter.RData")
-    load("Callcenter.RData", envir = .GlobalEnv)
-    save(Callcenter, file = "Callcenter.RData")
+    download.file(url, "callcenter.RData")
+    load("callcenter.RData", envir = .GlobalEnv)
+    save(callcenter, file = "callcenter.RData")
   }
 }
 # =======================================================================
@@ -98,11 +99,12 @@ loadCallcenterData <- function() {
 #'
 #' @export
 loadJambiData <- function() {
+  Jambi <<- NULL
+
   # Check if the data file exists locally
   if (file.exists("Jambi.RData")) {
     load("Jambi.RData", envir = .GlobalEnv)
   } else {
-    Jambi <- NULL
     # Download the data from GitHub
     url <- "https://github.com/haghbinh/dataset/raw/main/Rfssa_dataset/Jambi.RData"
     download.file(url, "Jambi.RData")
@@ -155,15 +157,15 @@ loadJambiData <- function() {
 #'
 #' @export
 loadMontanaData <- function() {
+  montana <<- NULL
   # Check if the data file exists locally
   if (file.exists("Montana.RData")) {
     load("Montana.RData", envir = .GlobalEnv)
   } else {
-    Montana <- NULL
     # Download the data from GitHub
     url <- "https://github.com/haghbinh/dataset/raw/main/Rfssa_dataset/Montana.RData"
     download.file(url, "Montana.RData")
-    load("Montana.RData", envir = .GlobalEnv)
-    save(Montana, file = "Montana.RData")
+    load("montana.RData", envir = .GlobalEnv)
+    save(montana, file = "montana.RData")
   }
 }

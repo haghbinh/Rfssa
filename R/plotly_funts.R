@@ -197,6 +197,7 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NU
             layout(title = paste("<b>", main[j], "</b>"), font = list(size = 12), yaxis = list(title = xlab[j], ticktext = xticklabels[[j]], tickvals = xticklocs[[j]]), xaxis = list(title = tlab[j]))
         }
       } else if (types[j] == "3Dsurface") {
+        if (is.na(main[j])) main[j] <- paste("Variable", vars[j])
         u <- x$argval[[vars[j]]]
         z0 <- x$B_mat[[vars[j]]] %*% x$coefs[[vars[j]]]
         axx <- axy <- axz <- list(
@@ -215,9 +216,11 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NU
           z = z0, x = time, y = u, colorscale = list(c(0, "#FFFFFAFF"), c(1, "#FF0000FF")),
           hovertemplate = paste0(axz$title[j], ":", " %{z}", "\n", axx$title[j], ":", " %{x}", "\n", axy$title[j], ":", " %{y}")
         ) %>%
-          layout(scene = list(xaxis = axx, yaxis = axy, zaxis = axz)) %>%
+          layout(scene = list(xaxis = axx, yaxis = axy, zaxis = axz),
+                 title = main[j]) %>%
           add_surface(showscale = FALSE)
       } else if (types[j] == "3Dline") {
+        if (is.na(main[j])) main[j] <- paste("Variable", vars[j])
         D0 <- tibble::as_tibble(data.frame(z = c(x$B_mat[[vars[j]]] %*% x$coefs[[vars[j]]])))
         D0$time <- rep(time, each = length(x$argval[[vars[j]]]))
         D0$x <- rep(1:length(x$argval[[vars[j]]]), ncol(x$coefs[[vars[j]]]))
@@ -239,9 +242,9 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NU
             x = ~ as.character(time), z = ~z, y = ~x, type = "scatter3d", mode = "lines", color = ~z,
             line = list(width = 4), colors = c("#FFFFFAFF", "#FF0000FF"), hovertemplate = paste0(axz$title[j], ":", " %{z}", "\n", axx$title[j], ":", " %{x}", "\n", axy$title[j], ":", " %{y}")
           ) %>%
-          layout(scene = list(xaxis = axx, yaxis = axy, zaxis = axz)) %>%
-          hide_colorbar()
-      }
+          layout(scene = list(xaxis = axx, yaxis = axy, zaxis = axz),
+                 title = main[j]) %>%
+          hide_colorbar()       }
     } else {
       if (is.na(types[j]) == FALSE && types[j] != "heatmap") warning("The only plotting option available for variables observed over two-dimensional domain is \"heatmap\". Other plotting options will be added for these types of variables in the future.")
       count_twod <- count_twod + 1

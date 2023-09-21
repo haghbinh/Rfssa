@@ -141,8 +141,9 @@ ufforecast <- function(U, groups, h = 1, method = "recurrent", tol = 10^-3) {
   G <- t(basis) %*% basis
   G_inv <- solve(G)
   basisobj <- Y$basis[[1]]
-  time_st <- Y$time[1]
-  time_en <- Y$time[N]
+  time_st <- Y$time[N]+1
+  time_dif <- Y$time[N] - Y$time[N-1]
+  time_en <- time_st + h * time_dif - 1
   for (a in 1:length(groups)) {
     g <- groups[[a]]
     # Define prediction space
@@ -243,8 +244,9 @@ mfforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol 
     shifter[2, j + 1] <- shifter[2, j] + ncol(U$Y$B_mat[[j]])
   }
   basisobj <- Y$basis
-  time_st <- Y$time[1]
-  time_en <- Y$time[N]
+  time_st <- Y$time[N]+1
+  time_dif <- Y$time[N] - Y$time[N-1]
+  time_en <- time_st + h * time_dif - 1
 
   for (a in 1:length(groups)) {
     g <- groups[[a]]
