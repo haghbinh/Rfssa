@@ -34,7 +34,6 @@ specifying a natural time unit.}
 }
 \value{
 An instance of the `funts` class containing functional time series data.
-#' @importFrom fda eval.basis is.basis
 
 An instance of the `funts` class containing functional time series data.
 }

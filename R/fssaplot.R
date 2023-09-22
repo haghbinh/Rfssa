@@ -24,7 +24,6 @@
 #' @param ylab A character vector representing the names of variables.
 #' @param main The main plot title.
 #' @param ... Additional arguments to be passed to methods, such as graphical parameters.
-#' @importFrom lattice xyplot levelplot
 #' @seealso \code{\link{fssa}}, \code{\link{plotly_funts}}
 #'
 #' @examples

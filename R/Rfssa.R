@@ -31,5 +31,6 @@
 #'   Trinka, J., Haghbin, H., Shang, H., Maadooliat, M. (2023). Functional Time Series Forecasting: Functional Singular Spectrum Analysis Approaches. Stat, e621.
 #'
 #' @docType package
+#' @aliases Rfssa
 #' @name Rfssa
 NULL

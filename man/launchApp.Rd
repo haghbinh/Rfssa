@@ -25,7 +25,6 @@ and types of basis elements used for estimating Functional Time Series
 }
 \examples{
 \dontrun{
-
 launchApp()
 }
 

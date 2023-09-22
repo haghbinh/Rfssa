@@ -88,28 +88,28 @@ BEGIN_RCPP
 END_RCPP
 }
 // SS
-NumericMatrix SS(int K, int L, NumericMatrix B, int d);
+Rcpp::NumericMatrix SS(int K, int L, Rcpp::NumericMatrix B, int d);
 RcppExport SEXP _Rfssa_SS(SEXP KSEXP, SEXP LSEXP, SEXP BSEXP, SEXP dSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type K(KSEXP);
     Rcpp::traits::input_parameter< int >::type L(LSEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type B(BSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type B(BSEXP);
     Rcpp::traits::input_parameter< int >::type d(dSEXP);
     rcpp_result_gen = Rcpp::wrap(SS(K, L, B, d));
     return rcpp_result_gen;
 END_RCPP
 }
 // Gram
-NumericMatrix Gram(int K, int L, NumericMatrix A, int d);
+Rcpp::NumericMatrix Gram(int K, int L, Rcpp::NumericMatrix A, int d);
 RcppExport SEXP _Rfssa_Gram(SEXP KSEXP, SEXP LSEXP, SEXP ASEXP, SEXP dSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type K(KSEXP);
     Rcpp::traits::input_parameter< int >::type L(LSEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type A(ASEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type A(ASEXP);
     Rcpp::traits::input_parameter< int >::type d(dSEXP);
     rcpp_result_gen = Rcpp::wrap(Gram(K, L, A, d));
     return rcpp_result_gen;
@@ -132,7 +132,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // Gramm
-NumericMatrix Gramm(int K, int L, int p, int d_tilde, std::vector<NumericMatrix> A, NumericMatrix shifter, NumericMatrix d);
+Rcpp::NumericMatrix Gramm(int K, int L, int p, int d_tilde, std::vector<Rcpp::NumericMatrix> A, Rcpp::NumericMatrix shifter, Rcpp::NumericMatrix d);
 RcppExport SEXP _Rfssa_Gramm(SEXP KSEXP, SEXP LSEXP, SEXP pSEXP, SEXP d_tildeSEXP, SEXP ASEXP, SEXP shifterSEXP, SEXP dSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -141,9 +141,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type L(LSEXP);
     Rcpp::traits::input_parameter< int >::type p(pSEXP);
     Rcpp::traits::input_parameter< int >::type d_tilde(d_tildeSEXP);
-    Rcpp::traits::input_parameter< std::vector<NumericMatrix> >::type A(ASEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type shifter(shifterSEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type d(dSEXP);
+    Rcpp::traits::input_parameter< std::vector<Rcpp::NumericMatrix> >::type A(ASEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type shifter(shifterSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type d(dSEXP);
     rcpp_result_gen = Rcpp::wrap(Gramm(K, L, p, d_tilde, A, shifter, d));
     return rcpp_result_gen;
 END_RCPP

@@ -183,7 +183,6 @@ twodG <- function(A, B, grid, method = "trapezoidal") {
   return(G)
 }
 
-#' @importFrom stats approxfun
 
 # A very Simple Function that evaluates Empirical Basis in any grid points by linear approximation.
 eval.empb <- function(evalarg, basisobj) {

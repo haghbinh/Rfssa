@@ -7,7 +7,6 @@
 #'
 #' @return An object of class \code{\link{funts}}.
 #'
-#' @importFrom fda is.fd create.bspline.basis
 #'
 #' @examples
 #' require(rainbow)

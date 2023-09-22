@@ -15,9 +15,7 @@
 #'
 #' @return An object of class \code{fssa}, containing functional objects,
 #' eigenvalues, window length, and original data.
-
-
-#' @importFrom RSpectra eigs
+#'
 #' @examples
 #' \dontrun{
 #' data("Callcenter")

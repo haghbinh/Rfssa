@@ -29,7 +29,6 @@
 #' @param end The time of the last observation, specified in the same way as `start`.
 #'
 #' @return An instance of the `funts` class containing functional time series data.
-#' #' @importFrom fda eval.basis is.basis
 #'
 #' @seealso \code{\link{fssa}}
 #'

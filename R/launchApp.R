@@ -18,17 +18,9 @@
 #' @importFrom fda fd inprod eval.fd smooth.basis is.fd
 #' @examples
 #' \dontrun{
-#'
 #' launchApp()
 #' }
 #'
-#' @importFrom plotly renderPlotly plotlyOutput
-#' @importFrom fda pca.fd eval.fd
-#' @importFrom graphics abline axis par plot points polygon
-#' @importFrom stats fft integrate rnorm sd ts.plot density
-#' @importFrom utils head read.table
-#' @importFrom markdown mark
-#' @importFrom Rssa ssa reconstruct
 #' @import shiny
 #'
 

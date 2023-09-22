@@ -14,10 +14,7 @@
 #' @param method a character string: "recurrent" or "vector" forecasting.
 #' @param tol a double specifying tolerated error in the approximation.
 #' @return a list of numeric vectors: point forecast, lower, and upper bounds.
-
-
-#' @importFrom rainbow fts
-#' @importFrom ftsa quantile.fts
+#'
 #' @examples
 #' \dontrun{
 #' data("Callcenter")

@@ -4,7 +4,6 @@
 #' Returns the length of a "funts" object.
 #' @param x an object of class "funts" .
 #'
-#' @importFrom fda eval.basis is.basis
 #' @examples
 #' data("Callcenter")
 #' length(Callcenter)
