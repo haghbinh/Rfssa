@@ -2,15 +2,15 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 H <- function(A) {
-    .Call('_Rfssa_H', PACKAGE = 'Rfssa', A)
+    .Call(`_Rfssa_H`, A)
 }
 
 HLinprod <- function(x, y, G) {
-    .Call('_Rfssa_HLinprod', PACKAGE = 'Rfssa', x, y, G)
+    .Call(`_Rfssa_HLinprod`, x, y, G)
 }
 
 HpLinprod <- function(X, Y, G, p) {
-    .Call('_Rfssa_HpLinprod', PACKAGE = 'Rfssa', X, Y, G, p)
+    .Call(`_Rfssa_HpLinprod`, X, Y, G, p)
 }
 
 #' @importFrom Rcpp sourceCpp
@@ -29,43 +29,43 @@ NULL
 NULL
 
 Cofmat <- function(d, L, cx) {
-    .Call('_Rfssa_Cofmat', PACKAGE = 'Rfssa', d, L, cx)
+    .Call(`_Rfssa_Cofmat`, d, L, cx)
 }
 
 CalculateInverse <- function(A) {
-    .Call('_Rfssa_CalculateInverse', PACKAGE = 'Rfssa', A)
+    .Call(`_Rfssa_CalculateInverse`, A)
 }
 
 AtimesB <- function(A, B) {
-    .Call('_Rfssa_AtimesB', PACKAGE = 'Rfssa', A, B)
+    .Call(`_Rfssa_AtimesB`, A, B)
 }
 
 #'@importFrom Rcpp sourceCpp
 SS <- function(K, L, B, d) {
-    .Call('_Rfssa_SS', PACKAGE = 'Rfssa', K, L, B, d)
+    .Call(`_Rfssa_SS`, K, L, B, d)
 }
 
 #'@importFrom Rcpp sourceCpp
 Gram <- function(K, L, A, d) {
-    .Call('_Rfssa_Gram', PACKAGE = 'Rfssa', K, L, A, d)
+    .Call(`_Rfssa_Gram`, K, L, A, d)
 }
 
 #'@importFrom Rcpp sourceCpp
 SSM <- function(K, L, d_tilde, p, B, shifter) {
-    .Call('_Rfssa_SSM', PACKAGE = 'Rfssa', K, L, d_tilde, p, B, shifter)
+    .Call(`_Rfssa_SSM`, K, L, d_tilde, p, B, shifter)
 }
 
 #'@importFrom Rcpp sourceCpp
 Gramm <- function(K, L, p, d_tilde, A, shifter, d) {
-    .Call('_Rfssa_Gramm', PACKAGE = 'Rfssa', K, L, p, d_tilde, A, shifter, d)
+    .Call(`_Rfssa_Gramm`, K, L, p, d_tilde, A, shifter, d)
 }
 
 mwinprod <- function(X, Y, w, G, p) {
-    .Call('_Rfssa_mwinprod', PACKAGE = 'Rfssa', X, Y, w, G, p)
+    .Call(`_Rfssa_mwinprod`, X, Y, w, G, p)
 }
 
 #'@importFrom Rcpp sourceCpp
 winprod <- function(x, y, w, G) {
-    .Call('_Rfssa_winprod', PACKAGE = 'Rfssa', x, y, w, G)
+    .Call(`_Rfssa_winprod`, x, y, w, G)
 }
 
