@@ -17,8 +17,6 @@ loadMontanaData()
 This function loads the Montana dataset from a GitHub repository hosted at
 https://github.com/haghbinh/dataset/Rfssa_dataset. Hosting datasets on GitHub
 rather than including them in the Rfssa R package conserves storage space.
-}
-\details{
 The Montana dataset contains intraday hourly temperature curves measured in degrees Celsius
 and normalized difference vegetation index (NDVI) image data. Both types of data are recorded
 near Saint Mary, Montana, USA. The NDVI images cover a region located between longitudes of
@@ -32,6 +30,7 @@ patterns and insights.
 \examples{
 \dontrun{
 loadMontanaData()
+str(montana)
 }
 
 }

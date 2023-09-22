@@ -20,14 +20,13 @@ loadCallcenterData()
 This function loads the Callcenter dataset from the Rfssa_dataset repository on GitHub
 (https://github.com/haghbinh/dataset/Rfssa_dataset). By hosting datasets on GitHub rather than
 including them in the Rfssa R package, storage space is conserved.
-}
-\details{
 The Callcenter dataset represents a small call center for an anonymous bank. It provides precise call
 timing data from January 1 to December 31, 1999. The data is aggregated into 6-minute intervals on each day.
 }
 \examples{
 \dontrun{
 loadCallcenterData()
+str(callcenter)
 }
 
 }

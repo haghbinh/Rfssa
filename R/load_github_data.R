@@ -3,7 +3,6 @@
 #' This function loads the Callcenter dataset from the Rfssa_dataset repository on GitHub
 #' (https://github.com/haghbinh/dataset/Rfssa_dataset). By hosting datasets on GitHub rather than
 #' including them in the Rfssa R package, storage space is conserved.
-#'
 #' The Callcenter dataset represents a small call center for an anonymous bank. It provides precise call
 #' timing data from January 1 to December 31, 1999. The data is aggregated into 6-minute intervals on each day.
 #'
@@ -40,13 +39,13 @@
 #' @examples
 #' \dontrun{
 #' loadCallcenterData()
+#' str(callcenter)
 #' }
 #'
 #' @seealso \code{\link{Callcenter}}, \code{\link{funts}}
 #'
 #' @export
 loadCallcenterData <- function() {
-  callcenter <<- NULL
   # Check if the data file exists locally
   if (file.exists("Callcenter.RData")) {
     load("Callcenter.RData", envir = .GlobalEnv)
@@ -54,9 +53,8 @@ loadCallcenterData <- function() {
     # Callcenter <- NULL
     # Download the data from GitHub
     url <- "https://github.com/haghbinh/dataset/raw/main/Rfssa_dataset/Callcenter.RData"
-    download.file(url, "callcenter.RData")
-    load("callcenter.RData", envir = .GlobalEnv)
-    save(callcenter, file = "callcenter.RData")
+    download.file(url, "Callcenter.RData")
+    load("Callcenter.RData", envir = .GlobalEnv)
   }
 }
 # =======================================================================
@@ -66,14 +64,12 @@ loadCallcenterData <- function() {
 #' This function loads the Jambi dataset from a GitHub repository hosted at
 #' https://github.com/haghbinh/dataset/Rfssa_dataset. Hosting datasets on GitHub
 #' rather than including them in the Rfssa R package conserves storage space.
-#'
 #' The Jambi dataset contains normalized difference vegetation index (NDVI) and enhanced vegetation
 #' index (EVI) image data from NASA’s MODerate-resolution Imaging Spectroradiometer (MODIS) with
 #' global coverage at a 250 m^2 resolution. The dataset covers the Jambi Province, Indonesia,
 #' known for various forested land uses, including natural forests and plantations.
 #' Monitoring land cover changes is crucial, especially in the context of forest exploitation and
 #' conservation efforts. Seasonal variations significantly impact long-term land cover changes.
-#'
 #' Data collection began on February 18, 2000, and continued until July 28, 2019, with data recorded
 #' every 16 days. This dataset is valuable for studying vegetative land cover changes in the region.
 #'
@@ -93,14 +89,13 @@ loadCallcenterData <- function() {
 #' @examples
 #' \dontrun{
 #' loadJambiData()
+#' str(Jambi)
 #' }
 #'
 #' @seealso  - The dataset object loaded by this function.
 #'
 #' @export
 loadJambiData <- function() {
-  Jambi <<- NULL
-
   # Check if the data file exists locally
   if (file.exists("Jambi.RData")) {
     load("Jambi.RData", envir = .GlobalEnv)
@@ -109,7 +104,6 @@ loadJambiData <- function() {
     url <- "https://github.com/haghbinh/dataset/raw/main/Rfssa_dataset/Jambi.RData"
     download.file(url, "Jambi.RData")
     load("Jambi.RData", envir = .GlobalEnv)
-    save(Jambi, file = "Jambi.RData")
   }
 }
 # =======================================================================
@@ -119,7 +113,6 @@ loadJambiData <- function() {
 #' This function loads the Montana dataset from a GitHub repository hosted at
 #' https://github.com/haghbinh/dataset/Rfssa_dataset. Hosting datasets on GitHub
 #' rather than including them in the Rfssa R package conserves storage space.
-#'
 #' The Montana dataset contains intraday hourly temperature curves measured in degrees Celsius
 #' and normalized difference vegetation index (NDVI) image data. Both types of data are recorded
 #' near Saint Mary, Montana, USA. The NDVI images cover a region located between longitudes of
@@ -151,13 +144,13 @@ loadJambiData <- function() {
 #' @examples
 #' \dontrun{
 #' loadMontanaData()
+#' str(montana)
 #' }
 #'
 #' @seealso \code{\link{Montana}} - The dataset object loaded by this function.
 #'
 #' @export
 loadMontanaData <- function() {
-  montana <<- NULL
   # Check if the data file exists locally
   if (file.exists("Montana.RData")) {
     load("Montana.RData", envir = .GlobalEnv)
@@ -166,6 +159,50 @@ loadMontanaData <- function() {
     url <- "https://github.com/haghbinh/dataset/raw/main/Rfssa_dataset/Montana.RData"
     download.file(url, "Montana.RData")
     load("montana.RData", envir = .GlobalEnv)
-    save(montana, file = "montana.RData")
   }
 }
+
+
+
+
+
+# =======================================================================
+
+#' Load Austin and Utqiagvik Temperature Data from GitHub Repository
+#'
+#' This function loads the Austin/Utqiagvik Temperature dataset from a GitHub repository hosted at
+#' https://github.com/haghbinh/dataset/Rfssa_dataset. Hosting datasets on GitHub
+#' rather than including them in the Rfssa R package conserves storage space.
+#'
+#' The Austin/Utqiagvik Temperature dataset contains intraday hourly temperature curves
+#' measured in degrees Celsius from January 1973 to July 2023, recorded once per month.
+#'
+#' @format Containing two matrix objects:
+#' \describe{
+#'   \item{Austin Temperature Data}{A 24 by 607 matrix of discrete samplings of intraday hourly temperature curves, one day per month.}
+#'   \item{Utqiagvik Temperature Data}{A 24 by 607 matrix of discrete samplings of intraday hourly temperature curves, one day per month.}
+#' }
+#'
+#' @examples
+#' \dontrun{
+#' loadTempData()
+#' str(austin)
+#' str(utqiagvik)
+#' }
+#'
+#'
+#' @export
+loadTempData <- function() {
+  # Check if the data file exists locally
+  if (file.exists("Temperature.RData")) {
+    load("Temperature.RData", envir = .GlobalEnv)
+  } else {
+    # Download the data from GitHub
+    url <- "https://github.com/haghbinh/dataset/raw/main/Rfssa_dataset/Temperature.RData"
+    download.file(url, "Temperature.RData")
+    load("Temperature.RData", envir = .GlobalEnv)
+  }
+}
+
+#' @references
+#'   Trinka, J., Haghbin, H., Shang, H., Maadooliat, M. (2023). Functional Time Series Forecasting: Functional Singular Spectrum Analysis Approaches. Stat, e621.

@@ -18,21 +18,19 @@ loadJambiData()
 This function loads the Jambi dataset from a GitHub repository hosted at
 https://github.com/haghbinh/dataset/Rfssa_dataset. Hosting datasets on GitHub
 rather than including them in the Rfssa R package conserves storage space.
-}
-\details{
 The Jambi dataset contains normalized difference vegetation index (NDVI) and enhanced vegetation
 index (EVI) image data from NASA’s MODerate-resolution Imaging Spectroradiometer (MODIS) with
 global coverage at a 250 m^2 resolution. The dataset covers the Jambi Province, Indonesia,
 known for various forested land uses, including natural forests and plantations.
 Monitoring land cover changes is crucial, especially in the context of forest exploitation and
 conservation efforts. Seasonal variations significantly impact long-term land cover changes.
-
 Data collection began on February 18, 2000, and continued until July 28, 2019, with data recorded
 every 16 days. This dataset is valuable for studying vegetative land cover changes in the region.
 }
 \examples{
 \dontrun{
 loadJambiData()
+str(Jambi)
 }
 
 }
