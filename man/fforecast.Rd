@@ -4,7 +4,14 @@
 \alias{fforecast}
 \title{Functional Singular Spectrum Analysis Recurrent and Vector Forecasting}
 \usage{
-fforecast(U, groups = list(1:5), h = 1, method = "recurrent", tol = 10^-3)
+fforecast(
+  U,
+  groups,
+  len = 1,
+  method = "recurrent",
+  only.new = TRUE,
+  tol = NULL
+)
 }
 \arguments{
 \item{U}{an object of class \code{\link{fssa}} holding the decomposition.}
@@ -13,11 +20,13 @@ fforecast(U, groups = list(1:5), h = 1, method = "recurrent", tol = 10^-3)
 of elementary components of a group used for reconstruction and
 forecasting.}
 
-\item{h}{an integer specifying the forecast horizon.}
+\item{len}{integer, the desired length of the forecasted FTS.}
 
 \item{method}{a character string specifying the type of forecasting to perform:
 - "recurrent" for FSSA R-forecasting.
 - "vector" for FSSA V-forecasting.}
+
+\item{only.new}{logical, if 'TRUE' then only forecasted FTS are returned, whole FTS otherwise.}
 
 \item{tol}{a double specifying the tolerated error in the approximation of
 the matrix used in forecasting algorithms.}
@@ -42,7 +51,7 @@ groups <- list(1, 1:7)
 ## Perform FSSA R-forecast
 pr_R <- fforecast(
   U = U, groups = groups,
-  h = 30, method = "recurrent"
+  len = 30, method = "recurrent"
 )
 
 plot(pr_R,
@@ -58,7 +67,7 @@ plotly_funts(pr_R[[2]],
 )
 
 ## Perform FSSA V-forecast
-pr_V <- fforecast(U = U, groups = groups, h = 30, method = "vector", tol = 10^-3)
+pr_V <- fforecast(U = U, groups = groups, len= 30, method = "vector", tol = 10^-3)
 
 plot(pr_V,
   group = 1,
@@ -108,11 +117,11 @@ plotly_funts(U$Lsingf[[1]])
 plot(U$Lsingf[[2]])
 
 groups <- list(1, 1:3)
-pr_R <- fforecast(U = U, groups = groups, h = 10, method = "recurrent")
+pr_R <- fforecast(U = U, groups = groups, len = 10, method = "recurrent")
 plot(pr_R, group = 1)
 plotly_funts(pr_R[[2]])
 
-pr_V <- fforecast(U = U, groups = groups, h = 10, method = "vector")
+pr_V <- fforecast(U = U, groups = groups, len = 10, method = "vector")
 plot(pr_V, group = 1)
 plotly_funts(pr_V[[2]])
 }

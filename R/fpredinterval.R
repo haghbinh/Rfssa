@@ -66,13 +66,14 @@ fpredinterval <- function(Y, O, L, ntriples, Bt, h = 1, alpha = 0.05, method = "
   N <- ncol(Y$coefs[[1]])
   D <- basis %*% Y$coefs[[1]]
   E <- sapply(X = 1:(N - M), function(i) {
+    # HH comment: x_funts <- Y[i:(M + i - h)]
     x_funts <- funts(X = D[, i:(M + i - h)], basisobj = basisobj, argval = argval, start = start_t, end = end_t)
     if (p == 1) {
       U <- ufssa(x_funts, L = L, 20)
-      fore <- ufforecast(U, groups = list(g), h = h, method = method, tol = tol)
+      fore <- ufforecast(U, groups = list(g), len = h, method = method, tol = tol)
     } else {
       U <- mfssa(x_funts, L = L, 20)
-      fore <- mfforecast(U, groups = list(g), h = h, method = method, tol = tol)
+      fore <- mfforecast(U, groups = list(g), len = h, method = method, tol = tol)
     }
     D[, (M + i)] - (basis %*% fore[[1]]$coefs[[1]][, h])
   })
@@ -94,10 +95,10 @@ fpredinterval <- function(Y, O, L, ntriples, Bt, h = 1, alpha = 0.05, method = "
   }
   if (p == 1) {
     U <- ufssa(Y, L = L, 20)
-    fore <- ufforecast(U, groups = list(g), h = h, method = method, tol = tol)
+    fore <- ufforecast(U, groups = list(g), len = h, method = method, tol = tol)
   } else {
     U <- mfssa(Y, L = L, 20)
-    fore <- mfforecast(U, groups = list(g), h = h, method = method, tol = tol)
+    fore <- mfforecast(U, groups = list(g), len = h, method = method, tol = tol)
   }
   fssa_forecast <- basis %*% fore[[1]]$coefs[[1]][, h]
   fssa_forecast_lower <- fssa_forecast + lower

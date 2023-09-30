@@ -10,10 +10,11 @@
 #' @param groups a list of numeric vectors where each vector includes indices
 #'               of elementary components of a group used for reconstruction and
 #'               forecasting.
-#' @param h an integer specifying the forecast horizon.
+#' @param len integer, the desired length of the forecasted FTS.
 #' @param method a character string specifying the type of forecasting to perform:
 #'              - "recurrent" for FSSA R-forecasting.
 #'              - "vector" for FSSA V-forecasting.
+#' @param only.new logical, if 'TRUE' then only forecasted FTS are returned, whole FTS otherwise.
 #' @param tol a double specifying the tolerated error in the approximation of
 #'            the matrix used in forecasting algorithms.
 #'
@@ -30,7 +31,7 @@
 #' ## Perform FSSA R-forecast
 #' pr_R <- fforecast(
 #'   U = U, groups = groups,
-#'   h = 30, method = "recurrent"
+#'   len = 30, method = "recurrent"
 #' )
 #'
 #' plot(pr_R,
@@ -46,7 +47,7 @@
 #' )
 #'
 #' ## Perform FSSA V-forecast
-#' pr_V <- fforecast(U = U, groups = groups, h = 30, method = "vector", tol = 10^-3)
+#' pr_V <- fforecast(U = U, groups = groups, len= 30, method = "vector", tol = 10^-3)
 #'
 #' plot(pr_V,
 #'   group = 1,
@@ -96,17 +97,18 @@
 #' plot(U$Lsingf[[2]])
 #'
 #' groups <- list(1, 1:3)
-#' pr_R <- fforecast(U = U, groups = groups, h = 10, method = "recurrent")
+#' pr_R <- fforecast(U = U, groups = groups, len = 10, method = "recurrent")
 #' plot(pr_R, group = 1)
 #' plotly_funts(pr_R[[2]])
 #'
-#' pr_V <- fforecast(U = U, groups = groups, h = 10, method = "vector")
+#' pr_V <- fforecast(U = U, groups = groups, len = 10, method = "vector")
 #' plot(pr_V, group = 1)
 #' plotly_funts(pr_V[[2]])
 #' }
 #'
 #' @export
-fforecast <- function(U, groups = list(1:5), h = 1, method = "recurrent", tol = 10^-3) {
+fforecast <- function(U, groups, len = 1, method = "recurrent", only.new = TRUE, tol = NULL) {
+  if (is.null(tol)) tol <- 10^(-3)
   for (j in 1:length(U$Y$coefs)) {
     if (U$Y$dimSupp[[j]] > 1) {
       stop("Current forecasting routines only support fts whose variables are observed over one-dimensional domains. Forecasting of fts variables whose domains have dimension greater than one is under development.")
@@ -114,14 +116,20 @@ fforecast <- function(U, groups = list(1:5), h = 1, method = "recurrent", tol = 
   }
   cat("Running, please wait...\n")
   if (class(U[[1]])[[1]] != "list") {
-    out <- ufforecast(U = U, groups = groups, h = h, method = method, tol = tol)
+    out <- ufforecast(U = U, groups = groups, len = len, method = method, only.new = only.new, tol = tol)
   } else {
-    out <- mfforecast(U = U, groups = groups, h = h, method = method, tol = tol)
+    out <- mfforecast(U = U, groups = groups, len = len, method = method, only.new = only.new, tol = tol)
   }
   cat("Done.\n")
-  out$Y <- U$Y
+  Y <- U$Y
+  N <- U$N
+  time_dif <- Y$time[N] - Y$time[N-1]
+  time_st <- (Y$time[N] + time_dif)
+  time_en <- Y$time[N] + len * time_dif
+  out$predicted_time <- seq(from = time_st, to = time_en, length.out = len)
+  out$groups <- groups
+  out$original_funts <- U$Y
   out$method <- method
-  out$h <- h
   class(out) <- "fforecast"
   return(out)
 }
@@ -130,7 +138,7 @@ fforecast <- function(U, groups = list(1:5), h = 1, method = "recurrent", tol = 
 #------------------------------ufforecast-----------------------------------------------------------------
 # FSSA Recurrent and Vector Forecasting of univariate FTS
 
-ufforecast <- function(U, groups, h = 1, method = "recurrent", tol = 10^-3) {
+ufforecast <- function(U, groups, len = 1, method = "recurrent", only.new = TRUE, tol = 10^-3) {
   out <- list()
   Y <- U$Y
   N <- Y$N
@@ -141,9 +149,9 @@ ufforecast <- function(U, groups, h = 1, method = "recurrent", tol = 10^-3) {
   G <- t(basis) %*% basis
   G_inv <- solve(G)
   basisobj <- Y$basis[[1]]
-  time_st <- Y$time[N]+1
   time_dif <- Y$time[N] - Y$time[N-1]
-  time_en <- time_st + h * time_dif - 1
+  if (only.new) time_st <- (Y$time[N] + time_dif) else time_st <- Y$time[1]
+  time_en <- Y$time[N] + len * time_dif
   for (a in 1:length(groups)) {
     g <- groups[[a]]
     # Define prediction space
@@ -169,8 +177,8 @@ ufforecast <- function(U, groups, h = 1, method = "recurrent", tol = 10^-3) {
       # FSSA R-forecasting
       # Reconstruct signal
       Q <- freconstruct(U, groups = list(g))
-      fore_r <- matrix(data = 0, nrow = d, ncol = h)
-      for (m in 1:h) {
+      fore_r <- matrix(data = 0, nrow = d, ncol = len )
+      for (m in 1:len ) {
         for (j in 1:(L - 1)) {
           E_j <- matrix(data = NA, nrow = d, ncol = k)
           for (n in 1:k) {
@@ -181,6 +189,9 @@ ufforecast <- function(U, groups, h = 1, method = "recurrent", tol = 10^-3) {
         }
         Q[[1]]$coefs[[1]] <- cbind(Q[[1]]$coefs[[1]], fore_r[, m])
       }
+      if (!only.new) {
+        fore_r <- cbind(U$Y$coefs[[1]], fore_r)
+      }
       funts_out <- funts(X = (basis %*% fore_r), basisobj = basisobj, argval = Y$argval[[1]], start = time_st, end = time_en)
       out[[a]] <- funts_out
     } else if (method == "vector") {
@@ -190,11 +201,11 @@ ufforecast <- function(U, groups, h = 1, method = "recurrent", tol = 10^-3) {
         F_matrix[, n] <- matrix(data = G_inv %*% t(basis) %*% U[[g[n]]][, 1:(L - 1)], nrow = ((L - 1) * d), ncol = 1)
       }
       P <- F_matrix %*% t(F_matrix) + F_matrix %*% t(D) %*% Neu %*% D %*% t(F_matrix)
-      S <- array(data = 0, dim = c(d, (K + h), L))
+      S <- array(data = 0, dim = c(d, (K + len ), L))
       for (j in 1L:length(g)) {
         S[, (1:K), ] <- S[, (1:K), ] + ufproj(U, g[j], d)
       }
-      for (m in 1:h) {
+      for (m in 1:len) {
         obs <- matrix(data = S[, (K + (m - 1)), 2:L], nrow = ((L - 1) * d), ncol = 1)
         pr <- P %*% obs
         pr <- matrix(data = pr, nrow = d, ncol = (L - 1))
@@ -213,7 +224,10 @@ ufforecast <- function(U, groups, h = 1, method = "recurrent", tol = 10^-3) {
       }
 
       S <- fH(S, d)
-      fore_v <- S[, (K + 1):(K + h), L]
+      fore_v <- S[, (K + 1):(K + len), L]
+      if (!only.new) {
+        fore_v <- cbind(U$Y$coefs[[1]], fore_v)
+      }
       funts_out <- funts(X = (basis %*% fore_v), basisobj = basisobj, argval = Y$argval[[1]], start = time_st, end = time_en)
       out[[a]] <- funts_out
     }
@@ -226,7 +240,7 @@ ufforecast <- function(U, groups, h = 1, method = "recurrent", tol = 10^-3) {
 
 # FSSA Recurrent and Vector Forecasting of Multivariate FTS
 
-mfforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol = 10^-3) {
+mfforecast <- function(U, groups = list(c(1)), len = 1, method = "recurrent", only.new = TRUE, tol = 10^-3) {
   out <- list()
   Y <- U$Y
   N <- Y$N
@@ -244,9 +258,9 @@ mfforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol 
     shifter[2, j + 1] <- shifter[2, j] + ncol(U$Y$B_mat[[j]])
   }
   basisobj <- Y$basis
-  time_st <- Y$time[N]+1
   time_dif <- Y$time[N] - Y$time[N-1]
-  time_en <- time_st + h * time_dif - 1
+  if (only.new) time_st <- (Y$time[N] + time_dif) else time_st <- Y$time[1]
+  time_en <- Y$time[N] + len * time_dif
 
   for (a in 1:length(groups)) {
     g <- groups[[a]]
@@ -277,8 +291,8 @@ mfforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol 
       # MFSSA R-forecasting
       out_g <- list()
       Q <- freconstruct(U, groups = list(g))
-      fore_r <- matrix(data = 0, nrow = sum(d), ncol = h)
-      for (m in 1:h) {
+      fore_r <- matrix(data = 0, nrow = sum(d), ncol = len)
+      for (m in 1:len) {
         for (j in 1:(L - 1)) {
           my_obs <- matrix(data = 0, nrow = sum(d), ncol = 1)
           E_j <- matrix(data = NA, nrow = sum(d), ncol = k)
@@ -294,7 +308,12 @@ mfforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol 
         for (q in 1:p) Q[[1]]$coefs[[q]] <- cbind(Q[[1]]$coefs[[q]], fore_r[(shifter[1, (q + 1)]:shifter[2, (q + 1)]), m])
       }
       for (q in 1:p) {
-        out_g[[q]] <- basis[[q]] %*% fore_r[(shifter[1, (q + 1)]:shifter[2, (q + 1)]), ]
+        if (only.new){
+          X0 <- fore_r[(shifter[1, (q + 1)]:shifter[2, (q + 1)]), ]
+        } else {
+          X0 <- cbind(U$Y$coefs[[q]], fore_r[(shifter[1, (q + 1)]:shifter[2, (q + 1)]), ])
+        }
+        out_g[[q]] <- basis[[q]] %*% X0
       }
       funts_out <- funts(X = out_g, basisobj = basisobj, argval = Y$argval, start = time_st, end = time_en)
       out[[a]] <- funts_out
@@ -312,14 +331,14 @@ mfforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol 
       }
       P <- Y %*% t(Y) + Y %*% t(D) %*% Neu %*% D %*% t(Y)
       S <- list()
-      for (j in 1:p) S[[j]] <- array(data = 0, dim = c(d[j], (K + h), L))
+      for (j in 1:p) S[[j]] <- array(data = 0, dim = c(d[j], (K + len), L))
       for (k in 1L:length(g)) {
         projection <- mfproj(U, g[k])
         for (j in 1:p) {
           S[[j]][, 1:K, ] <- S[[j]][, 1:K, ] + projection[[j]]
         }
       }
-      for (m in 1:h) {
+      for (m in 1:len) {
         obs <- matrix(data = NA, nrow = ((L - 1) * sum(d)), ncol = 1)
         for (j in 1:p) {
           obs[(Lshifter[1, (j + 1)]:Lshifter[2, (j + 1)]), 1] <- matrix(data = S[[j]][, (K + (m - 1)), 2:L], nrow = ((L - 1) * d[j]), ncol = 1)
@@ -345,14 +364,18 @@ mfforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol 
 
       for (q in 1:p) {
         S[[q]] <- fH(S[[q]], d[q])
-        out_g[[q]] <- basis[[q]] %*% S[[q]][, (K + 1):(K + h), L]
+
+        if (only.new){
+          X0 <- S[[q]][, (K + 1):(K + len), L]
+        } else {
+          X0 <- cbind(U$Y$coefs[[q]], S[[q]][, (K + 1):(K + len), L])
+        }
+        out_g[[q]] <- basis[[q]] %*% X0
       }
       funts_out <- funts(X = out_g, basisobj = basisobj, argval = U$Y$argval, start = time_st, end = time_en)
       out[[a]] <- funts_out
-      out[[a]] <- funts_out
     }
   }
-
   return(out)
 }
 
@@ -384,4 +407,28 @@ mfforecast <- function(U, groups = list(c(1)), h = 1, method = "recurrent", tol 
 plot.fforecast <- function(x, group = 1, npts = 100, obs = 1, xlab = NULL, ylab = NULL, main = NULL, type = "l", lty = 1, ...) {
   obj <- x[[group]]
   plot(obj, npts, obs, xlab, ylab, main, type, lty, ...)
+}
+
+
+
+# =======================================================================
+#' Custom Print Method for FSSA Forecast (fforecast) class
+#'
+#' This custom print method is designed for objects of the FSSA Forecast (fforecast) class.
+#' It provides a summary of the fforecast object.
+#'
+#' @param x an object of class "fforecast" to be printed.
+#' @param ...	further arguments passed to or from other methods.
+#'
+#' @export
+print.fforecast <- function(x, ...) {
+  cat("\nFSSA Forecast (fforecast) class:")
+  cat("\nGroups: ")
+  cat(str(x$groups))
+  cat("Prediction method: ", x$method)
+  cat("\nPredicted series length: ", length(x$predicted_time))
+  cat("\nPredicted time: ")
+  cat(str(x$predicted_time))
+  cat("\n---------The original series-----------")
+  print(x$original_funts)
 }

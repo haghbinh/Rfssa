@@ -18,7 +18,6 @@ length.funts <- function(x) {
 #' This custom print method is designed for objects of the Functional Time Series (funts) class.
 #' It provides a summary of the funts object, including its length (N), the number of variables,
 #' and its structure.
-#' @importFrom utils download.file str tail
 #'
 #' @param x an object of class "funts" to be printed.
 #' @param ...	further arguments passed to or from other methods.
@@ -29,10 +28,10 @@ length.funts <- function(x) {
 #' @export
 print.funts <- function(x, ...) {
   cat("\nFunctional time series (funts) object:")
+  cat("\nNumber of variables: ", length(x$dimSupp))
+  cat("\nLenght: ", x$N)
   cat("\nStart: ", x$time[1])
   cat("\nEnd: ", x$time[x$N])
-  cat("\nLenght: ", x$N)
-  cat("\nNumber of variables: ", length(x$dimSupp))
   cat("\nTime: ")
   cat(str(x$time))
 }
