@@ -50,7 +50,7 @@ groups <- list(1, 1:7)
 
 ## Perform FSSA R-forecast
 pr_R <- fforecast(
-  U = U, groups = groups,
+  U = U, groups = groups, only.new = FALSE,
   len = 30, method = "recurrent"
 )
 
@@ -70,7 +70,7 @@ plotly_funts(pr_R[[2]],
 pr_V <- fforecast(U = U, groups = groups, len= 30, method = "vector", tol = 10^-3)
 
 plot(pr_V,
-  group = 1,
+  group_index = 1,
   xlabels = "Time (6 minutes aggregated)",
   ylabels = "Sqrt of Call Numbers"
 )
@@ -117,12 +117,13 @@ plotly_funts(U$Lsingf[[1]])
 plot(U$Lsingf[[2]])
 
 groups <- list(1, 1:3)
-pr_R <- fforecast(U = U, groups = groups, len = 10, method = "recurrent")
-plot(pr_R, group = 1)
+pr_R <- fforecast(U = U, groups = groups,
+                   only.new = FALSE, len = 10, method = "recurrent")
+plot(pr_R)
 plotly_funts(pr_R[[2]])
 
 pr_V <- fforecast(U = U, groups = groups, len = 10, method = "vector")
-plot(pr_V, group = 1)
+plot(pr_V, group_index = 1)
 plotly_funts(pr_V[[2]])
 }
 

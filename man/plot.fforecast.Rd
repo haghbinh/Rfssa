@@ -6,21 +6,25 @@
 \usage{
 \method{plot}{fforecast}(
   x,
-  group = 1,
+  group_index = NULL,
+  ask = TRUE,
   npts = 100,
   obs = 1,
   xlab = NULL,
   ylab = NULL,
   main = NULL,
+  col = NULL,
   type = "l",
   lty = 1,
+  ori_col = NULL,
+  pred_col = NULL,
   ...
 )
 }
 \arguments{
 \item{x}{an object of class \code{fforecast}.}
 
-\item{group}{an integer specify the group index for plot.}
+\item{group_index}{an integer specify the group index for plot.}
 
 \item{npts}{number of grid points for the plots.}
 

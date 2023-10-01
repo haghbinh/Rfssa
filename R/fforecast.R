@@ -30,7 +30,7 @@
 #'
 #' ## Perform FSSA R-forecast
 #' pr_R <- fforecast(
-#'   U = U, groups = groups,
+#'   U = U, groups = groups, only.new = FALSE,
 #'   len = 30, method = "recurrent"
 #' )
 #'
@@ -50,7 +50,7 @@
 #' pr_V <- fforecast(U = U, groups = groups, len= 30, method = "vector", tol = 10^-3)
 #'
 #' plot(pr_V,
-#'   group = 1,
+#'   group_index = 1,
 #'   xlabels = "Time (6 minutes aggregated)",
 #'   ylabels = "Sqrt of Call Numbers"
 #' )
@@ -97,12 +97,13 @@
 #' plot(U$Lsingf[[2]])
 #'
 #' groups <- list(1, 1:3)
-#' pr_R <- fforecast(U = U, groups = groups, len = 10, method = "recurrent")
-#' plot(pr_R, group = 1)
+#' pr_R <- fforecast(U = U, groups = groups,
+#'                    only.new = FALSE, len = 10, method = "recurrent")
+#' plot(pr_R)
 #' plotly_funts(pr_R[[2]])
 #'
 #' pr_V <- fforecast(U = U, groups = groups, len = 10, method = "vector")
-#' plot(pr_V, group = 1)
+#' plot(pr_V, group_index = 1)
 #' plotly_funts(pr_V[[2]])
 #' }
 #'
@@ -410,27 +411,20 @@ plot.fforecast <- function(x, group_index = NULL, ask = TRUE, npts = 100, obs = 
                            ...) {
   N <- x$original_funts$N
   h <- length(x$predicted_time)
-
-  is.null(ori_col) ori_col <- rep('snow3', N)
-  is.null(pred_col) pred_col <- rep("deepskyblue4", h)
+  if(is.null(ori_col)) ori_col <- rep('snow3', N)
+  if(is.null(pred_col)) pred_col <- rep("deepskyblue4", h)
   col <- c(ori_col, pred_col)
-  flag <- FALSE
   if (is.null(group_index)) {
     group_index <- 1:length(x$groups)
-    flag <- TRUE
   }
   old <- par()
   exclude_pars <- c("cin", "cra", "csi", "cxy", "din", "page")
   ind <- which(!(names(old) %in% exclude_pars))
   on.exit(par(old[ind]))
-
-  if (flag) {
-    par(ask = ask)
-    for (ipc in group_index) {
-
-      obj <- x[[ipc]]
-      plot(obj,col = col, npts, obs, xlab, ylab, main, type, lty, ...)
-    }
+  par(ask = ask)
+  for (ipc in group_index) {
+    obj <- x[[ipc]]
+    plot(obj,col = col, npts, obs, xlab, ylab, main = paste(main, "Group index:", ipc), type, lty, ...)
   }
 }
 
