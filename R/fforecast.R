@@ -391,7 +391,7 @@ mfforecast <- function(U, groups = list(c(1)), len = 1, method = "recurrent", on
 #' plotting `fforecast` data with one-dimensional or two-dimensional domains.
 #'
 #' @param x an object of class \code{fforecast}.
-#' @param group an integer specify the group index for plot.
+#' @param group_index an integer specify the group index for plot.
 #' @param npts number of grid points for the plots.
 #' @param obs observation number (for two-dimensional domains).
 #' @param xlab x-axis label.
@@ -404,9 +404,34 @@ mfforecast <- function(U, groups = list(c(1)), len = 1, method = "recurrent", on
 #' @seealso \code{\link{fforecast}}
 #'
 #' @export
-plot.fforecast <- function(x, group = 1, npts = 100, obs = 1, xlab = NULL, ylab = NULL, main = NULL, type = "l", lty = 1, ...) {
-  obj <- x[[group]]
-  plot(obj, npts, obs, xlab, ylab, main, type, lty, ...)
+plot.fforecast <- function(x, group_index = NULL, ask = TRUE, npts = 100, obs = 1,
+                           xlab = NULL, ylab = NULL, main = NULL, col = NULL,
+                           type = "l", lty = 1, ori_col = NULL, pred_col = NULL,
+                           ...) {
+  N <- x$original_funts$N
+  h <- length(x$predicted_time)
+
+  is.null(ori_col) ori_col <- rep('snow3', N)
+  is.null(pred_col) pred_col <- rep("deepskyblue4", h)
+  col <- c(ori_col, pred_col)
+  flag <- FALSE
+  if (is.null(group_index)) {
+    group_index <- 1:length(x$groups)
+    flag <- TRUE
+  }
+  old <- par()
+  exclude_pars <- c("cin", "cra", "csi", "cxy", "din", "page")
+  ind <- which(!(names(old) %in% exclude_pars))
+  on.exit(par(old[ind]))
+
+  if (flag) {
+    par(ask = ask)
+    for (ipc in group_index) {
+
+      obj <- x[[ipc]]
+      plot(obj,col = col, npts, obs, xlab, ylab, main, type, lty, ...)
+    }
+  }
 }
 
 
