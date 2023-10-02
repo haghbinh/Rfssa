@@ -33,11 +33,7 @@
 #'   len = 30, method = "recurrent"
 #' )
 #'
-#' plot(pr_R,
-#'   group_index = 1,
-#'   xlab = "Time (6 minutes aggregated)",
-#'   ylab = "Sqrt of Call Numbers"
-#' )
+#' plot(pr_R,  group_index = 1 )
 #'
 #'
 #' plotly_funts(pr_R[[2]],
@@ -48,11 +44,7 @@
 #' ## Perform FSSA V-forecast
 #' pr_V <- fforecast(U = U, groups = groups, len= 30, method = "vector")
 #'
-#' plot(pr_V,
-#'   group_index = 1,
-#'   xlabels = "Time (6 minutes aggregated)",
-#'   ylabels = "Sqrt of Call Numbers"
-#' )
+#' plot(pr_V, group_index = 1)
 #'
 #' plotly_funts(pr_V[[2]],
 #'   xlabels = "Time (6 minutes aggregated)",
@@ -80,7 +72,10 @@
 #'
 #' require(fda)
 #' bs2 <- create.bspline.basis(nbasis = 15)
-#' Y <- funts(X = list(montana[[1]], NDVI), basisobj = list(bs1, bs2))
+#' Y <- funts(X = list(montana[[1]], NDVI), basisobj = list(bs1, bs2),
+#'             vnames = c("Temperature", "NDVI Density"),
+#'             dnames = c("Time", "NDVI"),
+#'             tname = "Date")
 #'
 #' plotly_funts(Y,
 #'   main = c("Temperature", "NDVI"),
@@ -191,7 +186,8 @@ ufforecast <- function(U, groups, len = 1, method = "recurrent", only.new = TRUE
       if (!only.new) {
         fore_r <- cbind(U$Y$coefs[[1]], fore_r)
       }
-      funts_out <- funts(X = (basis %*% fore_r), basisobj = basisobj, argval = Y$argval[[1]], start = time_st, end = time_en)
+      funts_out <- funts(X = (basis %*% fore_r), basisobj = basisobj, argval = Y$argval[[1]],
+                         start = time_st, end = time_en, vnames = Y$vnames, dnames = Y$dnames, tname = Y$tname)
       out[[a]] <- funts_out
     } else if (method == "vector") {
       # FSSA V-forecasting
@@ -227,7 +223,8 @@ ufforecast <- function(U, groups, len = 1, method = "recurrent", only.new = TRUE
       if (!only.new) {
         fore_v <- cbind(U$Y$coefs[[1]], fore_v)
       }
-      funts_out <- funts(X = (basis %*% fore_v), basisobj = basisobj, argval = Y$argval[[1]], start = time_st, end = time_en)
+      funts_out <- funts(X = (basis %*% fore_v), basisobj = basisobj, argval = Y$argval[[1]],
+                         start = time_st, end = time_en, vnames = Y$vnames, dnames = Y$dnames, tname = Y$tname)
       out[[a]] <- funts_out
     }
   }
@@ -314,7 +311,9 @@ mfforecast <- function(U, groups = list(c(1)), len = 1, method = "recurrent", on
         }
         out_g[[q]] <- basis[[q]] %*% X0
       }
-      funts_out <- funts(X = out_g, basisobj = basisobj, argval = Y$argval, start = time_st, end = time_en)
+      funts_out <- funts(X = out_g, basisobj = basisobj, argval = Y$argval,
+                         start = time_st, end = time_en, vnames = U$Y$vnames,
+                         dnames = U$Y$dnames, tname = U$Y$tname)
       out[[a]] <- funts_out
     } else if (method == "vector") {
       # MFSSA V-forecasting
@@ -371,7 +370,9 @@ mfforecast <- function(U, groups = list(c(1)), len = 1, method = "recurrent", on
         }
         out_g[[q]] <- basis[[q]] %*% X0
       }
-      funts_out <- funts(X = out_g, basisobj = basisobj, argval = U$Y$argval, start = time_st, end = time_en)
+      funts_out <- funts(X = out_g, basisobj = basisobj, argval = U$Y$argval,
+                         start = time_st, end = time_en, vnames = U$Y$vnames,
+                         dnames = U$Y$dnames, tname = U$Y$tname)
       out[[a]] <- funts_out
     }
   }
@@ -422,11 +423,11 @@ plot.fforecast <- function(x, group_index = NULL, ask = TRUE, npts = 100, obs = 
     par(ask = ask)
     for (ipc in group_index) {
       obj <- x[[ipc]]
-      plot(obj,col = col1, npts, obs, main = paste(main, "Group index:", ipc), type, lty, ...)
+      plot(obj,col = col1, npts = npts, obs = obs, main = paste(main, "Group index:", ipc), type = type, lty = lty, ...)
     }
   } else {
     obj <- x[[group_index]]
-    plot(obj,col = col1, npts, obs, main = paste(main, "Group index:", group_index), type, lty, ...)
+    plot(obj,col = col1, npts = npts, obs = obs, main = paste(main, "Group index:", group_index), type = type, lty = lty, ...)
   }
 }
 

@@ -53,11 +53,7 @@ pr_R <- fforecast(
   len = 30, method = "recurrent"
 )
 
-plot(pr_R,
-  group_index = 1,
-  xlab = "Time (6 minutes aggregated)",
-  ylab = "Sqrt of Call Numbers"
-)
+plot(pr_R,  group_index = 1 )
 
 
 plotly_funts(pr_R[[2]],
@@ -68,11 +64,7 @@ plotly_funts(pr_R[[2]],
 ## Perform FSSA V-forecast
 pr_V <- fforecast(U = U, groups = groups, len= 30, method = "vector")
 
-plot(pr_V,
-  group_index = 1,
-  xlabels = "Time (6 minutes aggregated)",
-  ylabels = "Sqrt of Call Numbers"
-)
+plot(pr_V, group_index = 1)
 
 plotly_funts(pr_V[[2]],
   xlabels = "Time (6 minutes aggregated)",
@@ -100,7 +92,10 @@ bs1 <- Montana$basis[[1]]
 
 require(fda)
 bs2 <- create.bspline.basis(nbasis = 15)
-Y <- funts(X = list(montana[[1]], NDVI), basisobj = list(bs1, bs2))
+Y <- funts(X = list(montana[[1]], NDVI), basisobj = list(bs1, bs2),
+            vnames = c("Temperature", "NDVI Density"),
+            dnames = c("Time", "NDVI"),
+            tname = "Date")
 
 plotly_funts(Y,
   main = c("Temperature", "NDVI"),
