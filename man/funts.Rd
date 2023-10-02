@@ -4,7 +4,17 @@
 \alias{funts}
 \title{Functional Time Series (funts) Class}
 \usage{
-funts(X, basisobj, argval = NULL, method = "data", start = 1, end = NULL)
+funts(
+  X,
+  basisobj,
+  argval = NULL,
+  method = "data",
+  start = 1,
+  end = NULL,
+  vnames = NULL,
+  dnames = NULL,
+  tname = NULL
+)
 }
 \arguments{
 \item{X}{A matrix, three-dimensional array, or a list of matrix or array objects.
@@ -31,6 +41,12 @@ is the size of the first dimension in argument X.?}
 specifying a natural time unit.}
 
 \item{end}{The time of the last observation, specified in the same way as `start`.}
+
+\item{vnames}{a vector of strings specifies the variable names}
+
+\item{dnames}{list of vector of strings specifies the variable domain names}
+
+\item{tname}{a string specifies the time index name}
 }
 \value{
 An instance of the `funts` class containing functional time series data.
@@ -46,7 +62,7 @@ It provides a versatile framework for creating and manipulating `funts` objects,
 # 1D FTS example: Callcenter dataset
 require(fda)
 loadCallcenterData()
-D <- matrix(sqrt(Callcenter$calls), nrow = 240)
+D <- matrix(sqrt(callcenter$calls), nrow = 240)
 bs1 <- create.bspline.basis(c(0, 23), 22)
 u <- seq(0, 23, len = nrow(D))
 Y <- funts(D, bs1, start = as.Date("1999-1-1"))

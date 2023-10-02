@@ -289,10 +289,6 @@ plot.funts <- function(x, npts = 100, obs = 1, xlab = NULL, ylab = NULL, main = 
   if (is.null(ylab)) ylab <- rep(NULL, p)
   N <- x$N
   time <- x$time
-  old <- par()
-  exclude_pars <- c("cin", "cra", "csi", "cxy", "din", "page")
-  ind <- which(!(names(old) %in% exclude_pars))
-  on.exit(par(old[ind]))
   par(mfrow = c(p, 1))
   if (is.null(ylab)) ylab <- paste("Variable ", 1:p)
   if (is.null(xlab)) xlab <- rep("time", p)

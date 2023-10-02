@@ -27,6 +27,10 @@
 #' specifying a natural time unit.
 #'
 #' @param end The time of the last observation, specified in the same way as `start`.
+#' @param tname a string specifies the time index name
+#' @param vnames a vector of strings specifies the variable names
+#' @param dnames list of vector of strings specifies the variable domain names
+#'
 #'
 #' @return An instance of the `funts` class containing functional time series data.
 #'
@@ -37,7 +41,7 @@
 #' # 1D FTS example: Callcenter dataset
 #' require(fda)
 #' loadCallcenterData()
-#' D <- matrix(sqrt(Callcenter$calls), nrow = 240)
+#' D <- matrix(sqrt(callcenter$calls), nrow = 240)
 #' bs1 <- create.bspline.basis(c(0, 23), 22)
 #' u <- seq(0, 23, len = nrow(D))
 #' Y <- funts(D, bs1, start = as.Date("1999-1-1"))
@@ -69,7 +73,9 @@
 #' @return An instance of the `funts` class containing functional time series data.
 #'
 #' @export
-funts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = NULL) { # Constructor function for the funts class
+funts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = NULL,
+                  vnames = NULL, dnames = NULL, tname = NULL) { # Constructor function for the funts class
+
   # Check if X is a matrix, and if so, convert it to a list
   if (is.array(X)) {
     X <- list(X)
@@ -96,6 +102,10 @@ funts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = 
     } else {
       dimSupp[[j]] <- 1
     }
+    # Check vnames, dnames
+    if (!is.null(vnames) & is.character(vnames) & length(vnames) != p) stop("The length of `vnames` must be equal to number of variables.")
+    if (!is.null(dnames) & is.character(dnames) & length(dnames) == 1 & p == 1) dnames <- list(dnames)
+    if (!is.null(dnames) & is.list(dnames) & length(dnames) != p) stop("The length of `dnames` must be equal to number of variables.")
     # Generating basis matrices=========================================
     # Generating a fd basis for variables whose domain is one-dimensional using a supplied list.
     if (dimSupp[[j]] == 1) { # 1d
@@ -208,7 +218,8 @@ funts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = 
   time <- seq(from = start, to = end, length.out = N)
 
   # Create and return an instance of the funts class=========================================
-  out <- list(N = N, dimSupp = dimSupp, time = time, coefs = coefs, basis = basisobj, B_mat = B_mat, argval = arg)
+  out <- list(N = N, dimSupp = dimSupp, time = time, coefs = coefs, basis = basisobj,
+              B_mat = B_mat, argval = arg, vnames = vnames, dnames = dnames, tname = tname)
   class(out) <- "funts"
   return(out)
 }

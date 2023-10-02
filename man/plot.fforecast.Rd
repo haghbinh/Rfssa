@@ -14,10 +14,9 @@
   ylab = NULL,
   main = NULL,
   col = NULL,
+  ori_col = NULL,
   type = "l",
   lty = 1,
-  ori_col = NULL,
-  pred_col = NULL,
   ...
 )
 }

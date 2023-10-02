@@ -44,8 +44,7 @@ one-dimensional domain.
 \examples{
 \dontrun{
 data("Callcenter")
-L <- 28
-U <- fssa(Callcenter, L)
+U <- fssa(Callcenter, L = 28)
 groups <- list(1, 1:7)
 
 ## Perform FSSA R-forecast
@@ -55,9 +54,9 @@ pr_R <- fforecast(
 )
 
 plot(pr_R,
-  group = 1,
+  group_index = 1,
   xlab = "Time (6 minutes aggregated)",
-  ylab = "Sqrt of Call Numbers", type = "line"
+  ylab = "Sqrt of Call Numbers"
 )
 
 
@@ -67,7 +66,7 @@ plotly_funts(pr_R[[2]],
 )
 
 ## Perform FSSA V-forecast
-pr_V <- fforecast(U = U, groups = groups, len= 30, method = "vector", tol = 10^-3)
+pr_V <- fforecast(U = U, groups = groups, len= 30, method = "vector")
 
 plot(pr_V,
   group_index = 1,
@@ -82,7 +81,6 @@ plotly_funts(pr_V[[2]],
 
 # Multivariate forecasting example:
 data("Montana")
-L <- 45
 time <- Montana$time
 grid <- list(0:23, list(1:33, 1:33))
 montana <- eval.funts(Montana, argvals = grid)
@@ -95,7 +93,7 @@ montana[[2]] <- array(
 )
 ## Kernel density estimation of pixel intensity
 NDVI <- matrix(NA, nrow = 512, ncol = 133)
-for (i in 1:133) NDVI[, i] <- (density(montana[[2]][, , i], from = 0, to = 1)$y)
+for (i in 1:133) NDVI[, i] <- (density(montana[[2]][, , i], 0, 1)$y)
 
 ## Define functional objects
 bs1 <- Montana$basis[[1]]

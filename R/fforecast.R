@@ -24,8 +24,7 @@
 #' @examples
 #' \dontrun{
 #' data("Callcenter")
-#' L <- 28
-#' U <- fssa(Callcenter, L)
+#' U <- fssa(Callcenter, L = 28)
 #' groups <- list(1, 1:7)
 #'
 #' ## Perform FSSA R-forecast
@@ -35,9 +34,9 @@
 #' )
 #'
 #' plot(pr_R,
-#'   group = 1,
+#'   group_index = 1,
 #'   xlab = "Time (6 minutes aggregated)",
-#'   ylab = "Sqrt of Call Numbers", type = "line"
+#'   ylab = "Sqrt of Call Numbers"
 #' )
 #'
 #'
@@ -47,7 +46,7 @@
 #' )
 #'
 #' ## Perform FSSA V-forecast
-#' pr_V <- fforecast(U = U, groups = groups, len= 30, method = "vector", tol = 10^-3)
+#' pr_V <- fforecast(U = U, groups = groups, len= 30, method = "vector")
 #'
 #' plot(pr_V,
 #'   group_index = 1,
@@ -62,7 +61,6 @@
 #'
 #' # Multivariate forecasting example:
 #' data("Montana")
-#' L <- 45
 #' time <- Montana$time
 #' grid <- list(0:23, list(1:33, 1:33))
 #' montana <- eval.funts(Montana, argvals = grid)
@@ -75,7 +73,7 @@
 #' )
 #' ## Kernel density estimation of pixel intensity
 #' NDVI <- matrix(NA, nrow = 512, ncol = 133)
-#' for (i in 1:133) NDVI[, i] <- (density(montana[[2]][, , i], from = 0, to = 1)$y)
+#' for (i in 1:133) NDVI[, i] <- (density(montana[[2]][, , i], 0, 1)$y)
 #'
 #' ## Define functional objects
 #' bs1 <- Montana$basis[[1]]
@@ -407,24 +405,27 @@ mfforecast <- function(U, groups = list(c(1)), len = 1, method = "recurrent", on
 #' @export
 plot.fforecast <- function(x, group_index = NULL, ask = TRUE, npts = 100, obs = 1,
                            xlab = NULL, ylab = NULL, main = NULL, col = NULL,
-                           type = "l", lty = 1, ori_col = NULL, pred_col = NULL,
-                           ...) {
+                           ori_col = NULL, type = "l", lty = 1, ...) {
   N <- x$original_funts$N
   h <- length(x$predicted_time)
   if(is.null(ori_col)) ori_col <- rep('snow3', N)
-  if(is.null(pred_col)) pred_col <- rep("deepskyblue4", h)
-  col <- c(ori_col, pred_col)
+  if(is.null(col)) col <- rep("deepskyblue4", h)
+  N1 <- x[[1]]$N
+  if (N1 == h) col1 <- col else  col1 <- c(ori_col, col)
+  flag <- FALSE
   if (is.null(group_index)) {
     group_index <- 1:length(x$groups)
+    flag <- TRUE
   }
-  old <- par()
-  exclude_pars <- c("cin", "cra", "csi", "cxy", "din", "page")
-  ind <- which(!(names(old) %in% exclude_pars))
-  on.exit(par(old[ind]))
-  par(ask = ask)
-  for (ipc in group_index) {
-    obj <- x[[ipc]]
-    plot(obj,col = col, npts, obs, xlab, ylab, main = paste(main, "Group index:", ipc), type, lty, ...)
+  if (flag) {
+    par(ask = ask)
+    for (ipc in group_index) {
+      obj <- x[[ipc]]
+      plot(obj,col = col1, npts, obs, xlab, ylab, main = paste(main, "Group index:", ipc), type, lty, ...)
+    }
+  } else {
+    obj <- x[[group_index]]
+    plot(obj,col = col1, npts, obs, xlab, ylab, main = paste(main, "Group index:", ipc), type, lty, ...)
   }
 }
 
