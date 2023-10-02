@@ -407,7 +407,10 @@ mfforecast <- function(U, groups = list(c(1)), len = 1, method = "recurrent", on
 plot.fforecast <- function(x, group_index = NULL, ask = TRUE, npts = 100, obs = 1,
                            main = NULL, col = NULL,
                            ori_col = NULL, type = "l", lty = 1, ...) {
-
+  old <- par()
+  exclude_pars <- c("cin", "cra", "csi", "cxy", "din", "page")
+  ind <- which(!(names(old) %in% exclude_pars))
+  on.exit(par(old[ind]))
   N <- x$original_funts$N
   h <- length(x$predicted_time)
   if(is.null(ori_col)) ori_col <- rep('snow3', N)
