@@ -50,8 +50,8 @@
 #' # Temperature curves and smoothed images of vegetation
 #'
 #' loadMontanaData()
-#' Temp <- Montana$Temp
-#' NDVI <- Montana$NDVI
+#' Temp <- montana$Temp
+#' NDVI <- montana$NDVI
 #' Montana_Data <- list(Temp / sd(Temp), NDVI)
 #' bs1 <- create.bspline.basis(c(0, 23), 11)
 #' bs2 <- create.bspline.basis(c(0, 1), 13)
