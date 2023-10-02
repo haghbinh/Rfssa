@@ -404,8 +404,9 @@ mfforecast <- function(U, groups = list(c(1)), len = 1, method = "recurrent", on
 #'
 #' @export
 plot.fforecast <- function(x, group_index = NULL, ask = TRUE, npts = 100, obs = 1,
-                           xlab = NULL, ylab = NULL, main = NULL, col = NULL,
+                           main = NULL, col = NULL,
                            ori_col = NULL, type = "l", lty = 1, ...) {
+
   N <- x$original_funts$N
   h <- length(x$predicted_time)
   if(is.null(ori_col)) ori_col <- rep('snow3', N)
@@ -421,11 +422,11 @@ plot.fforecast <- function(x, group_index = NULL, ask = TRUE, npts = 100, obs = 
     par(ask = ask)
     for (ipc in group_index) {
       obj <- x[[ipc]]
-      plot(obj,col = col1, npts, obs, xlab, ylab, main = paste(main, "Group index:", ipc), type, lty, ...)
+      plot(obj,col = col1, npts, obs, main = paste(main, "Group index:", ipc), type, lty, ...)
     }
   } else {
     obj <- x[[group_index]]
-    plot(obj,col = col1, npts, obs, xlab, ylab, main = paste(main, "Group index:", ipc), type, lty, ...)
+    plot(obj,col = col1, npts, obs, main = paste(main, "Group index:", group_index), type, lty, ...)
   }
 }
 

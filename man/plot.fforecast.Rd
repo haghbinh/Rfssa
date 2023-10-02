@@ -10,8 +10,6 @@
   ask = TRUE,
   npts = 100,
   obs = 1,
-  xlab = NULL,
-  ylab = NULL,
   main = NULL,
   col = NULL,
   ori_col = NULL,
@@ -29,10 +27,6 @@
 
 \item{obs}{observation number (for two-dimensional domains).}
 
-\item{xlab}{x-axis label.}
-
-\item{ylab}{y-axis label.}
-
 \item{main}{main title for the plot.}
 
 \item{type}{type of plot ("l" for line, "p" for points, etc.).}
@@ -40,6 +34,10 @@
 \item{lty}{line type (1 for solid, 2 for dashed, etc.).}
 
 \item{...}{additional graphical parameters passed to plotting functions.}
+
+\item{xlab}{x-axis label.}
+
+\item{ylab}{y-axis label.}
 }
 \description{
 Create visualizations of FSSA Forecast (fforecast) class. This function supports

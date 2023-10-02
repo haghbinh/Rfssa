@@ -284,9 +284,21 @@ eval.funts <- function(argvals, obj) {
 #' @export
 plot.funts <- function(x, npts = 100, obs = 1, xlab = NULL, ylab = NULL, main = NULL, type = "l", lty = 1, ...) {
   dimSupp <- x$dimSupp
-  p <- length(x$dimSupp)
-  if (is.null(xlab)) xlab <- rep("Time", p)
-  if (is.null(ylab)) ylab <- rep(NULL, p)
+  p <- length(dimSupp)
+  if (is.null(xlab)) {
+    for (i in 1:p){
+      xlab[i] <- x$dnames[[i]][1]
+    }
+  }
+  if (is.null(ylab)) {
+    for (i in 1:p){
+      if (dimSupp[[i]] == 1) {
+        ylab[i] <- x$vnames[i]
+      } else { # dimSupp[[i]] == 2
+        ylab[i] <- x$dnames[[i]][2]
+      }
+    }
+  }
   N <- x$N
   time <- x$time
   par(mfrow = c(p, 1))
