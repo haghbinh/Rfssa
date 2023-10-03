@@ -56,20 +56,14 @@ pr_R <- fforecast(
 plot(pr_R,  group_index = 1 )
 
 
-plotly_funts(pr_R[[2]],
-  xlab = "Time (6 minutes aggregated)",
-  ylab = "Sqrt of Call Numbers", type = "line"
-)
+plotly_funts(pr_R[[2]])
 
 ## Perform FSSA V-forecast
 pr_V <- fforecast(U = U, groups = groups, len= 30, method = "vector")
 
 plot(pr_V, group_index = 1)
 
-plotly_funts(pr_V[[2]],
-  xlabels = "Time (6 minutes aggregated)",
-  ylabels = "Sqrt of Call Numbers", type = "3Dlines"
-)
+plotly_funts(pr_V[[2]], type = "3Dlines" )
 
 # Multivariate forecasting example:
 data("Montana")
@@ -99,8 +93,6 @@ Y <- funts(X = list(montana[[1]], NDVI), basisobj = list(bs1, bs2),
 
 plotly_funts(Y,
   main = c("Temperature", "NDVI"),
-  xlab = c("Temperature", "NDVI"),
-  ylab = c("Temperature", "NDVI Density"),
   xticklocs = list(c(0, 6, 12, 18, 23), seq(1, 512, len = 9)),
   xticklabels = list(c(0, 6, 12, 18, 23), seq(0, 1, len = 9))
 )

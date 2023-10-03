@@ -36,42 +36,22 @@
 #' @examples
 #' data("Callcenter") # Univariate FTS example
 #'
-#' plotly_funts(Callcenter,
-#'   xlab = "Time (6 minutes aggregated)",
-#'   ylab = "Sqrt of Call Numbers"
-#' )
+#' plotly_funts(Callcenter)
 #'
 #' plotly_funts(Callcenter,
 #'   main = "Call Center Data Line Plot",
-#'   xlab = "Time (6 minutes aggregated)",
-#'   ylab = "Sqrt of Call Numbers", type = "line",
 #'   xticklabels = list(c("00:00", "06:00", "12:00", "18:00", "24:00")),
 #'   xticklocs = list(c(1, 60, 120, 180, 240))
 #' )
 #'
-#' plotly_funts(Callcenter,
-#'   xlab = "Time (6 minutes aggregated)",
-#'   ylab = "Sqrt of Call Numbers",
-#'   type = "3Dline"
-#' )
+#' plotly_funts(Callcenter, type = "3Dline")
 #'
-#' plotly_funts(Callcenter,
-#'   xlab = "Time (6 minutes aggregated)",
-#'   ylab = "Sqrt of Call Numbers",
-#'   type = "3Dsurface"
-#' )
+#' plotly_funts(Callcenter, type = "3Dsurface")
 #'
-#' plotly_funts(Callcenter,
-#'   xlab = "Time (6 minutes aggregated)",
-#'   ylab = "Sqrt of Call Numbers",
-#'   type = "heatmap"
-#' )
+#' plotly_funts(Callcenter, type = "heatmap")
 #'
 #' data("Montana") # Multivariate FTS example
 #' plotly_funts(Montana[1:100],
-#'   xlab = c("Time", "Longitude"),
-#'   ylab = c("Normalized Temperature (\u00B0C)", "Latitude"),
-#'   zlab = c("", "NDVI"),
 #'   main = c("Temperature Curves", "NDVI Images"),
 #'   color_palette = "RdYlGn",
 #'   xticklabels = list(
@@ -93,22 +73,35 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NU
     x <- as.funts(x)
   }
   if (inherits(x, "fda")) x <- as.funts(x)
-  p <- length(x$dimSupp)
+  dimSupp <- x$dimSupp
+  p <- length(dimSupp)
+
+  if (is.null(tlab))  tlab <- rep(x$tname, p)
+  if (is.null(xlab)) {
+    for (i in 1:p){
+      xlab[i] <- x$dnames[[i]][1]
+    }
+  }
+  if (is.null(ylab)) {
+    for (i in 1:p){
+      if (dimSupp[[i]] == 1) {
+        ylab[i] <- x$vnames[i]
+      } else { # dimSupp[[i]] == 2
+        ylab[i] <- x$dnames[[i]][2]
+        if (is.null(zlab[i])) zlab[i] <- x$vnames[i]
+      }
+    }
+  }
+
   N <- x$N
   time <- x$time
   count_twod <- 0
   Pl <- list()
   if (is.null(types)) types <- rep(NA, p)
-  if (is.null(ylab)) ylab <- rep(NA, p)
-  if (is.null(xlab)) xlab <- rep(NA, p)
-  if (is.null(tlab)) tlab <- rep(NA, p)
-  if (is.null(zlab)) zlab <- rep(NA, p)
   if (is.null(xticklabels)) xticklabels <- as.list(rep(NA, p))
   if (is.null(xticklocs)) xticklocs <- as.list(rep(NA, p))
   if (is.null(yticklabels)) yticklabels <- as.list(rep(NA, p))
   if (is.null(yticklocs)) yticklocs <- as.list(rep(NA, p))
-  if (is.null(zlab)) zlab <- rep(NA, p)
-  if (is.null(zlab)) zlab <- rep(NA, p)
   if (is.null(main)) main <- rep(NA, p)
   if (!is.null(vars) && length(types) != length(vars)) warning("\"vars\" and \"types\" are not the same length. Some plots might not appear as expected.")
   if (is.null(vars)) vars <- 1:p
