@@ -44,11 +44,11 @@
 #'   xticklocs = list(c(1, 60, 120, 180, 240))
 #' )
 #'
-#' plotly_funts(Callcenter, type = "3Dline")
+#' plotly_funts(Callcenter, type = "3Dline", main = "Callcenter Data")
 #'
-#' plotly_funts(Callcenter, type = "3Dsurface")
+#' plotly_funts(Callcenter, type = "3Dsurface", main = "Callcenter Data")
 #'
-#' plotly_funts(Callcenter, type = "heatmap")
+#' plotly_funts(Callcenter, type = "heatmap", main = "Callcenter Data")
 #'
 #' data("Montana") # Multivariate FTS example
 #' plotly_funts(Montana[1:100],
@@ -164,9 +164,9 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NU
         }
       } else if (types[j] == "heatmap") {
         u <- seq(x$argval[[vars[j]]])
-        if (is.na(xlab[j])) xlab[j] <- "x"
-        if (is.na(tlab[j])) tlab[j] <- "t"
-        if (is.na(zlab[j])) zlab[j] <- "z"
+        if (is.null(xlab[j])) xlab[j] <- "x"
+        if (is.null(tlab[j])) tlab[j] <- "t"
+        if (is.null(zlab[j])) zlab[j] <- "z"
         if (is.na(main[j])) main[j] <- paste("Variable", vars[j])
         z0 <- x$B_mat[[vars[j]]] %*% x$coefs[[vars[j]]]
         if (is.na(xticklabels[[j]][1]) || is.na(xticklocs[[j]][1])) {
@@ -193,9 +193,9 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NU
           gridcolor = "rgb(180, 180, 180)",
           zerolinecolor = "rgb(255,255,255)"
         )
-        axx$title <- ifelse(is.na(tlab[j]), "t", tlab[j])
-        axy$title <- ifelse(is.na(xlab[j]), "x", xlab[j])
-        axz$title <- ifelse(is.na(zlab[j]), paste("Variable", vars[j]), zlab[j])
+        axx$title <- ifelse(is.null(tlab[j]), "t", tlab[j])
+        axy$title <- ifelse(is.null(xlab[j]), "x", xlab[j])
+        axz$title <- ifelse(is.null(zlab[j]), paste("Variable", vars[j]), zlab[j])
         if (is.na(xticklabels[[j]][1]) == FALSE || is.na(xticklocs[[j]][1]) == FALSE) {
           axy$ticktext <- xticklabels[[j]]
           axy$tickvals <- xticklocs[[j]]
@@ -217,9 +217,9 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NU
           gridcolor = "rgb(180, 180, 180)",
           zerolinecolor = "rgb(255,255,255)"
         )
-        axx$title <- ifelse(is.na(tlab[j]), "t", tlab[j])
-        axy$title <- ifelse(is.na(xlab[j]), "x", xlab[j])
-        axz$title <- ifelse(is.na(zlab[j]), paste("Variable", vars[j]), zlab[j])
+        axx$title <- ifelse(is.null(tlab[j]), "t", tlab[j])
+        axy$title <- ifelse(is.null(xlab[j]), "x", xlab[j])
+        axz$title <- ifelse(is.null(zlab[j]), paste("Variable", vars[j]), zlab[j])
         if (is.na(xticklabels[[j]][1]) == FALSE || is.na(xticklocs[[j]][1]) == FALSE) {
           axy$ticktext <- xticklabels[[j]]
           axy$tickvals <- xticklocs[[j]]
@@ -237,9 +237,9 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NU
     } else {
       if (is.na(types[j]) == FALSE && types[j] != "heatmap") warning("The only plotting option available for variables observed over two-dimensional domain is \"heatmap\". Other plotting options will be added for these types of variables in the future.")
       count_twod <- count_twod + 1
-      if (is.na(ylab[j])) ylab[j] <- "y"
-      if (is.na(xlab[j])) xlab[j] <- "x"
-      if (is.na(zlab[j])) zlab[j] <- "z"
+      if (is.null(ylab[j])) ylab[j] <- "y"
+      if (is.null(xlab[j])) xlab[j] <- "x"
+      if (is.null(zlab[j])) zlab[j] <- "z"
       if (is.na(main[j])) main[j] <- paste("Variable", vars[j])
       if (is.na(xticklabels[[j]][[1]])) xticklabels[[j]] <- waiver()
       if (is.na(xticklocs[[j]][[1]])) xticklocs[[j]] <- waiver()
