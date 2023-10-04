@@ -2,7 +2,7 @@
 % Please edit documentation in R/fforecast.R
 \name{plot.fforecast}
 \alias{plot.fforecast}
-\title{Plot method for FSSA Forecast (fforecast) class}
+\title{Plot Method for FSSA Forecast (fforecast) Class}
 \usage{
 \method{plot}{fforecast}(
   x,
@@ -21,7 +21,9 @@
 \arguments{
 \item{x}{an object of class \code{fforecast}.}
 
-\item{group_index}{an integer specify the group index for plot.}
+\item{group_index}{an integer specifying the group index for the plot.}
+
+\item{ask}{logical: If TRUE, after printing the first grouping graphic, it will pause when the user asks for the next group graphic and wait.}
 
 \item{npts}{number of grid points for the plots.}
 
@@ -29,15 +31,15 @@
 
 \item{main}{main title for the plot.}
 
+\item{col}{specify the predicted FTS color; if it is `NULL`, it will be set as the default.}
+
+\item{ori_col}{specify the original FTS color; if it is `NULL`, it will be set as the default.}
+
 \item{type}{type of plot ("l" for line, "p" for points, etc.).}
 
 \item{lty}{line type (1 for solid, 2 for dashed, etc.).}
 
 \item{...}{additional graphical parameters passed to plotting functions.}
-
-\item{xlab}{x-axis label.}
-
-\item{ylab}{y-axis label.}
 }
 \description{
 Create visualizations of FSSA Forecast (fforecast) class. This function supports

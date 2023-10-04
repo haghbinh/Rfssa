@@ -36,14 +36,14 @@
 #' plot(pr_R,  group_index = 1 )
 #'
 #'
-#' plotly_funts(pr_R[[2]])
+#' plotly_funts(pr_R[[2]], main = "group = '1:7'")
 #'
 #' ## Perform FSSA V-forecast
 #' pr_V <- fforecast(U = U, groups = groups, len= 30, method = "vector")
 #'
 #' plot(pr_V, group_index = 1)
 #'
-#' plotly_funts(pr_V[[2]], type = "3Dlines" )
+#' plotly_funts(pr_V[[2]], type = "3Dlines" , main = "group = '1:7'")
 #'
 #' # Multivariate forecasting example:
 #' data("Montana")
@@ -85,11 +85,11 @@
 #' pr_R <- fforecast(U = U, groups = groups,
 #'                    only.new = FALSE, len = 10, method = "recurrent")
 #' plot(pr_R)
-#' plotly_funts(pr_R[[2]])
+#' plotly_funts(pr_R[[2]], main = "Recurrent method, group = '1:3'")
 #'
 #' pr_V <- fforecast(U = U, groups = groups, len = 10, method = "vector")
 #' plot(pr_V, group_index = 1)
-#' plotly_funts(pr_V[[2]])
+#' plotly_funts(pr_V[[2]], main = "Vector method, group = '1:3'")
 #' }
 #'
 #' @export
@@ -372,33 +372,30 @@ mfforecast <- function(U, groups = list(c(1)), len = 1, method = "recurrent", on
 }
 
 
-
-
-
 # =======================================================================
 #'
-#' Plot method for FSSA Forecast (fforecast) class
+#' Plot Method for FSSA Forecast (fforecast) Class
 #'
 #' Create visualizations of FSSA Forecast (fforecast) class. This function supports
 #' plotting `fforecast` data with one-dimensional or two-dimensional domains.
 #'
 #' @param x an object of class \code{fforecast}.
-#' @param group_index an integer specify the group index for plot.
+#' @param group_index an integer specifying the group index for the plot.
+#' @param ask logical: If TRUE, after printing the first grouping graphic, it will pause when the user asks for the next group graphic and wait.
 #' @param npts number of grid points for the plots.
 #' @param obs observation number (for two-dimensional domains).
-#' @param xlab x-axis label.
-#' @param ylab y-axis label.
 #' @param main main title for the plot.
+#' @param col specify the predicted FTS color; if it is `NULL`, it will be set as the default.
+#' @param ori_col specify the original FTS color; if it is `NULL`, it will be set as the default.
 #' @param type type of plot ("l" for line, "p" for points, etc.).
 #' @param lty line type (1 for solid, 2 for dashed, etc.).
 #' @param ... additional graphical parameters passed to plotting functions.
-#'
 #' @seealso \code{\link{fforecast}}
 #'
 #' @export
 plot.fforecast <- function(x, group_index = NULL, ask = TRUE, npts = 100, obs = 1,
-                           main = NULL, col = NULL,
-                           ori_col = NULL, type = "l", lty = 1, ...) {
+                           main = NULL, col = NULL, ori_col = NULL, type = "l",
+                           lty = 1, ...) {
   old <- par()
   exclude_pars <- c("cin", "cra", "csi", "cxy", "din", "page")
   ind <- which(!(names(old) %in% exclude_pars))
@@ -435,7 +432,7 @@ plot.fforecast <- function(x, group_index = NULL, ask = TRUE, npts = 100, obs = 
 #' It provides a summary of the fforecast object.
 #'
 #' @param x an object of class "fforecast" to be printed.
-#' @param ...	further arguments passed to or from other methods.
+#' @param ...	 further arguments passed to or from other methods.
 #'
 #' @export
 print.fforecast <- function(x, ...) {

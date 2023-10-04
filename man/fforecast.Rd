@@ -56,14 +56,14 @@ pr_R <- fforecast(
 plot(pr_R,  group_index = 1 )
 
 
-plotly_funts(pr_R[[2]])
+plotly_funts(pr_R[[2]], main = "group = '1:7'")
 
 ## Perform FSSA V-forecast
 pr_V <- fforecast(U = U, groups = groups, len= 30, method = "vector")
 
 plot(pr_V, group_index = 1)
 
-plotly_funts(pr_V[[2]], type = "3Dlines" )
+plotly_funts(pr_V[[2]], type = "3Dlines" , main = "group = '1:7'")
 
 # Multivariate forecasting example:
 data("Montana")
@@ -105,11 +105,11 @@ groups <- list(1, 1:3)
 pr_R <- fforecast(U = U, groups = groups,
                    only.new = FALSE, len = 10, method = "recurrent")
 plot(pr_R)
-plotly_funts(pr_R[[2]])
+plotly_funts(pr_R[[2]], main = "Recurrent method, group = '1:3'")
 
 pr_V <- fforecast(U = U, groups = groups, len = 10, method = "vector")
 plot(pr_V, group_index = 1)
-plotly_funts(pr_V[[2]])
+plotly_funts(pr_V[[2]], main = "Vector method, group = '1:3'")
 }
 
 }
