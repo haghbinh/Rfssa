@@ -100,6 +100,7 @@ fforecast <- function(U, groups, len = 1, method = "recurrent", only.new = TRUE,
       stop("Current forecasting routines only support fts whose variables are observed over one-dimensional domains. Forecasting of fts variables whose domains have dimension greater than one is under development.")
     }
   }
+  if (is.numeric(groups) & !is.list(groups)) groups <- list(groups)
   cat("Running, please wait...\n")
   if (class(U[[1]])[[1]] != "list") {
     out <- ufforecast(U = U, groups = groups, len = len, method = method, only.new = only.new, tol = tol)
@@ -228,7 +229,7 @@ ufforecast <- function(U, groups, len = 1, method = "recurrent", only.new = TRUE
 
 # FSSA Recurrent and Vector Forecasting of Multivariate FTS
 
-mfforecast <- function(U, groups = list(c(1)), len = 1, method = "recurrent", only.new = TRUE, tol = 10^-3) {
+mfforecast <- function(U, groups, len = 1, method = "recurrent", only.new = TRUE, tol = 10^-3) {
   out <- list()
   Y <- U$Y
   N <- Y$N
@@ -381,7 +382,7 @@ mfforecast <- function(U, groups = list(c(1)), len = 1, method = "recurrent", on
 #'
 #' @param x an object of class \code{fforecast}.
 #' @param group_index an integer specifying the group index for the plot.
-#' @param ask logical: If TRUE, after printing the first grouping graphic, it will pause when the user asks for the next group graphic and wait.
+#' @param ask logical: If `TRUE`, and  `group_index` be `NULL`, after printing the first grouping graphic, it will pause when the user asks for the next group graphic and wait.
 #' @param npts number of grid points for the plots.
 #' @param obs observation number (for two-dimensional domains).
 #' @param main main title for the plot.
@@ -409,7 +410,7 @@ plot.fforecast <- function(x, group_index = NULL, ask = TRUE, npts = 100, obs = 
   flag <- FALSE
   if (is.null(group_index)) {
     group_index <- 1:length(x$groups)
-    flag <- TRUE
+    if (length(x$groups) > 1) flag <- TRUE
   }
   if (flag) {
     par(ask = ask)

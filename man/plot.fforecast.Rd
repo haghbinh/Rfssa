@@ -23,7 +23,7 @@
 
 \item{group_index}{an integer specifying the group index for the plot.}
 
-\item{ask}{logical: If TRUE, after printing the first grouping graphic, it will pause when the user asks for the next group graphic and wait.}
+\item{ask}{logical: If `TRUE`, and  `group_index` be `NULL`, after printing the first grouping graphic, it will pause when the user asks for the next group graphic and wait.}
 
 \item{npts}{number of grid points for the plots.}
 
