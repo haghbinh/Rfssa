@@ -153,7 +153,9 @@ print.funts <- function(x, ...) {
   if (is.null(j)) j <- 1:p
   if (max(i) > obj$N | min(i) < 1) stop(" subscript i out of bounds")
   if (max(j) > p | min(j) < 1) stop(" subscript j out of bounds")
-  out <- list(N = length(i), dimSupp = list(), time = obj$time[i], coefs = list(), basis = list(), B_mat = list(), argval = list())
+  out <- list(N = length(i), dimSupp = list(), time = obj$time[i], coefs = list(),
+              basis = list(), B_mat = list(), argval = list(),
+              vnames = obj$vnames[j], dnames = list(), tname = obj$tname)
   count <- 0
   for (k in j) {
     count <- count + 1
@@ -162,6 +164,7 @@ print.funts <- function(x, ...) {
     out$B_mat[[count]] <- obj$B_mat[[k]]
     out$argval[[count]] <- obj$argval[[k]]
     out$coefs[[count]] <- as.matrix(obj$coefs[[k]])[, i]
+    out$dnames[[count]] <- obj$dnames[[k]]
   }
   class(out) <- "funts"
   return(out)

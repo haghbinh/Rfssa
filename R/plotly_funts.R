@@ -113,9 +113,9 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NU
     if ((is.na(yticklocs[[j]][1]) && !is.na(yticklabels[[j]][1])) || (!is.na(yticklocs[[j]][1]) && is.na(yticklabels[[j]][1]))) warning(paste0("Please provide vertical axis labels and label locations for variable ", as.character(j), "."))
     if (is.numeric(x$argval[[vars[j]]]) && !is.matrix(x$argval[[vars[j]]])) {
       if (is.na(types[j]) || types[j] == "line") {
-        if (is.na(ylab[j])) ylab[j] <- "y"
-        if (is.na(xlab[j])) xlab[j] <- "x"
-        if (is.na(main[j])) main[j] <- paste("Variable", vars[j])
+        if (is.null(ylab[j])) ylab[j] <- "y"
+        if (is.null(xlab[j])) xlab[j] <- "x"
+        if (is.null(main[j])) main[j] <- paste("Variable", vars[j])
         y <- tibble::as_tibble(data.frame(y = c(x$B_mat[[vars[j]]] %*% x$coefs[[vars[j]]])))
         y$time <- as.factor(rep(time, each = length(x$argval[[vars[j]]])))
         y$x <- rep(1:length(x$argval[[vars[j]]]), ncol(x$coefs[[vars[j]]]))
@@ -167,7 +167,7 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NU
         if (is.null(xlab[j])) xlab[j] <- "x"
         if (is.null(tlab[j])) tlab[j] <- "t"
         if (is.null(zlab[j])) zlab[j] <- "z"
-        if (is.na(main[j])) main[j] <- paste("Variable", vars[j])
+        if (is.null(main[j])) main[j] <- paste("Variable", vars[j])
         z0 <- x$B_mat[[vars[j]]] %*% x$coefs[[vars[j]]]
         if (is.na(xticklabels[[j]][1]) || is.na(xticklocs[[j]][1])) {
           Pl[[j]] <- plot_ly(

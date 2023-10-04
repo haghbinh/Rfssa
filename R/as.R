@@ -53,9 +53,12 @@ as.funts <- function(obj, basis = NULL) {
       time_st <- obj$time[1]
       time_en <- obj$time[N]
     }
+    vnames <- obj$yname
+    dnames <- list(obj$xname)
     d <- floor(min(dim(X)) / 2)
     if (is.null(basis)) basisobj <- create.bspline.basis(c(m1, m2), nbasis = d)
-    x_funts <- funts(X = X, basisobj = basisobj, argval = argval, start = time_st, end = time_en)
+    x_funts <- funts(X = X, basisobj = basisobj, argval = argval, start = time_st,
+                     end = time_en, vnames = vnames, dnames = dnames)
   } else {
     stop("This object can not be converted to a funts object.")
   }

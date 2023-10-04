@@ -82,11 +82,11 @@ plotly_funts(Callcenter,
   xticklocs = list(c(1, 60, 120, 180, 240))
 )
 
-plotly_funts(Callcenter, type = "3Dline")
+plotly_funts(Callcenter, type = "3Dline", main = "Callcenter Data")
 
-plotly_funts(Callcenter, type = "3Dsurface")
+plotly_funts(Callcenter, type = "3Dsurface", main = "Callcenter Data")
 
-plotly_funts(Callcenter, type = "heatmap")
+plotly_funts(Callcenter, type = "heatmap", main = "Callcenter Data")
 
 data("Montana") # Multivariate FTS example
 plotly_funts(Montana[1:100],
