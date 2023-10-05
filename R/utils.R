@@ -14,6 +14,13 @@ lagvec_new <- function(coefs, L, i) {
   coefs[, i:(i + L - 1)]
 }
 
+#Check the provided basis when creating funts object
+check_basis <- function(basis){
+  G = t(basis)%*%basis
+  lambda_min = min(eigen(x = G,symmetric = TRUE)$values)
+  return(lambda_min)
+}
+
 # Projection of all lag vectors onto i-th functional eigen vector.
 ufproj <- function(U, i, d) {
   L <- U$L
