@@ -213,6 +213,10 @@ funts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = 
         X[[j]] <- matrix(aperm(X[[j]], c(2, 1, 3)), nrow = M_x * M_y)
       }
       # Estimate the coefficients of each funts variables.=========================================
+      lambda_min_gram = check_basis(B_mat[[j]])
+      if(lambda_min_gram < 10^-8){
+        stop(paste0("The provided basis for variable ",as.character(j)," is not linearly independent."))
+      }
       coefs[[j]] <- solve(t(B_mat[[j]]) %*% B_mat[[j]]) %*% t(B_mat[[j]]) %*% X[[j]]
     } else { # method == "coefs"
       coefs[[j]] <- X[[j]]
