@@ -61,7 +61,7 @@
 #' NDVI <- montana$NDVI
 #' Montana_Data <- list(Temp / sd(Temp), NDVI)
 #' bs1 <- create.bspline.basis(c(0, 23), 11)
-#' bs2 <- create.bspline.basis(c(0, 1), 13)
+#' bs2 <- create.bspline.basis(c(1, 33), 13)
 #' bs2d <- list(bs2, bs2)
 #' bsmv <- list(bs1, bs2d)
 #' Y <- funts(X = Montana_Data, basisobj = bsmv,

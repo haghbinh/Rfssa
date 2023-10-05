@@ -280,7 +280,7 @@ server.mfssa <- function(input, output, clientData, session) {
       Jambi <- get("Jambi", envir = .GlobalEnv)
 
       Xs <- list()
-      Xs[[1]] <- matrix(sqrt(Callcenter$calls), nrow = 240)
+      Xs[[1]] <- matrix(sqrt(callcenter$calls), nrow = 240)
       Xs[[2]] <- Xs[[3]] <- matrix(NA, nrow = 128, ncol = dim(Jambi$NDVI)[3])
       for (i in 1:dim(Jambi$NDVI)[3]) {
         Xs[[2]][, i] <- density(Jambi$NDVI[, , i], from = 0, to = 1, n = 128)$y

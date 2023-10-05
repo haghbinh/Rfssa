@@ -63,7 +63,7 @@ pr_V <- fforecast(U = U, groups = groups, len= 30, method = "vector")
 
 plot(pr_V, group_index = 1)
 
-plotly_funts(pr_V[[2]], type = "3Dlines" , main = "group = '1:7'")
+plotly_funts(pr_V[[2]], type = "3Dline" , main = "group = '1:7'")
 
 # Multivariate forecasting example:
 data("Montana")
