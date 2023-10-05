@@ -214,7 +214,7 @@ funts <- function(X, basisobj, argval = NULL, method = "data", start = 1, end = 
       }
       # Estimate the coefficients of each funts variables.=========================================
       lambda_min_gram = check_basis(B_mat[[j]])
-      if(lambda_min_gram < 10^-8){
+      if(lambda_min_gram < 10^-12){
         stop(paste0("The provided basis for variable ",as.character(j)," is not linearly independent."))
       }
       coefs[[j]] <- solve(t(B_mat[[j]]) %*% B_mat[[j]]) %*% t(B_mat[[j]]) %*% X[[j]]
