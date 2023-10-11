@@ -113,7 +113,9 @@ ufssa <- function(Y, L, ntriples) {
       n2 <- length(unique(Y$argval[[1]][, 2]))
       X_mat <- array(out[[i]], dim = c(n1, n2, L))
     }
-    Lsingf[[i]] <- funts(X = X_mat, basisobj = Y$basis[[1]])
+    Lsingf[[i]] <- funts(X = X_mat, basisobj = Y$basis[[1]],
+                         start = Y$time[1], end = Y$time[N], vnames = Y$vnames,
+                         dnames = Y$dnames, tname = Y$tname)
   }
   out$values <- Q$values[1L:ntriples]
   out$L <- L
@@ -184,7 +186,9 @@ mfssa <- function(Y, L, ntriples) {
         X_mat[[j]] <- array(my_pcs[[j]], dim = c(n1, n2, L))
       }
     }
-    Lsingf[[i]] <- funts(X = X_mat, basisobj = Y$basis)
+    Lsingf[[i]] <- funts(X = X_mat, basisobj = Y$basis,
+                         start = Y$time[1], end = Y$time[N], vnames = Y$vnames,
+                         dnames = Y$dnames, tname = Y$tname)
     out[[i]] <- my_pcs
   }
   out$values <- values

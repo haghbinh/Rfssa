@@ -30,16 +30,11 @@
 #' Q <- freconstruct(U, gr)
 #' plotly_funts(Q[[1]],
 #'   mains = "Call Center Mean Component",
-#'   xlab = "Time (6 minutes aggregated)",
-#'   ylab = "Sqrt of Call Numbers", type = "line",
 #'   xticklabels = list(c("00:00", "06:00", "12:00", "18:00", "24:00")),
 #'   xticklocs = list(c(1, 60, 120, 180, 240))
 #' )
 #' plot(Q[[2]],
-#'   main = "Call Center First Periodic Component",
-#'   xlab = "Time (6 minutes aggregated)",
-#'   ylab = "Sqrt of Call Numbers"
-#' )
+#'   main = "Call Center First Periodic Component")
 #'
 #' #--------------- Multivariate FSSA Example on bivariate -----------------------------
 #' ## temperature curves and smoothed images of vegetation
@@ -50,9 +45,6 @@
 #' # MFSSA Reconstruction step:
 #' Q <- freconstruct(U = U, groups = list(1, 2, 3))
 #' plotly_funts(Q[[1]],
-#'   xlab = c("Time", "Longitude"),
-#'   ylab = c("Normalized Temperature (\u00B0C)", "Latitude"),
-#'   zlab = c("", "NDVI"),
 #'   main = c("Temperature Curves Mean", "NDVI Images Mean"),
 #'   color_palette = "RdYlGn",
 #'   xticklabels = list(
@@ -65,9 +57,6 @@
 #' ) # mean
 #'
 #' plotly_funts(Q[[2]],
-#'   xlab = c("Time", "Longitude"),
-#'   ylab = c("Normalized Temperature (\u00B0C)", "Latitude"),
-#'   zlab = c("", "NDVI"),
 #'   main = c("Temperature Curves Periodic", "NDVI Images Periodic"),
 #'   color_palette = "RdYlGn",
 #'   xticklabels = list(
@@ -81,8 +70,6 @@
 #'
 #' plot(Q[[3]],
 #'   obs = 3,
-#'   xlab = c("Time", "Longitude"),
-#'   ylab = c("Normalized Temperature (\u00B0C)", "Latitude"),
 #'   main = c("Temperature Curves Trend", "NDVI Images Trend,")
 #' ) # trend
 #' }
@@ -140,7 +127,9 @@ ufreconstruct <- function(U, groups = as.list(1L:10L)) {
     } else {
       new_grid <- Y$argval[[1]]
     }
-    funts_out <- funts(X = recon_out, basisobj = basisobj, argval = new_grid, start = time_st, end = time_en)
+    funts_out <- funts(X = recon_out, basisobj = basisobj, argval = new_grid,
+                       start = time_st, end = time_en, vnames = Y$vnames,
+                       dnames = Y$dnames, tname = Y$tname)
     out[[i]] <- funts_out
   }
   out$values <- sqrt(U$values)
@@ -206,7 +195,9 @@ mfreconstruct <- function(U, groups = as.list(1L:10L)) {
     }
 
     # output the reconstructions
-    funts_out <- funts(X = recon_group, basisobj = basisobj, argval = new_grid, start = time_st, end = time_en)
+    funts_out <- funts(X = recon_group, basisobj = basisobj, argval = new_grid,
+                       start = time_st, end = time_en, vnames = Y$vnames,
+                       dnames = Y$dnames, tname = Y$tname)
     recon_out[[i]] <- funts_out
   }
   recon_out$values <- U$values

@@ -102,7 +102,7 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NU
   if (is.null(xticklocs)) xticklocs <- as.list(rep(NA, p))
   if (is.null(yticklabels)) yticklabels <- as.list(rep(NA, p))
   if (is.null(yticklocs)) yticklocs <- as.list(rep(NA, p))
-  if (is.null(main)) main <- rep(NA, p)
+  if (is.null(main)) main <- rep(NULL, p)
   if (!is.null(vars) && length(types) != length(vars)) warning("\"vars\" and \"types\" are not the same length. Some plots might not appear as expected.")
   if (is.null(vars)) vars <- 1:p
   cat("Plotting, please wait...\n")
@@ -115,7 +115,7 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NU
       if (is.na(types[j]) || types[j] == "line") {
         if (is.null(ylab[j])) ylab[j] <- "y"
         if (is.null(xlab[j])) xlab[j] <- "x"
-        if (is.null(main[j])) main[j] <- paste("Variable", vars[j])
+        # if (is.null(main[j])) main[j] <- paste("Variable", vars[j])
         y <- tibble::as_tibble(data.frame(y = c(x$B_mat[[vars[j]]] %*% x$coefs[[vars[j]]])))
         y$time <- as.factor(rep(time, each = length(x$argval[[vars[j]]])))
         y$x <- rep(1:length(x$argval[[vars[j]]]), ncol(x$coefs[[vars[j]]]))
