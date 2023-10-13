@@ -259,7 +259,7 @@ server.fssa <- function(input, output, clientData, session) {
     if (!length(iXs())) {
       loadCallcenterData()
       loadJambiData()
-      Callcenter <- get("Callcenter", envir = .GlobalEnv)
+      callcenter <- get("callcenter", envir = .GlobalEnv)
       Jambi <- get("Jambi", envir = .GlobalEnv)
       Xs <- list()
       Xs[[1]] <- matrix(sqrt(callcenter$calls), nrow = 240)

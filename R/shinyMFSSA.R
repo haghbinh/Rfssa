@@ -276,7 +276,7 @@ server.mfssa <- function(input, output, clientData, session) {
     if (!length(iXs())) {
       loadCallcenterData()
       loadJambiData()
-      Callcenter <- get("Callcenter", envir = .GlobalEnv)
+      callcenter <- get("callcenter", envir = .GlobalEnv)
       Jambi <- get("Jambi", envir = .GlobalEnv)
 
       Xs <- list()
