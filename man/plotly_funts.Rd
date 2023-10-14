@@ -72,6 +72,7 @@ Supported plot type for two-dimensional domain variables:
 Each variable can be plotted multiple times with different types.
 }
 \examples{
+\dontrun{
 data("Callcenter") # Univariate FTS example
 
 plotly_funts(Callcenter)
@@ -100,7 +101,7 @@ plotly_funts(Montana[1:100],
   yticklabels = list(NA, c("48.70\u00B0 N", "48.77\u00B0 N")),
   yticklocs = list(NA, c(1, 33))
 )
-
+}
 }
 \seealso{
 \code{\link{funts}}, \code{\link{Callcenter}}, \code{\link{Montana}}

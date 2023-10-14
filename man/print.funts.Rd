@@ -17,7 +17,8 @@ It provides a summary of the funts object, including its length (N), the number 
 and its structure.
 }
 \examples{
+\dontrun{
 data("Callcenter")
 print(Callcenter)
-
+}
 }

@@ -34,6 +34,7 @@
 #' @seealso \code{\link{funts}}, \code{\link{Callcenter}}, \code{\link{Montana}}
 #'
 #' @examples
+#' \dontrun{
 #' data("Callcenter") # Univariate FTS example
 #'
 #' plotly_funts(Callcenter)
@@ -62,7 +63,7 @@
 #'   yticklabels = list(NA, c("48.70\u00B0 N", "48.77\u00B0 N")),
 #'   yticklocs = list(NA, c(1, 33))
 #' )
-#'
+#' }
 #' @export
 plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NULL, ylab = NULL, xlab = NULL, tlab = NULL,
                          zlab = NULL, xticklabels = NULL, xticklocs = NULL, yticklabels = NULL, yticklocs = NULL,

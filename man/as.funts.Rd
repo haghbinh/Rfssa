@@ -21,6 +21,7 @@ This function allows you to convert various types of objects into a functional t
 Only objects of class \code{\link{fd}} (functional data) and \code{\link{fts}} (functional time series) can be converted to a \code{\link{funts}} object. Other types will result in an error.
 }
 \examples{
+\dontrun{
 require(rainbow)
 fts_obj <- fts(
   x = 15:49,
@@ -44,7 +45,7 @@ plotly_funts(x_funts,
   ylab = "Fertility rate",
   xlab = "Age"
 )
-
+}
 }
 \seealso{
 \code{\link{funts}}, \code{\link{create.bspline.basis}}

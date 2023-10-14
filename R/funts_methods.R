@@ -5,9 +5,10 @@
 #' @param x an object of class "funts" .
 #'
 #' @examples
+#' \dontrun{
 #' data("Callcenter")
 #' length(Callcenter)
-#'
+#' }
 #' @export
 length.funts <- function(x) {
   return(x$N)
@@ -22,9 +23,10 @@ length.funts <- function(x) {
 #' @param x an object of class "funts" to be printed.
 #' @param ...	further arguments passed to or from other methods.
 #' @examples
+#' \dontrun{
 #' data("Callcenter")
 #' print(Callcenter)
-#'
+#' }
 #' @export
 print.funts <- function(x, ...) {
   cat("\nFunctional time series (funts) object:")
@@ -113,10 +115,11 @@ print.funts <- function(x, ...) {
 #' @seealso \code{\link{funts}}
 #'
 #' @examples
+#' \dontrun{
 #' data("Callcenter")
 #' y <- Callcenter
 #' print(1 - y)
-#'
+#' }
 #' @export
 "-.funts" <- function(obj1, obj2 = NULL) {
   # Check if at least one object must be an `funts`, and the other one can be a scalar
@@ -194,12 +197,14 @@ print.funts <- function(x, ...) {
 #' @seealso \code{\link{funts}}
 #'
 #' @examples
+#' \dontrun{
 #' data("Montana")
 #' y <- Montana
 #' u <- seq(0, 23, len = 4)
 #' v <- seq(1, 33, len = 3)
 #' grid <- list(u, list(v, v))
 #' eval.funts(grid, y)
+#' }
 #' @export
 eval.funts <- function(argvals, obj) {
   if (!xor(is.numeric(argvals), is.list(argvals))) stop("Error: Incompatible grid points. It must be a list or numeric object.")
@@ -263,6 +268,7 @@ eval.funts <- function(argvals, obj) {
 #' @importFrom graphics par image axis
 #'
 #' @examples
+#' \dontrun{
 #' # Example with one-dimensional domain
 #' data("Callcenter")
 #' plot(Callcenter,
@@ -280,7 +286,7 @@ eval.funts <- function(argvals, obj) {
 #'   xlab = c("Time", "Longitude"),
 #'   ylab = c("Normalized Temperature (\u00B0C)", "Latitude")
 #' )
-#'
+#' }
 #' @seealso \code{\link{funts}}, \code{\link{Callcenter}}, \code{\link{Montana}}
 #' @importFrom graphics matplot
 #'

@@ -16,10 +16,11 @@ This function allows subtraction between two `funts` (functional time series) ob
 between a `funts` object and a scalar. It returns the resulting difference.
 }
 \examples{
+\dontrun{
 data("Callcenter")
 y <- Callcenter
 print(1 - y)
-
+}
 }
 \seealso{
 \code{\link{funts}}

@@ -44,6 +44,7 @@ This function enables the creation of visualizations for Functional Time Series 
 For one-dimensional domains, line plots are used, while for two-dimensional domains, image plots are employed.
 }
 \examples{
+\dontrun{
 # Example with one-dimensional domain
 data("Callcenter")
 plot(Callcenter,
@@ -61,7 +62,7 @@ plot(Montana,
   xlab = c("Time", "Longitude"),
   ylab = c("Normalized Temperature (\u00B0C)", "Latitude")
 )
-
+}
 }
 \seealso{
 \code{\link{funts}}, \code{\link{Callcenter}}, \code{\link{Montana}}

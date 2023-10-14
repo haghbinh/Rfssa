@@ -9,6 +9,7 @@
 #'
 #'
 #' @examples
+#' \dontrun{
 #' require(rainbow)
 #' fts_obj <- fts(
 #'   x = 15:49,
@@ -32,7 +33,7 @@
 #'   ylab = "Fertility rate",
 #'   xlab = "Age"
 #' )
-#'
+#' }
 #' @seealso \code{\link{funts}}, \code{\link{create.bspline.basis}}
 #'
 #' @note Only objects of class \code{\link{fd}} (functional data) and \code{\link{fts}} (functional time series) can be converted to a \code{\link{funts}} object. Other types will result in an error.
