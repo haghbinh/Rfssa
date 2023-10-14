@@ -186,7 +186,7 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NU
             layout(title = paste("<b>", main[j], "</b>"), font = list(size = 12), yaxis = list(title = xlab[j], ticktext = xticklabels[[j]], tickvals = xticklocs[[j]]), xaxis = list(title = tlab[j]))
         }
       } else if (types[j] == "3Dsurface") {
-        if (is.na(main[j])) main[j] <- paste("Variable", vars[j])
+        #if (is.na(main[j])) main[j] <- paste("Variable", vars[j])
         u <- x$argval[[vars[j]]]
         z0 <- x$B_mat[[vars[j]]] %*% x$coefs[[vars[j]]]
         axx <- axy <- axz <- list(
@@ -209,7 +209,7 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NU
                  title = main[j]) %>%
           add_surface(showscale = FALSE)
       } else if (types[j] == "3Dline") {
-        if (is.na(main[j])) main[j] <- paste("Variable", vars[j])
+        #if (is.na(main[j])) main[j] <- paste("Variable", vars[j])
         D0 <- tibble::as_tibble(data.frame(z = c(x$B_mat[[vars[j]]] %*% x$coefs[[vars[j]]])))
         D0$time <- rep(time, each = length(x$argval[[vars[j]]]))
         D0$x <- rep(1:length(x$argval[[vars[j]]]), ncol(x$coefs[[vars[j]]]))
@@ -240,7 +240,7 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NU
       if (is.null(ylab[j])) ylab[j] <- "y"
       if (is.null(xlab[j])) xlab[j] <- "x"
       if (is.null(zlab[j])) zlab[j] <- "z"
-      if (is.na(main[j])) main[j] <- paste("Variable", vars[j])
+      #if (is.na(main[j])) main[j] <- paste("Variable", vars[j])
       if (is.na(xticklabels[[j]][[1]])) xticklabels[[j]] <- waiver()
       if (is.na(xticklocs[[j]][[1]])) xticklocs[[j]] <- waiver()
       if (is.na(yticklabels[[j]][[1]])) yticklabels[[j]] <- waiver()
