@@ -12,13 +12,13 @@
 #' @param contrib A logical value. If \code{TRUE} (default), it displays the component's contribution to the total variance.
 #' @param type The type of plot to be displayed. Possible types include:
 #'   \itemize{
-#'     \item \code{"values"} - Plot the square-root of singular values (default).
-#'     \item \code{"paired"} - Plot pairs of eigenfunction's coefficients (useful for detecting periodic components).
+#'     \item \code{"values"} - Plot the square-root of eigen values (default).
+#'     \item \code{"paired"} - Plot pairs of right singular function's coefficients (useful for detecting periodic components).
 #'     \item \code{"wcor"} - Plot the W-correlation matrix for the reconstructed objects.
-#'     \item \code{"vectors"} - Plot the eigenfunction's coefficients (useful for detecting period length).
-#'     \item \code{"lcurves"} - Plot eigenfunctions (useful for detecting period length).
+#'     \item \code{"vectors"} - Plot the right singular vectors (useful for detecting period length).
+#'     \item \code{"lcurves"} - Plot left singular functions (useful for detecting period length).
 #'     \item \code{"lheats"} - Heatmap plot of eigenfunctions, usable for \code{\link{funts}} variables observed over one or two-dimensional domains (useful for detecting meaningful patterns).
-#'     \item \code{"periodogram"} - Periodogram plot (useful for detecting the frequencies of oscillations in functional data).
+#'     \item \code{"periodogram"} - Periodogram plot right singular vectors (useful for detecting the frequencies of oscillations in functional data).
 #'   }
 #' @param vars A numeric value specifying the variable number (used in plotting MFSSA \code{"lheats"} or \code{"lcurves"}).
 #' @param ylab A character vector representing the names of variables.
