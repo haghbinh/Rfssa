@@ -74,25 +74,7 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NU
     x <- as.funts(x)
   }
   if (inherits(x, "fda")) x <- as.funts(x)
-  dimSupp <- x$dimSupp
-  p <- length(dimSupp)
-
-  if (is.null(tlab))  tlab <- rep(x$tname, p)
-  if (is.null(xlab)) {
-    for (i in 1:p){
-      xlab[i] <- x$dnames[[i]][1]
-    }
-  }
-  if (is.null(ylab)) {
-    for (i in 1:p){
-      if (dimSupp[[i]] == 1) {
-        ylab[i] <- x$vnames[i]
-      } else { # dimSupp[[i]] == 2
-        ylab[i] <- x$dnames[[i]][2]
-        if (is.null(zlab[i])) zlab[i] <- x$vnames[i]
-      }
-    }
-  }
+  p <- length(x$dimSupp)
 
   N <- x$N
   time <- x$time
@@ -106,6 +88,23 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NU
   if (is.null(main)) main <- rep(NULL, p)
   if (!is.null(vars) && length(types) != length(vars)) warning("\"vars\" and \"types\" are not the same length. Some plots might not appear as expected.")
   if (is.null(vars)) vars <- 1:p
+
+  if (is.null(tlab))  tlab <- rep(x$tname, p)
+  if (is.null(xlab)) {
+    for (i in 1:p){
+      xlab[i] <- x$dnames[[i]][1]
+    }
+  }
+  if (is.null(ylab)) {
+    for (i in 1:p){
+      ylab[i] <- x$vnames[i]
+      if (substr(types[[i]],1,2) == "3D" || x$dimSupp[[i]] == 2) {
+        ylab[i] <- x$dnames[[i]][2]
+        if (is.null(zlab[i])) zlab[i] <- x$vnames[i]
+      }
+    }
+  }
+
   cat("Plotting, please wait...\n")
   for (j in 1:length(vars)) {
     if (j > length(xticklocs) || j > length(xticklabels)) xticklocs[[j]] <- xticklabels[[j]] <- NA
@@ -113,7 +112,7 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NU
     if ((is.na(xticklocs[[j]][1]) && !is.na(xticklabels[[j]][1])) || (!is.na(xticklocs[[j]][1]) && is.na(xticklabels[[j]][1]))) warning(paste0("Please provide horizontal axis labels and label locations for variable ", as.character(j), "."))
     if ((is.na(yticklocs[[j]][1]) && !is.na(yticklabels[[j]][1])) || (!is.na(yticklocs[[j]][1]) && is.na(yticklabels[[j]][1]))) warning(paste0("Please provide vertical axis labels and label locations for variable ", as.character(j), "."))
     if (is.numeric(x$argval[[vars[j]]]) && !is.matrix(x$argval[[vars[j]]])) {
-      if (is.na(types[j]) || types[j] == "line") {
+      if (is.na(types[[j]]) || types[j] == "line") {
         if (is.null(ylab[j])) ylab[j] <- "y"
         if (is.null(xlab[j])) xlab[j] <- "x"
         # if (is.null(main[j])) main[j] <- paste("Variable", vars[j])

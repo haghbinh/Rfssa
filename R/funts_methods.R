@@ -167,7 +167,7 @@ print.funts <- function(x, ...) {
     out$B_mat[[count]] <- obj$B_mat[[k]]
     out$argval[[count]] <- obj$argval[[k]]
     out$coefs[[count]] <- as.matrix(obj$coefs[[k]])[, i]
-    out$dnames[[count]] <- obj$dnames[[k]]
+    if (is.null(obj$dnames[[k]])) out$dnames <- NULL else out$dnames[[count]] <- obj$dnames[[k]]
   }
   class(out) <- "funts"
   return(out)
