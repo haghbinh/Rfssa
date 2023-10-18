@@ -79,7 +79,7 @@ montana[[2]] <- array(
 )
 ## Kernel density estimation of pixel intensity
 NDVI <- matrix(NA, nrow = 512, ncol = 133)
-for (i in 1:133) NDVI[, i] <- (density(montana[[2]][, , i], 0, 1)$y)
+for (i in 1:133) NDVI[, i] <- (density(montana[[2]][, , i], from = 0, to = 1)$y)
 
 ## Define functional objects
 bs1 <- Montana$basis[[1]]

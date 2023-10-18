@@ -48,9 +48,17 @@ ui.fssa <- fluidPage(
         ),
         tabPanel(
           "Forecasting",
-          column(3, checkboxGroupInput("fcast.method", "Forecasting Method:", choices = c("Recurrent" = "recurrent", "Vector" = "vector"), selected = "recurrent", width = "250px")),
-          column(4, uiOutput("fcast.horizon")), column(2, uiOutput("run.fcast")), column(3, uiOutput("fcast.type")),
-          fluidRow(column(8, plotlyOutput("fcast.ly", height = 600, width = 600)), column(4, uiOutput("fcast.select")))
+          fluidRow(
+            column(3, checkboxGroupInput("fcast.method", "Forecasting Method:", choices = c("Recurrent" = "recurrent", "Vector" = "vector", "___Only New" = "only.new"), selected = c("recurrent", "only.new"), width = "250px")),
+            column(4, uiOutput("fcast.horizon")), column(2, uiOutput("run.fcast")), column(3, uiOutput("fcast.type"))
+          ),
+          fluidRow(
+            column(
+              8, conditionalPanel(condition = "output.fcast_plot", plotOutput("fcast.plot", height = 600, width = 600)),
+              conditionalPanel(condition = "output.fcast_plotly", plotlyOutput("fcast.ly", height = 600, width = 600))
+            ),
+            column(4, uiOutput("fcast.select"))
+          )
         ),
         tabPanel("Manual", includeMarkdown(system.file("shiny/rmd", "report.Rmd", package = "Rfssa")))
       )
@@ -70,8 +78,12 @@ server.fssa <- function(input, output, clientData, session) {
   T <- 100
   output$flag_plotly <- reactive(input$desc %in% c("fssa.reconst", "ssa.reconst") && input$rec.type %in% c("heatmap", "line", "3Dline", "3Dsurface"))
   output$flag_plot <- reactive(!(input$desc %in% c("fssa.reconst", "ssa.reconst") && input$rec.type %in% c("heatmap", "line", "3Dline", "3Dsurface")))
+  output$fcast_plotly <- reactive(input$fcast.type %in% c("heatmap", "line", "3Dline", "3Dsurface"))
+  output$fcast_plot <- reactive(input$fcast.type == "regular")
   outputOptions(output, "flag_plotly", suspendWhenHidden = FALSE)
   outputOptions(output, "flag_plot", suspendWhenHidden = FALSE)
+  outputOptions(output, "fcast_plotly", suspendWhenHidden = FALSE)
+  outputOptions(output, "fcast_plot", suspendWhenHidden = FALSE)
   hideTab(inputId = "Panel", target = "Forecasting")
   updateTabsetPanel(session, "Panel", selected = "Manual")
 
@@ -764,7 +776,7 @@ server.fssa <- function(input, output, clientData, session) {
       Qs <- funts(X = Qs, basisobj = sr$bas.fssa, argval = sr$tau)
       myplot <- plotly_funts(Qs, types = input$rec.type)
     }
-    print(myplot[[1]])
+    return(myplot[[1]])
   })
 
   output$fcast.horizon <- renderUI({
@@ -785,7 +797,7 @@ server.fssa <- function(input, output, clientData, session) {
     if (is.null(input$run.fcast)) {
       return()
     }
-    selectInput("fcast.type", "Type", choices = c("Heat Plot" = "heatmap", "Regular Plot" = "line", "3D Plot (line)" = "3Dline", "3D Plot (surface)" = "3Dsurface"), width = "250px")
+    selectInput("fcast.type", "Type", choices = c("Regular Plot" = "regular", "Heat Plot" = "heatmap", "Line Plot" = "line", "3D Plot (line)" = "3Dline", "3D Plot (surface)" = "3Dsurface"), width = "250px")
   })
 
   run_fcast <- eventReactive(input$run.fcast, {
@@ -793,8 +805,9 @@ server.fssa <- function(input, output, clientData, session) {
       sr <- run_ssa()
       input.g <- eval(parse(text = paste0("list(", input$g, ")")))
       fc <- list()
-      if ("recurrent" %in% input$fcast.method) fc$rec <- fforecast(U = sr$Uf, groups = input.g, len = input$fcast.horizon, method = "recurrent")
-      if ("vector" %in% input$fcast.method) fc$vector <- fforecast(U = sr$Uf, groups = input.g, len = input$fcast.horizon, method = "vector")
+      only.new <- ("only.new" %in% input$fcast.method)
+      if ("recurrent" %in% input$fcast.method) fc$rec <- fforecast(U = sr$Uf, groups = input.g, len = input$fcast.horizon, method = "recurrent", only.new = only.new)
+      if ("vector" %in% input$fcast.method) fc$vector <- fforecast(U = sr$Uf, groups = input.g, len = input$fcast.horizon, method = "vector", only.new = only.new)
       return(fc)
     })
   })
@@ -803,7 +816,16 @@ server.fssa <- function(input, output, clientData, session) {
     if (is.null(input$run.fcast) || input$run.fcast == 0) {
       return()
     }
-    if (length(input$fcast.method) > 1) selectInput("fcast.select", "Select Output", choices = c("Recurrent Forecasting" = "1", "Vector Forecasting" = "2"), width = "250px")
+    if (sum(c("recurrent", "vector") %in% input$fcast.method) == 2) selectInput("fcast.select", "Select Output", choices = c("Recurrent Forecasting" = "1", "Vector Forecasting" = "2"), width = "250px")
+  })
+
+  output$fcast.plot <- renderPlot({
+    if (is.null(input$run.fcast)) {
+      return()
+    }
+    fc <- run_fcast()
+    if (length(fc) == 1) i <- 1 else i <- as.numeric(input$fcast.select)
+    plot(fc[[i]], group_index = input$sg[1])
   })
 
   output$fcast.ly <- renderPlotly({
@@ -818,6 +840,6 @@ server.fssa <- function(input, output, clientData, session) {
       Qf <- Qf + fc[[i]][[j]]
     }
     myplot <- plotly_funts(Qf, types = input$fcast.type)
-    print(myplot[[1]])
+    return(myplot[[1]])
   })
 }

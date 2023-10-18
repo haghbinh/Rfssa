@@ -98,7 +98,7 @@ plotly_funts <- function(x, vars = NULL, types = NULL, subplot = TRUE, main = NU
   if (is.null(ylab)) {
     for (i in 1:p){
       ylab[i] <- x$vnames[i]
-      if (substr(types[[i]],1,2) == "3D" || x$dimSupp[[i]] == 2) {
+      if (types[i] %in% c("3Dline", "3Dsurface") || x$dimSupp[[i]] == 2) {
         ylab[i] <- x$dnames[[i]][2]
         if (is.null(zlab[i])) zlab[i] <- x$vnames[i]
       }
