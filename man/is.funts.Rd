@@ -16,8 +16,6 @@ TRUE if the object is of class 'funts', FALSE otherwise.
 Check if an object is of class 'funts'
 }
 \examples{
-\dontrun{
 data("Callcenter")
 is.funts(Callcenter)
-}
 }

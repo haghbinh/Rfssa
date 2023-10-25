@@ -11,21 +11,13 @@
 #' @examples
 #' \dontrun{
 #' require(rainbow)
-#' fts_obj <- fts(
-#'   x = 15:49,
-#'   y = Australiasmoothfertility$y[, 1:60]
-#' )
-#'
-#' x_funts1 <- as.funts(fts_obj)
-#' plot(x_funts1,
-#'   main = "Australians Fertility",
-#'   ylab = "Fertility rate",
-#'   xlab = "Age"
-#' )
+#' class(Australiasmoothfertility)
+#' x_funts1 <- as.funts(Australiasmoothfertility)
+#' plot(x_funts1, main = "Australians Fertility")
 #'
 #' require(fda)
 #' bs <- create.bspline.basis(rangeval = c(15, 49), nbasis = 13)
-#' fd_obj <- smooth.basis(argvals = fts_obj$x, fts_obj$y, bs)$fd
+#' fd_obj <- smooth.basis(argvals = Australiasmoothfertility$x, fts_obj$y, bs)$fd
 #'
 #' x_funts <- as.funts(fd_obj)
 #' plotly_funts(x_funts,

@@ -1,4 +1,4 @@
-Rfssa 3.0.1
+Rfssa 3.0.2
 ===========
 
 Minor improvements and bug fixes

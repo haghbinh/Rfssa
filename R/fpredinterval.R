@@ -33,7 +33,7 @@
 #' require(ggplot2)
 #' # Create the ggplot
 #' ggplot(df, aes(x = x, y = y)) +
-#'   geom_line(size = 1.2) +
+#'   geom_line(linewidth = 1.2) +
 #'   scale_x_continuous(
 #'     name = "Time",
 #'     breaks = c(1, 60, 120, 180, 240),

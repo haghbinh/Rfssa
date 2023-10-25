@@ -5,10 +5,8 @@
 #' @param x an object of class "funts" .
 #'
 #' @examples
-#' \dontrun{
 #' data("Callcenter")
 #' length(Callcenter)
-#' }
 #' @export
 length.funts <- function(x) {
   return(x$N)
@@ -197,14 +195,12 @@ print.funts <- function(x, ...) {
 #' @seealso \code{\link{funts}}
 #'
 #' @examples
-#' \dontrun{
 #' data("Montana")
 #' y <- Montana
 #' u <- seq(0, 23, len = 4)
 #' v <- seq(1, 33, len = 3)
 #' grid <- list(u, list(v, v))
 #' eval.funts(grid, y)
-#' }
 #' @export
 eval.funts <- function(argvals, obj) {
   if (!xor(is.numeric(argvals), is.list(argvals))) stop("Error: Incompatible grid points. It must be a list or numeric object.")
