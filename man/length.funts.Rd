@@ -13,8 +13,6 @@
 Returns the length of a "funts" object.
 }
 \examples{
-\dontrun{
 data("Callcenter")
 length(Callcenter)
-}
 }

@@ -29,14 +29,12 @@ For empirical basis with irregular grids, a warning is issued as this feature
 is under development.
 }
 \examples{
-\dontrun{
 data("Montana")
 y <- Montana
 u <- seq(0, 23, len = 4)
 v <- seq(1, 33, len = 3)
 grid <- list(u, list(v, v))
 eval.funts(grid, y)
-}
 }
 \seealso{
 \code{\link{funts}}
