@@ -44,25 +44,14 @@ This function enables the creation of visualizations for Functional Time Series 
 For one-dimensional domains, line plots are used, while for two-dimensional domains, image plots are employed.
 }
 \examples{
-\dontrun{
 # Example with one-dimensional domain
 data("Callcenter")
-plot(Callcenter,
-  lwd = 2, col = "deepskyblue4",
-  main = "Call Center Data",
-  xlab = "Time (6 minutes aggregated)",
-  ylab = "Sqrt of Call Numbers"
-)
+plot(Callcenter, lwd = 2, col = "deepskyblue4", main = "Call Center Data")
 
 # Example with two-dimensional domain
 data("Montana")
-plot(Montana,
-  obs = 2,
-  main = c("Temperature Curves", "NDVI Images,"),
-  xlab = c("Time", "Longitude"),
-  ylab = c("Normalized Temperature (\u00B0C)", "Latitude")
-)
-}
+plot(Montana, obs = 2, main = c("Temperature Curves", "NDVI Images,"))
+
 }
 \seealso{
 \code{\link{funts}}, \code{\link{Callcenter}}, \code{\link{Montana}}

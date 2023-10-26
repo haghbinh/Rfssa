@@ -45,6 +45,21 @@
 Create visualizations of FSSA Forecast (fforecast) class. This function supports
 plotting `fforecast` data with one-dimensional or two-dimensional domains.
 }
+\examples{
+\dontrun{
+# Example with one-dimensional domain
+data("Callcenter")
+# FSSA Decomposition step:
+fssa_results <- fssa(Callcenter, L = 28)
+
+# Perform FSSA R-forecasting
+pr_V <- fforecast(U = fssa_results, groups = list(1,1:7),
+                  len = 14, method = "vector", only.new = FALSE)
+
+plot(pr_V)
+}
+
+}
 \seealso{
 \code{\link{fforecast}}
 }

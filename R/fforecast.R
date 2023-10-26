@@ -393,6 +393,20 @@ mfforecast <- function(U, groups, len = 1, method = "recurrent", only.new = TRUE
 #' @param ... additional graphical parameters passed to plotting functions.
 #' @seealso \code{\link{fforecast}}
 #'
+#' @examples
+#' \dontrun{
+#' # Example with one-dimensional domain
+#' data("Callcenter")
+#' # FSSA Decomposition step:
+#' fssa_results <- fssa(Callcenter, L = 28)
+#'
+#' # Perform FSSA R-forecasting
+#' pr_V <- fforecast(U = fssa_results, groups = list(1,1:7),
+#'                   len = 14, method = "vector", only.new = FALSE)
+#'
+#' plot(pr_V)
+#' }
+#'
 #' @export
 plot.fforecast <- function(x, group_index = NULL, ask = TRUE, npts = 100, obs = 1,
                            main = NULL, col = NULL, ori_col = NULL, type = "l",
@@ -435,6 +449,20 @@ plot.fforecast <- function(x, group_index = NULL, ask = TRUE, npts = 100, obs = 
 #' @param x an object of class "fforecast" to be printed.
 #' @param ...	 further arguments passed to or from other methods.
 #'
+#' @examples
+#' \dontrun{
+#' # Example with one-dimensional domain
+#' data("Callcenter")
+#' # FSSA Decomposition step:
+#' fssa_results <- fssa(Callcenter, L = 28)
+#'
+#' # Perform FSSA R-forecasting
+#' pr_R <- fforecast(U = fssa_results,
+#'                   groups = c(1:3),
+#'                   len = 14,
+#'                   method = "recurrent")
+#' print(pr_R)
+#'}
 #' @export
 print.fforecast <- function(x, ...) {
   cat("\nFSSA Forecast (fforecast) class:")

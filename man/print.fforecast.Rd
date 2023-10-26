@@ -15,3 +15,18 @@
 This custom print method is designed for objects of the FSSA Forecast (fforecast) class.
 It provides a summary of the fforecast object.
 }
+\examples{
+\dontrun{
+# Example with one-dimensional domain
+data("Callcenter")
+# FSSA Decomposition step:
+fssa_results <- fssa(Callcenter, L = 28)
+
+# Perform FSSA R-forecasting
+pr_R <- fforecast(U = fssa_results,
+                  groups = c(1:3),
+                  len = 14,
+                  method = "recurrent")
+print(pr_R)
+}
+}
