@@ -645,10 +645,8 @@ server.fssa <- function(input, output, clientData, session) {
       if (input$desc == "fssa.scree") {
         plot(sr$Uf, type = "values", d = input$d[2])
       } else if (input$desc == "fssa.wcor") {
-        ufwcor <- fwcor(sr$Uf, groups = input$d[1]:input$d[2])
-        wplot(W = ufwcor, cuts = 5)
-      } # plot(sr$Uf,type="wcor",groups=input$d[1]:input$d[2])
-      else if (input$desc == "fssa.pair") {
+        plot(sr$Uf, type = "wcor", groups = input$d[1]:input$d[2])
+      } else if (input$desc == "fssa.pair") {
         plot(sr$Uf, type = "paired", idx = input$d[1]:input$d[2])
       } else if (input$desc == "fssa.singV") {
         plot(sr$Uf, type = "vectors", idx = input$d[1]:input$d[2])
