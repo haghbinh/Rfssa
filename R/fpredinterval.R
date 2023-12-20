@@ -91,6 +91,10 @@ fpredinterval <- function(Y, O, L, ntriples, Bt, h = 1, alpha = 0.05, method = "
     decimal_exp = decimal_exp + 1
     decimal_factor = 10**decimal_exp
     alpha_half_factor = alpha_half*decimal_factor
+    if (decimal_exp > 17){
+      print("Alpha specified with too many significant figures. Try a different value for alpha. Returning null.")
+      return(invisible(NULL))
+    }
   }
   decimal_exp_inv <- -decimal_exp
   delta_probs <- 10**decimal_exp_inv
