@@ -82,17 +82,25 @@ fpredinterval <- function(Y, O, L, ntriples, Bt, h = 1, alpha = 0.05, method = "
     E_B[, j] <- E[, sample(1:(N - M), 1)]
   }
   colnames(E_B) <- as.character(1:Bt)
-  q_fts <- rainbow::fts(x = 1:length(grid), y = E_B)
-  quants <- ftsa::quantile.fts(q_fts, probs = seq(0, 1, 0.01))
-  upper_half <- 1 - alpha / 2
-  lower_half <- alpha / 2
-  if ((100 * alpha) %% 2 == 0) {
-    lower <- quants[, paste0(as.character(100 * (lower_half)), "%")]
-    upper <- quants[, paste0(as.character(100 * (upper_half)), "%")]
-  } else {
-    lower <- (quants[, paste0(as.character(100 * (lower_half + 0.005)), "%")] + quants[, paste0(as.character(100 * (lower_half - 0.005)), "%")]) / 2
-    upper <- (quants[, paste0(as.character(100 * (upper_half + 0.005)), "%")] + quants[, paste0(as.character(100 * (upper_half - 0.005)), "%")]) / 2
+  q_fts <- rainbow::fts(x = grid, y = E_B)
+  alpha_half <- alpha/2
+  decimal_exp <- 0
+  decimal_factor <- 10**decimal_exp
+  alpha_half_factor <- alpha_half*decimal_factor
+  while (alpha_half_factor != round(alpha_half_factor)){
+    decimal_exp = decimal_exp + 1
+    decimal_factor = 10**decimal_exp
+    alpha_half_factor = alpha_half*decimal_factor
   }
+  decimal_exp_inv <- -decimal_exp
+  delta_probs <- 10**decimal_exp_inv
+  probs <- seq(0, 1, delta_probs)
+  quants <- ftsa::quantile.fts(q_fts, probs = probs)
+  colnames(quants) <- probs
+  upper_half <- as.character(1 - alpha_half)
+  lower_half <- as.character(alpha_half)
+  upper <- quants[,upper_half]
+  lower <- quants[,lower_half]
   if (p == 1) {
     U <- ufssa(Y, L = L, 20)
     fore <- ufforecast(U, groups = list(g), len = h, method = method, tol = tol)
