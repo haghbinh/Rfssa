@@ -24,10 +24,8 @@ The Callcenter dataset represents a small call center for an anonymous bank. It 
 timing data from January 1 to December 31, 1999. The data is aggregated into 6-minute intervals on each day.
 }
 \examples{
-\dontrun{
-loadCallcenterData()
-str(callcenter)
-}
+Callcenter_raw <- loadCallcenterData()
+str(Callcenter_raw)
 
 }
 \references{

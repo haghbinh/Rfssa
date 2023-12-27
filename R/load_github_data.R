@@ -37,25 +37,19 @@
 #' }
 #'
 #' @examples
-#' \dontrun{
-#' loadCallcenterData()
-#' str(callcenter)
-#' }
+#' Callcenter_raw <- loadCallcenterData()
+#' str(Callcenter_raw)
 #'
 #' @seealso \code{\link{Callcenter}}, \code{\link{funts}}
 #'
 #' @export
 loadCallcenterData <- function() {
-  # Check if the data file exists locally
-  if (file.exists("Callcenter.RData")) {
-    load("Callcenter.RData", envir = .GlobalEnv)
-  } else {
-    # Callcenter <- NULL
-    # Download the data from GitHub
-    url <- "https://github.com/haghbinh/dataset/raw/main/Rfssa_dataset/Callcenter.RData"
-    download.file(url, "Callcenter.RData")
-    load("Callcenter.RData", envir = .GlobalEnv)
-  }
+  fil <- tempfile("Callcenter", fileext = ".rds")
+  # Download the data from GitHub
+  url <- "https://github.com/haghbinh/dataset/raw/main/Rfssa_dataset/Callcenter.rds"
+  download.file(url, destfile = fil)
+  Callcenter <- readRDS(fil)
+  return(Callcenter)
 }
 # =======================================================================
 #'
@@ -87,24 +81,19 @@ loadCallcenterData <- function() {
 #' @source [MODIS Product Information](https://lpdaac.usgs.gov/products/mod13q1v006/)
 #'
 #' @examples
-#' \dontrun{
-#' loadJambiData()
-#' str(Jambi)
-#' }
+#' Jambi_raw <- loadJambiData()
+#' str(Jambi_raw)
 #'
 #' @seealso  - The dataset object loaded by this function.
 #'
 #' @export
 loadJambiData <- function() {
-  # Check if the data file exists locally
-  if (file.exists("Jambi.RData")) {
-    load("Jambi.RData", envir = .GlobalEnv)
-  } else {
-    # Download the data from GitHub
-    url <- "https://github.com/haghbinh/dataset/raw/main/Rfssa_dataset/Jambi.RData"
-    download.file(url, "Jambi.RData")
-    load("Jambi.RData", envir = .GlobalEnv)
-  }
+  fil <- tempfile("Jambi", fileext = ".rds")
+  # Download the data from GitHub
+  url <- "https://github.com/haghbinh/dataset/raw/main/Rfssa_dataset/Jambi.rds"
+  download.file(url, destfile = fil)
+  Jambi <- readRDS(fil)
+  return(Jambi)
 }
 # =======================================================================
 
@@ -142,39 +131,31 @@ loadJambiData <- function() {
 #' }
 #'
 #' @examples
-#' \dontrun{
-#' loadMontanaData()
-#' str(montana)
-#' }
+#' Montana_raw <- loadMontanaData()
+#' str(Montana_raw)
 #'
 #' @seealso \code{\link{Montana}} - The dataset object loaded by this function.
 #'
 #' @export
 loadMontanaData <- function() {
-  # Check if the data file exists locally
-  if (file.exists("Montana.RData")) {
-    load("Montana.RData", envir = .GlobalEnv)
-  } else {
-    # Download the data from GitHub
-    url <- "https://github.com/haghbinh/dataset/raw/main/Rfssa_dataset/Montana.RData"
-    download.file(url, "Montana.RData")
-    load("montana.RData", envir = .GlobalEnv)
-  }
+  fil <- tempfile("Montana", fileext = ".rds")
+  # Download the data from GitHub
+  url <- "https://github.com/haghbinh/dataset/raw/main/Rfssa_dataset/Montana.rds"
+  download.file(url, destfile = fil)
+  Montana <- readRDS(fil)
+  return(Montana)
 }
-
-
-
 
 
 # =======================================================================
 
-#' Load Austin and Utqiagvik Temperature Data from GitHub Repository
+#' Load Austin Temperature Data from GitHub Repository
 #'
-#' This function loads the Austin/Utqiagvik Temperature dataset from a GitHub repository hosted at
+#' This function loads the Austin Temperature dataset from a GitHub repository hosted at
 #' https://github.com/haghbinh/dataset/Rfssa_dataset. Hosting datasets on GitHub
 #' rather than including them in the Rfssa R package conserves storage space.
 #'
-#' The Austin/Utqiagvik Temperature dataset contains intraday hourly temperature curves
+#' The Austin Temperature dataset contains intraday hourly temperature curves
 #' measured in degrees Celsius from January 1973 to July 2023, recorded once per month.
 #'
 #' @format Containing two matrix objects:
@@ -184,25 +165,53 @@ loadMontanaData <- function() {
 #' }
 #'
 #' @examples
-#' \dontrun{
-#' loadTempData()
-#' str(austin)
-#' str(utqiagvik)
-#' }
+#' Austin_raw <- loadAustinData()
+#' str(Austin_raw)
 #'
 #'
 #' @export
-loadTempData <- function() {
-  # Check if the data file exists locally
-  if (file.exists("Temperature.RData")) {
-    load("Temperature.RData", envir = .GlobalEnv)
-  } else {
-    # Download the data from GitHub
-    url <- "https://github.com/haghbinh/dataset/raw/main/Rfssa_dataset/Temperature.RData"
-    download.file(url, "Temperature.RData")
-    load("Temperature.RData", envir = .GlobalEnv)
-  }
+loadAustinData <- function() {
+  fil <- tempfile("Austin", fileext = ".rds")
+  # Download the data from GitHub
+  url <- "https://github.com/haghbinh/dataset/raw/main/Rfssa_dataset/Austin.rds"
+  download.file(url, destfile = fil)
+  Austin <- readRDS(fil)
+  return(Austin)
 }
+#' @references
+#'   Trinka, J., Haghbin, H., Shang, H., Maadooliat, M. (2023). Functional Time Series Forecasting: Functional Singular Spectrum Analysis Approaches. Stat, e621.
 
+# =======================================================================
+
+
+
+#' Load Utqiagvik Temperature Data from GitHub Repository
+#'
+#' This function loads the Utqiagvik Temperature dataset from a GitHub repository hosted at
+#' https://github.com/haghbinh/dataset/Rfssa_dataset. Hosting datasets on GitHub
+#' rather than including them in the Rfssa R package conserves storage space.
+#'
+#' The Utqiagvik Temperature dataset contains intraday hourly temperature curves
+#' measured in degrees Celsius from January 1973 to July 2023, recorded once per month.
+#'
+#' @format Containing two matrix objects:
+#' \describe{
+#'   \item{Austin Temperature Data}{A 24 by 607 matrix of discrete samplings of intraday hourly temperature curves, one day per month.}
+#'   \item{Utqiagvik Temperature Data}{A 24 by 607 matrix of discrete samplings of intraday hourly temperature curves, one day per month.}
+#' }
+#'
+#' @examples
+#' Utqiagvik_raw <- loadUtqiagvikData()
+#' str(Utqiagvik_raw)
+#'
+#' @export
+loadUtqiagvikData <- function() {
+  fil <- tempfile("Utqiagvik", fileext = ".rds")
+  # Download the data from GitHub
+  url <- "https://github.com/haghbinh/dataset/raw/main/Rfssa_dataset/Utqiagvik.rds"
+  download.file(url, destfile = fil)
+  Utqiagvik <- readRDS(fil)
+  return(Utqiagvik)
+}
 #' @references
 #'   Trinka, J., Haghbin, H., Shang, H., Maadooliat, M. (2023). Functional Time Series Forecasting: Functional Singular Spectrum Analysis Approaches. Stat, e621.

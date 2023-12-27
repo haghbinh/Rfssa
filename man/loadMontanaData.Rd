@@ -28,10 +28,8 @@ of temperature changes on vegetation. Combining both temperature and NDVI data c
 patterns and insights.
 }
 \examples{
-\dontrun{
-loadMontanaData()
-str(montana)
-}
+Montana_raw <- loadMontanaData()
+str(Montana_raw)
 
 }
 \references{

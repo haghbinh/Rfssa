@@ -28,10 +28,8 @@ Data collection began on February 18, 2000, and continued until July 28, 2019, w
 every 16 days. This dataset is valuable for studying vegetative land cover changes in the region.
 }
 \examples{
-\dontrun{
-loadJambiData()
-str(Jambi)
-}
+Jambi_raw <- loadJambiData()
+str(Jambi_raw)
 
 }
 \references{
