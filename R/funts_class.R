@@ -40,8 +40,8 @@
 #' \dontrun{
 #' # 1D FTS example: Callcenter dataset
 #' require(fda)
-#' loadCallcenterData()
-#' D <- matrix(sqrt(callcenter$calls), nrow = 240)
+#' Call_data <- loadCallcenterData()
+#' D <- matrix(sqrt(Call_data), nrow = 240)
 #' bs1 <- create.bspline.basis(c(0, 23), 22)
 #' u <- seq(0, 23, len = nrow(D))
 #' Y <- funts(X = D, basisobj = bs1, start = as.Date("1999-1-1"),
@@ -56,9 +56,9 @@
 #' # _______2D Multivariate Example: Montana dataset
 #' # Temperature curves and smoothed images of vegetation
 #'
-#' loadMontanaData()
-#' Temp <- montana$Temp
-#' NDVI <- montana$NDVI
+#' montana_data <- loadMontanaData()
+#' Temp <- montana_data$Temp
+#' NDVI <- montana_data$NDVI
 #' Montana_Data <- list(Temp / sd(Temp), NDVI)
 #' bs1 <- create.bspline.basis(c(0, 23), 11)
 #' bs2 <- create.bspline.basis(c(1, 33), 13)

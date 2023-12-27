@@ -286,10 +286,8 @@ server.mfssa <- function(input, output, clientData, session) {
       return()
     }
     if (!length(iXs())) {
-      loadCallcenterData()
-      loadJambiData()
-      callcenter <- get("callcenter", envir = .GlobalEnv)
-      Jambi <- get("Jambi", envir = .GlobalEnv)
+      callcenter <- loadCallcenterData()
+      Jambi <- loadJambiData()
 
       Xs <- list()
       Xs[[1]] <- matrix(sqrt(callcenter$calls), nrow = 240)
