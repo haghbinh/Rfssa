@@ -30,7 +30,7 @@ The Callcenter dataset represents a small call center for an anonymous bank.
 }
 \examples{
 # Load Callcenter data
-Call_raw <- loadCallcenterData()
+Call_data <- loadCallcenterData()
 D <- matrix(sqrt(Call_data), nrow = 240)
 
 # Define basis functions
