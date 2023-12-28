@@ -17,15 +17,26 @@ a dataframe with 87,600 rows and 5 variables:
 loadCallcenterData()
 }
 \description{
-This function loads the Callcenter dataset from the Rfssa_dataset repository on GitHub
-(https://github.com/haghbinh/dataset/Rfssa_dataset). By hosting datasets on GitHub rather than
-including them in the Rfssa R package, storage space is conserved.
-The Callcenter dataset represents a small call center for an anonymous bank. It provides precise call
-timing data from January 1 to December 31, 1999. The data is aggregated into 6-minute intervals on each day.
+This function retrieves the Callcenter dataset from the Rfssa_dataset repository on GitHub
+(https://github.com/haghbinh/dataset/Rfssa_dataset).
+The Callcenter dataset represents a small call center for an anonymous bank.
+ It provides precise call timing data from January 1 to December 31, 1999.
+ The data is aggregated into 6-minute intervals on each day.
+ The returned object is a raw dataset in dataframe format;
+ it is not a 'funts' class object.
+ This raw data can then be further processed and converted into a 'funts' object named 'Callcenter'.
+ See \code{\link{funts}} for more details on
+ working with functional time series of class 'funts'.
 }
 \examples{
-Callcenter_raw <- loadCallcenterData()
-str(Callcenter_raw)
+# Load Callcenter data
+Call_raw <- loadCallcenterData()
+D <- matrix(sqrt(Call_data), nrow = 240)
+
+# Define basis functions
+bs1 <- create.bspline.basis(c(0, 23), 22)
+
+Y <- funts(X = D, basisobj = bs1)
 
 }
 \references{
@@ -49,5 +60,5 @@ Integrating data transformation in principal components analysis.
 }
 }
 \seealso{
-\code{\link{Callcenter}}, \code{\link{funts}}
+\code{\link{funts}}
 }

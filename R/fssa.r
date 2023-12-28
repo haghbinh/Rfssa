@@ -7,7 +7,7 @@
 #' multivariate functional time series (\code{\link{funts}}) object.
 #'
 #' @param Y an object of class \code{\link{funts}}.
-#' @param L a positive integer, the window length.
+#' @param L a positive integer, the window length, the default is half of FTS length.
 #' @param ntriples a positive integer, the number of eigentriples for the
 #' decomposition.
 #' @param type a string indicating the type of FSSA: "ufssa" (default for
@@ -17,7 +17,6 @@
 #' eigenvalues, window length, and original data.
 #'
 #' @examples
-#' \dontrun{
 #' data("Callcenter")
 #'
 #' # FSSA Decomposition step:
@@ -32,6 +31,7 @@
 #' plotly_funts(U$Lsingf[[1]])
 #' plot(U$Lsingf[[2]])
 #'
+#' \dontrun{
 #' #--------------- Multivariate FSSA Example on bivariate -----------------------------
 #' ## temperature curves and smoothed images of vegetation
 #' data("Montana")
@@ -52,7 +52,7 @@
 #' }
 #' @useDynLib Rfssa
 #' @export
-fssa <- function(Y, L = NA, ntriples = 20, type = "ufssa") {
+fssa <- function(Y, L = Y$N/2, ntriples = 20, type = "ufssa") {
   N <- Y$N
   if (is.na(L)) L <- floor(N / 2L)
   if (ntriples > L) {

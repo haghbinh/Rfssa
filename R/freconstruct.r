@@ -20,7 +20,7 @@
 #'
 #' @seealso \code{\link{fssa}}, \code{\link{funts}}
 #' @examples
-#' \dontrun{
+#'
 #' data("Callcenter")
 #' L <- 28
 #' U <- fssa(Callcenter, L)
@@ -38,6 +38,7 @@
 #'
 #' #--------------- Multivariate FSSA Example on bivariate -----------------------------
 #' ## temperature curves and smoothed images of vegetation
+#' \dontrun{
 #' data("Montana")
 #' L <- 45
 #' U <- fssa(Montana, L)

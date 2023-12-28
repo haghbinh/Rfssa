@@ -14,7 +14,7 @@ A list containing two components:
 loadMontanaData()
 }
 \description{
-This function loads the Montana dataset from a GitHub repository hosted at
+This function retrieves the Montana dataset from a GitHub repository hosted at
 https://github.com/haghbinh/dataset/Rfssa_dataset. Hosting datasets on GitHub
 rather than including them in the Rfssa R package conserves storage space.
 The Montana dataset contains intraday hourly temperature curves measured in degrees Celsius
@@ -25,11 +25,35 @@ For each recorded intraday temperature curve, an NDVI image was captured on the 
 16 days, starting from January 1, 2008, and ending on September 30, 2013.
 The dataset is valuable for environmental analysis, especially in the context of studying the impact
 of temperature changes on vegetation. Combining both temperature and NDVI data can reveal more informative
-patterns and insights.
+patterns and insights.  The returned object is a raw dataset in `list` format;
+This raw data can then be further processed and converted into a 'funts' object named 'Montana'.
+ See \code{\link{funts}} for more details on  working with functional time series of class 'funts'.
 }
 \examples{
-Montana_raw <- loadMontanaData()
-str(Montana_raw)
+# Load Montana data
+montana_data <- loadMontanaData()
+
+# Extract variables
+Temp <- montana_data$Temp
+NDVI <- montana_data$NDVI
+
+# Create a list for Montana data
+Montana_Data <- list(Temp / sd(Temp), NDVI)
+
+# Define basis functions
+bs1 <- create.bspline.basis(c(0, 23), 11)
+bs2 <- create.bspline.basis(c(1, 33), 13)
+bs2d <- list(bs2, bs2)
+bsmv <- list(bs1, bs2d)
+
+# Convert to funts object
+Y <- funts(X = Montana_Data, basisobj = bsmv,
+           start = as.Date("2008-01-01"),
+           end = as.Date("2013-09-30"),
+           vnames = c("Normalized Temperature (\u00B0C)" , "NDVI"),
+           dnames = list("Time", c("Latitude", "Longitude")),
+           tname = "Date"
+)
 
 }
 \references{
@@ -45,5 +69,5 @@ str(Montana_raw)
 }
 }
 \seealso{
-\code{\link{Montana}} - The dataset object loaded by this function.
+\code{\link{funts}}
 }

@@ -58,7 +58,6 @@ This function is a plotting method for objects of class functional singular spec
 It aids users in making decisions during the grouping stage of univariate or multivariate functional singular spectrum analysis.
 }
 \examples{
-\dontrun{
 data("Callcenter")
 L <- 28
 U <- fssa(Callcenter, L)
@@ -68,7 +67,7 @@ plot(U, type = "paired", d = 6)
 plot(U, type = "lcurves", d = 4, vars = 1)
 plot(U, type = "lheats", d = 4)
 plot(U, type = "wcor", d = 10)
-}
+
 
 }
 \seealso{

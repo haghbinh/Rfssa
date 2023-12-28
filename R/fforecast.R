@@ -394,7 +394,6 @@ mfforecast <- function(U, groups, len = 1, method = "recurrent", only.new = TRUE
 #' @seealso \code{\link{fforecast}}
 #'
 #' @examples
-#' \dontrun{
 #' # Example with one-dimensional domain
 #' data("Callcenter")
 #' # FSSA Decomposition step:
@@ -405,7 +404,7 @@ mfforecast <- function(U, groups, len = 1, method = "recurrent", only.new = TRUE
 #'                   len = 14, method = "vector", only.new = FALSE)
 #'
 #' plot(pr_V)
-#' }
+#'
 #'
 #' @export
 plot.fforecast <- function(x, group_index = NULL, ask = TRUE, npts = 100, obs = 1,
@@ -450,7 +449,6 @@ plot.fforecast <- function(x, group_index = NULL, ask = TRUE, npts = 100, obs = 
 #' @param ...	 further arguments passed to or from other methods.
 #'
 #' @examples
-#' \dontrun{
 #' # Example with one-dimensional domain
 #' data("Callcenter")
 #' # FSSA Decomposition step:
@@ -462,7 +460,7 @@ plot.fforecast <- function(x, group_index = NULL, ask = TRUE, npts = 100, obs = 
 #'                   len = 14,
 #'                   method = "recurrent")
 #' print(pr_R)
-#'}
+#'
 #' @export
 print.fforecast <- function(x, ...) {
   cat("\nFSSA Forecast (fforecast) class:")

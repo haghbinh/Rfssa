@@ -30,7 +30,7 @@ Refer to \code{\link{fssa}} for an example on how to run this
 function starting from \code{\link{fssa}} objects.
 }
 \examples{
-\dontrun{
+
 data("Callcenter")
 L <- 28
 U <- fssa(Callcenter, L)
@@ -48,6 +48,7 @@ plot(Q[[2]],
 
 #--------------- Multivariate FSSA Example on bivariate -----------------------------
 ## temperature curves and smoothed images of vegetation
+\dontrun{
 data("Montana")
 L <- 45
 U <- fssa(Montana, L)

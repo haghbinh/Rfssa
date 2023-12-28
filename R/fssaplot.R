@@ -27,7 +27,6 @@
 #' @seealso \code{\link{fssa}}, \code{\link{plotly_funts}}
 #'
 #' @examples
-#' \dontrun{
 #' data("Callcenter")
 #' L <- 28
 #' U <- fssa(Callcenter, L)
@@ -37,7 +36,7 @@
 #' plot(U, type = "lcurves", d = 4, vars = 1)
 #' plot(U, type = "lheats", d = 4)
 #' plot(U, type = "wcor", d = 10)
-#' }
+#'
 #'
 #' @export
 plot.fssa <- function(x, d = length(x$values),

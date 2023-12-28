@@ -37,13 +37,11 @@
 #' @seealso \code{\link{fssa}}
 #'
 #' @examples
-#' \dontrun{
 #' # 1D FTS example: Callcenter dataset
 #' require(fda)
 #' Call_data <- loadCallcenterData()
 #' D <- matrix(sqrt(Call_data), nrow = 240)
 #' bs1 <- create.bspline.basis(c(0, 23), 22)
-#' u <- seq(0, 23, len = nrow(D))
 #' Y <- funts(X = D, basisobj = bs1, start = as.Date("1999-1-1"),
 #'            vnames = "Sqrt of Call Numbers",
 #'            dnames = "Time (6 minutes aggregated)",
@@ -55,7 +53,6 @@
 #'
 #' # _______2D Multivariate Example: Montana dataset
 #' # Temperature curves and smoothed images of vegetation
-#'
 #' montana_data <- loadMontanaData()
 #' Temp <- montana_data$Temp
 #' NDVI <- montana_data$NDVI

@@ -16,7 +16,6 @@ This custom print method is designed for objects of the FSSA Forecast (fforecast
 It provides a summary of the fforecast object.
 }
 \examples{
-\dontrun{
 # Example with one-dimensional domain
 data("Callcenter")
 # FSSA Decomposition step:
@@ -28,5 +27,5 @@ pr_R <- fforecast(U = fssa_results,
                   len = 14,
                   method = "recurrent")
 print(pr_R)
-}
+
 }

@@ -4,12 +4,12 @@
 \alias{fssa}
 \title{Functional Singular Spectrum Analysis (FSSA)}
 \usage{
-fssa(Y, L = NA, ntriples = 20, type = "ufssa")
+fssa(Y, L = Y$N/2, ntriples = 20, type = "ufssa")
 }
 \arguments{
 \item{Y}{an object of class \code{\link{funts}}.}
 
-\item{L}{a positive integer, the window length.}
+\item{L}{a positive integer, the window length, the default is half of FTS length.}
 
 \item{ntriples}{a positive integer, the number of eigentriples for the
 decomposition.}
@@ -28,7 +28,6 @@ analysis based on the input data type. The input can be a univariate or
 multivariate functional time series (\code{\link{funts}}) object.
 }
 \examples{
-\dontrun{
 data("Callcenter")
 
 # FSSA Decomposition step:
@@ -43,6 +42,7 @@ plot(U, type = "wcor", d = 10)
 plotly_funts(U$Lsingf[[1]])
 plot(U$Lsingf[[2]])
 
+\dontrun{
 #--------------- Multivariate FSSA Example on bivariate -----------------------------
 ## temperature curves and smoothed images of vegetation
 data("Montana")
