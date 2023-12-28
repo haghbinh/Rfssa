@@ -44,7 +44,7 @@
 #' @examples
 #' # Load Callcenter data
 #' Call_data <- loadCallcenterData()
-#' D <- matrix(sqrt(Call_data), nrow = 240)
+#' D <- matrix(sqrt(Call_data$calls), nrow = 240)
 #'
 #' # Define basis functions
 #' bs1 <- create.bspline.basis(c(0, 23), 22)

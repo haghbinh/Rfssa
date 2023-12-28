@@ -40,7 +40,7 @@
 #' # 1D FTS example: Callcenter dataset
 #' require(fda)
 #' Call_data <- loadCallcenterData()
-#' D <- matrix(sqrt(Call_data), nrow = 240)
+#' D <- matrix(sqrt(Call_data$calls), nrow = 240)
 #' bs1 <- create.bspline.basis(c(0, 23), 22)
 #' Y <- funts(X = D, basisobj = bs1, start = as.Date("1999-1-1"),
 #'            vnames = "Sqrt of Call Numbers",
