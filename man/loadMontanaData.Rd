@@ -30,6 +30,7 @@ This raw data can then be further processed and converted into a 'funts' object 
  See \code{\link{funts}} for more details on  working with functional time series of class 'funts'.
 }
 \examples{
+require(fda)
 # Load Montana data
 montana_data <- loadMontanaData()
 

@@ -29,6 +29,7 @@ The Callcenter dataset represents a small call center for an anonymous bank.
  working with functional time series of class 'funts'.
 }
 \examples{
+require(fda)
 # Load Callcenter data
 Call_data <- loadCallcenterData()
 D <- matrix(sqrt(Call_data$calls), nrow = 240)

@@ -42,6 +42,7 @@
 #' }
 #'
 #' @examples
+#' require(fda)
 #' # Load Callcenter data
 #' Call_data <- loadCallcenterData()
 #' D <- matrix(sqrt(Call_data$calls), nrow = 240)
@@ -145,6 +146,7 @@ loadJambiData <- function() {
 #' }
 #'
 #' @examples
+#' require(fda)
 #' # Load Montana data
 #' montana_data <- loadMontanaData()
 #'
