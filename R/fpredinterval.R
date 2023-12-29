@@ -47,7 +47,7 @@
 #'
 #' @export
 
-fpredinterval <- function(Y, O, L, ntriples, Bt, h = 1, alpha = 0.05, method = "recurrent", tol = 10^-3) {
+fpredinterval <- function(Y, O = floor(Y$N*0.7), L = floor((Y$N*0.7)/12), ntriples = 10, Bt = 100, h = 1, alpha = 0.05, method = "recurrent", tol = 10^-3) {
   cat("Running, please wait...\n")
   N <- Y$N
   start_t <- Y$time[1]
