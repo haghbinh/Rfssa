@@ -6,10 +6,10 @@
 \usage{
 fpredinterval(
   Y,
-  O,
-  L,
-  ntriples,
-  Bt,
+  O = floor(Y$N * 0.7),
+  L = floor((Y$N * 0.7)/12),
+  ntriples = 10,
+  Bt = 100,
   h = 1,
   alpha = 0.05,
   method = "recurrent",

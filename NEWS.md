@@ -1,3 +1,19 @@
+Rfssa 3.1.0
+===========
+
+New Additions
+-------------
+ The new followinf functions are replaced to GitHub load data:
+ 
+-  `loadCallcenterData()`
+-  `loadJambiData()`
+-  `loadMontanaData()`
+-  `loadAustinData()`
+-  `loadUtqiagvikData()`
+
+In these updated functions, upon downloading the data files from GitHub into a temporary directory (not the global environment), the target objects are now returned within the function. This modification allows users to save the data into an arbitrary variable of their choice.
+
+
 Rfssa 3.0.2
 ===========
 
