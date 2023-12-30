@@ -93,7 +93,7 @@
 #' }
 #'
 #' @export
-fforecast <- function(U, groups, len = 1, method = "recurrent", only.new = TRUE, tol = NULL) {
+fforecast <- function(U, groups= as.list(1L:10L), len = 1, method = "recurrent", only.new = TRUE, tol = NULL) {
   if (is.null(tol)) tol <- 10^(-3)
   for (j in 1:length(U$Y$coefs)) {
     if (U$Y$dimSupp[[j]] > 1) {
@@ -125,7 +125,7 @@ fforecast <- function(U, groups, len = 1, method = "recurrent", only.new = TRUE,
 #------------------------------ufforecast-----------------------------------------------------------------
 # FSSA Recurrent and Vector Forecasting of univariate FTS
 
-ufforecast <- function(U, groups = as.list(1L:10L), len = 1, method = "recurrent", only.new = TRUE, tol = 10^-3) {
+ufforecast <- function(U, groups, len = 1, method = "recurrent", only.new = TRUE, tol = 10^-3) {
   out <- list()
   Y <- U$Y
   N <- Y$N
@@ -229,7 +229,7 @@ ufforecast <- function(U, groups = as.list(1L:10L), len = 1, method = "recurrent
 
 # FSSA Recurrent and Vector Forecasting of Multivariate FTS
 
-mfforecast <- function(U, groups = as.list(1L:10L), len = 1, method = "recurrent", only.new = TRUE, tol = 10^-3) {
+mfforecast <- function(U, groups, len = 1, method = "recurrent", only.new = TRUE, tol = 10^-3) {
   out <- list()
   Y <- U$Y
   N <- Y$N

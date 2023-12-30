@@ -6,7 +6,7 @@
 \usage{
 fforecast(
   U,
-  groups,
+  groups = as.list(1L:10L),
   len = 1,
   method = "recurrent",
   only.new = TRUE,
