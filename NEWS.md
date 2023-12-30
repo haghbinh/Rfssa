@@ -3,7 +3,7 @@ Rfssa 3.1.0
 
 New Additions
 -------------
- The new followinf functions are replaced to GitHub load data:
+ The new following functions are replaced to GitHub load data:
  
 -  `loadCallcenterData()`
 -  `loadJambiData()`
