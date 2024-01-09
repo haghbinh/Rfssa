@@ -72,7 +72,7 @@ Supported plot type for two-dimensional domain variables:
 Each variable can be plotted multiple times with different types.
 }
 \examples{
-
+\dontrun{
 data("Callcenter") # Univariate FTS example
 
 plotly_funts(Callcenter)
@@ -89,7 +89,7 @@ plotly_funts(Callcenter, type = "3Dsurface", main = "Callcenter Data")
 
 plotly_funts(Callcenter, type = "heatmap", main = "Callcenter Data")
 
-\dontrun{
+
 data("Montana") # Multivariate FTS example
 plotly_funts(Montana[1:100],
   main = c("Temperature Curves", "NDVI Images"),
