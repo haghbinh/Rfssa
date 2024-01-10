@@ -28,11 +28,8 @@
 #' # FSSA Reconstruction step:
 #' gr <- list(1, 2:3, 4:5, 6:7, 1:7)
 #' Q <- freconstruct(U, gr)
-#' plotly_funts(Q[[1]],
-#'   mains = "Call Center Mean Component",
-#'   xticklabels = list(c("00:00", "06:00", "12:00", "18:00", "24:00")),
-#'   xticklocs = list(c(1, 60, 120, 180, 240))
-#' )
+#' plot(Q[[1]],
+#'   main = "Call Center Mean Component")
 #' plot(Q[[2]],
 #'   main = "Call Center First Periodic Component")
 #'
