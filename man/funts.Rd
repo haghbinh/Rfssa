@@ -57,6 +57,42 @@ An instance of the `funts` class containing functional time series data.
 The `funts` class is designed to encapsulate functional time series objects, including both univariate (FTS) and multivariate (MFTS) forms.
 It provides a versatile framework for creating and manipulating `funts` objects, accommodating various basis systems and dimensions.
 }
+\examples{
+# 1D FTS example: Callcenter dataset
+require(fda)
+Call_data <- loadCallcenterData()
+D <- matrix(sqrt(Call_data$calls), nrow = 240)
+bs1 <- create.bspline.basis(c(0, 23), 22)
+Y <- funts(X = D, basisobj = bs1, start = as.Date("1999-1-1"),
+           vnames = "Sqrt of Call Numbers",
+           dnames = "Time (6 minutes aggregated)",
+           tname = "Date" )
+
+plot(Y, lwd = 2, npts = 200, col = "deepskyblue4",
+  main = "Call Center Data"
+)
+
+# _______2D Multivariate Example: Montana dataset
+# Temperature curves and smoothed images of vegetation
+montana_data <- loadMontanaData()
+Temp <- montana_data$Temp
+NDVI <- montana_data$NDVI
+Montana_Data <- list(Temp / sd(Temp), NDVI)
+bs1 <- create.bspline.basis(c(0, 23), 11)
+bs2 <- create.bspline.basis(c(1, 33), 13)
+bs2d <- list(bs2, bs2)
+bsmv <- list(bs1, bs2d)
+Y <- funts(X = Montana_Data, basisobj = bsmv,
+           start = as.Date("2008-01-01"),
+           end = as.Date("2013-09-30"),
+           vnames = c("Normalized Temperature (\u00B0C)" , "NDVI"),
+           dnames = list("Time", c("Latitude", "Longitude")),
+           tname = "Date"
+)
+
+plot(Y,  main = "Montana dataset")
+
+}
 \seealso{
 \code{\link{fssa}}
 }

@@ -7,9 +7,9 @@
 as.funts(obj, basis = NULL)
 }
 \arguments{
-\item{obj}{the object to be converted. It can be an object of class \code{\link[fda]{fd}} (functional data) of the package `fda`, \code{\link[fts]{fts}} (functional time series) of the package `rainbow` types.}
+\item{obj}{the object to be converted. It can be an object of class \code{\link[fda]{fd}} (functional data) of the package `fda`, \code{\link[rainbow]{fts}} (functional time series) of the package `rainbow` types.}
 
-\item{basis}{an optional argument specifying the basis to be used for the resulting \code{\link{funts}} object when converting from \code{\link[fts]{fts}} objects. If not provided, a B-spline basis will be created by default.}
+\item{basis}{an optional argument specifying the basis to be used for the resulting \code{\link{funts}} object when converting from \code{\link[rainbow]{fts}} objects. If not provided, a B-spline basis will be created by default.}
 }
 \value{
 An object of class \code{\link{funts}}.
@@ -18,7 +18,7 @@ An object of class \code{\link{funts}}.
 This function allows you to convert various types of objects into a functional time series (\code{\link{funts}}) object.
 }
 \note{
-Only objects of class \code{\link[fda]{fd}} (functional data) and \code{\link[fts]{fts}} (functional time series) can be converted to a \code{\link{funts}} object. Other types will result in an error.
+Only objects of class \code{\link[fda]{fd}} (functional data) and \code{\link[rainbow]{fts}} (functional time series) can be converted to a \code{\link{funts}} object. Other types will result in an error.
 }
 \examples{
 require(rainbow)

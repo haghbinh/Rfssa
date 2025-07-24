@@ -48,7 +48,7 @@
 #'            tname = "Date" )
 #'
 #' plot(Y, lwd = 2, npts = 200, col = "deepskyblue4",
-#'   main = "Call Center Data",
+#'   main = "Call Center Data"
 #' )
 #'
 #' # _______2D Multivariate Example: Montana dataset
@@ -70,8 +70,6 @@
 #' )
 #'
 #' plot(Y,  main = "Montana dataset")
-#'
-#' }
 #'
 #' @return An instance of the `funts` class containing functional time series data.
 #'
