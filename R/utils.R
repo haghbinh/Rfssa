@@ -2,7 +2,6 @@
 
 # This function Hankelize a d*K*L array.
 fH <- function(C, d) {
-  x <- 1
   for (j in 1:d) {
     C[j, , ] <- H(C[j, , ])
   }
