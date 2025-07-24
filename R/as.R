@@ -2,8 +2,8 @@
 #'
 #' This function allows you to convert various types of objects into a functional time series (\code{\link{funts}}) object.
 #'
-#' @param obj the object to be converted. It can be an object of class \code{\link{fd}} (functional data) of the package `fda`, \code{\link{fts}} (functional time series) of the package `rainbow` types.
-#' @param basis an optional argument specifying the basis to be used for the resulting \code{\link{funts}} object when converting from \code{\link{fts}} objects. If not provided, a B-spline basis will be created by default.
+#' @param obj the object to be converted. It can be an object of class \code{\link[fda]{fd}} (functional data) of the package `fda`, \code{\link[fts]{fts}} (functional time series) of the package `rainbow` types.
+#' @param basis an optional argument specifying the basis to be used for the resulting \code{\link{funts}} object when converting from \code{\link[fts]{fts}} objects. If not provided, a B-spline basis will be created by default.
 #'
 #' @return An object of class \code{\link{funts}}.
 #'
@@ -24,9 +24,9 @@
 #'   ylab = "Fertility rate",
 #'   xlab = "Age"
 #' )
-#' @seealso \code{\link{funts}}, \code{\link{create.bspline.basis}}
+#' @seealso \code{\link{funts}}, \code{\link[fda]{create.bspline.basis}}
 #'
-#' @note Only objects of class \code{\link{fd}} (functional data) and \code{\link{fts}} (functional time series) can be converted to a \code{\link{funts}} object. Other types will result in an error.
+#' @note Only objects of class \code{\link[fda]{fd}} (functional data) and \code{\link[fts]{fts}} (functional time series) can be converted to a \code{\link{funts}} object. Other types will result in an error.
 #'
 #' @export
 as.funts <- function(obj, basis = NULL) {
