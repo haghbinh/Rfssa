@@ -34,6 +34,8 @@ LinkingTo: Rcpp,
            RcppArmadillo,
            RcppEigen,
 Suggests: 
-    knitr
+    knitr,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
 Depends: R (>= 4.0.0)
 Repository: CRAN
