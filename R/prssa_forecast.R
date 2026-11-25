@@ -20,10 +20,18 @@
 #'   as a VAR(\eqn{L-1}) working model; means are iterated and variances propagated through
 #'   the impulse responses. As \eqn{\sigma^2 \to 0} the one-step mean tends to the SSA linear
 #'   recurrence applied to the observed values (\code{Rssa::rforecast(base = "original")}).
-#'   \item \code{"vector"}: the posterior mean of the whole signal window given its first
-#'   \eqn{L-1} lags is iterated from the (non-Hankelized) posterior-mean signal records and the
-#'   extended trajectory is diagonally averaged; as \eqn{\sigma^2 \to 0} this is SSA vector
-#'   forecasting (\code{Rssa::vforecast}). Only point forecasts are returned.
+#'   \item \code{"vector"}: SSA vector forecasting with the fitted loadings. The last
+#'   (non-Hankelized) posterior-mean signal record \eqn{\hat s_K} is the seed, so the
+#'   posterior shrinkage is applied once. It is then extended \eqn{h + L - 1} times by the
+#'   noise-free V-forecast operator
+#'   \eqn{P_V(y) = W (W_\nabla^\top\Psi_\nabla^{-1}W_\nabla)^{-1}W_\nabla^\top\Psi_\nabla^{-1}\bar y},
+#'   where \eqn{\bar y} holds lags \eqn{2,\dots,L} of the current record and
+#'   \eqn{W_\nabla}, \eqn{\Psi_\nabla} are the rows of lags \eqn{1,\dots,L-1}
+#'   (the \eqn{\Psi^{-1}}-weighted least-squares projection onto \eqn{span(W)}), and the
+#'   extended trajectory is diagonally averaged. With isotropic noise \eqn{P_V} is the
+#'   V-forecast operator of the leading \eqn{r} eigenvectors, and as
+#'   \eqn{\sigma^2 \to 0} the forecast is \code{Rssa::vforecast}. Only point forecasts are
+#'   returned.
 #' }
 #' Pointwise bands are mean \eqn{\pm z_{(1+level)/2}} sd. Simultaneous bands use, for every
 #' horizon, the \code{level} quantile of \eqn{\max_s |Z(s)|/sd(s)} over all reporting points
@@ -188,12 +196,16 @@ prforecast <- function(fit, h, method = c("window", "recursive", "vector"), leve
   list(mean = mean, cov = cov)
 }
 
-# vector mode: iterate the posterior mean of the signal window from the
-# posterior-mean signal records, then diagonal averaging
+# vector mode: seed with the posterior-mean (shrunk once) signal records, then
+# iterate the noise-free V-forecast operator of the fitted loadings,
+#   P_V(y) = W (W_N' Psi_N^{-1} W_N)^{-1} W_N' Psi_N^{-1} y_D,
+# i.e. the Psi^{-1}-weighted least-squares projection of the last L - 1 lags of
+# the current record onto span(W) (rows N: lags 1..L-1, rows D: lags 2..L), and
+# diagonally average the extended trajectory. No prior shrinkage enters the
+# iteration, so the forecast is not damped step after step.
 .pr_fc_vector <- function(fit, W, psi, ri, h) {
   L <- fit$L
   dims <- fit$dat$dims
-  r <- ncol(W)
   N <- fit$N
   sq <- sqrt(fit$psi)
   Shat <- (sq * fit$U) %*% ((fit$omega * fit$s) * t(fit$V))
@@ -202,11 +214,13 @@ prforecast <- function(fit, h, method = c("window", "recursive", "vector"), leve
   rowsD <- as.vector(ri[, 2:L, drop = FALSE])
   WN <- W[rowsN, , drop = FALSE]
   WpN <- WN / psi[rowsN]
-  MNinv <- solve(diag(r) + crossprod(WN, WpN))
+  G <- crossprod(WN, WpN)
+  Ginv <- tryCatch(solve(G), error = function(e) .pr_pinv(G))
+  PV <- W %*% (Ginv %*% t(WpN))
   ext <- matrix(0, nrow(Shat), h + L - 1L)
   last <- Shat[, ncol(Shat)]
   for (i in seq_len(h + L - 1L)) {
-    last <- W %*% (MNinv %*% crossprod(WpN, last[rowsD]))
+    last <- PV %*% last[rowsD]
     ext[, i] <- last
   }
   ser <- .pr_hankelize(cbind(Shat, ext), L, dims)

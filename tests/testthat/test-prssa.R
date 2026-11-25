@@ -95,6 +95,35 @@ test_that("sigma -> 0 forecast limits are the SSA LRF, rforecast(base = 'origina
   expect_equal(fr$sd^2, fit$sigma2 / (1 - sum(om * U[L, ]^2)), tolerance = 1e-10)
 })
 
+test_that("vector mode shrinks once: exact V-forecast of span(W) and no amplitude damping", {
+  # Golyandina's V-forecast operator from a basis U, seeded with trajectory columns Z
+  gvf <- function(U, Z, L, h) {
+    Un <- U[-L, , drop = FALSE]; p <- U[L, ]; nu2 <- sum(p^2)
+    R <- Un %*% p / (1 - nu2)
+    Pi <- tcrossprod(Un) + (1 - nu2) * tcrossprod(R)
+    K <- ncol(Z); last <- Z[, K]
+    for (i in seq_len(h + L - 1)) { yb <- last[2:L]; last <- c(Pi %*% yb, sum(R * yb)); Z <- cbind(Z, last) }
+    sapply(K + L - 1 + seq_len(h), function(q) {
+      j <- max(1, q - L + 1):min(ncol(Z), q); mean(Z[cbind(q - j + 1, j)]) })
+  }
+  sig <- function(t) 2 * sin(2 * pi * t / 20) + cos(2 * pi * t / 7)
+  set.seed(2)
+  y <- sig(1:300) + rnorm(300, sd = 1.5)
+  fit <- prssa(y, 40, 4, mean = "zero")
+  Shat <- (sqrt(fit$psi) * fit$U) %*% ((fit$omega * fit$s) * t(fit$V))
+  expect_lt(max(abs(as.numeric(prforecast(fit, 15, method = "vector")$mean) - gvf(fit$U, Shat, 40, 15))), 1e-8)
+  # long harmonic series: forecast amplitude is not systematically damped
+  N <- 1000; L <- 120; h <- 120
+  ratio <- sapply(1:3, function(seed) {
+    set.seed(seed)
+    y <- sig(1:N) + rnorm(N, sd = 1.5)
+    f <- as.numeric(prforecast(prssa(y, L, 4), h, method = "vector")$mean)
+    sqrt(mean((f - mean(y))^2) / mean(sig(N + 1:h)^2))
+  })
+  expect_gt(mean(ratio), 0.8)
+  expect_lt(mean(ratio), 1.2)
+})
+
 test_that("window-conditional and recursive laws agree with Gaussian conditioning", {
   y <- sim_y()
   L <- 24; r <- 4; N <- length(y)

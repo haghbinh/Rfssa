@@ -60,10 +60,18 @@ modelled by a \code{\link{prssa}} fit, with pointwise and simultaneous predictio
   as a VAR(\eqn{L-1}) working model; means are iterated and variances propagated through
   the impulse responses. As \eqn{\sigma^2 \to 0} the one-step mean tends to the SSA linear
   recurrence applied to the observed values (\code{Rssa::rforecast(base = "original")}).
-  \item \code{"vector"}: the posterior mean of the whole signal window given its first
-  \eqn{L-1} lags is iterated from the (non-Hankelized) posterior-mean signal records and the
-  extended trajectory is diagonally averaged; as \eqn{\sigma^2 \to 0} this is SSA vector
-  forecasting (\code{Rssa::vforecast}). Only point forecasts are returned.
+  \item \code{"vector"}: SSA vector forecasting with the fitted loadings. The last
+  (non-Hankelized) posterior-mean signal record \eqn{\hat s_K} is the seed, so the
+  posterior shrinkage is applied once. It is then extended \eqn{h + L - 1} times by the
+  noise-free V-forecast operator
+  \eqn{P_V(y) = W (W_\nabla^\top\Psi_\nabla^{-1}W_\nabla)^{-1}W_\nabla^\top\Psi_\nabla^{-1}\bar y},
+  where \eqn{\bar y} holds lags \eqn{2,\dots,L} of the current record and
+  \eqn{W_\nabla}, \eqn{\Psi_\nabla} are the rows of lags \eqn{1,\dots,L-1}
+  (the \eqn{\Psi^{-1}}-weighted least-squares projection onto \eqn{span(W)}), and the
+  extended trajectory is diagonally averaged. With isotropic noise \eqn{P_V} is the
+  V-forecast operator of the leading \eqn{r} eigenvectors, and as
+  \eqn{\sigma^2 \to 0} the forecast is \code{Rssa::vforecast}. Only point forecasts are
+  returned.
 }
 Pointwise bands are mean \eqn{\pm z_{(1+level)/2}} sd. Simultaneous bands use, for every
 horizon, the \code{level} quantile of \eqn{\max_s |Z(s)|/sd(s)} over all reporting points

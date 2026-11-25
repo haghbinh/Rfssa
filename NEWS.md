@@ -17,8 +17,9 @@ New features
     noise-free limit), with a second-stage raw-scale noise level for prediction.
   - Reconstruction by posterior means (shrunken SSA) or projections.
   - Forecasting by the window-conditional law (h <= L - r), a VAR(L-1) recursion with
-    variance propagation beyond, or vector mode; pointwise and simultaneous prediction bands
-    (functional bands for `funts`).
+    variance propagation beyond, or vector mode (posterior-mean seed, then the noise-free
+    V-forecast operator of the fitted loadings, so the shrinkage is applied once); pointwise
+    and simultaneous prediction bands (functional bands for `funts`).
   - Rank selection by CL-BIC with a sandwich (HAC) penalty, nominal CL-BIC or CL-AIC.
   - Methods `print()`, `summary()`, `logLik()` and `plot()` for `prssa` fits.
 - Added testthat tests of the exact reductions to Rssa (Basic SSA, weighted MSSA, `lrr`,
