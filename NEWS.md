@@ -1,3 +1,32 @@
+ Rfssa 3.2.1.9000 (development version)
+===========
+
+New features
+-------------
+
+- **Probabilistic SSA (PrSSA family).** New functions `prssa()`, `prreconstruct()`,
+  `prforecast()` and `prrank()` fit a Gaussian latent-factor model to the lagged records
+  of a series by composite likelihood. They cover PrSSA (univariate), PrMSSA (several series,
+  vertical stacking), PrFSSA (`funts` objects, exact L2 geometry through the Gram matrix of
+  the basis) and hybrid PrHSSA (lists mixing numeric series and `funts` objects).
+  - Noise models: isotropic (closed form; with `mean = "zero"` exactly Basic SSA/FSSA/VMSSA),
+    one level per series or variable (ECME, i.e. weighted MSSA with self-consistent
+    weights), and heteroscedastic functional noise `log sigma^2(s) = b(s)'eta` with a
+    P-spline penalty.
+  - Smoothing by PPCA of half-smoothed records (`alpha > 0`, regularized HSSA in the
+    noise-free limit), with a second-stage raw-scale noise level for prediction.
+  - Reconstruction by posterior means (shrunken SSA) or projections.
+  - Forecasting by the window-conditional law (h <= L - r), a VAR(L-1) recursion with
+    variance propagation beyond, or vector mode; pointwise and simultaneous prediction bands
+    (functional bands for `funts`).
+  - Rank selection by CL-BIC with a sandwich (HAC) penalty, nominal CL-BIC or CL-AIC.
+  - Methods `print()`, `summary()`, `logLik()` and `plot()` for `prssa` fits.
+- Added testthat tests of the exact reductions to Rssa (Basic SSA, weighted MSSA, `lrr`,
+  `rforecast`, `vforecast`) and to `fssa()` with an orthonormal basis.
+- Existing functions are unchanged.
+
+
+
  Rfssa 3.2.1
 ===========
 
