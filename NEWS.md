@@ -1,3 +1,22 @@
+ Rfssa 3.2.1
+===========
+
+Changes
+-------------
+
+- **CRAN policy on Internet access:** `loadCallcenterData()`, `loadJambiData()`,
+  `loadMontanaData()`, `loadAustinData()` and `loadUtqiagvikData()` now fail gracefully.
+  If a dataset cannot be downloaded from GitHub (no Internet connection, timeout, or a
+  changed resource), they return `NULL` invisibly with an informative message instead of
+  an error. Their examples run inside `\donttest{}` and check for `NULL`. The `funts()`
+  example now also includes an offline example with simulated data, and the Shiny apps
+  (`launchApp()`) show a message instead of stopping when the example data cannot be
+  downloaded. (Version 3.2.0 was archived on CRAN on 2026-04-28 for this reason.)
+
+- `plot.funts()` now restores the user's graphical parameters (`par()`) on exit.
+
+
+
  Rfssa 3.2.0
 ===========
 
