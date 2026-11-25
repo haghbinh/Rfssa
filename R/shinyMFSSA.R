@@ -288,6 +288,12 @@ server.mfssa <- function(input, output, clientData, session) {
     if (!length(iXs())) {
       callcenter <- loadCallcenterData()
       Jambi <- loadJambiData()
+      if (is.null(callcenter) || is.null(Jambi)) {
+        return(helpText(
+          "The example datasets could not be downloaded from GitHub",
+          "(no Internet connection?). Please choose another data source."
+        ))
+      }
 
       Xs <- list()
       Xs[[1]] <- matrix(sqrt(callcenter$calls), nrow = 240)

@@ -16,6 +16,12 @@ a dataframe with 87,600 rows and 5 variables:
 \usage{
 loadCallcenterData()
 }
+\value{
+The raw dataset as described in the Format section, or \code{NULL}
+  (invisibly, with an informative message) if the dataset cannot be
+  downloaded, e.g. when no Internet connection is available or the
+  GitHub resource has changed.
+}
 \description{
 This function retrieves the Callcenter dataset from the Rfssa_dataset repository on GitHub
 (https://github.com/haghbinh/dataset/Rfssa_dataset).
@@ -29,15 +35,19 @@ The Callcenter dataset represents a small call center for an anonymous bank.
  working with functional time series of class 'funts'.
 }
 \examples{
-require(fda)
-# Load Callcenter data
+\donttest{
+# Requires an Internet connection; NULL is returned (with a message)
+# if the dataset cannot be downloaded.
 Call_data <- loadCallcenterData()
-D <- matrix(sqrt(Call_data$calls), nrow = 240)
-
-# Define basis functions
-bs1 <- create.bspline.basis(c(0, 23), 22)
-
-Y <- funts(X = D, basisobj = bs1)
+if (!is.null(Call_data)) {
+  require(fda)
+  D <- matrix(sqrt(Call_data$calls), nrow = 240)
+  # Define basis functions
+  bs1 <- create.bspline.basis(c(0, 23), 22)
+  # Convert to `funts` object
+  Y <- funts(X = D, basisobj = bs1)
+}
+}
 
 }
 \references{

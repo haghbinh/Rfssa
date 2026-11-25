@@ -13,6 +13,12 @@ Containing two matrix objects:
 \usage{
 loadUtqiagvikData()
 }
+\value{
+The raw dataset as described in the Format section, or \code{NULL}
+  (invisibly, with an informative message) if the dataset cannot be
+  downloaded, e.g. when no Internet connection is available or the
+  GitHub resource has changed.
+}
 \description{
 This function retrieves the Utqiagvik Temperature dataset from a GitHub repository hosted at
 https://github.com/haghbinh/dataset/Rfssa_dataset. Hosting datasets on GitHub
@@ -22,8 +28,12 @@ measured in degrees Celsius from January 1973 to July 2023, recorded once per mo
 The returned object is a raw dataset in `list` format;
 }
 \examples{
+\donttest{
+# Requires an Internet connection; NULL is returned (with a message)
+# if the dataset cannot be downloaded.
 Utqiagvik_raw <- loadUtqiagvikData()
-str(Utqiagvik_raw)
+if (!is.null(Utqiagvik_raw)) str(Utqiagvik_raw)
+}
 
 }
 \references{

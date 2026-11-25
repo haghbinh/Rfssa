@@ -14,6 +14,12 @@ specifying the capture date for each 33 by 33 image.
 \usage{
 loadJambiData()
 }
+\value{
+The raw dataset as described in the Format section, or \code{NULL}
+  (invisibly, with an informative message) if the dataset cannot be
+  downloaded, e.g. when no Internet connection is available or the
+  GitHub resource has changed.
+}
 \description{
 This function retrieves the `Jambi` dataset from a GitHub repository hosted at
 https://github.com/haghbinh/dataset/Rfssa_dataset. The Jambi dataset contains normalized difference vegetation index (NDVI) and enhanced vegetation
@@ -27,8 +33,12 @@ every 16 days. This dataset is valuable for studying vegetative land cover chang
 The returned object is a raw dataset in `list` format;
 }
 \examples{
+\donttest{
+# Requires an Internet connection; NULL is returned (with a message)
+# if the dataset cannot be downloaded.
 Jambi_raw <- loadJambiData()
-str(Jambi_raw)
+if (!is.null(Jambi_raw)) str(Jambi_raw)
+}
 
 }
 \references{

@@ -13,6 +13,12 @@ A list containing two components:
 \usage{
 loadMontanaData()
 }
+\value{
+The raw dataset as described in the Format section, or \code{NULL}
+  (invisibly, with an informative message) if the dataset cannot be
+  downloaded, e.g. when no Internet connection is available or the
+  GitHub resource has changed.
+}
 \description{
 This function retrieves the Montana dataset from a GitHub repository hosted at
 https://github.com/haghbinh/dataset/Rfssa_dataset. Hosting datasets on GitHub
@@ -30,31 +36,35 @@ This raw data can then be further processed and converted into a 'funts' object 
  See \code{\link{funts}} for more details on  working with functional time series of class 'funts'.
 }
 \examples{
-require(fda)
-# Load Montana data
+\donttest{
+# Requires an Internet connection; NULL is returned (with a message)
+# if the dataset cannot be downloaded.
 montana_data <- loadMontanaData()
+if (!is.null(montana_data)) {
+  require(fda)
+  # Extract variables
+  Temp <- montana_data$Temp
+  NDVI <- montana_data$NDVI
 
-# Extract variables
-Temp <- montana_data$Temp
-NDVI <- montana_data$NDVI
+  # Create a list for Montana data
+  Montana_Data <- list(Temp / sd(Temp), NDVI)
 
-# Create a list for Montana data
-Montana_Data <- list(Temp / sd(Temp), NDVI)
+  # Define basis functions
+  bs1 <- create.bspline.basis(c(0, 23), 11)
+  bs2 <- create.bspline.basis(c(1, 33), 13)
+  bs2d <- list(bs2, bs2)
+  bsmv <- list(bs1, bs2d)
 
-# Define basis functions
-bs1 <- create.bspline.basis(c(0, 23), 11)
-bs2 <- create.bspline.basis(c(1, 33), 13)
-bs2d <- list(bs2, bs2)
-bsmv <- list(bs1, bs2d)
-
-# Convert to funts object
-Y <- funts(X = Montana_Data, basisobj = bsmv,
-           start = as.Date("2008-01-01"),
-           end = as.Date("2013-09-30"),
-           vnames = c("Normalized Temperature (\u00B0C)" , "NDVI"),
-           dnames = list("Time", c("Latitude", "Longitude")),
-           tname = "Date"
-)
+  # Convert to funts object
+  Y <- funts(X = Montana_Data, basisobj = bsmv,
+             start = as.Date("2008-01-01"),
+             end = as.Date("2013-09-30"),
+             vnames = c("Normalized Temperature (\u00B0C)" , "NDVI"),
+             dnames = list("Time", c("Latitude", "Longitude")),
+             tname = "Date"
+  )
+}
+}
 
 }
 \references{

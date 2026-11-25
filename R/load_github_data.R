@@ -41,28 +41,31 @@
 #' \emph{Journal of Computational and Graphical Statistics}, \strong{24}(1), 84-103.
 #' }
 #'
+#' @return The raw dataset as described in the Format section, or \code{NULL}
+#'   (invisibly, with an informative message) if the dataset cannot be
+#'   downloaded, e.g. when no Internet connection is available or the
+#'   GitHub resource has changed.
+#'
 #' @examples
-#' require(fda)
-#' # Load Callcenter data
+#' \donttest{
+#' # Requires an Internet connection; NULL is returned (with a message)
+#' # if the dataset cannot be downloaded.
 #' Call_data <- loadCallcenterData()
-#' D <- matrix(sqrt(Call_data$calls), nrow = 240)
-#'
-#' # Define basis functions
-#' bs1 <- create.bspline.basis(c(0, 23), 22)
-#'
-# Convert to `funts` object
-#' Y <- funts(X = D, basisobj = bs1)
+#' if (!is.null(Call_data)) {
+#'   require(fda)
+#'   D <- matrix(sqrt(Call_data$calls), nrow = 240)
+#'   # Define basis functions
+#'   bs1 <- create.bspline.basis(c(0, 23), 22)
+#'   # Convert to `funts` object
+#'   Y <- funts(X = D, basisobj = bs1)
+#' }
+#' }
 #'
 #' @seealso \code{\link{funts}}
 #'
 #' @export
 loadCallcenterData <- function() {
-  fil <- tempfile("Callcenter", fileext = ".rds")
-  # Download the data from GitHub
-  url <- "https://github.com/haghbinh/dataset/raw/main/Rfssa_dataset/Callcenter.rds"
-  download.file(url, destfile = fil)
-  Callcenter <- readRDS(fil)
-  return(Callcenter)
+  .rfssa_load_github_rds("Callcenter")
 }
 # =======================================================================
 #'
@@ -92,20 +95,24 @@ loadCallcenterData <- function() {
 #'
 #' @source [MODIS Product Information](https://lpdaac.usgs.gov/products/mod13q1v006/)
 #'
+#' @return The raw dataset as described in the Format section, or \code{NULL}
+#'   (invisibly, with an informative message) if the dataset cannot be
+#'   downloaded, e.g. when no Internet connection is available or the
+#'   GitHub resource has changed.
+#'
 #' @examples
+#' \donttest{
+#' # Requires an Internet connection; NULL is returned (with a message)
+#' # if the dataset cannot be downloaded.
 #' Jambi_raw <- loadJambiData()
-#' str(Jambi_raw)
+#' if (!is.null(Jambi_raw)) str(Jambi_raw)
+#' }
 #'
 #' @seealso  - The dataset object loaded by this function.
 #'
 #' @export
 loadJambiData <- function() {
-  fil <- tempfile("Jambi", fileext = ".rds")
-  # Download the data from GitHub
-  url <- "https://github.com/haghbinh/dataset/raw/main/Rfssa_dataset/Jambi.rds"
-  download.file(url, destfile = fil)
-  Jambi <- readRDS(fil)
-  return(Jambi)
+  .rfssa_load_github_rds("Jambi")
 }
 # =======================================================================
 
@@ -145,43 +152,47 @@ loadJambiData <- function() {
 #'      remotely sensed data in R. Ecology and Evolution, 4(24):4658–4668.
 #' }
 #'
+#' @return The raw dataset as described in the Format section, or \code{NULL}
+#'   (invisibly, with an informative message) if the dataset cannot be
+#'   downloaded, e.g. when no Internet connection is available or the
+#'   GitHub resource has changed.
+#'
 #' @examples
-#' require(fda)
-#' # Load Montana data
+#' \donttest{
+#' # Requires an Internet connection; NULL is returned (with a message)
+#' # if the dataset cannot be downloaded.
 #' montana_data <- loadMontanaData()
+#' if (!is.null(montana_data)) {
+#'   require(fda)
+#'   # Extract variables
+#'   Temp <- montana_data$Temp
+#'   NDVI <- montana_data$NDVI
 #'
-#' # Extract variables
-#' Temp <- montana_data$Temp
-#' NDVI <- montana_data$NDVI
+#'   # Create a list for Montana data
+#'   Montana_Data <- list(Temp / sd(Temp), NDVI)
 #'
-#' # Create a list for Montana data
-#' Montana_Data <- list(Temp / sd(Temp), NDVI)
+#'   # Define basis functions
+#'   bs1 <- create.bspline.basis(c(0, 23), 11)
+#'   bs2 <- create.bspline.basis(c(1, 33), 13)
+#'   bs2d <- list(bs2, bs2)
+#'   bsmv <- list(bs1, bs2d)
 #'
-#' # Define basis functions
-#' bs1 <- create.bspline.basis(c(0, 23), 11)
-#' bs2 <- create.bspline.basis(c(1, 33), 13)
-#' bs2d <- list(bs2, bs2)
-#' bsmv <- list(bs1, bs2d)
-#'
-#' # Convert to funts object
-#' Y <- funts(X = Montana_Data, basisobj = bsmv,
-#'            start = as.Date("2008-01-01"),
-#'            end = as.Date("2013-09-30"),
-#'            vnames = c("Normalized Temperature (\u00B0C)" , "NDVI"),
-#'            dnames = list("Time", c("Latitude", "Longitude")),
-#'            tname = "Date"
-#' )
+#'   # Convert to funts object
+#'   Y <- funts(X = Montana_Data, basisobj = bsmv,
+#'              start = as.Date("2008-01-01"),
+#'              end = as.Date("2013-09-30"),
+#'              vnames = c("Normalized Temperature (\u00B0C)" , "NDVI"),
+#'              dnames = list("Time", c("Latitude", "Longitude")),
+#'              tname = "Date"
+#'   )
+#' }
+#' }
 #'
 #' @seealso \code{\link{funts}}
 #'
 #' @export
 loadMontanaData <- function() {
-  fil <- tempfile("Montana", fileext = ".rds")
-  # Download the data from GitHub
-  url <- "https://github.com/haghbinh/dataset/raw/main/Rfssa_dataset/Montana.rds"
-  download.file(url, destfile = fil)
-  Montana <- readRDS(fil)
-  return(Montana)
+  .rfssa_load_github_rds("Montana")
 }
 
 
@@ -205,19 +216,22 @@ loadMontanaData <- function() {
 #' @references
 #'   Trinka, J., Haghbin, H., Shang, H., Maadooliat, M. (2023). Functional Time Series Forecasting: Functional Singular Spectrum Analysis Approaches. Stat, e621.
 #'
-#' @examples
-#' Austin_raw <- loadAustinData()
-#' str(Austin_raw)
+#' @return The raw dataset as described in the Format section, or \code{NULL}
+#'   (invisibly, with an informative message) if the dataset cannot be
+#'   downloaded, e.g. when no Internet connection is available or the
+#'   GitHub resource has changed.
 #'
+#' @examples
+#' \donttest{
+#' # Requires an Internet connection; NULL is returned (with a message)
+#' # if the dataset cannot be downloaded.
+#' Austin_raw <- loadAustinData()
+#' if (!is.null(Austin_raw)) str(Austin_raw)
+#' }
 #'
 #' @export
 loadAustinData <- function() {
-  fil <- tempfile("Austin", fileext = ".rds")
-  # Download the data from GitHub
-  url <- "https://github.com/haghbinh/dataset/raw/main/Rfssa_dataset/Austin.rds"
-  download.file(url, destfile = fil)
-  Austin <- readRDS(fil)
-  return(Austin)
+  .rfssa_load_github_rds("Austin")
 }
 
 # =======================================================================
@@ -241,16 +255,64 @@ loadAustinData <- function() {
 #' @references
 #'   Trinka, J., Haghbin, H., Shang, H., Maadooliat, M. (2023). Functional Time Series Forecasting: Functional Singular Spectrum Analysis Approaches. Stat, e621.
 #'
+#' @return The raw dataset as described in the Format section, or \code{NULL}
+#'   (invisibly, with an informative message) if the dataset cannot be
+#'   downloaded, e.g. when no Internet connection is available or the
+#'   GitHub resource has changed.
+#'
 #' @examples
+#' \donttest{
+#' # Requires an Internet connection; NULL is returned (with a message)
+#' # if the dataset cannot be downloaded.
 #' Utqiagvik_raw <- loadUtqiagvikData()
-#' str(Utqiagvik_raw)
+#' if (!is.null(Utqiagvik_raw)) str(Utqiagvik_raw)
+#' }
 #'
 #' @export
 loadUtqiagvikData <- function() {
-  fil <- tempfile("Utqiagvik", fileext = ".rds")
-  # Download the data from GitHub
-  url <- "https://github.com/haghbinh/dataset/raw/main/Rfssa_dataset/Utqiagvik.rds"
-  download.file(url, destfile = fil)
-  Utqiagvik <- readRDS(fil)
-  return(Utqiagvik)
+  .rfssa_load_github_rds("Utqiagvik")
+}
+
+
+# =======================================================================
+# Internal helper (not exported): download one of the raw datasets hosted
+# in https://github.com/haghbinh/dataset/tree/main/Rfssa_dataset and read it.
+# Following the CRAN policy on Internet access, any failure (no connection,
+# timeout, HTTP error, moved or corrupted resource) is reported with an
+# informative message and NULL is returned invisibly instead of an error.
+.rfssa_load_github_rds <- function(name) {
+  url <- paste0(
+    "https://github.com/haghbinh/dataset/raw/main/Rfssa_dataset/",
+    name, ".rds"
+  )
+  fil <- tempfile(name, fileext = ".rds")
+  on.exit(unlink(fil), add = TRUE)
+  old_opt <- options(timeout = max(300, getOption("timeout")))
+  on.exit(options(old_opt), add = TRUE)
+  fail <- function(reason) {
+    message(
+      "Could not load the '", name, "' dataset from ", url, " (", reason,
+      "). Please check your Internet connection or try again later; ",
+      "returning NULL."
+    )
+    invisible(NULL)
+  }
+  status <- tryCatch(
+    suppressWarnings(
+      utils::download.file(url, destfile = fil, mode = "wb", quiet = TRUE)
+    ),
+    error = function(e) conditionMessage(e)
+  )
+  if (is.character(status)) {
+    return(fail(status))
+  }
+  if (!identical(as.integer(status), 0L) || !file.exists(fil) ||
+    file.size(fil) == 0) {
+    return(fail("download failed"))
+  }
+  dat <- tryCatch(readRDS(fil), error = function(e) NULL)
+  if (is.null(dat)) {
+    return(fail("the downloaded file could not be read"))
+  }
+  dat
 }
