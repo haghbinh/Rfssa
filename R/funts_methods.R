@@ -295,7 +295,10 @@ plot.funts <- function(x, npts = 100, obs = 1, xlab = NULL, ylab = NULL, main = 
   }
   N <- x$N
   time <- x$time
-  if (p>1) par(mfrow = c(p, 1))
+  if (p > 1) {
+    oldpar <- par(mfrow = c(p, 1))
+    on.exit(par(oldpar), add = TRUE)
+  }
   if (is.null(ylab)) ylab <- paste("Variable ", 1:p)
   if (is.null(xlab)) xlab <- rep("time", p)
   for (j in 1:p) {
