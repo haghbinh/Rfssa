@@ -1,3 +1,17 @@
+ Rfssa 3.2.0
+===========
+
+Changes
+-------------
+
+- **Improved Rd Cross-References:** 
+  Fixed `\link{}` targets in documentation by adding explicit package anchors (e.g., `\link[fda]{fd}`), in compliance with updated CRAN HTML reference manual policies.
+
+- 🛠️ **Build Compatibility:**
+  Ensured compatibility with current R build toolchains by verifying successful compilation on Windows using Rtools.
+
+
+
 Rfssa 3.1.0
 ===========
 
