@@ -23,7 +23,8 @@ New features
     variance propagation beyond, or vector mode (posterior-mean seed, then the noise-free
     V-forecast operator of the fitted loadings, so the shrinkage is applied once); pointwise
     and simultaneous prediction bands (functional bands for `funts`).
-  - Rank selection by CL-BIC with a sandwich (HAC) penalty, nominal CL-BIC or CL-AIC.
+  - Rank selection by nominal CL-BIC (default; the most accurate in the simulation study of
+    the PrSSA paper), CL-BIC with a sandwich (HAC) penalty, or CL-AIC.
   - Methods `print()`, `summary()`, `logLik()` and `plot()` for `prssa` fits.
 - Added testthat tests of the exact reductions to Rssa (Basic SSA, weighted MSSA, `lrr`,
   `rforecast`, `vforecast`) and to `fssa()` with an orthonormal basis.

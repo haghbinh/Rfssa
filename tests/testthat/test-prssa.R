@@ -264,8 +264,10 @@ test_that("reduced sandwich penalty equals the explicit tr(J H^+)", {
 test_that("prrank selects the true rank on a clear example", {
   y <- sim_y(N = 300, sd = 0.5)
   rk <- prrank(y, 24, rmax = 6)
+  expect_identical(rk$criterion, "clbic_nominal")
   expect_equal(rk$selected, 4)
-  expect_equal(prrank(y, 24, rmax = 6, criterion = "clbic_nominal")$selected, 4)
+  expect_equal(rk$selected, rk$table$r[which.min(rk$table$clbic_nominal)])
+  expect_equal(prrank(y, 24, rmax = 6, criterion = "clbic")$selected, 4)
 })
 
 test_that("one-step prediction intervals have roughly nominal coverage", {

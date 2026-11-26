@@ -14,11 +14,15 @@
 #' bandwidth \eqn{M = L - 1 + \lfloor 4(K/100)^{2/9}\rfloor} (overlapping windows always have
 #' correlated scores, so \eqn{M \ge L - 1}). The criteria are
 #' \itemize{
-#'   \item \code{clbic} (default): \eqn{-2\ell_C + p^{eff}_r \log K};
-#'   \item \code{clbic_nominal}: \eqn{-2\ell_C + p_r \log K} with the nominal count
+#'   \item \code{clbic_nominal} (default): \eqn{-2\ell_C + p_r \log K} with the nominal count
 #'   \eqn{p_r = Dr - r(r-1)/2 + } (number of noise parameters); it needs only the fits;
+#'   \item \code{clbic}: \eqn{-2\ell_C + p^{eff}_r \log K} (sandwich penalty);
 #'   \item \code{claic}: \eqn{-2\ell_C + 2 p^{eff}_r} (tends to overfit).
 #' }
+#' The nominal CL-BIC is the default because it was the most accurate in the simulation
+#' study of the PrSSA paper (500 replicates per design): with independent noise it selected
+#' the true rank in 96\%, 100\% and 100\% of the replicates of the three designs, whereas
+#' the sandwich CL-BIC over-selected in the first design (69\% correct).
 #' The trace is computed exactly without forming the full information matrix: within each
 #' isotropic noise block, the directions orthogonal to the block's loadings decouple, so only a
 #' system of size \eqn{S r + B} (\eqn{S \le B r}) is inverted. For heteroscedastic noise
@@ -27,8 +31,8 @@
 #'
 #' @param Y,L Data and window length, as in \code{\link{prssa}}.
 #' @param rmax Largest rank considered.
-#' @param criterion Criterion used to select the rank: \code{"clbic"} (default),
-#'   \code{"clbic_nominal"} or \code{"claic"}.
+#' @param criterion Criterion used to select the rank: \code{"clbic_nominal"} (default),
+#'   \code{"clbic"} or \code{"claic"}.
 #' @param ... Further arguments passed to \code{\link{prssa}} (\code{noise}, \code{mean},
 #'   \code{alpha}, ...).
 #'
@@ -51,7 +55,7 @@
 #' rk
 #'
 #' @export
-prrank <- function(Y, L, rmax, criterion = c("clbic", "clbic_nominal", "claic"), ...) {
+prrank <- function(Y, L, rmax, criterion = c("clbic_nominal", "clbic", "claic"), ...) {
   criterion <- match.arg(criterion)
   if (missing(rmax) || length(rmax) != 1 || rmax < 1 || rmax != round(rmax)) {
     stop("`rmax` must be a positive integer.")
