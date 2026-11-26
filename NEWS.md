@@ -1,3 +1,32 @@
+ Rfssa 3.2.1.9001 (development version, branch AESSA)
+===========
+
+New features (experimental)
+-------------
+
+- **Autoencoder SSA (AESSA family).** New functions `aessa()`, `vaessa()`, `aeforecast()`,
+  `aessa_select()`, `aessa_arch()` and a `reconstruct()` method replace the rank-r SVD step
+  of SSA by an autoencoder of the lagged records (nonlinear SSA).
+  - `aessa()`: deterministic autoencoder; `vaessa()`: variational version with Gaussian
+    decoder, isotropic or per-series (block) noise, a diagonal-Gaussian amortized encoder and
+    a composite ELBO; the nonlinear counterpart of `prssa()`.
+  - Default architecture: decoder = linear part + tanh residual network whose output layer
+    starts at zero, with the linear part initialized at Basic SSA (`aessa()`) or PrSSA
+    (`vaessa()`), so the untrained model is exactly SSA/PrSSA. Restarts, early stopping on a
+    validation block of windows separated by a gap, refit on all windows, seeds,
+    float64/float32.
+  - Inputs: numeric vector/`ts`, numeric matrix (multivariate, vertical stacking as in
+    PrMSSA), `funts` (Gram-whitened basis coefficients as in PrFSSA) and lists of these.
+  - Forecasting (`aeforecast()`): per-horizon decoder inversion (window conditioning,
+    Levenberg-Marquardt with multi-start), recursive inversion, or a VAR(1) on the latent
+    codes; VAESSA predictive intervals by a Laplace approximation (exact for a linear
+    decoder, equal to the PrSSA window law) or Monte Carlo.
+  - Latent-dimension selection by rolling-origin validation (`aessa_select()`).
+  - Methods `print()`, `summary()`, `plot()` (loss, latent codes, components), `predict()`.
+- The training backend is the `torch` package, which is suggested, not required; the AESSA
+  functions stop with an informative message when `torch` (or LibTorch) is not installed.
+  All other functions are unchanged.
+
  Rfssa 3.2.1.9000 (development version)
 ===========
 

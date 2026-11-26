@@ -1,7 +1,7 @@
 Package: Rfssa
 Type: Package
 Title: Functional Singular Spectrum Analysis
-Version: 3.2.1.9000
+Version: 3.2.1.9001
 Authors@R: c(
     person("Hossein", "Haghbin", email = "haghbin@pgu.ac.ir", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-8416-2354")),
     person("Jordan", "Trinka", email = "jordantrinka4@hotmail.com", role = "aut"),
@@ -35,7 +35,8 @@ LinkingTo: Rcpp,
            RcppEigen,
 Suggests: 
     knitr,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    torch
 Config/testthat/edition: 3
 Depends: R (>= 4.0.0)
 Repository: CRAN
