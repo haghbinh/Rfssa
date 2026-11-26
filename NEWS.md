@@ -16,7 +16,9 @@ New features
   - Smoothing by PPCA of half-smoothed records (`alpha > 0`, regularized HSSA in the
     noise-free limit), with a second-stage raw-scale noise level for prediction.
   - Reconstruction by posterior means (shrunken SSA) or projections.
-  - Forecasting by the window-conditional law (h <= L - r), a VAR(L-1) recursion with
+  - Forecasting by the window-conditional law (h <= L - r; per-horizon marginal laws by
+    default, each horizon conditioned on its own window, or with `joint = TRUE` the joint
+    law of all window horizons and their covariance `joint_cov`), a VAR(L-1) recursion with
     variance propagation beyond, or vector mode (posterior-mean seed, then the noise-free
     V-forecast operator of the fitted loadings, so the shrinkage is applied once); pointwise
     and simultaneous prediction bands (functional bands for `funts`).

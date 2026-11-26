@@ -10,11 +10,18 @@
 #'
 #' @details
 #' \itemize{
-#'   \item \code{"window"} (default): forecasting is imputation of the last lags of a window.
-#'   For \eqn{H = \min(h, L - r)} the joint Gaussian law of \eqn{(y_{N+1},\dots,y_{N+H})} given
-#'   the last \eqn{L - H} observations is
-#'   \eqn{N(\mu_F + W_F M_P^{-1}W_P^\top\Psi_P^{-1}(x_P - \mu_P),\ W_F M_P^{-1}W_F^\top + \Psi_F)}
-#'   with \eqn{M_P = I + W_P^\top\Psi_P^{-1}W_P}. Horizons beyond \eqn{L - r} use the
+#'   \item \code{"window"} (default): forecasting is imputation of the last lags of a window,
+#'   with the Gaussian conditional law
+#'   \eqn{N(\mu_F + W_F M_P^{-1}W_P^\top\Psi_P^{-1}(x_P - \mu_P),\ W_F M_P^{-1}W_F^\top + \Psi_F)},
+#'   \eqn{M_P = I + W_P^\top\Psi_P^{-1}W_P}, of the future lags \eqn{F} given the observed
+#'   lags \eqn{P}. By default (\code{joint = FALSE}) every horizon \eqn{t \le L - r} has its
+#'   own window, the one ending at \eqn{N + t}: its last lag is predicted from its first
+#'   \eqn{L - t} lags, the most observations a window can use (per-horizon marginal laws).
+#'   With \code{joint = TRUE} all horizons \eqn{t \le H = \min(h, L - r)} come from the single
+#'   window ending at \eqn{N + H}, conditioned on its first \eqn{L - H} lags; this is their
+#'   joint law (returned in \code{joint_cov}, e.g. for simultaneous bands across horizons).
+#'   The two coincide for \eqn{h = 1}, and horizon \eqn{t} of the marginal laws equals the
+#'   last horizon of a joint call with \code{h = t}. Horizons beyond \eqn{L - r} use the
 #'   recursive law.
 #'   \item \code{"recursive"}: the one-step law (a ridge-regularized linear recurrence) is used
 #'   as a VAR(\eqn{L-1}) working model; means are iterated and variances propagated through
@@ -48,6 +55,9 @@
 #' @param bands Band types to compute: \code{"pointwise"} and/or \code{"simultaneous"} (both
 #'   by default); \code{lower} and \code{upper} hold the first type requested.
 #' @param nsim Number of Monte Carlo draws for simultaneous bands.
+#' @param joint Window method only. \code{FALSE} (default): each horizon is conditioned on
+#'   its own window (per-horizon marginal laws). \code{TRUE}: joint law of all window
+#'   horizons from the largest window, with the cross-horizon covariance in \code{joint_cov}.
 #'
 #' @return An object of class \code{"prforecast"}, a list with
 #' \item{mean}{Point forecasts, in the class of the input (numeric vector or \code{ts},
@@ -61,9 +71,12 @@
 #' \item{cov}{List over horizons of predictive covariance matrices in output coordinates
 #'   (scalar values, basis coefficients, or grid values; blocks in input order).}
 #' \item{quantile}{Multipliers used for the simultaneous bands (levels by horizons).}
+#' \item{joint_cov}{With \code{method = "window"} and \code{joint = TRUE}: the joint predictive
+#'   covariance of the window horizons \eqn{1,\dots,\min(h, L - r)} in output coordinates,
+#'   horizon-major (all coordinates of horizon 1, then of horizon 2, ...); otherwise \code{NULL}.}
 #' \item{method_used}{Law used at each horizon (\code{"window"}, \code{"recursive"} or
 #'   \code{"vector"}).}
-#' \item{level, bands, method, h}{The arguments.}
+#' \item{level, bands, method, h, joint}{The arguments.}
 #'
 #' @seealso \code{\link{prssa}}, \code{\link{fforecast}}, \code{\link{fpredinterval}}
 #'
@@ -85,13 +98,14 @@
 #'
 #' @export
 prforecast <- function(fit, h, method = c("window", "recursive", "vector"), level = c(0.80, 0.95),
-                       bands = c("pointwise", "simultaneous"), nsim = 1000) {
+                       bands = c("pointwise", "simultaneous"), nsim = 1000, joint = FALSE) {
   if (!inherits(fit, "prssa")) stop("`fit` must be an object of class \"prssa\".")
   method <- match.arg(method)
   bands <- match.arg(bands, several.ok = TRUE)
   if (missing(h) || length(h) != 1 || h != round(h) || h < 1) stop("`h` must be a positive integer.")
   h <- as.integer(h)
   if (!is.numeric(level) || any(level <= 0 | level >= 1)) stop("`level` must lie in (0, 1).")
+  if (!is.logical(joint) || length(joint) != 1 || is.na(joint)) stop("`joint` must be TRUE or FALSE.")
   dat <- fit$dat
   L <- fit$L
   dims <- dat$dims
@@ -106,13 +120,15 @@ prforecast <- function(fit, h, method = c("window", "recursive", "vector"), leve
   means <- matrix(0, dtot, h)
   covs <- vector("list", h)
   used <- character(h)
+  jcov <- NULL
   if (method == "vector") {
     means <- .pr_fc_vector(fit, W, psi, ri, h)
     used[] <- "vector"
   } else {
     hw <- if (method == "window") max(0L, min(h, L - r)) else 0L
     if (hw >= 1) {
-      wc <- .pr_fc_window(W, psi, ri, Zc, L, hw)
+      wc <- if (joint) .pr_fc_window(W, psi, ri, Zc, L, hw) else .pr_fc_window_marginal(W, psi, ri, Zc, L, hw)
+      jcov <- wc$joint
       means[, seq_len(hw)] <- wc$mean
       covs[seq_len(hw)] <- wc$cov
       used[seq_len(hw)] <- "window"
@@ -126,7 +142,14 @@ prforecast <- function(fit, h, method = c("window", "recursive", "vector"), leve
     }
   }
   means <- means + mvec
-  .pr_fc_assemble(fit, means, covs, used, h, method, level, bands, nsim)
+  out <- .pr_fc_assemble(fit, means, covs, used, h, method, level, bands, nsim)
+  if (!is.null(jcov)) {
+    Tm <- .pr_fc_tmap(fit$dat)
+    TT <- kronecker(diag(ncol(jcov) / nrow(Tm)), Tm)
+    out$joint_cov <- TT %*% jcov %*% t(TT)
+  }
+  out$joint <- joint
+  out
 }
 
 # window-conditional joint law of the next hw time vectors
@@ -149,7 +172,34 @@ prforecast <- function(fit, h, method = c("window", "recursive", "vector"), leve
     mean[, t] <- WF %*% hP
     cov[[t]] <- WF %*% MPinv %*% t(WF) + diag(psi[Ft], dtot)
   }
-  list(mean = mean, cov = cov)
+  Fall <- as.vector(ri[, np + seq_len(hw), drop = FALSE])
+  WFa <- W[Fall, , drop = FALSE]
+  joint <- WFa %*% MPinv %*% t(WFa) + diag(psi[Fall], length(Fall))
+  list(mean = mean, cov = cov, joint = joint)
+}
+
+# per-horizon marginal window laws: horizon t conditions the window ending at
+# N + t on its first L - t (observed) lags; equal to the last horizon of the
+# joint law with hw = t
+.pr_fc_window_marginal <- function(W, psi, ri, Zc, L, hw) {
+  N <- ncol(Zc)
+  dtot <- nrow(ri)
+  r <- ncol(W)
+  Ft <- ri[, L]
+  WF <- W[Ft, , drop = FALSE]
+  mean <- matrix(0, dtot, hw)
+  cov <- vector("list", hw)
+  for (t in seq_len(hw)) {
+    np <- L - t
+    rowsP <- as.vector(ri[, seq_len(np), drop = FALSE])
+    xP <- as.vector(Zc[, (N - np + 1L):N, drop = FALSE])
+    WP <- W[rowsP, , drop = FALSE]
+    WpP <- WP / psi[rowsP]
+    MPinv <- solve(diag(r) + crossprod(WP, WpP))
+    mean[, t] <- WF %*% (MPinv %*% crossprod(WpP, xP))
+    cov[[t]] <- WF %*% MPinv %*% t(WF) + diag(psi[Ft], dtot)
+  }
+  list(mean = mean, cov = cov, joint = NULL)
 }
 
 # one-step coefficients of the ridge LRF: y_{t+1} - m = W_L B (past L-1 values - m)
@@ -313,14 +363,7 @@ prforecast <- function(fit, h, method = c("window", "recursive", "vector"), leve
     intervals[[bt]] <- list(lower = lo, upper = up)
   }
   # covariances in output coordinates (scalar values, basis coefficients, grid values)
-  Tmap <- matrix(0, sum(dat$dims), sum(dat$dims))
-  off <- 0L
-  for (b in seq_len(nb)) {
-    blk <- dat$blocks[[b]]
-    ii <- off + seq_len(blk$d)
-    Tmap[ii, ii] <- if (blk$kind == "functional" && !isTRUE(blk$grid)) blk$Rinv else diag(blk$d)
-    off <- off + blk$d
-  }
+  Tmap <- .pr_fc_tmap(dat)
   out$sd <- sd_out
   out$lower <- intervals[[1]]$lower
   out$upper <- intervals[[1]]$upper
@@ -337,6 +380,19 @@ prforecast <- function(fit, h, method = c("window", "recursive", "vector"), leve
   out$h <- h
   class(out) <- "prforecast"
   out
+}
+
+# map from working to output coordinates (whitened coefficients -> basis coefficients)
+.pr_fc_tmap <- function(dat) {
+  Tmap <- matrix(0, sum(dat$dims), sum(dat$dims))
+  off <- 0L
+  for (b in seq_along(dat$blocks)) {
+    blk <- dat$blocks[[b]]
+    ii <- off + seq_len(blk$d)
+    Tmap[ii, ii] <- if (blk$kind == "functional" && !isTRUE(blk$grid)) blk$Rinv else diag(blk$d)
+    off <- off + blk$d
+  }
+  Tmap
 }
 
 .pr_fc_sd_output <- function(dat, sdev, rows) {

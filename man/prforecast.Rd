@@ -10,7 +10,8 @@ prforecast(
   method = c("window", "recursive", "vector"),
   level = c(0.8, 0.95),
   bands = c("pointwise", "simultaneous"),
-  nsim = 1000
+  nsim = 1000,
+  joint = FALSE
 )
 }
 \arguments{
@@ -26,6 +27,10 @@ prforecast(
 by default); \code{lower} and \code{upper} hold the first type requested.}
 
 \item{nsim}{Number of Monte Carlo draws for simultaneous bands.}
+
+\item{joint}{Window method only. \code{FALSE} (default): each horizon is conditioned on
+its own window (per-horizon marginal laws). \code{TRUE}: joint law of all window
+horizons from the largest window, with the cross-horizon covariance in \code{joint_cov}.}
 }
 \value{
 An object of class \code{"prforecast"}, a list with
@@ -40,9 +45,12 @@ An object of class \code{"prforecast"}, a list with
 \item{cov}{List over horizons of predictive covariance matrices in output coordinates
   (scalar values, basis coefficients, or grid values; blocks in input order).}
 \item{quantile}{Multipliers used for the simultaneous bands (levels by horizons).}
+\item{joint_cov}{With \code{method = "window"} and \code{joint = TRUE}: the joint predictive
+  covariance of the window horizons \eqn{1,\dots,\min(h, L - r)} in output coordinates,
+  horizon-major (all coordinates of horizon 1, then of horizon 2, ...); otherwise \code{NULL}.}
 \item{method_used}{Law used at each horizon (\code{"window"}, \code{"recursive"} or
   \code{"vector"}).}
-\item{level, bands, method, h}{The arguments.}
+\item{level, bands, method, h, joint}{The arguments.}
 }
 \description{
 Computes predictive distributions for the next \code{h} observations of the series
@@ -50,11 +58,18 @@ modelled by a \code{\link{prssa}} fit, with pointwise and simultaneous predictio
 }
 \details{
 \itemize{
-  \item \code{"window"} (default): forecasting is imputation of the last lags of a window.
-  For \eqn{H = \min(h, L - r)} the joint Gaussian law of \eqn{(y_{N+1},\dots,y_{N+H})} given
-  the last \eqn{L - H} observations is
-  \eqn{N(\mu_F + W_F M_P^{-1}W_P^\top\Psi_P^{-1}(x_P - \mu_P),\ W_F M_P^{-1}W_F^\top + \Psi_F)}
-  with \eqn{M_P = I + W_P^\top\Psi_P^{-1}W_P}. Horizons beyond \eqn{L - r} use the
+  \item \code{"window"} (default): forecasting is imputation of the last lags of a window,
+  with the Gaussian conditional law
+  \eqn{N(\mu_F + W_F M_P^{-1}W_P^\top\Psi_P^{-1}(x_P - \mu_P),\ W_F M_P^{-1}W_F^\top + \Psi_F)},
+  \eqn{M_P = I + W_P^\top\Psi_P^{-1}W_P}, of the future lags \eqn{F} given the observed
+  lags \eqn{P}. By default (\code{joint = FALSE}) every horizon \eqn{t \le L - r} has its
+  own window, the one ending at \eqn{N + t}: its last lag is predicted from its first
+  \eqn{L - t} lags, the most observations a window can use (per-horizon marginal laws).
+  With \code{joint = TRUE} all horizons \eqn{t \le H = \min(h, L - r)} come from the single
+  window ending at \eqn{N + H}, conditioned on its first \eqn{L - H} lags; this is their
+  joint law (returned in \code{joint_cov}, e.g. for simultaneous bands across horizons).
+  The two coincide for \eqn{h = 1}, and horizon \eqn{t} of the marginal laws equals the
+  last horizon of a joint call with \code{h = t}. Horizons beyond \eqn{L - r} use the
   recursive law.
   \item \code{"recursive"}: the one-step law (a ridge-regularized linear recurrence) is used
   as a VAR(\eqn{L-1}) working model; means are iterated and variances propagated through

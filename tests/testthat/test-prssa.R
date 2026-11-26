@@ -124,6 +124,42 @@ test_that("vector mode shrinks once: exact V-forecast of span(W) and no amplitud
   expect_lt(mean(ratio), 1.2)
 })
 
+test_that("marginal window laws: h = 1 unchanged, each horizon equals a separate joint call", {
+  y <- sim_y()
+  L <- 24; r <- 4; N <- length(y)
+  fit <- prssa(y, L, r)
+  H <- 6
+  fm <- prforecast(fit, H, bands = "pointwise")
+  expect_identical(prforecast(fit, 1, bands = "pointwise")$mean,
+                   prforecast(fit, 1, joint = TRUE, bands = "pointwise")$mean)
+  expect_identical(prforecast(fit, 1, bands = "pointwise")$sd,
+                   prforecast(fit, 1, joint = TRUE, bands = "pointwise")$sd)
+  for (k in seq_len(H)) {
+    fk <- prforecast(fit, k, joint = TRUE, bands = "pointwise")
+    expect_equal(as.numeric(fm$mean)[k], as.numeric(fk$mean)[k], tolerance = 1e-12)
+    expect_equal(fm$sd[k], fk$sd[k], tolerance = 1e-12)
+  }
+  # horizon k: Gaussian conditioning of the window ending at N + k on its first L - k lags
+  C <- tcrossprod(fit$W) + diag(fit$sigma2, L)
+  yc <- y - mean(y)
+  for (k in c(1, 3, 6)) {
+    P <- 1:(L - k)
+    B <- C[L, P, drop = FALSE] %*% solve(C[P, P])
+    expect_equal(as.numeric(fm$mean)[k], as.numeric(B %*% yc[(N - L + k + 1):N]) + mean(y), tolerance = 1e-10)
+    expect_equal(fm$sd[k]^2, as.numeric(C[L, L] - B %*% C[P, L]), tolerance = 1e-10)
+  }
+  # several series: per-horizon equality and the joint cross-horizon covariance
+  set.seed(5)
+  fb <- prssa(cbind(a = y, b = 0.5 * y + rnorm(N, sd = 0.8)), L, r, noise = "block")
+  gm <- prforecast(fb, 4, bands = "pointwise")
+  g3 <- prforecast(fb, 3, joint = TRUE, bands = "pointwise")
+  gj <- prforecast(fb, 4, joint = TRUE, bands = "pointwise")
+  expect_equal(gm$mean[3, ], g3$mean[3, ], tolerance = 1e-12)
+  expect_equal(gm$cov[[3]], g3$cov[[3]], tolerance = 1e-12)
+  expect_equal(gj$joint_cov[7:8, 7:8], gj$cov[[4]], tolerance = 1e-12)
+  expect_null(gm$joint_cov)
+})
+
 test_that("window-conditional and recursive laws agree with Gaussian conditioning", {
   y <- sim_y()
   L <- 24; r <- 4; N <- length(y)
@@ -133,7 +169,7 @@ test_that("window-conditional and recursive laws agree with Gaussian conditionin
   P <- 1:(L - h); Fi <- (L - h + 1):L
   xP <- (y - mean(y))[(N - L + h + 1):N]
   B <- C[Fi, P] %*% solve(C[P, P])
-  fw <- prforecast(fit, h, method = "window", bands = "pointwise")
+  fw <- prforecast(fit, h, method = "window", bands = "pointwise", joint = TRUE)
   expect_equal(as.numeric(fw$mean), as.numeric(B %*% xP) + mean(y), tolerance = 1e-10)
   expect_equal(fw$sd^2, diag(C[Fi, Fi] - B %*% C[P, Fi]), tolerance = 1e-10)
   # recursive variances = AR(L-1) impulse-response formula
