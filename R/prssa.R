@@ -34,7 +34,10 @@
 #'   argument, \eqn{\log\sigma^2(s) = b(s)^\top\eta}, with a cubic B-spline basis \eqn{b} of
 #'   dimension \code{hetero_df} and a second-difference (P-spline) penalty. The curves are
 #'   represented by their values on the grid of the \code{funts} object. Scalar series in a
-#'   hybrid list get one variance each.
+#'   hybrid list get one variance each. For a numeric matrix \code{Y} (rows = times, columns
+#'   = grid points of one curve per time) the columns are taken as the grid of a single
+#'   curve: \eqn{\log\sigma^2(s_j) = b(s_j)^\top\eta} along the columns, the same at every lag
+#'   (the raw-grid model, without Gram whitening), at the argument values \code{grid}.
 #' }
 #'
 #' \strong{Mean.} \code{"plugin"} centres every series (or curve coordinate) at its sample
@@ -49,7 +52,8 @@
 #' the raw-scale noise used by \code{\link{prforecast}}.
 #'
 #' @param Y A numeric vector or \code{ts} (PrSSA); a numeric matrix with one series per
-#'   column, or a list of numeric vectors (PrMSSA); a \code{\link{funts}} object, univariate
+#'   column (or, with \code{noise = "hetero"}, one curve per row on a grid of columns), or a
+#'   list of numeric vectors (PrMSSA); a \code{\link{funts}} object, univariate
 #'   or multivariate (PrFSSA); or a list mixing numeric vectors and \code{funts} objects
 #'   (hybrid PrHSSA). All series must have the same length \eqn{N}.
 #' @param L Window length, an integer with \eqn{2 \le L \le N - 1}.
@@ -72,6 +76,9 @@
 #'   in \code{$trace}); \code{floor} (1e-6, lower bound of a variance relative to the average
 #'   variance of its block); \code{nextra} (10, extra eigenvalues kept for the scree plot);
 #'   \code{svd} (\code{"auto"}, \code{"base"} or \code{"svds"}).
+#' @param grid For a numeric matrix \code{Y} with \code{noise = "hetero"}: the increasing
+#'   argument values of its columns. \code{NULL} (default) means equally spaced. Ignored
+#'   otherwise.
 #'
 #' @return An object of class \code{"prssa"}, a list with components
 #' \item{W}{\eqn{D \times r} loading matrix in working coordinates (records stacked
@@ -129,16 +136,21 @@
 #' fitf <- prssa(Yf, L = 10, r = 2)
 #' fitf$sigma2
 #'
+#' # curves on a grid (rows = times, columns = grid points) with noise varying along the grid
+#' Xg <- t(Xf) + matrix(rnorm(80 * 25, sd = 0.2 * (1 + 2 * u)), 80, 25, byrow = TRUE)
+#' fitg <- prssa(Xg, L = 10, r = 2, noise = "hetero", hetero_df = 6, grid = u)
+#' round(fitg$sigma2$Y, 3)
+#'
 #' @export
 prssa <- function(Y, L, r, noise = c("iso", "block", "hetero"), mean = c("plugin", "zero"),
                   alpha = 0, hetero_df = 8, hetero_lambda = NULL,
-                  control = list(maxit = 500, tol = 1e-8)) {
+                  control = list(maxit = 500, tol = 1e-8), grid = NULL) {
   cl <- match.call()
   noise <- match.arg(noise)
   mean <- match.arg(mean)
   ctrl <- .pr_control(control)
   if (!is.numeric(alpha) || length(alpha) != 1 || alpha < 0) stop("`alpha` must be a non-negative number.")
-  dat <- .pr_prepare(Y, noise, alpha)
+  dat <- .pr_prepare(Y, noise, alpha, grid)
   N <- dat$N
   if (missing(L) || length(L) != 1 || L != round(L) || L < 2 || L > N - 1) {
     stop("`L` must be an integer with 2 <= L <= N - 1.")
@@ -238,7 +250,7 @@ prssa <- function(Y, L, r, noise = c("iso", "block", "hetero"), mean = c("plugin
   out <- lapply(nz$groups, function(g) {
     if (g$type == "const") return(unitvar[g$units])
     v <- unitvar[g$units]
-    names(v) <- format(dat$blocks[[g$block]]$s, digits = 4)
+    names(v) <- format(if (!is.null(g$s)) g$s else dat$blocks[[g$block]]$s, digits = 4)
     v
   })
   names(out) <- vapply(nz$groups, function(g) g$name, character(1))

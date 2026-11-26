@@ -200,7 +200,7 @@
   out
 }
 
-.pr_prepare <- function(Y, noise, alpha) {
+.pr_prepare <- function(Y, noise, alpha, grid = NULL) {
   meta <- list()
   if (inherits(Y, "funts")) {
     type <- "funts"
@@ -236,6 +236,17 @@
     blocks <- lapply(seq_len(ncol(Ym)), function(j) .pr_scalar_block(Ym[, j], cn[j]))
     meta$colnames <- cn
     meta$tsp <- if (stats::is.ts(Y)) stats::tsp(Y) else NULL
+    if (identical(noise, "hetero")) {
+      # one curve per row: the columns are the grid points of a single functional variable
+      if (alpha > 0) stop("Smoothing (alpha > 0) is not available with noise = \"hetero\".")
+      m <- ncol(Ym)
+      if (is.null(grid)) grid <- seq(0, 1, length.out = m)
+      grid <- as.numeric(grid)
+      if (length(grid) != m || any(!is.finite(grid)) || (m > 1 && any(diff(grid) <= 0))) {
+        stop("`grid` must be an increasing numeric vector with one value per column of `Y`.")
+      }
+      meta$grid <- grid
+    }
   } else if (is.numeric(Y)) {
     type <- "vector"
     blocks <- list(.pr_scalar_block(Y, "y"))
@@ -248,8 +259,9 @@
   if (any(!is.finite(unlist(lapply(blocks, function(b) b$Z))))) {
     stop("`Y` contains missing or non-finite values.")
   }
-  if (identical(noise, "hetero") && !any(vapply(blocks, function(b) isTRUE(b$grid), logical(1)))) {
-    stop("noise = \"hetero\" needs at least one functional (`funts`) variable.")
+  if (identical(noise, "hetero") && type != "matrix" &&
+      !any(vapply(blocks, function(b) isTRUE(b$grid), logical(1)))) {
+    stop("noise = \"hetero\" needs a functional (`funts`) variable or a matrix of curves on a grid.")
   }
   list(type = type, blocks = blocks, N = Ns[1], meta = meta,
        dims = vapply(blocks, function(b) as.integer(b$d), integer(1)),
@@ -281,6 +293,18 @@
   } else if (noise == "block") {
     unit <- coord_block
     for (b in seq_along(dims)) groups[[b]] <- list(type = "const", units = b, name = dat$names[b])
+  } else if (dat$type == "matrix") {
+    # curves on a grid: one noise unit per column (grid point), tied over the lags,
+    # log sigma^2(s_j) = b(s_j)' eta
+    m <- length(dims)
+    unit <- coord_block
+    s <- dat$meta$grid
+    q <- max(1L, min(as.integer(hetero_df), m))
+    Bd <- .pr_hetero_basis(s, q)
+    Pen <- if (ncol(Bd) >= 3) crossprod(diff(diag(ncol(Bd)), differences = 2)) else matrix(0, ncol(Bd), ncol(Bd))
+    lam <- if (is.null(hetero_lambda)) 1 else hetero_lambda
+    groups[[1]] <- list(type = "loglin", units = seq_len(m), Bd = Bd, P = Pen,
+                        lambda = lam * K * L / 2, name = "Y", block = NA_integer_, s = s)
   } else {
     unit <- integer(D)
     u <- 0L

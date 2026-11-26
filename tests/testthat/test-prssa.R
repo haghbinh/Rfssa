@@ -160,6 +160,63 @@ test_that("marginal window laws: h = 1 unchanged, each horizon equals a separate
   expect_null(gm$joint_cov)
 })
 
+test_that("grid-curve heteroscedastic noise (matrix input) equals the reference prhssa_hetero", {
+  # reference implementation, verbatim from methods_checks.R (raw-grid PrHSSA, lag-tied)
+  cl_loglik <- function(X, W, psi, mu = 0) {
+    D <- nrow(X); K <- ncol(X); E <- X - mu; r <- ncol(W)
+    if (r == 0) return(-0.5 * (K * D * log(2 * pi) + K * sum(log(psi)) + sum(E^2 / psi)))
+    Wp <- W / psi; M <- diag(r) + crossprod(W, Wp)
+    logdetC <- sum(log(psi)) + as.numeric(determinant(M, logarithm = TRUE)$modulus)
+    A <- crossprod(Wp, E)
+    -0.5 * (K * D * log(2 * pi) + K * logdetC + sum(E^2 / psi) - sum(A * solve(M, A)))
+  }
+  bsb <- function(x, d, deriv = 0) { inner <- if (d > 4) seq(0, 1, length.out = d - 2)[-c(1, d - 2)] else numeric(0)
+    splines::splineDesign(knots = c(rep(0, 4), inner, rep(1, 4)), x = x, ord = 4, derivs = rep(deriv, length(x)), outer.ok = TRUE) }
+  prhssa_hetero <- function(X, r, L, Bd, lambda = 0, Pen = NULL, iters = 3000, tol = 1e-10) {
+    n <- nrow(X) / L; K <- ncol(X); q <- ncol(Bd); if (is.null(Pen)) Pen <- matrix(0, q, q); grp <- rep(1:n, each = L)
+    s20 <- sapply(1:n, function(i) { Xb <- X[grp == i, , drop = FALSE]; d <- svd(Xb, nu = 0, nv = 0)$d; (sum(Xb^2) - sum(d[1:r]^2)) / (K * (L - r)) })
+    eta <- qr.solve(Bd, log(pmax(s20, 1e-10)))
+    pll <- function(W, e) cl_loglik(X, W, exp(drop(Bd %*% e))[grp]) - 0.5 * lambda * sum(e * (Pen %*% e))
+    Qf <- function(e, eb) -(K * L / 2) * sum(drop(Bd %*% e) + eb * exp(-drop(Bd %*% e))) - 0.5 * lambda * sum(e * (Pen %*% e))
+    conv <- FALSE
+    for (it in 1:iters) {
+      psi <- exp(drop(Bd %*% eta))[grp]; sq <- sqrt(psi); sv <- svd(X / sq, nu = r, nv = r); lam <- sv$d[1:r]^2 / K; keep <- lam > 1
+      W <- sq * (sv$u[, keep, drop = FALSE] %*% diag(sqrt(lam[keep] - 1), sum(keep)))
+      ebar <- as.numeric(tapply(rowSums(X^2) / K - rowSums(W^2), grp, mean))
+      eta0 <- eta
+      for (nt in 1:100) {
+        u <- ebar * exp(-drop(Bd %*% eta)); g <- -(K * L / 2) * colSums(Bd * (1 - u)) - lambda * drop(Pen %*% eta)
+        Hn <- -(K * L / 2) * crossprod(Bd, Bd * u) - lambda * Pen; st <- -solve(Hn, g); t <- 1
+        while (Qf(eta + t * st, ebar) < Qf(eta, ebar) && t > 1e-10) t <- t / 2
+        eta <- eta + t * st; if (max(abs(t * st)) < 1e-13) break }
+      if (max(abs(eta - eta0)) < tol) { conv <- TRUE; break } }
+    list(W = W, eta = eta, sig2 = exp(drop(Bd %*% eta)), psi = exp(drop(Bd %*% eta))[grp], conv = conv, pll = pll(W, eta))
+  }
+  set.seed(8)
+  nh <- 12; L <- 8; N <- 120; s <- seq(0, 1, length.out = nh)
+  S <- outer(s, 1:N, function(s, t) exp(s^2) * cos(2 * pi * 0.1 * t) + cos(4 * pi * s) * sin(2 * pi * 0.1 * t))
+  Yg <- S + (0.1 + 0.5 * s) * matrix(rnorm(nh * N), nh, N)          # rows = grid points (reference layout)
+  Yc <- Yg - rowMeans(Yg)
+  X <- do.call(rbind, lapply(seq_len(nh), function(q) outer(1:L, 1:(N - L + 1), function(i, j) Yc[q, i + j - 1])))
+  K <- ncol(X)
+  Bd <- bsb(s, 6); P2 <- crossprod(diff(diag(6), differences = 2))
+  for (lam in c(0, 10)) {
+    ref <- prhssa_hetero(X, 2, L, Bd, lambda = lam, Pen = P2, iters = 5000, tol = 1e-13)
+    fit <- prssa(t(Yg), L, 2, noise = "hetero", hetero_df = 6, hetero_lambda = lam / (K * L / 2),
+                 control = list(maxit = 5000, tol = 1e-14))
+    expect_true(ref$conv)
+    expect_lt(max(abs(fit$sigma2$Y / ref$sig2 - 1)), 1e-8)
+    expect_lt(max(abs(fit$psi / ref$psi - 1)), 1e-8)
+    expect_lt(max(abs(tcrossprod(fit$W) - tcrossprod(ref$W))) / max(abs(tcrossprod(ref$W))), 1e-8)
+    expect_lt(abs(fit$loglik - ref$pll) / abs(ref$pll), 1e-10)
+  }
+  # the grid argument sets the abscissae of sigma^2(s)
+  g <- seq(10, 32, length.out = nh)
+  fg <- prssa(t(Yg), L, 2, noise = "hetero", hetero_df = 6, grid = g)
+  expect_equal(names(fg$sigma2$Y), format(g, digits = 4))
+  expect_error(prssa(t(Yg), L, 2, noise = "hetero", grid = g[-1]), "grid")
+})
+
 test_that("window-conditional and recursive laws agree with Gaussian conditioning", {
   y <- sim_y()
   L <- 24; r <- 4; N <- length(y)

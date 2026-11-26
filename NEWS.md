@@ -12,7 +12,8 @@ New features
   - Noise models: isotropic (closed form; with `mean = "zero"` exactly Basic SSA/FSSA/VMSSA),
     one level per series or variable (ECME, i.e. weighted MSSA with self-consistent
     weights), and heteroscedastic functional noise `log sigma^2(s) = b(s)'eta` with a
-    P-spline penalty.
+    P-spline penalty, for `funts` variables or for a numeric matrix of curves on a grid
+    (rows = times, columns = grid points; argument `grid`).
   - Smoothing by PPCA of half-smoothed records (`alpha > 0`, regularized HSSA in the
     noise-free limit), with a second-stage raw-scale noise level for prediction.
   - Reconstruction by posterior means (shrunken SSA) or projections.

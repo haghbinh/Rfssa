@@ -13,12 +13,14 @@ prssa(
   alpha = 0,
   hetero_df = 8,
   hetero_lambda = NULL,
-  control = list(maxit = 500, tol = 1e-08)
+  control = list(maxit = 500, tol = 1e-08),
+  grid = NULL
 )
 }
 \arguments{
 \item{Y}{A numeric vector or \code{ts} (PrSSA); a numeric matrix with one series per
-column, or a list of numeric vectors (PrMSSA); a \code{\link{funts}} object, univariate
+column (or, with \code{noise = "hetero"}, one curve per row on a grid of columns), or a
+list of numeric vectors (PrMSSA); a \code{\link{funts}} object, univariate
 or multivariate (PrFSSA); or a list mixing numeric vectors and \code{funts} objects
 (hybrid PrHSSA). All series must have the same length \eqn{N}.}
 
@@ -49,6 +51,10 @@ composite-likelihood weight \eqn{KL/2} of one grid point. \code{NULL} (default) 
 in \code{$trace}); \code{floor} (1e-6, lower bound of a variance relative to the average
 variance of its block); \code{nextra} (10, extra eigenvalues kept for the scree plot);
 \code{svd} (\code{"auto"}, \code{"base"} or \code{"svds"}).}
+
+\item{grid}{For a numeric matrix \code{Y} with \code{noise = "hetero"}: the increasing
+argument values of its columns. \code{NULL} (default) means equally spaced. Ignored
+otherwise.}
 }
 \value{
 An object of class \code{"prssa"}, a list with components
@@ -106,7 +112,10 @@ dimension of the span of the basis.
   argument, \eqn{\log\sigma^2(s) = b(s)^\top\eta}, with a cubic B-spline basis \eqn{b} of
   dimension \code{hetero_df} and a second-difference (P-spline) penalty. The curves are
   represented by their values on the grid of the \code{funts} object. Scalar series in a
-  hybrid list get one variance each.
+  hybrid list get one variance each. For a numeric matrix \code{Y} (rows = times, columns
+  = grid points of one curve per time) the columns are taken as the grid of a single
+  curve: \eqn{\log\sigma^2(s_j) = b(s_j)^\top\eta} along the columns, the same at every lag
+  (the raw-grid model, without Gram whitening), at the argument values \code{grid}.
 }
 
 \strong{Mean.} \code{"plugin"} centres every series (or curve coordinate) at its sample
@@ -139,6 +148,11 @@ Xf <- outer(sin(pi * u), sin(2 * pi * tt[1:80] / 10)) + matrix(rnorm(25 * 80, sd
 Yf <- funts(Xf, fda::create.bspline.basis(c(0, 1), 9))
 fitf <- prssa(Yf, L = 10, r = 2)
 fitf$sigma2
+
+# curves on a grid (rows = times, columns = grid points) with noise varying along the grid
+Xg <- t(Xf) + matrix(rnorm(80 * 25, sd = 0.2 * (1 + 2 * u)), 80, 25, byrow = TRUE)
+fitg <- prssa(Xg, L = 10, r = 2, noise = "hetero", hetero_df = 6, grid = u)
+round(fitg$sigma2$Y, 3)
 
 }
 \references{
